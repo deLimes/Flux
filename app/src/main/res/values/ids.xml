@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="сonstraintLayoutForSchedule" type="id"/>
+    <item name="guideline" type="id"/>
+
+    <item name="winter" type="id"/>
+    <item name="spring" type="id"/>
+    <item name="summer" type="id"/>
+    <item name="autumn" type="id"/>
+
+    <item name="numberYearPicker" type="id"/>
+    <item name="dateMonth" type="id"/>
+
+    <item name="taskDescription" type="id"/>
+    <item name="frameLayoutOfScroll" type="id"/>
+    <item name="taskName" type="id"/>
+    <item name="taskTime" type="id"/>
+    <item name="taskDuration" type="id"/>
+    <item name="buttonAddTask" type="id"/>
+    <item name="buttonDeleteTask" type="id"/>
+    <item name="layoutDayOfWeek" type="id"/>
+    <item name="endOfTask" type="id"/>
+    <item name="everyYear" type="id"/>
+    <item name="everyMonth" type="id"/>
+    <item name="inDays" type="id"/>
+
+
+</resources>

@@ -1,0 +1,503 @@
+
+String monthName;
+SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
+
+
+int strokeWidth = side / 5;
+            float monthNameHeight;
+            float monthNameWidth;
+
+
+
+calendar.set(Calendar.MONTH, Calendar.MARCH);
+
+            monthName = dateFormat.format(calendar.getTimeInMillis());
+            monthName = monthName.toUpperCase();
+
+            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
+            monthNameHeight = textBounds.height();
+            monthNameWidth = textBounds.width();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            if (y <= novemberLength - "NOVEMBER".length()*fontHeight/2 + side/2 && y >= octoberLength + "NOVEMBER".length()*fontHeight/2 + side/2) {
+                canvas.save();
+                canvas.rotate(360f);
+                int s = getHeight() / 2 - "NOVEMBER".length()*fontHeight/2 ;
+                for (char c : "NOVEMBER".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+                    s += fontHeight;
+                }
+                canvas.restore();
+            }else if(y <= novemberLength - "NOVEMBER".length()*fontHeight/2 + side/2){
+                canvas.save();
+                canvas.rotate(360f);
+                int s = (int) (upperRightCornerY + (novemberLength - octoberLength) - side);
+                for (char c : "REBMEVON".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+                    s -= fontHeight;
+                }
+                canvas.restore();
+            } else if(y >= novemberLength - "NOVEMBER".length()*fontHeight/2 + side/2){
+                canvas.save();
+                canvas.rotate(360f);
+                int s = (int) upperRightCornerY - side/2;
+                for (char c : "NOVEMBER".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+                    s += fontHeight;
+                }
+                canvas.restore();
+            }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Autumn extends View {
+
+Day currDay = null;
+        Day currentDate = null;
+        Date currDate;
+
+
+ Date date = new Date(calendar.getTimeInMillis());
+
+                    if (date == currDate) {
+                        currentDate = new Day(date, left, top, right, bottom);
+                        winter.currentDate = null;
+                        spring.currentDate = null;
+                        summer.currentDate = null;
+                    }
+                    days.add(new Day(date, left, top, right, bottom));
+
+
+
+
+
+
+            if (currentDate != null) {
+                p.setColor(Color.CYAN);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
+                p.setStyle(Paint.Style.FILL);
+            }
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+//int height;//del
+        float doubleTapX = 0;
+        float doubleTapY = 0;
+        float aprilLength = 0;
+        float mayLength = 0;
+        float juneLength = 0;
+        Day currDay = null;
+        ArrayList<Day> days = new ArrayList<Day>();
+
+ public void drawSpring(Canvas canvas){
+
+            int Width = canvas.getWidth();//del
+            int Height = canvas.getHeight();//del
+            int l = 0;
+
+            p.reset();
+            p.setColor(Color.BLACK);
+            p.setTextSize(side/2);
+
+for (int i = 1; i <= maxDaysOfMonth; i++) {
+                l = i - 1;
+                bottomLeftCornerY = y + k;
+                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+                float left = x;
+                float top =  bottomLeftCornerY;
+                float right =  x+side;
+                float bottom = bottomLeftCornerY + side;
+
+                p.setStyle(Paint.Style.FILL);
+                canvas.drawText(text, left+side/4, bottom-side/4, p);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+                if (firstOccurrence) {
+                    days.add(new Day(left, top, right, bottom));
+                }else{
+                    days.get(l).left = left;
+                    days.get(l).top = top;
+                    days.get(l).right = right;
+                    days.get(l).bottom = bottom;
+                }
+
+                k += side;
+            }
+            if (firstOccurrence) {
+                aprilLength = -bottomLeftCornerY + getHeight()/2;
+            }
+
+            p.setStyle(Paint.Style.FILL);
+            p.setTextAlign(Paint.Align.CENTER);
+            if (y >= aprilLength ) {
+
+                //canvas.drawText("April", x - side, getHeight() / 2, p);
+                canvas.save();
+                canvas.rotate(360f);
+                int s = getHeight() / 2 + side;
+                int fontHeight = side / 2;
+                for (char c : "lirpA".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                    s -= fontHeight;
+                }
+                canvas.restore();
+            } else {
+                //p.setTextAlign(Paint.Align.CENTER);
+                //canvas.drawText("January", upperLeftCornerX - side/2, y - side * 1.5f, p);
+                canvas.save();
+                canvas.rotate(360f);
+                int s = (int) bottomLeftCornerY + side;
+                int fontHeight = side / 2;
+                for (char c : "lirpA".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                    s -= fontHeight;
+                }
+                canvas.restore();
+            }
+
+//2-ой месяц
+ for (int i = 1; i <= maxDaysOfMonth; i++) {
+                l += 1;
+                bottomLeftCornerY = y + k;
+                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+                float left = x;
+                float top =  bottomLeftCornerY;
+                float right =  x+side;
+                float bottom = bottomLeftCornerY + side;
+
+                p.setStyle(Paint.Style.FILL);
+                canvas.drawText(text, left+side/4, bottom-side/4, p);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+                if (firstOccurrence) {
+                    days.add(new Day(left, top, right, bottom));
+                }else{
+                    days.get(l).left = left;
+                    days.get(l).top = top;
+                    days.get(l).right = right;
+                    days.get(l).bottom = bottom;
+                }
+
+                k += side;
+            }
+            if (firstOccurrence) {
+                mayLength = -bottomLeftCornerY + getHeight()/2;
+            }
+
+            p.setStyle(Paint.Style.FILL);
+            p.setTextAlign(Paint.Align.CENTER);
+
+            if (y >= mayLength && y <= aprilLength - side * 1.5f) {
+                canvas.save();
+                canvas.rotate(360f);
+                int s = getHeight() / 2 + side;
+                int fontHeight = side / 2;
+                for (char c : "yaM".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                    s -= fontHeight;
+                }
+                canvas.restore();
+            }else if(y >= mayLength + side*2){
+                canvas.save();
+                canvas.rotate(360f);
+                int s = (int) (bottomLeftCornerY + (mayLength - aprilLength)+ side * 1.5f);
+                int fontHeight = side / 2;
+                for (char c : "May".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                    s += fontHeight;
+                }
+                canvas.restore();
+            } else if(y <= mayLength){
+                canvas.save();
+                canvas.rotate(360f);
+                int s = (int) bottomLeftCornerY + side;
+                int fontHeight = side / 2;
+                for (char c : "yaM".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                    s -= fontHeight;
+                }
+                canvas.restore();
+            }
+
+
+//3-ий месяц
+            p.reset();
+p.setColor(Color.BLACK);
+            p.setTextSize(side/2);
+
+
+for (int i = 1; i <= maxDaysOfMonth; i++) {
+                l += 1;
+                bottomLeftCornerY = y + k;
+
+                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+                float left = x;
+                float top =  bottomLeftCornerY;
+                float right =  x+side;
+                float bottom = bottomLeftCornerY + side;
+
+                p.setStyle(Paint.Style.FILL);
+                canvas.drawText(text, left+side/4, bottom-side/4, p);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+                if (firstOccurrence) {
+                    days.add(new Day(left, top, right, bottom));
+                }else{
+                    days.get(l).left = left;
+                    days.get(l).top = top;
+                    days.get(l).right = right;
+                    days.get(l).bottom = bottom;
+                }
+
+                k += side;
+            }
+
+            if (firstOccurrence) {
+                firstOccurrence = false;
+
+                juneLength = -bottomLeftCornerY + getHeight()/2;
+                length = -bottomLeftCornerY + getHeight();
+                //Log.d("XY", "bottomLeftCornerY:" + length);
+            }
+
+            p.setStyle(Paint.Style.FILL);
+            p.setTextAlign(Paint.Align.CENTER);
+
+            if (y >= juneLength && y <= mayLength - side * 2) {
+                canvas.save();
+                canvas.rotate(360f);
+                int s = getHeight() / 2 + side;
+                int fontHeight = side / 2;
+                for (char c : "enuJ".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                    s -= fontHeight;
+                }
+                canvas.restore();
+
+            } else if (y >= juneLength) {
+                canvas.save();
+                canvas.rotate(360f);
+                int s =(int) (bottomLeftCornerY + (juneLength - mayLength) + side * 1.5f);
+                int fontHeight = side / 2;
+                for (char c : "June".toCharArray()) {
+                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                    s += fontHeight;
+                }
+                canvas.restore();
+            }
+
+
+
+public boolean onDoubleTap(MotionEvent e) {
+                doubleTapX = e.getX();
+                doubleTapY = e.getY();
+
+                Iterator<Day> j = days.iterator();
+                while (j.hasNext()){
+                    Day b = j.next();
+                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
+                        currDay = b;
+                        winter.currDay = null;
+                        winter.invalidate();
+                        summer.currDay = null;
+                        summer.invalidate();
+                        invalidate();
+                    }
+                }
+
+                return super.onDoubleTap(e);
+            }
+
+
+
+****************************************************************************************************
+int height = 0;
+        float doubleTapX = 0;
+        float doubleTapY = 0;
+        float januaryLength = 0;
+        float februaryLength = 0;
+        float marchLength = 0;
+        Day currDay = null;
+        ArrayList<Day> days = new ArrayList<Day>();
+
+public void drawWinter(Canvas canvas){
+
+            int Width = canvas.getWidth();//del
+            int Height = canvas.getHeight();//del
+            int l = 0;
+
+
+            p.reset();
+            p.setColor(Color.BLACK);
+            p.setTextSize(side/2);
+
+ for (int i = 1; i <= maxDaysOfMonth; i++) {
+                l = i - 1;
+                l += 1;
+
+                upperLeftCornerX = x - k;
+                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+                float left = upperLeftCornerX - side;
+                float top = y-side;//y-side/2;
+                float right = upperLeftCornerX;
+                float bottom = y;
+
+                p.setStyle(Paint.Style.FILL);
+                //canvas.drawText(text, left, y+side/4, p);
+                canvas.drawText(text, left+side/4, bottom-side/4, p);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+                if (firstOccurrence) {
+                    days.add(new Day(left, top, right, bottom));
+                }else{
+                    days.get(l).left = left;
+                    days.get(l).top = top;
+                    days.get(l).right = right;
+                    days.get(l).bottom = bottom;
+                }
+
+                k += side;
+            }
+            if (firstOccurrence) {
+                januaryLength = -upperLeftCornerX + getWidth()* 1.5f;
+            }
+
+            p.setStyle(Paint.Style.FILL);
+            if(x <= januaryLength) {
+                p.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText("January", getWidth() / 2, y - side * 1.5f, p);
+            }else{
+                p.setTextAlign(Paint.Align.LEFT);
+                canvas.drawText("January", upperLeftCornerX - side, y - side * 1.5f, p);
+            }
+
+
+ public boolean onDoubleTap(MotionEvent e) {
+                doubleTapX = e.getX();
+                doubleTapY = e.getY();
+
+                Iterator<Day> j = days.iterator();
+                while (j.hasNext()){
+                    Day b = j.next();
+                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
+                        currDay = b;
+                        spring.currDay = null;
+                        spring.invalidate();
+                        invalidate();
+                    }
+                }
+
+                return super.onDoubleTap(e);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***********************************************************************************************
+int height = 0;
+        float doubleTapX = 0;
+        float doubleTapY = 0;
+        float januaryLength = 0;
+        float februaryLength = 0;
+        float marchLength = 0;
+        ArrayList<Day> days = new ArrayList<Day>();
+
+int Height = canvas.getHeight();//del
+            int l = 0;
+
+            p.reset();
+p.setColor(Color.BLACK);
+            p.setTextSize(side/2);
+
+
+for (int i = 1; i <= maxDaysOfMonth; i++) {
+                l = i - 1;
+                l += 1;
+
+upperLeftCornerX = x - k;
+                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+                float left = upperLeftCornerX-side/2;
+                float top = y-side;//y-side/2;
+                float right = upperLeftCornerX + side/2;
+                float bottom = y;//y + side/2;
+
+                p.setStyle(Paint.Style.FILL);
+                //canvas.drawText(text, left, y+side/4, p);
+                canvas.drawText(text, left+side/4, y-side/4, p);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+                if (firstOccurrence) {
+                    days.add(new Day(left, top, right, bottom));
+                }else{
+                    days.get(l).left = left;
+                    days.get(l).top = top;
+                    days.get(l).right = right;
+                    days.get(l).bottom = bottom;
+                }
+
+            }
+            if (firstOccurrence) {
+                januaryLength = -upperLeftCornerX + getWidth() * 1.5f - side/2;
+            }
+
+            p.setStyle(Paint.Style.FILL);
+            if(x <= januaryLength + side/8) {//"January".length()) {
+                p.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText("January", getWidth() / 2, y - side * 1.5f, p);
+            }else{
+                p.setTextAlign(Paint.Align.LEFT);
+                canvas.drawText("January", upperLeftCornerX - side/2, y - side * 1.5f, p);
+            }
+
+
+
+
+
+
+            p.setColor(Color.WHITE);
+            p.setStrokeWidth(10);
+            canvas.drawPoint(doubleTapX, doubleTapY, p);
+
+
+            //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
+
+            if (currDay != null) {
+                p.setColor(Color.YELLOW);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(currDay.left, currDay.top, currDay.right, currDay.bottom, p);
+                p.setStyle(Paint.Style.FILL);
+            }
+
+
+public boolean onDoubleTap(MotionEvent e) {
+                doubleTapX = e.getX();
+                doubleTapY = e.getY();
+
+                Iterator<Day> j = days.iterator();
+                while (j.hasNext()){
+                    Day b = j.next();
+                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
+                        currDay = b;
+                         Log.d("onDoubleTap", "doubleTapX");
+                    }
+                }
+                invalidate();

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="1dp"
+        android:paddingLeft="2dp"
+        >
+
+        <TextView
+            android:id="@+id/monday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Пн."
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/black"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="1dp"
+        android:paddingLeft="1dp"
+        >
+
+        <TextView
+            android:id="@+id/tuesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Вт."
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/black"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="1dp"
+        android:paddingLeft="1dp"
+        >
+
+        <TextView
+            android:id="@+id/wednesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ср."
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/black"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="1dp"
+        android:paddingLeft="1dp"
+        >
+
+        <TextView
+            android:id="@+id/thursday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Чт."
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/black"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="1dp"
+        android:paddingLeft="1dp"
+        >
+
+        <TextView
+            android:id="@+id/friday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Пт."
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/black"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="1dp"
+        android:paddingLeft="1dp"
+        >
+
+        <TextView
+            android:id="@+id/saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сб."
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/holo_red_light"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="2dp"
+        android:paddingLeft="1dp"
+        >
+
+        <TextView
+            android:id="@+id/sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Вс."
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/holo_red_light"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

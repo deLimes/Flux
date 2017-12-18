@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Flux</string>
+    <string name="action_save">Сохранить текущий год</string>
+    <string name="action_reset">Очистить сохранение</string>
+</resources>
