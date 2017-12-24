@@ -1383,9 +1383,14 @@ public class MainActivity extends AppCompatActivity {
         myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
         myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-        pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.removeFromAM) {
             am.cancel(pIntent);
+            NotificationManager notificationManager = (NotificationManager) context
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
+            notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
+            notificationManager.cancel(notifyId);
+            task.removeFromAM = false;
         }else {
             if(task.valid && !task.shown && !task.done) {
                 am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
@@ -1505,7 +1510,7 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t)) {
+                            if (task.equals(t) && !t.done) {
                                 d.tasks.remove(t);
                             }
                         }
@@ -1540,18 +1545,24 @@ public class MainActivity extends AppCompatActivity {
                                 (task.saturday && dayOfWeek == Calendar.SATURDAY) ||
                                 (task.sunday && dayOfWeek == Calendar.SUNDAY)) {
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
                         Date datTaskStartTime = new Date(dateTaskStartTime);
@@ -1559,35 +1570,47 @@ public class MainActivity extends AppCompatActivity {
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
                         if (task.everyMonth && d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
@@ -1616,18 +1639,24 @@ public class MainActivity extends AppCompatActivity {
                             accountDay -= calendar.get(Calendar.DAY_OF_YEAR);
 
                             if(accountDay % task.inDays == 0 ) {
-                                d.tasks.remove(task);
+                                boolean addTask = true;
+                                //d.tasks.remove(task);
                                 Iterator<Task> iter = d.tasks.iterator();
                                 while (iter.hasNext()) {
                                     Task t = iter.next();
 
                                     if (t.equals(task)) {
-                                        d.tasks.remove(task);
+                                        //d.tasks.remove(task);
+                                        addTask = false;
                                     }
                                 }
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
-                                task.duplicate(taskCopy);
-                                d.tasks.add(taskCopy);
+
+                                if (addTask) {
+                                    // d.tasks.add(task);
+                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    task.duplicate(taskCopy);
+                                    d.tasks.add(taskCopy);
+                                }
                             }
                         }
 
@@ -1664,7 +1693,7 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t)) {
+                            if (task.equals(t) && !t.done) {
                                 d.tasks.remove(t);
                             }
                         }
@@ -1695,19 +1724,24 @@ public class MainActivity extends AppCompatActivity {
                                 (task.saturday && dayOfWeek == Calendar.SATURDAY) ||
                                 (task.sunday && dayOfWeek == Calendar.SUNDAY)) {
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            //d.tasks.add(task);
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
@@ -1716,35 +1750,47 @@ public class MainActivity extends AppCompatActivity {
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
                         if (task.everyMonth && d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
@@ -1773,18 +1819,24 @@ public class MainActivity extends AppCompatActivity {
                             accountDay -= calendar.get(Calendar.DAY_OF_YEAR);
 
                             if(accountDay % task.inDays == 0  ) {
-                                d.tasks.remove(task);
+                                boolean addTask = true;
+                                //d.tasks.remove(task);
                                 Iterator<Task> iter = d.tasks.iterator();
                                 while (iter.hasNext()) {
                                     Task t = iter.next();
 
                                     if (t.equals(task)) {
-                                        d.tasks.remove(task);
+                                        //d.tasks.remove(task);
+                                        addTask = false;
                                     }
                                 }
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
-                                task.duplicate(taskCopy);
-                                d.tasks.add(taskCopy);
+
+                                if (addTask) {
+                                    // d.tasks.add(task);
+                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    task.duplicate(taskCopy);
+                                    d.tasks.add(taskCopy);
+                                }
                             }
                         }
 
@@ -1819,7 +1871,7 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t)) {
+                            if (task.equals(t) && !t.done) {
                                 d.tasks.remove(t);
                             }
                         }
@@ -1848,19 +1900,24 @@ public class MainActivity extends AppCompatActivity {
                                 (task.saturday && dayOfWeek == Calendar.SATURDAY) ||
                                 (task.sunday && dayOfWeek == Calendar.SUNDAY)) {
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            //d.tasks.add(task);
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
@@ -1870,35 +1927,47 @@ public class MainActivity extends AppCompatActivity {
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
                         if (task.everyMonth && d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
@@ -1927,18 +1996,24 @@ public class MainActivity extends AppCompatActivity {
                             accountDay -= calendar.get(Calendar.DAY_OF_YEAR);
 
                             if(accountDay % task.inDays == 0 ) {
-                                d.tasks.remove(task);
+                                boolean addTask = true;
+                                //d.tasks.remove(task);
                                 Iterator<Task> iter = d.tasks.iterator();
                                 while (iter.hasNext()) {
                                     Task t = iter.next();
 
                                     if (t.equals(task)) {
-                                        d.tasks.remove(task);
+                                        //d.tasks.remove(task);
+                                        addTask = false;
                                     }
                                 }
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
-                                task.duplicate(taskCopy);
-                                d.tasks.add(taskCopy);
+
+                                if (addTask) {
+                                    // d.tasks.add(task);
+                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    task.duplicate(taskCopy);
+                                    d.tasks.add(taskCopy);
+                                }
                             }
                         }
 
@@ -1967,12 +2042,12 @@ public class MainActivity extends AppCompatActivity {
                     millis = d.date.getTime();
 
                     if(millis != dateTaskStartTime){
-                        d.tasks.remove(task);
+                        //d.tasks.remove(task);
                         Iterator<Task> iter = d.tasks.iterator();
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t)) {
+                            if (task.equals(t) && !t.done) {
                                 d.tasks.remove(t);
                             }
                         }
@@ -2001,19 +2076,24 @@ public class MainActivity extends AppCompatActivity {
                                 (task.saturday && dayOfWeek == Calendar.SATURDAY) ||
                                 (task.sunday && dayOfWeek == Calendar.SUNDAY)) {
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                           // d.tasks.add(task);
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
@@ -2023,35 +2103,47 @@ public class MainActivity extends AppCompatActivity {
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
 
                         if (task.everyMonth && d.date.getDate() ==  datTaskStartTime.getDate() ){
 
-                            d.tasks.remove(task);
+                            boolean addTask = true;
+                            //d.tasks.remove(task);
                             Iterator<Task> iter = d.tasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    d.tasks.remove(task);
+                                    //d.tasks.remove(task);
+                                    addTask = false;
                                 }
                             }
-                            Task taskCopy = new Task(false, "",0,0,0);
-                            task.duplicate(taskCopy);
-                            d.tasks.add(taskCopy);
+
+                            if (addTask) {
+                                // d.tasks.add(task);
+                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                task.duplicate(taskCopy);
+                                d.tasks.add(taskCopy);
+                            }
                         }
 
                         if (task.inDays > 0){
@@ -2079,18 +2171,24 @@ public class MainActivity extends AppCompatActivity {
                             accountDay -= calendar.get(Calendar.DAY_OF_YEAR);
 
                             if(accountDay % task.inDays == 0  ) {
-                                d.tasks.remove(task);
+                                boolean addTask = true;
+                                //d.tasks.remove(task);
                                 Iterator<Task> iter = d.tasks.iterator();
                                 while (iter.hasNext()) {
                                     Task t = iter.next();
 
                                     if (t.equals(task)) {
-                                        d.tasks.remove(task);
+                                        //d.tasks.remove(task);
+                                        addTask = false;
                                     }
                                 }
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
-                                task.duplicate(taskCopy);
-                                d.tasks.add(taskCopy);
+
+                                if (addTask) {
+                                    // d.tasks.add(task);
+                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    task.duplicate(taskCopy);
+                                    d.tasks.add(taskCopy);
+                                }
                             }
                         }
 
@@ -2399,12 +2497,18 @@ public class MainActivity extends AppCompatActivity {
                     changedeTasksOfYear = true;
                     task.done = b;
 
+                    if(b){
+                        task.removeFromAM = true;
+                        setReminder(task, day.date);
+                    }
+
                     day.dayClosed = true;
                     for (Task task : day.tasks) {
                         if(!task.done){
                             day.dayClosed = false;
                         }
                     }
+
                 }
             });
 
