@@ -1505,13 +1505,13 @@ public class MainActivity extends AppCompatActivity {
                     millis = d.date.getTime();
 
                     if(millis != dateTaskStartTime){
-                        d.tasks.remove(task);
+                        //d.tasks.remove(task);
                         Iterator<Task> iter = d.tasks.iterator();
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
                             if (task.equals(t) && !t.done) {
-                                d.tasks.remove(t);
+                                iter.remove();
                             }
                         }
                     }else{
@@ -1688,13 +1688,13 @@ public class MainActivity extends AppCompatActivity {
                     millis = d.date.getTime();
 
                     if(millis != dateTaskStartTime){
-                        d.tasks.remove(task);
+                        //d.tasks.remove(task);
                         Iterator<Task> iter = d.tasks.iterator();
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
                             if (task.equals(t) && !t.done) {
-                                d.tasks.remove(t);
+                                iter.remove();
                             }
                         }
 
@@ -1866,13 +1866,13 @@ public class MainActivity extends AppCompatActivity {
                     millis = d.date.getTime();
 
                     if(millis != dateTaskStartTime){
-                        d.tasks.remove(task);
+                        //d.tasks.remove(task);
                         Iterator<Task> iter = d.tasks.iterator();
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
                             if (task.equals(t) && !t.done) {
-                                d.tasks.remove(t);
+                                iter.remove();
                             }
                         }
                     }else{
@@ -2048,7 +2048,7 @@ public class MainActivity extends AppCompatActivity {
                             Task t = iter.next();
 
                             if (task.equals(t) && !t.done) {
-                                d.tasks.remove(t);
+                                iter.remove();
                             }
                         }
                     }else{
