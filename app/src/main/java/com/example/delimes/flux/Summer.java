@@ -287,6 +287,25 @@ class Summer extends View {
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
                 }
+
+                for (MainActivity.Task task : days.get(l).tasks) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(221, 160, 221));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+
+                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(139, 0, 139));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+                }
+
             }
         }
         if (firstOccurrence) {
@@ -403,6 +422,25 @@ class Summer extends View {
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
                 }
+
+                for (MainActivity.Task task : days.get(l).tasks) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(221, 160, 221));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+
+                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(139, 0, 139));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+                }
+
             }
         }
         if (firstOccurrence) {
@@ -518,6 +556,25 @@ class Summer extends View {
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
                 }
+
+                for (MainActivity.Task task : days.get(l).tasks) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(221, 160, 221));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+
+                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(139, 0, 139));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+                }
+
             }
         }
         if (firstOccurrence) {

@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.example.delimes.flux.MainActivity.day;
 import static com.example.delimes.flux.MainActivity.taskExtra;
 
 class Spring extends View {
@@ -234,6 +235,7 @@ class Spring extends View {
             p.setColor(Color.BLACK);
             p.setStyle(Paint.Style.STROKE);
             canvas.drawRect(left, top, right, bottom, p);
+
             if (firstOccurrence) {
                 Date date = new Date(calendar.getTimeInMillis());
                 days.add(new Day(date, left, top, right, bottom));
@@ -271,12 +273,43 @@ class Spring extends View {
                     }
                 }
 
+                //
+                for (MainActivity.Task task : days.get(l).tasks) {
+                    if(new Date(task.finishTime) == days.get(l).date){
+                        p.setColor(Color.rgb(139, 0, 139));//75, 0, 130
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+
+                    }
+                }
+                //
+
                 if(!days.get(l).dayClosed){
                     p.setColor(Color.CYAN);
                     p.setStrokeWidth(strokeWidth/2);
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
                 }
+
+                for (MainActivity.Task task : days.get(l).tasks) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(221, 160, 221));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+
+                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(139, 0, 139));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+                }
+
             }
 
             k += side;
@@ -400,6 +433,24 @@ class Spring extends View {
                     p.setStrokeWidth(strokeWidth/2);
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
+                }
+
+                for (MainActivity.Task task : days.get(l).tasks) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(221, 160, 221));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+
+                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(139, 0, 139));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
                 }
             }
 
@@ -530,6 +581,25 @@ class Spring extends View {
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
                 }
+
+                for (MainActivity.Task task : days.get(l).tasks) {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(221, 160, 221));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+
+                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                        p.setColor(Color.rgb(139, 0, 139));
+                        p.setStyle(Paint.Style.STROKE);
+                        canvas.drawRect(left, top, right, bottom, p);
+                        p.setStyle(Paint.Style.FILL);
+                    }
+                }
+
             }
 
             k += side;
