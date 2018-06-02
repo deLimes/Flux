@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
@@ -75,9 +76,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -2708,12 +2713,13 @@ public class MainActivity extends AppCompatActivity {
         // Операции для выбранного пункта меню
         switch (id) {
             case R.id.action_save:
-                try {
-                    saveYear();
-                } catch (Exception e) {
-                    Log.d("myLogs",  e.getMessage());
-                }
 
+                saveYearToFile();
+                return true;
+
+            case R.id.action_restore:
+
+                restoreYearFromFile();
                 return true;
 
             case R.id.action_reset:
@@ -2744,6 +2750,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
 
     }
+
     public void restoreYear(String year) {
 
         SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
@@ -2755,6 +2762,113 @@ public class MainActivity extends AppCompatActivity {
             spring.restore = true;
             summer.restore = true;
             autumn.restore = true;
+        }
+    }
+
+    public void saveYearToFile() {
+
+        yearStr = new YearStr(Integer.valueOf(numberYearPicker.valueText.getText().toString()), winter.days, spring.days, summer.days, autumn.days, cyclicTasks);
+        String jsonStr = new Gson().toJson(yearStr, YearStr.class);
+
+        try {
+
+            if (!getExternalStorageState().equals(
+                    MEDIA_MOUNTED)) {
+                Toast.makeText(this, "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // получаем путь к SD
+            File sdPath = getExternalStorageDirectory();
+            // добавляем свой каталог к пути
+            sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
+            // создаем каталог
+            sdPath.mkdirs();
+            // формируем объект File, который содержит путь к файлу
+            File sdFile = new File(sdPath, "savedTasks");
+
+            try {
+                // открываем поток для записи
+                BufferedWriter bw = new BufferedWriter(new FileWriter(sdFile, false));
+                // пишем данные
+                bw.write(jsonStr);//
+                // закрываем поток
+                bw.flush();
+                bw.close();
+                Toast.makeText(this, "File saved: " + sdFile.getAbsolutePath(),
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    private void restoreYearFromFile(){
+
+        Calendar calendar = GregorianCalendar.getInstance();
+
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int year = Integer.valueOf(numberYearPicker.valueText.getText().toString());
+
+
+        // проверяем доступность SD
+        if (!getExternalStorageState().equals(
+                MEDIA_MOUNTED)) {
+            Toast.makeText(this, "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // получаем путь к SD
+        File sdPath = getExternalStorageDirectory();
+        // добавляем свой каталог к пути
+        sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
+        // формируем объект File, который содержит путь к файлу
+        File sdFile = new File(sdPath, "savedTasks");
+        if (!sdFile.exists()){
+            try {
+                sdFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+
+            // открываем поток для чтения
+            BufferedReader br = new BufferedReader(new FileReader(sdFile));
+            // читаем содержимое
+            //while ((str = br.readLine()) != null) {
+            String json =  br.readLine();
+            if (!json.isEmpty()) {
+                yearStr = new Gson().fromJson(json, YearStr.class);
+                if (yearStr.year == year) {
+                    winter.restore = true;
+                    spring.restore = true;
+                    summer.restore = true;
+                    autumn.restore = true;
+                }else{
+                    Toast toast = Toast.makeText(this,
+                            "Выберете год: " + yearStr.year,
+                            Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                    return;
+                }
+            }
+            //}
+            Toast.makeText(this, "File restore successfully!",Toast.LENGTH_SHORT).show();
+            Log.d("jkl", "restoreListDictionary: File restore successfully!");
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d("jkl", "restoreListDictionary: "+e.getMessage());
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d("jkl", "restoreListDictionary: "+e.getMessage());
         }
 
     }
