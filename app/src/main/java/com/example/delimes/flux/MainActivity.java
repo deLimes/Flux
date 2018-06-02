@@ -533,6 +533,7 @@ public class MainActivity extends AppCompatActivity {
         taskDescription.setId(R.id.taskDescription);
         taskDescription.setImeOptions(EditorInfo.IME_ACTION_DONE);
         taskDescription.setSingleLine();
+        taskDescription.setEnabled(false);
         сonstraintLayoutForSchedule.addView(taskDescription);
 
         endOfTask = new TextView(this);
@@ -584,6 +585,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //setTestReminder();
+                taskDescription.setEnabled(true);
                 taskDescription.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
@@ -2684,6 +2686,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     com.example.delimes.flux.MainActivity.task = task;
                     updateSchedule(day);
+                    taskDescription.setEnabled(true);
 //                    taskIndex = selectedDay.tasks.indexOf(task);
 //                    calendar.clear();
 //                    calendar.setTimeInMillis(task.startTime);
