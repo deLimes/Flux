@@ -582,7 +582,12 @@ public class MainActivity extends AppCompatActivity {
 
                 updateSchedule(day);
 
+
                 //setTestReminder();
+                taskDescription.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
+
             }
         });
 
@@ -655,6 +660,9 @@ public class MainActivity extends AppCompatActivity {
 
                     updateSchedule(day);
                 }
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(taskDescription.getWindowToken(), 0);
 
             }
         });
