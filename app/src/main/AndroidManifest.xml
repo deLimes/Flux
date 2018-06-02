@@ -12,9 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
         android:windowSoftInputMode="adjustPan">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,25 +21,32 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.example.delimes.flux.MainActivity$DateChangedReceiver">
+        <receiver android:name=".MainActivity$DateChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.example.delimes.flux.Receiver">
-        </receiver>
 
-        <receiver android:enabled="true" android:name="com.example.delimes.flux.BootReceiver"
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 
-    </application>
+        <receiver android:name=".Receiver" />
 
+        <service
+            android:name=".UpdateReminders"
+            android:enabled="true"
+            android:exported="false"/>
+
+
+    </application>
 
 </manifest>

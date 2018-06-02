@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -109,46 +110,55 @@ public class MainActivity extends AppCompatActivity {
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
-    Winter winter;
-    Spring spring;
-    Summer summer;
-    Autumn autumn;
-    YearStr yearStr;
+    static Winter winter;
+    static Spring spring;
+    static Summer summer;
+    static Autumn autumn;
+    static YearStr yearStr;
 
-    NumberYearPicker numberYearPicker;
-    TextView dateMonth, taskTime, taskDuration, endOfTask;
+    static NumberYearPicker numberYearPicker;
+    static TextView dateMonth;
+    TextView taskTime;
+    TextView taskDuration;
+    TextView endOfTask;
     EditText taskDescription, inDays;
     Button buttonAddTask, buttonDeleteTask;
     CheckBox everyYear, everyMonth;
     ScrollView scheduleScroll;
     LayoutInflater ltInflater;
     LinearLayout linLayout;
-    Day day;
+    static Day day;
     static Task task;
     ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
     ArrayList<Task> remoteTasksOfYear = new ArrayList<Task>();
-    boolean changedeTasksOfYear, yearNumberChanged, processUpdateSchedule;
-    ArrayList<Task> cyclicTasks = new ArrayList<Task>();
+    static boolean changedeTasksOfYear, yearNumberChanged, processUpdateSchedule;
+    public static ArrayList<Task> cyclicTasks = new ArrayList<Task>();
     View layoutDayOfWeek;
     TextView  monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    int curentYearNumber, chosenYearNumber;
+    static int curentYearNumber;
+    static int chosenYearNumber;
 
-    Date currDate;
-    Calendar calendar = GregorianCalendar.getInstance();
+    static Date currDate;
+    static Calendar calendar = GregorianCalendar.getInstance();
 
     ///////////////////////////////////////////////////////////////////////////
-    AlarmManager am;
-    PendingIntent pIntent;
+    static AlarmManager am;
+    static PendingIntent pIntent;
 
     private static int notifyId = 101;
     static Context context;
     static int taskExtra = 0;
     ///////////////////////////////////////////////////////////////////////////
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        restoreCyclicTasks();
+
+        restoreCyclicTasks();//временно коммент для проверки запуска сервиса. строки н ниже до //%%С
+        //context.startService(new Intent(context, UpdateReminders.class));
+        //%%С
+
         //task = (Task) getIntent().getSerializableExtra("task");
     }
 
@@ -174,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
 //        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 //        im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
+        context = getApplicationContext();
         curentYearNumber = calendar.get(Calendar.YEAR);
 
         colors[0] = Color.parseColor("#559966CC");
@@ -185,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
 
-//        MyCalendar myCalendar = (MyCalendar) findViewById(R.id.myCalendar);;
+//        MyCalendar myCalendar = (MyCalendar) findViewById(R.id.myCalendar);
 //
 //        //////////////////////////////////////
 //        TextView textView1 = (TextView) findViewById(R.id.textView1);
@@ -565,6 +576,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 updateSchedule(day);
+
+                //setTestReminder();
             }
         });
 
@@ -625,7 +638,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     task.removeFromAM = true;
-                    setReminder(task, day.date);
+                    //%%C del - setReminder(task, day.date);
+                    setReminder(task);
 
                     day.dayClosed = true;
                     for (Task task : day.tasks) {
@@ -1340,7 +1354,7 @@ public class MainActivity extends AppCompatActivity {
 
         ///////////////////////////////////////////////////////////////////////////
         am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        context = getApplicationContext();
+
         //task = (Task) getIntent().getSerializableExtra("task");
         String strTaskExtra = getIntent().getStringExtra("extra");
         if (strTaskExtra != null) {
@@ -1365,7 +1379,87 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    public void setReminder(Task task, Date date) {
+    public static void setTestReminder() {
+
+        /////////////
+        /*
+        Intent intent = new Intent(context, Receiver.class);
+        intent.putExtra("extra", "123321");
+        intent.putExtra("content", "123321");
+
+
+
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
+        notificationIntent.putExtra("content", intent.getStringExtra("content"));
+
+        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
+        notificationIntent.setData(data);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(context,
+                Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+        Resources res = context.getResources();
+        Notification.Builder builder = new Notification.Builder(context);
+
+        builder.setContentIntent(contentIntent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                // большая картинка
+                .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
+                //.setTicker(res.getString(R.string.warning)) // текст в строке состояния
+                .setTicker("Пора!")
+                .setWhen(System.currentTimeMillis())
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
+                .setContentTitle("Напоминание")
+                //.setContentText(res.getString(R.string.notifytext))
+                .setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
+
+        // Notification notification = builder.getNotification(); // до API 16
+        Notification notification = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            notification = builder.build();
+        }
+
+
+        NotificationManager notificationManager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        notifyId = Integer.valueOf(intent.getStringExtra("extra"));
+        notificationManager.notify(notifyId, notification);
+        */
+        //////////////
+
+
+        Log.d("myLogs", "setReminder: "+ context);
+        Intent notificationIntent = new Intent(context, Receiver.class);
+        notificationIntent.putExtra("extra", "123321");
+        notificationIntent.putExtra("content", "123321");
+        //notificationIntent.putExtra("task", task);
+
+        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
+        notificationIntent.setData(data);
+
+//        calendar.clear();
+//        calendar.setTimeInMillis(task.startTime);
+
+        final Calendar myCalender = Calendar.getInstance();
+//        myCalender.setTimeInMillis(date.getTime());
+//        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+//        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+        pIntent = PendingIntent.getBroadcast(context, Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        am.cancel(pIntent);
+        ///////////////am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
+        am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000*10, pIntent);
+
+
+
+    }
+
+    public static void setReminder(Task task) {
 
         Intent notificationIntent = new Intent(context, Receiver.class);
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
@@ -1375,24 +1469,25 @@ public class MainActivity extends AppCompatActivity {
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
 
+
         calendar.clear();
         calendar.setTimeInMillis(task.startTime);
 
         final Calendar myCalender = Calendar.getInstance();
-        myCalender.setTimeInMillis(date.getTime());
+        myCalender.setTimeInMillis(task.startTime);
         myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
         myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
         pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.removeFromAM) {
             am.cancel(pIntent);
-            NotificationManager notificationManager = (NotificationManager) context
-                    .getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
             notificationManager.cancel(notifyId);
             task.removeFromAM = false;
         }else {
             if(task.valid && !task.shown && !task.done) {
+                am.cancel(pIntent);
                 am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
             }
         }
@@ -1457,7 +1552,7 @@ public class MainActivity extends AppCompatActivity {
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    public void refreshCyclicTasks(Task task) {
+    public static void refreshCyclicTasks(Task task) {
 
         long millis;
         Calendar myCalender = Calendar.getInstance();
@@ -2281,7 +2376,8 @@ public class MainActivity extends AppCompatActivity {
                         myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
                         task.clockStartTime = myCalender.getTimeInMillis();
 
-                        setReminder(task, day.date);
+                        //%%C del - setReminder(task, day.date);
+                        setReminder(task);
 
                         while (cyclicTasks.remove(task));;
                         Iterator<Task> iter = cyclicTasks.iterator();
@@ -2485,7 +2581,8 @@ public class MainActivity extends AppCompatActivity {
 
                     changedeTasksOfYear = true;
                     task.valid = b;
-                    setReminder(task, day.date);
+                    //%%C del - setReminder(task, day.date);
+                    setReminder(task);
                 }
             });
 
@@ -2499,7 +2596,8 @@ public class MainActivity extends AppCompatActivity {
 
                     if(b){
                         task.removeFromAM = true;
-                        setReminder(task, day.date);
+                        //%%C del - setReminder(task, day.date);
+                        setReminder(task);
                     }
 
                     day.dayClosed = true;
@@ -2693,3062 +2791,3066 @@ public class MainActivity extends AppCompatActivity {
      * Created by User on 04.10.2017.
      */
 
-    //TODO Winter
-    class Winter extends View {
-        Context context;
-        Paint p;
-        // координаты для рисования квадрата
-        float x = 0;
-        float y = 0;
-        int side = 0;
-        int width = 0;
-        int height = 0;
-        float doubleTapX = 0;
-        float doubleTapY = 0;
-        float januaryLength = 0;
-        float februaryLength = 0;
-        float marchLength = 0;
-        Day selectedDay = null;
-        Day currentDate = null;
-        ArrayList<Day> days = new ArrayList<Day>();
-        String monthName;
-        Rect textBounds = new Rect();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
-        boolean restore;
-
-
-
-
-        boolean firstOccurrence = true;
-        int scrollTime = 0;
-        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
-            @Override
-            public void onTick(long l) {
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        };
-
-        // переменные для перетаскивания
-        boolean drag = false;
-        float dragX = 0;
-        float dragY = 0;
-
-        Bitmap backingBitmap;
-        Canvas drawCanvas;
-
-        private GestureDetector gestureDetector;
-
-        float upperLeftCornerX = 0;
-        float upperRightCornerX = 0;
-        float bottomLeftCornerY = 0;
-        float upperRightCornerY = 0;
-        float bottomRightCornerX = 0;
-
-        float length = 0;
-
-        public Winter(Context context) {
-            super(context);
-            init(context);
-
-        }
-
-        public Winter(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            init(context);
-        }
-
-        public Winter(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-            init(context);
-        }
-
-        private void init(Context context) {
-
-            p = new Paint();
-
-            gestureDetector = new GestureDetector(context, new MyGestureListener());
-
-
-            calendar.clear();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            calendar.clear();
-            calendar.set(year, month, day);
-            currDate = new Date(calendar.getTimeInMillis());
-
-        }
-
-
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-
-            //del
-//            if (firstOccurrence) {
-//                drawCanvas = canvas;
-//                firstOccurrence = false;
+//    //TODO Winter
+//    class Winter extends View {
+//        Context context;
+//        Paint p;
+//        // координаты для рисования квадрата
+//        float x = 0;
+//        float y = 0;
+//        int side = 0;
+//        int width = 0;
+//        int height = 0;
+//        float doubleTapX = 0;
+//        float doubleTapY = 0;
+//        float januaryLength = 0;
+//        float februaryLength = 0;
+//        float marchLength = 0;
+//        Day selectedDay = null;
+//        Day currentDate = null;
+//        ArrayList<Day> days = new ArrayList<Day>();
+//        String monthName;
+//        Rect textBounds = new Rect();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
+//        boolean restore;
 //
-////                x = getWidth();//del
-////                y = getHeight();//del
+//
+//
+//
+//        boolean firstOccurrence = true;
+//        int scrollTime = 0;
+//        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
+//            @Override
+//            public void onTick(long l) {
 //            }
-            //del
-
-            canvas.drawColor(Color.rgb(106, 90, 205));
-            drawWinter(canvas);
-
-
-
-
-
-        }
-
-        public void drawWinter(Canvas canvas){
-
-            int Width = canvas.getWidth();//del
-            int Height = canvas.getHeight();//del
-            int fontHeight = side / 2;
-            int strokeWidth = side / 5;
-            float monthNameHeight;
-            float monthNameWidth;
-
-            int l = 0;
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            //I-ый квартал
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.JANUARY);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-
-            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
-            monthNameHeight = textBounds.height();
-            monthNameWidth = textBounds.width();
-
-            //1-ый месяц
-            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            int k = 0;
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l = i - 1;
-
-                upperLeftCornerX = x - k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = upperLeftCornerX - side;
-                float top = y-side;
-                float right = upperLeftCornerX;
-                float bottom = y;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 0, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left+side/4, bottom-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        autumn.currentDate = null;
-                        spring.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 0, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-
-                k += side;
-            }
-            if (firstOccurrence) {
-                januaryLength = -upperLeftCornerX + getWidth()* 1.5f;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            if(x <= januaryLength) {
-                p.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(monthName, getWidth() / 2, y - side * 1.5f, p);
-
-               /* p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(getWidth()/2,y - side * 1.5f-monthNameHeight,getWidth()/2+monthNameWidth ,y - side * 1.5f, p);
-                p.setStyle(Paint.Style.FILL);*/
-            }else{
-                p.setTextAlign(Paint.Align.LEFT);
-                canvas.drawText(monthName, upperLeftCornerX - side, y - side * 1.5f, p);
-            }
-
-
-
-//            p.setColor(Color.CYAN);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(upperLeftCornerX, y, p);
-
-            //2-ой месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-
-            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
-            monthNameHeight = textBounds.height();
-            monthNameWidth = textBounds.width();
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-            //p.setStrokeWidth(10);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l += 1;
-                upperLeftCornerX = x - k;
-
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = upperLeftCornerX - side;
-                float top = y-side;
-                float right = upperLeftCornerX;
-                float bottom = y;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 1, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                //canvas.drawText(text, left, y+side/4, p);
-                canvas.drawText(text, left+side/4, y-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        autumn.currentDate = null;
-                        spring.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 1, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-                k += side;
-            }
-            if (firstOccurrence) {
-                februaryLength = -upperLeftCornerX + getWidth() * 1.5f;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-//            if(x <= februaryLength && x >= januaryLength + side * 2) {
+//
+//            @Override
+//            public void onFinish() {
+//            }
+//        };
+//
+//        // переменные для перетаскивания
+//        boolean drag = false;
+//        float dragX = 0;
+//        float dragY = 0;
+//
+//        Bitmap backingBitmap;
+//        Canvas drawCanvas;
+//
+//        private GestureDetector gestureDetector;
+//
+//        float upperLeftCornerX = 0;
+//        float upperRightCornerX = 0;
+//        float bottomLeftCornerY = 0;
+//        float upperRightCornerY = 0;
+//        float bottomRightCornerX = 0;
+//
+//        float length = 0;
+//
+//        public Winter(Context context) {
+//            super(context);
+//            init(context);
+//
+//        }
+//
+//        public Winter(Context context, AttributeSet attrs) {
+//            super(context, attrs);
+//            init(context);
+//        }
+//
+//        public Winter(Context context, AttributeSet attrs, int defStyle) {
+//            super(context, attrs, defStyle);
+//            init(context);
+//        }
+//
+//        private void init(Context context) {
+//
+//            p = new Paint();
+//
+//            gestureDetector = new GestureDetector(context, new MyGestureListener());
+//
+//
+//            calendar.clear();
+//            calendar.setTimeInMillis(System.currentTimeMillis());
+//            int year = calendar.get(Calendar.YEAR);
+//            int month = calendar.get(Calendar.MONTH);
+//            int day = calendar.get(Calendar.DAY_OF_MONTH);
+//            calendar.clear();
+//            calendar.set(year, month, day);
+//            currDate = new Date(calendar.getTimeInMillis());
+//
+//        }
+//
+//
+//
+//        @Override
+//        protected void onDraw(Canvas canvas) {
+//
+//            //del
+////            if (firstOccurrence) {
+////                drawCanvas = canvas;
+////                firstOccurrence = false;
+////
+//////                x = getWidth();//del
+//////                y = getHeight();//del
+////            }
+//            //del
+//
+//            canvas.drawColor(Color.rgb(106, 90, 205));
+//            drawWinter(canvas);
+//
+//
+//
+//
+//
+//        }
+//
+//        public void drawWinter(Canvas canvas){
+//
+//            int Width = canvas.getWidth();//del
+//            int Height = canvas.getHeight();//del
+//            int fontHeight = side / 2;
+//            int strokeWidth = side / 5;
+//            float monthNameHeight;
+//            float monthNameWidth;
+//
+//            int l = 0;
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            //I-ый квартал
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.JANUARY);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//
+//            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
+//            monthNameHeight = textBounds.height();
+//            monthNameWidth = textBounds.width();
+//
+//            //1-ый месяц
+//            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            int k = 0;
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l = i - 1;
+//
+//                upperLeftCornerX = x - k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = upperLeftCornerX - side;
+//                float top = y-side;
+//                float right = upperLeftCornerX;
+//                float bottom = y;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 0, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left+side/4, bottom-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        autumn.currentDate = null;
+//                        spring.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 0, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//
+//                k += side;
+//            }
+//            if (firstOccurrence) {
+//                januaryLength = -upperLeftCornerX + getWidth()* 1.5f;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            if(x <= januaryLength) {
 //                p.setTextAlign(Paint.Align.CENTER);
-//                canvas.drawText("FEBRUARY", getWidth()/2, y - side * 1.5f, p);
-//            }else if(x <= februaryLength){
-//                p.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText("FEBRUARY", upperLeftCornerX + (februaryLength - januaryLength) - side, y - side * 1.5f, p);
-//            }else if(x >= februaryLength){
+//                canvas.drawText(monthName, getWidth() / 2, y - side * 1.5f, p);
+//
+//               /* p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(getWidth()/2,y - side * 1.5f-monthNameHeight,getWidth()/2+monthNameWidth ,y - side * 1.5f, p);
+//                p.setStyle(Paint.Style.FILL);*/
+//            }else{
 //                p.setTextAlign(Paint.Align.LEFT);
-//                canvas.drawText("FEBRUARY", upperLeftCornerX - side, y - side * 1.5f, p);
+//                canvas.drawText(monthName, upperLeftCornerX - side, y - side * 1.5f, p);
 //            }
-
-//            if(x <= februaryLength - side*0.25f && x >= januaryLength + "january".length()*fontHeight/2 + side/2) {
+//
+//
+//
+////            p.setColor(Color.CYAN);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint(upperLeftCornerX, y, p);
+//
+//            //2-ой месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//
+//            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
+//            monthNameHeight = textBounds.height();
+//            monthNameWidth = textBounds.width();
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//            //p.setStrokeWidth(10);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l += 1;
+//                upperLeftCornerX = x - k;
+//
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = upperLeftCornerX - side;
+//                float top = y-side;
+//                float right = upperLeftCornerX;
+//                float bottom = y;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 1, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                //canvas.drawText(text, left, y+side/4, p);
+//                canvas.drawText(text, left+side/4, y-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        autumn.currentDate = null;
+//                        spring.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 1, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//                k += side;
+//            }
+//            if (firstOccurrence) {
+//                februaryLength = -upperLeftCornerX + getWidth() * 1.5f;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+////            if(x <= februaryLength && x >= januaryLength + side * 2) {
+////                p.setTextAlign(Paint.Align.CENTER);
+////                canvas.drawText("FEBRUARY", getWidth()/2, y - side * 1.5f, p);
+////            }else if(x <= februaryLength){
+////                p.setTextAlign(Paint.Align.RIGHT);
+////                canvas.drawText("FEBRUARY", upperLeftCornerX + (februaryLength - januaryLength) - side, y - side * 1.5f, p);
+////            }else if(x >= februaryLength){
+////                p.setTextAlign(Paint.Align.LEFT);
+////                canvas.drawText("FEBRUARY", upperLeftCornerX - side, y - side * 1.5f, p);
+////            }
+//
+////            if(x <= februaryLength - side*0.25f && x >= januaryLength + "january".length()*fontHeight/2 + side/2) {
+////                p.setTextAlign(Paint.Align.CENTER);
+////                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
+////            }else if(x <= februaryLength - side*0.25f){
+////                p.setTextAlign(Paint.Align.RIGHT);
+////                canvas.drawText(monthName, upperLeftCornerX + (februaryLength - januaryLength) - side, y - side * 1.5f, p);
+////            }else{
+////                p.setTextAlign(Paint.Align.LEFT);
+////                canvas.drawText(monthName, upperLeftCornerX - side, y - side * 1.5f, p);
+////            }
+//
+//
+//            if(x <= februaryLength && x >= januaryLength + monthNameWidth) {
 //                p.setTextAlign(Paint.Align.CENTER);
 //                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
-//            }else if(x <= februaryLength - side*0.25f){
+//            }else if(x <= februaryLength){
 //                p.setTextAlign(Paint.Align.RIGHT);
 //                canvas.drawText(monthName, upperLeftCornerX + (februaryLength - januaryLength) - side, y - side * 1.5f, p);
 //            }else{
 //                p.setTextAlign(Paint.Align.LEFT);
 //                canvas.drawText(monthName, upperLeftCornerX - side, y - side * 1.5f, p);
 //            }
-
-
-            if(x <= februaryLength && x >= januaryLength + monthNameWidth) {
-                p.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
-            }else if(x <= februaryLength){
-                p.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText(monthName, upperLeftCornerX + (februaryLength - januaryLength) - side, y - side * 1.5f, p);
-            }else{
-                p.setTextAlign(Paint.Align.LEFT);
-                canvas.drawText(monthName, upperLeftCornerX - side, y - side * 1.5f, p);
-            }
-
-
-            p.setColor(Color.CYAN);
-            //p.setStrokeWidth(side);
-            canvas.drawPoint(upperLeftCornerX, y, p);
-
-            //3-ий месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.MARCH);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-
-            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
-            monthNameHeight = textBounds.height();
-            monthNameWidth = textBounds.width();
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l += 1;
-                upperLeftCornerX = x - k;
-
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = upperLeftCornerX - side;
-                float top = y-side;
-                float right = upperLeftCornerX;
-                float bottom = y;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 2, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                //canvas.drawText(text, left, y+side/4, p);
-                canvas.drawText(text, left+side/4, y-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        autumn.currentDate = null;
-                        spring.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 2, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-                k += side;
-            }
-            if (firstOccurrence) {
-
-                marchLength = -upperLeftCornerX + getWidth() * 1.5f - side/2;
-                length = -upperLeftCornerX + getWidth();
-
-                if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null){
-                        date = selectedDay;
-                    }
-                    calendar.clear();
-                    calendar.setTimeInMillis(date.date.getTime());
-
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-
-
-                    if(calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
-                        x = x - date.left + getWidth() / 2 + getWidth() / 4;
-                        if(x <= getWidth()) {
-                            x = getWidth();
-                        }
-                        if(x >= length){
-                            x = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                        x = x - date.left + getWidth() / 2;
-                        if(x <= getWidth()) {
-                            x = getWidth();
-                        }
-                        if(x >= length){
-                            x = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.MARCH) {
-                        x = x - date.right + getWidth() / 2 - getWidth() / 4;
-                        if(x <= getWidth()) {
-                            x = getWidth();
-                        }
-                        if(x >= length){
-                            x = length;
-                        }
-                    }
-                    invalidate();
-                }
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-//            if(x <= marchLength && x >= februaryLength + side * 2) {
-//                p.setTextAlign(Paint.Align.CENTER);
-//                canvas.drawText("MARCH", getWidth()/2, y - side * 1.5f, p);
-//            }else if(x <= marchLength){
-//                p.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText("MARCH", upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
+//
+//
+//            p.setColor(Color.CYAN);
+//            //p.setStrokeWidth(side);
+//            canvas.drawPoint(upperLeftCornerX, y, p);
+//
+//            //3-ий месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.MARCH);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//
+//            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
+//            monthNameHeight = textBounds.height();
+//            monthNameWidth = textBounds.width();
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l += 1;
+//                upperLeftCornerX = x - k;
+//
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = upperLeftCornerX - side;
+//                float top = y-side;
+//                float right = upperLeftCornerX;
+//                float bottom = y;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 2, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                //canvas.drawText(text, left, y+side/4, p);
+//                canvas.drawText(text, left+side/4, y-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        autumn.currentDate = null;
+//                        spring.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 2, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//                k += side;
 //            }
-
-//            if( x >= februaryLength + side * 2) {
+//            if (firstOccurrence) {
+//
+//                marchLength = -upperLeftCornerX + getWidth() * 1.5f - side/2;
+//                //length = -upperLeftCornerX + getWidth();
+//                length = -upperLeftCornerX + getWidth() + side;
+//
+//                if (currentDate != null || selectedDay != null) {
+//                    Day date = currentDate;
+//                    if (currentDate == null){
+//                        date = selectedDay;
+//                    }
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(date.date.getTime());
+//
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//
+//
+//                    if(calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
+//                        //x = x - date.left + getWidth() / 2 + getWidth() / 4;
+//                        x = x - date.right + getWidth() / 2 + getWidth() / 4;
+//                        if(x <= getWidth()) {
+//                            x = getWidth();
+//                        }
+//                        if(x >= length){
+//                            x = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+//                        //x = x - date.left + getWidth() / 2;
+//                        x = x - date.right + getWidth() / 2;
+//                        if(x <= getWidth()) {
+//                            x = getWidth();
+//                        }
+//                        if(x >= length){
+//                            x = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.MARCH) {
+//                        //x = x - date.right + getWidth() / 2 - getWidth() / 4;
+//                        x = x - date.left + getWidth() / 2 - getWidth() / 4;
+//                        if(x <= getWidth()) {
+//                            x = getWidth();
+//                        }
+//                        if(x >= length){
+//                            x = length;
+//                        }
+//                    }
+//                    invalidate();
+//                }
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+////            if(x <= marchLength && x >= februaryLength + side * 2) {
+////                p.setTextAlign(Paint.Align.CENTER);
+////                canvas.drawText("MARCH", getWidth()/2, y - side * 1.5f, p);
+////            }else if(x <= marchLength){
+////                p.setTextAlign(Paint.Align.RIGHT);
+////                canvas.drawText("MARCH", upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
+////            }
+//
+////            if( x >= februaryLength + side * 2) {
+////                p.setTextAlign(Paint.Align.CENTER);
+////                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
+////            }else {
+////                p.setTextAlign(Paint.Align.RIGHT);
+////                canvas.drawText(monthName, upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
+////            }
+//
+//            if( x >= februaryLength + monthNameWidth*1.25f) {
 //                p.setTextAlign(Paint.Align.CENTER);
 //                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
 //            }else {
 //                p.setTextAlign(Paint.Align.RIGHT);
 //                canvas.drawText(monthName, upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
 //            }
-
-            if( x >= februaryLength + monthNameWidth*1.25f) {
-                p.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
-            }else {
-                p.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText(monthName, upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
-            }
-
-
-            p.setColor(Color.RED);
-            //p.setStrokeWidth(side);
-            canvas.drawPoint(upperLeftCornerX, y, p);
-
-
-            //canvas.drawPoint(x-correctiveX-240, y-correctiveY-270, p);//NexusS
-
-            p.setColor(Color.WHITE);
-            p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
-
-
-            //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
-
-            if (currentDate != null) {
-                p.setColor(Color.WHITE);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (firstOccurrence) {
-                    calendar.clear();
-                    calendar.setTimeInMillis(currentDate.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-                if (!firstOccurrence && day == null) {
-                    day = currentDate;
-
-                    updateSchedule(day);
-                }
-            }
-
-            if (selectedDay != null) {
-                p.setColor(Color.YELLOW);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (!firstOccurrence && selectedDay != day) {
-                    day = selectedDay;
-
-                     updateSchedule(day);
-
-                    calendar.clear();
-                    calendar.setTimeInMillis(selectedDay.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-
-            }
-
-
-            if (firstOccurrence) {
-                firstOccurrence = false;
-            }
-            if (restore) {
-                restore = false;
-                restore();
-            }
-
-        }
-
-        public void restore (){
-
-            JsonParser parser = new JsonParser();
-            Gson gson = new Gson();
-            JsonArray array = parser.parse(yearStr.daysWinter).getAsJsonArray();
-            for (int i = 0; i < array.size(); i++) {
-                winter.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
-
-                for (Task task : winter.days.get(i).tasks) {
-                    if (task.extra == taskExtra){
-                        task.shown = true;
-                        changedeTasksOfYear = true;
-                    }
-                    setReminder(task, winter.days.get(i).date);
-                    if (!task.done){
-                        winter.days.get(i).dayClosed = false;
-                    }
-                }
-                //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
-            }
-
-        }
-
-
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            // координаты Touch-события
-            float evX = event.getX();
-            float evY = event.getY();
-
-            switch (event.getAction()) {
-                // касание началось
-                case MotionEvent.ACTION_DOWN:
-                    //positionOfTouchX = evX;
-                    //positionOfTouchY = evY;
-
-                    // включаем режим перетаскивания
-                    drag = true;
-
-                    // разница между левым верхним углом квадрата и точкой касания
-                    dragX = evX - x;
-                    dragY = evY - y;
-
-                    countDownTimer.cancel();
-                    /*
-                    dragX = x;
-                    dragY = y;*/
-
-
-                    //invalidate();
-                    break;
-                // тащим
-                case MotionEvent.ACTION_MOVE:
-
-
-
-                    // если режим перетаскивания включен
-                    if (drag) {
-
-                        //positionOfTouchX = evX;
-                        //positionOfTouchY = evY;
-
-                        // определеяем новые координаты
-                        x = evX - dragX;
-                        //y = evY - dragY;/////////////////////////////////////////////
-                        if(x <= getWidth()) {
-                            x = getWidth();
-                        }
-                        if(x >= length){
-                            x = length;
-                        }
-                        invalidate();
-                        //Log.d("XY", "X:" + x + "Y:" + y);
-                    }
-
-                    break;
-                // касание завершено
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    // выключаем режим перетаскивания
-                    drag = false;
-                    break;
-
-            }
-
-            if (gestureDetector.onTouchEvent(event)) return true;
-
-            return true;
-        }
-
-
-        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                doubleTapX = e.getX();
-                doubleTapY = e.getY();
-
-                Iterator<Day> j = days.iterator();
-                while (j.hasNext()){
-                    Day b = j.next();
-                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
-                        selectedDay = b;
-                        spring.selectedDay = null;
-                        spring.invalidate();
-                        summer.selectedDay = null;
-                        summer.invalidate();
-                        autumn.selectedDay = null;
-                        autumn.invalidate();
-                        invalidate();
-
-                        calendar.clear();
-                        calendar.setTimeInMillis(selectedDay.date.getTime());
-                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                    }
-                }
-
-                return super.onDoubleTap(e);
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
-
-                scrollTime = (int) velocityX;
-                if (scrollTime < 0){
-                    scrollTime *= -1;
-                }
-                countDownTimer = new CountDownTimer(scrollTime, 50) {
-
-                    public void onTick(long millisUntilFinished) {
-                        if (velocityX > 0){
-                            x += millisUntilFinished / 30;
-                            //positionOfTouchX += millisUntilFinished / 30;;
-                        }else{
-                            x -= millisUntilFinished / 30;
-                            //positionOfTouchX -= millisUntilFinished / 30;;
-                        }
-                       // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-                        //проверить край
-                        if(x <= getWidth()) {
-                            x = getWidth();
-                        }
-                        if(x >= length){
-                            x = length;
-                        }
-
-                        //обновить
-                        invalidate();
-                    }
-
-                    public void onFinish() {
-                        Log.d("onFling", "done!");
-                    }
-                }.start();
-
-                return true;
-            }
-
-        }
-
-
-
-
-    }
+//
+//
+//            p.setColor(Color.RED);
+//            //p.setStrokeWidth(side);
+//            canvas.drawPoint(upperLeftCornerX, y, p);
+//
+//
+//            //canvas.drawPoint(x-correctiveX-240, y-correctiveY-270, p);//NexusS
+//
+//            p.setColor(Color.WHITE);
+//            p.setStrokeWidth(strokeWidth);
+//            canvas.drawPoint(doubleTapX, doubleTapY, p);
+//
+//
+//            //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
+//
+//            if (currentDate != null) {
+//                p.setColor(Color.WHITE);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (firstOccurrence) {
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(currentDate.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//                if (!firstOccurrence && day == null) {
+//                    day = currentDate;
+//
+//                    updateSchedule(day);
+//                }
+//            }
+//
+//            if (selectedDay != null) {
+//                p.setColor(Color.YELLOW);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (!firstOccurrence && selectedDay != day) {
+//                    day = selectedDay;
+//
+//                     updateSchedule(day);
+//
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(selectedDay.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//
+//            }
+//
+//
+//            if (firstOccurrence) {
+//                firstOccurrence = false;
+//            }
+//            if (restore) {
+//                restore = false;
+//                restore();
+//            }
+//
+//        }
+//
+//        public void restore (){
+//
+//            JsonParser parser = new JsonParser();
+//            Gson gson = new Gson();
+//            JsonArray array = parser.parse(yearStr.daysWinter).getAsJsonArray();
+//            for (int i = 0; i < array.size(); i++) {
+//                winter.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+//
+//                for (Task task : winter.days.get(i).tasks) {
+//                    if (task.extra == taskExtra){
+//                        task.shown = true;
+//                        changedeTasksOfYear = true;
+//                    }
+//                    setReminder(task, winter.days.get(i).date);
+//                    if (!task.done){
+//                        winter.days.get(i).dayClosed = false;
+//                    }
+//                }
+//            }
+//
+//
+//        }
+//
+//
+//
+//        @Override
+//        public boolean onTouchEvent(MotionEvent event) {
+//            // координаты Touch-события
+//            float evX = event.getX();
+//            float evY = event.getY();
+//
+//            switch (event.getAction()) {
+//                // касание началось
+//                case MotionEvent.ACTION_DOWN:
+//                    //positionOfTouchX = evX;
+//                    //positionOfTouchY = evY;
+//
+//                    // включаем режим перетаскивания
+//                    drag = true;
+//
+//                    // разница между левым верхним углом квадрата и точкой касания
+//                    dragX = evX - x;
+//                    dragY = evY - y;
+//
+//                    countDownTimer.cancel();
+//                    /*
+//                    dragX = x;
+//                    dragY = y;*/
+//
+//
+//                    //invalidate();
+//                    break;
+//                // тащим
+//                case MotionEvent.ACTION_MOVE:
+//
+//
+//
+//                    // если режим перетаскивания включен
+//                    if (drag) {
+//
+//                        //positionOfTouchX = evX;
+//                        //positionOfTouchY = evY;
+//
+//                        // определеяем новые координаты
+//                        x = evX - dragX;
+//                        //y = evY - dragY;/////////////////////////////////////////////
+//                        if(x <= getWidth()) {
+//                            x = getWidth();
+//                        }
+//                        if(x >= length){
+//                           x = length;
+//                        }
+//                        invalidate();
+//                        //Log.d("XY", "X:" + x + "Y:" + y);
+//                    }
+//
+//                    break;
+//                // касание завершено
+//                case MotionEvent.ACTION_UP:
+//                case MotionEvent.ACTION_CANCEL:
+//                    // выключаем режим перетаскивания
+//                    drag = false;
+//                    break;
+//
+//            }
+//
+//            if (gestureDetector.onTouchEvent(event)) return true;
+//
+//            return true;
+//        }
+//
+//
+//        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+//
+//            @Override
+//            public boolean onDoubleTap(MotionEvent e) {
+//                doubleTapX = e.getX();
+//                doubleTapY = e.getY();
+//
+//                Iterator<Day> j = days.iterator();
+//                while (j.hasNext()){
+//                    Day b = j.next();
+//                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
+//                        selectedDay = b;
+//                        spring.selectedDay = null;
+//                        spring.invalidate();
+//                        summer.selectedDay = null;
+//                        summer.invalidate();
+//                        autumn.selectedDay = null;
+//                        autumn.invalidate();
+//                        invalidate();
+//
+//                        calendar.clear();
+//                        calendar.setTimeInMillis(selectedDay.date.getTime());
+//                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                    }
+//                }
+//
+//                return super.onDoubleTap(e);
+//            }
+//
+//            @Override
+//            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
+//
+//                scrollTime = (int) velocityX;
+//                if (scrollTime < 0){
+//                    scrollTime *= -1;
+//                }
+//                countDownTimer = new CountDownTimer(scrollTime, 50) {
+//
+//                    public void onTick(long millisUntilFinished) {
+//                        if (velocityX > 0){
+//                            x += millisUntilFinished / 30;
+//                            //positionOfTouchX += millisUntilFinished / 30;;
+//                        }else{
+//                            x -= millisUntilFinished / 30;
+//                            //positionOfTouchX -= millisUntilFinished / 30;;
+//                        }
+//                       // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+//
+//                        //проверить край
+//                        if(x <= getWidth()) {
+//                            x = getWidth();
+//                        }
+//                        if(x >= length){
+//                            x = length;
+//                        }
+//
+//                        //обновить
+//                        invalidate();
+//                    }
+//
+//                    public void onFinish() {
+//                        Log.d("onFling", "done!");
+//                    }
+//                }.start();
+//
+//                return true;
+//            }
+//
+//        }
+//
+//
+//
+//
+//    }
 
     //TODO Spring
-    class Spring extends View {
-        Context context;
-        Paint p;
-        // координаты для рисования квадрата
-        float x = 0;
-        float y = 0;
-        int side = 0;
-
-        //int width;//del
-        //int height;//del
-        float doubleTapX = 0;
-        float doubleTapY = 0;
-        float aprilLength = 0;
-        float mayLength = 0;
-        float juneLength = 0;
-        Day selectedDay = null;
-        Day currentDate = null;
-        ArrayList<Day> days = new ArrayList<Day>();
-        String monthName, reverseMonthName;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
-        boolean restore;
-
-
-        boolean firstOccurrence = true;
-        int scrollTime = 0;
-        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
-            @Override
-            public void onTick(long l) {
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        };
-        // переменные для перетаскивания
-        boolean drag = false;
-        float dragX = 0;
-        float dragY = 0;
-
-        Bitmap backingBitmap;
-        Canvas drawCanvas;
-
-        private GestureDetector gestureDetector;
-
-        float upperLeftCornerX = 0;
-        float upperRightCornerX = 0;
-        float bottomLeftCornerY = 0;
-        float upperRightCornerY = 0;
-        float bottomRightCornerX = 0;
-
-        float length = 0;
-
-        public Spring(Context context) {
-            super(context);
-            init(context);
-
-        }
-
-        public Spring(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            init(context);
-        }
-
-        public Spring(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-            init(context);
-        }
-
-        private void init(Context context) {
-
-            p = new Paint();
-            gestureDetector = new GestureDetector(context, new MyGestureListener());
-
-            calendar.clear();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            calendar.clear();
-            calendar.set(year, month, day);
-            currDate = new Date(calendar.getTimeInMillis());
-        }
-
-
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-
-            canvas.drawColor(Color.rgb(0, 255, 127));
-            drawSpring(canvas);
-
-        }
-
-        public void drawSpring(Canvas canvas){
-
-            int Width = canvas.getWidth();//del
-            int Height = canvas.getHeight();//del
-            int fontHeight = side / 2;
-            int strokeWidth = side / 5;
-            int l = 0;
-
-            //II-ой квартал
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.APRIL);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-            reverseMonthName = new StringBuffer(monthName).reverse().toString();
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            //1-ый месяц
-            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            int k = 0;
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l = i - 1;
-                bottomLeftCornerY = y + k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = x;
-                float top =  bottomLeftCornerY;
-                float right =  x+side;
-                float bottom = bottomLeftCornerY + side;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 3, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left+side/4, bottom-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        autumn.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 3, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-
-                k += side;
-            }
-            if (firstOccurrence) {
-                aprilLength = -bottomLeftCornerY + getHeight()/2;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            p.setTextAlign(Paint.Align.CENTER);
-            if (y >= aprilLength ) {
-
-                //canvas.drawText("April", x - side, getHeight() / 2, p);
-                canvas.save();
-                canvas.rotate(360f);
-                int s = getHeight() / 2 + side;
-                for (char c : reverseMonthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-            } else {
-                //p.setTextAlign(Paint.Align.CENTER);
-                //canvas.drawText("January", upperLeftCornerX - side/2, y - side * 1.5f, p);
-                canvas.save();
-                canvas.rotate(360f);
-                int s = (int) bottomLeftCornerY + side;
-                for (char c : reverseMonthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-            }
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(x, bottomLeftCornerY, p);
-
-            //2-ой месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.MAY);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-            reverseMonthName = new StringBuffer(monthName).reverse().toString();
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l += 1;
-                bottomLeftCornerY = y + k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = x;
-                float top =  bottomLeftCornerY;
-                float right =  x+side;
-                float bottom = bottomLeftCornerY + side;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 4, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left+side/4, bottom-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    calendar.clear();
-                    calendar.set(numberYearPicker.getValue(), 4, i);
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        autumn.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 4, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-
-                k += side;
-            }
-            if (firstOccurrence) {
-                mayLength = -bottomLeftCornerY + getHeight()/2;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            p.setTextAlign(Paint.Align.CENTER);
-
-            if (y >= mayLength && y <= aprilLength - side * 1.5f) {
-                canvas.save();
-                canvas.rotate(360f);
-                int s = getHeight() / 2 + side;
-                for (char c : reverseMonthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-            }else if(y >= mayLength + side*2){
-                canvas.save();
-                canvas.rotate(360f);
-                int s = (int) (bottomLeftCornerY + (mayLength - aprilLength)+ side * 1.5f);
-                for (char c : monthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                    s += fontHeight;
-                }
-                canvas.restore();
-            } else if(y <= mayLength){
-                canvas.save();
-                canvas.rotate(360f);
-                int s = (int) bottomLeftCornerY + side;
-                for (char c : reverseMonthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-            }
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(x, bottomLeftCornerY, p);
-
-            //3-ий месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.JUNE);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-            reverseMonthName = new StringBuffer(monthName).reverse().toString();
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l += 1;
-                bottomLeftCornerY = y + k;
-
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = x;
-                float top =  bottomLeftCornerY;
-                float right =  x+side;
-                float bottom = bottomLeftCornerY + side;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 5, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left+side/4, bottom-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        autumn.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 5, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-
-                k += side;
-            }
-
-            if (firstOccurrence) {
-
-                juneLength = -bottomLeftCornerY + getHeight()/2;
-                length = -bottomLeftCornerY + getHeight() - side;
-                //Log.d("XY", "bottomLeftCornerY:" + length);
-
-                if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null){
-                        date = selectedDay;
-                    }
-                    calendar.clear();
-                    calendar.setTimeInMillis(date.date.getTime());
-
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-
-                    if(calendar.get(Calendar.MONTH) == Calendar.APRIL) {
-                        y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
-                        if (y >= 0) {
-                            y = 0;
-                        }
-                        if (y <= length) {
-                            y = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.MAY) {
-                        y = y - date.top + getHeight() / 2;
-                        if (y >= 0) {
-                            y = 0;
-                        }
-                        if (y <= length) {
-                            y = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.JUNE) {
-                        y = y - date.top + getHeight() / 2 + getHeight() / 4;
-                        if (y >= 0) {
-                            y = 0;
-                        }
-                        if (y <= length) {
-                            y = length;
-                        }
-                    }
-                    invalidate();
-                }
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            p.setTextAlign(Paint.Align.CENTER);
-
-            if (y >= juneLength && y <= mayLength - side * 2) {
-                canvas.save();
-                canvas.rotate(360f);
-                int s = getHeight() / 2 + side;
-                for (char c : reverseMonthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-
-            } else if (y >= juneLength) {
-                canvas.save();
-                canvas.rotate(360f);
-                int s =(int) (bottomLeftCornerY + (juneLength - mayLength) + side * 1.5f);
-                for (char c : monthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                    s += fontHeight;
-                }
-                canvas.restore();
-            }
-
-
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(x, bottomLeftCornerY, p);
+//    class Spring extends View {
+//        Context context;
+//        Paint p;
+//        // координаты для рисования квадрата
+//        float x = 0;
+//        float y = 0;
+//        int side = 0;
+//
+//        //int width;//del
+//        //int height;//del
+//        float doubleTapX = 0;
+//        float doubleTapY = 0;
+//        float aprilLength = 0;
+//        float mayLength = 0;
+//        float juneLength = 0;
+//        Day selectedDay = null;
+//        Day currentDate = null;
+//        ArrayList<Day> days = new ArrayList<Day>();
+//        String monthName, reverseMonthName;
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
+//        boolean restore;
 //
 //
-//            p.setColor(Color.BLUE);
-//            p.setStrokeWidth(10);
-//            canvas.drawPoint(x, y, p);
-
-
-
-            p.setColor(Color.WHITE);
-            p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
-
-
-            //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
-            if (currentDate != null) {
-                p.setColor(Color.WHITE);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (firstOccurrence) {
-                    calendar.clear();
-                    calendar.setTimeInMillis(currentDate.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-                if (!firstOccurrence && day == null) {
-                    day = currentDate;
-
-                   updateSchedule(day);
-                }
-            }
-
-            if (selectedDay != null) {
-                p.setColor(Color.YELLOW);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (!firstOccurrence && selectedDay != day) {
-                    day = selectedDay;
-
-                   updateSchedule(day);
-
-                    calendar.clear();
-                    calendar.setTimeInMillis(selectedDay.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-            }
-
-            if (firstOccurrence) {
-                firstOccurrence = false;
-            }
-            if (restore) {
-                restore = false;
-                restore();
-            }
-
-        }
-
-        public void restore (){
-
-            JsonParser parser = new JsonParser();
-            Gson gson = new Gson();
-            JsonArray array = parser.parse(yearStr.daysSpring).getAsJsonArray();
-            for (int i = 0; i < array.size(); i++) {
-                spring.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
-
-                for (Task task : spring.days.get(i).tasks) {
-                    if (task.extra == taskExtra){
-                        task.shown = true;
-                        changedeTasksOfYear = true;
-                    }
-                    setReminder(task, spring.days.get(i).date);
-                    if (!task.done){
-                        spring.days.get(i).dayClosed = false;
-                    }
-                }
-                //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
-            }
-
-        }
-
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            // координаты Touch-события
-            float evX = event.getX();
-            float evY = event.getY();
-
-            switch (event.getAction()) {
-                // касание началось
-                case MotionEvent.ACTION_DOWN:
-                    // если касание было начато в пределах квадрата
-
-                    // включаем режим перетаскивания
-                    drag = true;
-
-                    // разница между левым верхним углом квадрата и точкой касания
-                    dragX = evX - x;
-                    dragY = evY - y;
-
-                    countDownTimer.cancel();
-
-                    //Log.d("WH", "W:" + Width + "H:" + Height);
-
-
-                    break;
-                // тащим
-                case MotionEvent.ACTION_MOVE:
-                    // если режим перетаскивания включен
-                    if (drag) {
-                        // определеяем новые координаты
-                        //x = evX - dragX;/////////////////////////////////////////////////////////
-                        y = evY - dragY;
-                        if(y >= 0) {
-                            y = 0;
-                        }
-                        if(y <= length){
-                            //y = length - getHeight();
-                            y = length;
-                        }
-                        invalidate();
-                       // Log.d("XY", "X:" + x + "Y:" + y +"length "+ length);
-
-                    }
-
-                    break;
-                // касание завершено
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    // выключаем режим перетаскивания
-                    drag = false;
-                    break;
-
-            }
-
-            gestureDetector.onTouchEvent(event);
-
-            return true;
-        }
-
-        @Override
-        protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-            width = width;
-            height = height;
-            //Log.d("WH", "W:" + width + "H:" + height);
-        }
-
-
-        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                doubleTapX = e.getX();
-                doubleTapY = e.getY();
-
-                Iterator<Day> j = days.iterator();
-                while (j.hasNext()){
-                    Day b = j.next();
-                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        selectedDay = b;
-                        winter.selectedDay = null;
-                        winter.invalidate();
-                        summer.selectedDay = null;
-                        summer.invalidate();
-                        autumn.selectedDay = null;
-                        autumn.invalidate();
-                        invalidate();
-
-                        calendar.clear();
-                        calendar.setTimeInMillis(selectedDay.date.getTime());
-                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                    }
-                }
-
-                return super.onDoubleTap(e);
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
-
-                scrollTime = (int) velocityY;
-                if (scrollTime < 0){
-                    scrollTime *= -1;
-                }
-                countDownTimer = new CountDownTimer(scrollTime, 50) {
-
-                    public void onTick(long millisUntilFinished) {
-                        if (velocityY > 0){
-                            y += millisUntilFinished / 30;
-                        }else{
-                            y -= millisUntilFinished / 30;
-                        }
-                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-                        //проверить край
-                        if(y >= 0) {
-                            y = 0;
-                        }
-                        if(y <= length){
-                            y = length;
-                        }
-
-                        //обновить
-                        invalidate();
-                    }
-
-                    public void onFinish() {
-                        Log.d("onFling", "done!");
-                    }
-                }.start();
-
-
-                return true;
-            }
-
-        }
-
-
-    }
+//        boolean firstOccurrence = true;
+//        int scrollTime = 0;
+//        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
+//            @Override
+//            public void onTick(long l) {
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//            }
+//        };
+//        // переменные для перетаскивания
+//        boolean drag = false;
+//        float dragX = 0;
+//        float dragY = 0;
+//
+//        Bitmap backingBitmap;
+//        Canvas drawCanvas;
+//
+//        private GestureDetector gestureDetector;
+//
+//        float upperLeftCornerX = 0;
+//        float upperRightCornerX = 0;
+//        float bottomLeftCornerY = 0;
+//        float upperRightCornerY = 0;
+//        float bottomRightCornerX = 0;
+//
+//        float length = 0;
+//
+//        public Spring(Context context) {
+//            super(context);
+//            init(context);
+//
+//        }
+//
+//        public Spring(Context context, AttributeSet attrs) {
+//            super(context, attrs);
+//            init(context);
+//        }
+//
+//        public Spring(Context context, AttributeSet attrs, int defStyle) {
+//            super(context, attrs, defStyle);
+//            init(context);
+//        }
+//
+//        private void init(Context context) {
+//
+//            p = new Paint();
+//            gestureDetector = new GestureDetector(context, new MyGestureListener());
+//
+//            calendar.clear();
+//            calendar.setTimeInMillis(System.currentTimeMillis());
+//            int year = calendar.get(Calendar.YEAR);
+//            int month = calendar.get(Calendar.MONTH);
+//            int day = calendar.get(Calendar.DAY_OF_MONTH);
+//            calendar.clear();
+//            calendar.set(year, month, day);
+//            currDate = new Date(calendar.getTimeInMillis());
+//        }
+//
+//
+//
+//        @Override
+//        protected void onDraw(Canvas canvas) {
+//
+//            canvas.drawColor(Color.rgb(0, 255, 127));
+//            drawSpring(canvas);
+//
+//        }
+//
+//        public void drawSpring(Canvas canvas){
+//
+//            int Width = canvas.getWidth();//del
+//            int Height = canvas.getHeight();//del
+//            int fontHeight = side / 2;
+//            int strokeWidth = side / 5;
+//            int l = 0;
+//
+//            //II-ой квартал
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.APRIL);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//            reverseMonthName = new StringBuffer(monthName).reverse().toString();
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            //1-ый месяц
+//            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            int k = 0;
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l = i - 1;
+//                bottomLeftCornerY = y + k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = x;
+//                float top =  bottomLeftCornerY;
+//                float right =  x+side;
+//                float bottom = bottomLeftCornerY + side;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 3, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left+side/4, bottom-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        autumn.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 3, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//
+//                k += side;
+//            }
+//            if (firstOccurrence) {
+//                aprilLength = -bottomLeftCornerY + getHeight()/2;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            p.setTextAlign(Paint.Align.CENTER);
+//            if (y >= aprilLength ) {
+//
+//                //canvas.drawText("April", x - side, getHeight() / 2, p);
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = getHeight() / 2 + side;
+//                for (char c : reverseMonthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//            } else {
+//                //p.setTextAlign(Paint.Align.CENTER);
+//                //canvas.drawText("January", upperLeftCornerX - side/2, y - side * 1.5f, p);
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = (int) bottomLeftCornerY + side;
+//                for (char c : reverseMonthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//            }
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint(x, bottomLeftCornerY, p);
+//
+//            //2-ой месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.MAY);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//            reverseMonthName = new StringBuffer(monthName).reverse().toString();
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l += 1;
+//                bottomLeftCornerY = y + k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = x;
+//                float top =  bottomLeftCornerY;
+//                float right =  x+side;
+//                float bottom = bottomLeftCornerY + side;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 4, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left+side/4, bottom-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    calendar.clear();
+//                    calendar.set(numberYearPicker.getValue(), 4, i);
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        autumn.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 4, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//
+//                k += side;
+//            }
+//            if (firstOccurrence) {
+//                mayLength = -bottomLeftCornerY + getHeight()/2;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            p.setTextAlign(Paint.Align.CENTER);
+//
+//            if (y >= mayLength && y <= aprilLength - side * 1.5f) {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = getHeight() / 2 + side;
+//                for (char c : reverseMonthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//            }else if(y >= mayLength + side*2){
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = (int) (bottomLeftCornerY + (mayLength - aprilLength)+ side * 1.5f);
+//                for (char c : monthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+//                    s += fontHeight;
+//                }
+//                canvas.restore();
+//            } else if(y <= mayLength){
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = (int) bottomLeftCornerY + side;
+//                for (char c : reverseMonthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//            }
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint(x, bottomLeftCornerY, p);
+//
+//            //3-ий месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.JUNE);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//            reverseMonthName = new StringBuffer(monthName).reverse().toString();
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l += 1;
+//                bottomLeftCornerY = y + k;
+//
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = x;
+//                float top =  bottomLeftCornerY;
+//                float right =  x+side;
+//                float bottom = bottomLeftCornerY + side;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 5, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left+side/4, bottom-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        autumn.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 5, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//
+//                k += side;
+//            }
+//
+//            if (firstOccurrence) {
+//
+//                juneLength = -bottomLeftCornerY + getHeight()/2;
+//                length = -bottomLeftCornerY + getHeight() - side;
+//                //Log.d("XY", "bottomLeftCornerY:" + length);
+//
+//                if (currentDate != null || selectedDay != null) {
+//                    Day date = currentDate;
+//                    if (currentDate == null){
+//                        date = selectedDay;
+//                    }
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(date.date.getTime());
+//
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//
+//                    if(calendar.get(Calendar.MONTH) == Calendar.APRIL) {
+//                        y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
+//                        if (y >= 0) {
+//                            y = 0;
+//                        }
+//                        if (y <= length) {
+//                            y = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.MAY) {
+//                        y = y - date.top + getHeight() / 2;
+//                        if (y >= 0) {
+//                            y = 0;
+//                        }
+//                        if (y <= length) {
+//                            y = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.JUNE) {
+//                        y = y - date.top + getHeight() / 2 + getHeight() / 4;
+//                        if (y >= 0) {
+//                            y = 0;
+//                        }
+//                        if (y <= length) {
+//                            y = length;
+//                        }
+//                    }
+//                    invalidate();
+//                }
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            p.setTextAlign(Paint.Align.CENTER);
+//
+//            if (y >= juneLength && y <= mayLength - side * 2) {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = getHeight() / 2 + side;
+//                for (char c : reverseMonthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//
+//            } else if (y >= juneLength) {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s =(int) (bottomLeftCornerY + (juneLength - mayLength) + side * 1.5f);
+//                for (char c : monthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+//                    s += fontHeight;
+//                }
+//                canvas.restore();
+//            }
+//
+//
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint(x, bottomLeftCornerY, p);
+////
+////
+////            p.setColor(Color.BLUE);
+////            p.setStrokeWidth(10);
+////            canvas.drawPoint(x, y, p);
+//
+//
+//
+//            p.setColor(Color.WHITE);
+//            p.setStrokeWidth(strokeWidth);
+//            canvas.drawPoint(doubleTapX, doubleTapY, p);
+//
+//
+//            //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
+//            if (currentDate != null) {
+//                p.setColor(Color.WHITE);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (firstOccurrence) {
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(currentDate.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//                if (!firstOccurrence && day == null) {
+//                    day = currentDate;
+//
+//                   updateSchedule(day);
+//                }
+//            }
+//
+//            if (selectedDay != null) {
+//                p.setColor(Color.YELLOW);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (!firstOccurrence && selectedDay != day) {
+//                    day = selectedDay;
+//
+//                   updateSchedule(day);
+//
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(selectedDay.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//            }
+//
+//            if (firstOccurrence) {
+//                firstOccurrence = false;
+//            }
+//            if (restore) {
+//                restore = false;
+//                restore();
+//            }
+//
+//        }
+//
+//        public void restore (){
+//
+//            JsonParser parser = new JsonParser();
+//            Gson gson = new Gson();
+//            JsonArray array = parser.parse(yearStr.daysSpring).getAsJsonArray();
+//            for (int i = 0; i < array.size(); i++) {
+//                spring.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+//
+//                for (Task task : spring.days.get(i).tasks) {
+//                    if (task.extra == taskExtra){
+//                        task.shown = true;
+//                        changedeTasksOfYear = true;
+//                    }
+//                    setReminder(task, spring.days.get(i).date);
+//                    if (!task.done){
+//                        spring.days.get(i).dayClosed = false;
+//                    }
+//                }
+//                //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
+//            }
+//
+//        }
+//
+//
+//        @Override
+//        public boolean onTouchEvent(MotionEvent event) {
+//            // координаты Touch-события
+//            float evX = event.getX();
+//            float evY = event.getY();
+//
+//            switch (event.getAction()) {
+//                // касание началось
+//                case MotionEvent.ACTION_DOWN:
+//                    // если касание было начато в пределах квадрата
+//
+//                    // включаем режим перетаскивания
+//                    drag = true;
+//
+//                    // разница между левым верхним углом квадрата и точкой касания
+//                    dragX = evX - x;
+//                    dragY = evY - y;
+//
+//                    countDownTimer.cancel();
+//
+//                    //Log.d("WH", "W:" + Width + "H:" + Height);
+//
+//
+//                    break;
+//                // тащим
+//                case MotionEvent.ACTION_MOVE:
+//                    // если режим перетаскивания включен
+//                    if (drag) {
+//                        // определеяем новые координаты
+//                        //x = evX - dragX;/////////////////////////////////////////////////////////
+//                        y = evY - dragY;
+//                        if(y >= 0) {
+//                            y = 0;
+//                        }
+//                        if(y <= length){
+//                            //y = length - getHeight();
+//                            y = length;
+//                        }
+//                        invalidate();
+//                       // Log.d("XY", "X:" + x + "Y:" + y +"length "+ length);
+//
+//                    }
+//
+//                    break;
+//                // касание завершено
+//                case MotionEvent.ACTION_UP:
+//                case MotionEvent.ACTION_CANCEL:
+//                    // выключаем режим перетаскивания
+//                    drag = false;
+//                    break;
+//
+//            }
+//
+//            gestureDetector.onTouchEvent(event);
+//
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+//            width = width;
+//            height = height;
+//            //Log.d("WH", "W:" + width + "H:" + height);
+//        }
+//
+//
+//        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+//
+//            @Override
+//            public boolean onDoubleTap(MotionEvent e) {
+//                doubleTapX = e.getX();
+//                doubleTapY = e.getY();
+//
+//                Iterator<Day> j = days.iterator();
+//                while (j.hasNext()){
+//                    Day b = j.next();
+//                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
+//                        selectedDay = b;
+//                        winter.selectedDay = null;
+//                        winter.invalidate();
+//                        summer.selectedDay = null;
+//                        summer.invalidate();
+//                        autumn.selectedDay = null;
+//                        autumn.invalidate();
+//                        invalidate();
+//
+//                        calendar.clear();
+//                        calendar.setTimeInMillis(selectedDay.date.getTime());
+//                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                    }
+//                }
+//
+//                return super.onDoubleTap(e);
+//            }
+//
+//            @Override
+//            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
+//
+//                scrollTime = (int) velocityY;
+//                if (scrollTime < 0){
+//                    scrollTime *= -1;
+//                }
+//                countDownTimer = new CountDownTimer(scrollTime, 50) {
+//
+//                    public void onTick(long millisUntilFinished) {
+//                        if (velocityY > 0){
+//                            y += millisUntilFinished / 30;
+//                        }else{
+//                            y -= millisUntilFinished / 30;
+//                        }
+//                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+//
+//                        //проверить край
+//                        if(y >= 0) {
+//                            y = 0;
+//                        }
+//                        if(y <= length){
+//                            y = length;
+//                        }
+//
+//                        //обновить
+//                        invalidate();
+//                    }
+//
+//                    public void onFinish() {
+//                        Log.d("onFling", "done!");
+//                    }
+//                }.start();
+//
+//
+//                return true;
+//            }
+//
+//        }
+//
+//
+//    }
 
     //TODO Summer
-    class Summer extends View {
-        Context context;
-        Paint p;
-        // координаты для рисования квадрата
-        float x = 0;
-        float y = 0;
-        int side = 0;
-        int width = 0;
-        int height = 0;
-        float doubleTapX = 0;
-        float doubleTapY = 0;
-        float julyLength = 0;
-        float augustLength = 0;
-        float septemberLength = 0;
-        Day selectedDay = null;
-        Day currentDate = null;
-        ArrayList<Day> days = new ArrayList<Day>();
-        String monthName;
-        Rect textBounds = new Rect();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
-        boolean restore;
-
-
-
-        boolean firstOccurrence = true;
-        int scrollTime = 0;
-        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
-            @Override
-            public void onTick(long l) {
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        };
-        // переменные для перетаскивания
-        boolean drag = false;
-        float dragX = 0;
-        float dragY = 0;
-
-        Bitmap backingBitmap;
-        Canvas drawCanvas;
-
-        private GestureDetector gestureDetector;
-
-        float upperLeftCornerX = 0;
-        float upperRightCornerX = 0;
-        float bottomLeftCornerY = 0;
-        float upperRightCornerY = 0;
-        float bottomRightCornerX = 0;
-
-        float length = 0;
-
-        public Summer(Context context) {
-            super(context);
-            init(context);
-
-        }
-
-        public Summer(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            init(context);
-        }
-
-        public Summer(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-            init(context);
-        }
-
-        private void init(Context context) {
-
-            p = new Paint();
-
-            gestureDetector = new GestureDetector(context, new MyGestureListener());
-
-            calendar.clear();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            calendar.clear();
-            calendar.set(year, month, day);
-            currDate = new Date(calendar.getTimeInMillis());
-
-        }
-
-
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-
-            canvas.drawColor(Color.YELLOW);
-            drawSummer(canvas);
-
-
-
-
-
-        }
-
-        public void drawSummer(Canvas canvas){
-
-            int Width = canvas.getWidth();//del
-            int Height = canvas.getHeight();//del
-            int fontHeight = side / 2;
-            int strokeWidth = side / 5;
-            float monthNameHeight;
-            float monthNameWidth;
-            int l = 0;
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            //III-ий квартал
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.JULY);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-
-            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
-            monthNameHeight = textBounds.height();
-            monthNameWidth = textBounds.width();
-
-            //1-ый месяц
-            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            int k = 0;
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                k += side;
-                l = i - 1;
-
-                bottomRightCornerX = x + k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = bottomRightCornerX - side;
-                float top = y - side;//y-side/2;
-                float right = bottomRightCornerX;
-                float bottom = y;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 6, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                //canvas.drawText(text, left, y+side/4, p);
-                canvas.drawText(text, left + side / 4, bottom - side / 4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        spring.currentDate = null;
-                        autumn.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                } else {
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 6, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-            }
-            if (firstOccurrence) {
-                julyLength = -bottomRightCornerX + getWidth()/2 ;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-           /* if (x >= julyLength  + side*0.5f) {
-                p.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText("JULY", getWidth() / 2, y + side / 2, p);
-            } else {
-                p.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText("JULY", bottomRightCornerX, y + side / 2, p);
-            }*/
-
-            if (x >= julyLength  + monthNameWidth/2) {
-                p.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(monthName, getWidth() / 2, y + side / 2, p);
-            } else {
-                p.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText(monthName, bottomRightCornerX, y + side / 2, p);
-            }
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(bottomRightCornerX, y, p);
-
-            //2-ой месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.AUGUST);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-
-            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
-            monthNameHeight = textBounds.height();
-            monthNameWidth = textBounds.width();
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                k += side;
-                l += 1;
-
-                bottomRightCornerX = x + k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = bottomRightCornerX - side;
-                float top = y - side;//y-side/2;
-                float right = bottomRightCornerX;
-                float bottom = y;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 7, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left + side / 4, bottom - side / 4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        spring.currentDate = null;
-                        autumn.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                } else {
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 7, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-            }
-            if (firstOccurrence) {
-                augustLength = -bottomRightCornerX + getWidth()/2;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-
-            if(x <= julyLength - monthNameWidth/2  && x >= augustLength + monthNameWidth/2) {
-                p.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(monthName, getWidth()/2, y + side / 2, p);
-            }else if(x >= julyLength - monthNameWidth/2){
-                p.setTextAlign(Paint.Align.LEFT);
-                canvas.drawText(monthName, bottomRightCornerX + (augustLength - julyLength),  y + side / 2, p);
-            }else {
-                p.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText(monthName, bottomRightCornerX,  y + side / 2, p);
-            }
-
-
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(bottomRightCornerX, y, p);
-
-            //3-ий месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-
-            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
-            monthNameHeight = textBounds.height();
-            monthNameWidth = textBounds.width();
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                k += side;
-                l += 1;
-
-                bottomRightCornerX = x + k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = bottomRightCornerX - side;
-                float top = y - side;//y-side/2;
-                float right = bottomRightCornerX;
-                float bottom = y;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 8, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                //canvas.drawText(text, left, y+side/4, p);
-                canvas.drawText(text, left + side / 4, bottom - side / 4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        spring.currentDate = null;
-                        autumn.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                } else {
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 8, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-            }
-            if (firstOccurrence) {
-
-                septemberLength = -bottomRightCornerX + getWidth()/2;
-                length = -bottomRightCornerX + getWidth();
-                //Log.d("XY", "length:" + length);
-
-                if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null){
-                        date = selectedDay;
-                    }
-                    calendar.clear();
-                    calendar.setTimeInMillis(date.date.getTime());
-
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-
-                    if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
-                        x = x - date.right + getWidth() / 2 - getWidth() / 4;
-                        if(x >= 0) {
-                            x = 0;
-                        }
-                        if(x <= length){
-                            x = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
-                        x = x - date.right + getWidth() / 2;
-                        if(x >= 0) {
-                            x = 0;
-                        }
-                        if(x <= length){
-                            x = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
-                        x = x - date.left + getWidth() / 2 + getWidth() / 4;
-                        if(x >= 0) {
-                            x = 0;
-                        }
-                        if(x <= length){
-                            x = length;
-                        }
-                    }
-                    invalidate();
-                }
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            if(x <= augustLength - monthNameWidth/2) {
-                p.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(monthName, getWidth()/2,  y + side / 2, p);
-            }else {
-                p.setTextAlign(Paint.Align.LEFT);
-                canvas.drawText(monthName, bottomRightCornerX + (septemberLength - augustLength), y + side / 2, p);
-            }
-
-
-            p.setColor(Color.WHITE);
-            p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
-
-            if (currentDate != null) {
-                p.setColor(Color.WHITE);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (firstOccurrence) {
-                    calendar.clear();
-                    calendar.setTimeInMillis(currentDate.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-                if (!firstOccurrence && day == null) {
-                    day = currentDate;
-
-                    updateSchedule(day);
-                }
-            }
-
-            if (selectedDay != null) {
-                p.setColor(Color.GREEN);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (!firstOccurrence && selectedDay != day) {
-                    day = selectedDay;
-
-                    updateSchedule(day);
-
-                    calendar.clear();
-                    calendar.setTimeInMillis(selectedDay.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-            }
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(bottomRightCornerX, y, p);
+//    class Summer extends View {
+//        Context context;
+//        Paint p;
+//        // координаты для рисования квадрата
+//        float x = 0;
+//        float y = 0;
+//        int side = 0;
+//        int width = 0;
+//        int height = 0;
+//        float doubleTapX = 0;
+//        float doubleTapY = 0;
+//        float julyLength = 0;
+//        float augustLength = 0;
+//        float septemberLength = 0;
+//        Day selectedDay = null;
+//        Day currentDate = null;
+//        ArrayList<Day> days = new ArrayList<Day>();
+//        String monthName;
+//        Rect textBounds = new Rect();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
+//        boolean restore;
 //
-//            p.setColor(Color.BLUE);
-//            p.setStrokeWidth(10);
-//            canvas.drawPoint(x, y, p);
-
-
-            if (firstOccurrence) {
-                firstOccurrence = false;
-            }
-            if (restore) {
-                restore = false;
-                restore();
-            }
-
-        }
-
-        public void restore (){
-
-            JsonParser parser = new JsonParser();
-            Gson gson = new Gson();
-            JsonArray array = parser.parse(yearStr.daysSummer).getAsJsonArray();
-            for (int i = 0; i < array.size(); i++) {
-                summer.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
-
-                for (Task task : summer.days.get(i).tasks) {
-                    if (task.extra == taskExtra){
-                        task.shown = true;
-                        changedeTasksOfYear = true;
-                    }
-                    setReminder(task, summer.days.get(i).date);
-                    if (!task.done){
-                        summer.days.get(i).dayClosed = false;
-                    }
-                }
-                //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
-            }
-
-        }
-
-
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            // координаты Touch-события
-            float evX = event.getX();
-            float evY = event.getY();
-
-            switch (event.getAction()) {
-                // касание началось
-                case MotionEvent.ACTION_DOWN:
-                    // если касание было начато в пределах квадрата
-
-                    // включаем режим перетаскивания
-                    drag = true;
-
-                    // разница между левым верхним углом квадрата и точкой касания
-                    dragX = evX - x;
-                    dragY = evY - y;
-
-                    countDownTimer.cancel();
-
-
-                    break;
-                // тащим
-                case MotionEvent.ACTION_MOVE:
-                    // если режим перетаскивания включен
-                    if (drag) {
-                        // определеяем новые координаты
-                        x = evX - dragX;
-                        //y = evY - dragY;////////////////////////////////////////////////////////////
-                        if(x >= 0) {
-                            x = 0;
-                        }
-                        if(x <= length){
-                            x = length;
-                        }
-                        invalidate();
-                        //Log.d("XY", "X:" + x + "Y:" + y + "length" + length);
-                    }
-
-                    break;
-                // касание завершено
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    // выключаем режим перетаскивания
-                    drag = false;
-                    break;
-
-            }
-
-            if (gestureDetector.onTouchEvent(event)) return true;
-
-            return true;
-        }
-
-
-        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-            public boolean onDoubleTap(MotionEvent e) {
-                doubleTapX = e.getX();
-                doubleTapY = e.getY();
-
-                Iterator<Day> j = days.iterator();
-                while (j.hasNext()){
-                    Day b = j.next();
-                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
-                        selectedDay = b;
-                        winter.selectedDay = null;
-                        winter.invalidate();
-                        spring.selectedDay = null;
-                        spring.invalidate();
-                        autumn.selectedDay = null;
-                        autumn.invalidate();
-                        invalidate();
-
-                        calendar.clear();
-                        calendar.setTimeInMillis(selectedDay.date.getTime());
-                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                    }
-                }
-
-                return super.onDoubleTap(e);
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
-
-                scrollTime = (int) velocityX;
-                if (scrollTime < 0){
-                    scrollTime *= -1;
-                }
-                countDownTimer = new CountDownTimer(scrollTime, 50) {
-
-                    public void onTick(long millisUntilFinished) {
-                        if (velocityX > 0){
-                            x += millisUntilFinished / 30;
-                        }else{
-                            x -= millisUntilFinished / 30;
-                        }
-                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-                        //проверить край
-                        if(x >= 0) {
-                            x = 0;
-                        }
-                        if(x <= length){
-                            x = length;
-                        }
-
-                        //обновить
-                        invalidate();
-                    }
-
-                    public void onFinish() {
-                        //Log.d("onFling", "done!");
-                    }
-                }.start();
-
-                return true;
-            }
-
-        }
-
-
-    }
+//
+//
+//        boolean firstOccurrence = true;
+//        int scrollTime = 0;
+//        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
+//            @Override
+//            public void onTick(long l) {
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//            }
+//        };
+//        // переменные для перетаскивания
+//        boolean drag = false;
+//        float dragX = 0;
+//        float dragY = 0;
+//
+//        Bitmap backingBitmap;
+//        Canvas drawCanvas;
+//
+//        private GestureDetector gestureDetector;
+//
+//        float upperLeftCornerX = 0;
+//        float upperRightCornerX = 0;
+//        float bottomLeftCornerY = 0;
+//        float upperRightCornerY = 0;
+//        float bottomRightCornerX = 0;
+//
+//        float length = 0;
+//
+//        public Summer(Context context) {
+//            super(context);
+//            init(context);
+//
+//        }
+//
+//        public Summer(Context context, AttributeSet attrs) {
+//            super(context, attrs);
+//            init(context);
+//        }
+//
+//        public Summer(Context context, AttributeSet attrs, int defStyle) {
+//            super(context, attrs, defStyle);
+//            init(context);
+//        }
+//
+//        private void init(Context context) {
+//
+//            p = new Paint();
+//
+//            gestureDetector = new GestureDetector(context, new MyGestureListener());
+//
+//            calendar.clear();
+//            calendar.setTimeInMillis(System.currentTimeMillis());
+//            int year = calendar.get(Calendar.YEAR);
+//            int month = calendar.get(Calendar.MONTH);
+//            int day = calendar.get(Calendar.DAY_OF_MONTH);
+//            calendar.clear();
+//            calendar.set(year, month, day);
+//            currDate = new Date(calendar.getTimeInMillis());
+//
+//        }
+//
+//
+//
+//        @Override
+//        protected void onDraw(Canvas canvas) {
+//
+//            canvas.drawColor(Color.YELLOW);
+//            drawSummer(canvas);
+//
+//
+//
+//
+//
+//        }
+//
+//        public void drawSummer(Canvas canvas){
+//
+//            int Width = canvas.getWidth();//del
+//            int Height = canvas.getHeight();//del
+//            int fontHeight = side / 2;
+//            int strokeWidth = side / 5;
+//            float monthNameHeight;
+//            float monthNameWidth;
+//            int l = 0;
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            //III-ий квартал
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.JULY);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//
+//            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
+//            monthNameHeight = textBounds.height();
+//            monthNameWidth = textBounds.width();
+//
+//            //1-ый месяц
+//            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            int k = 0;
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                k += side;
+//                l = i - 1;
+//
+//                bottomRightCornerX = x + k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = bottomRightCornerX - side;
+//                float top = y - side;//y-side/2;
+//                float right = bottomRightCornerX;
+//                float bottom = y;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 6, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                //canvas.drawText(text, left, y+side/4, p);
+//                canvas.drawText(text, left + side / 4, bottom - side / 4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        spring.currentDate = null;
+//                        autumn.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                } else {
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 6, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//            }
+//            if (firstOccurrence) {
+//                julyLength = -bottomRightCornerX + getWidth()/2 ;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//           /* if (x >= julyLength  + side*0.5f) {
+//                p.setTextAlign(Paint.Align.CENTER);
+//                canvas.drawText("JULY", getWidth() / 2, y + side / 2, p);
+//            } else {
+//                p.setTextAlign(Paint.Align.RIGHT);
+//                canvas.drawText("JULY", bottomRightCornerX, y + side / 2, p);
+//            }*/
+//
+//            if (x >= julyLength  + monthNameWidth/2) {
+//                p.setTextAlign(Paint.Align.CENTER);
+//                canvas.drawText(monthName, getWidth() / 2, y + side / 2, p);
+//            } else {
+//                p.setTextAlign(Paint.Align.RIGHT);
+//                canvas.drawText(monthName, bottomRightCornerX, y + side / 2, p);
+//            }
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint(bottomRightCornerX, y, p);
+//
+//            //2-ой месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.AUGUST);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//
+//            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
+//            monthNameHeight = textBounds.height();
+//            monthNameWidth = textBounds.width();
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                k += side;
+//                l += 1;
+//
+//                bottomRightCornerX = x + k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = bottomRightCornerX - side;
+//                float top = y - side;//y-side/2;
+//                float right = bottomRightCornerX;
+//                float bottom = y;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 7, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left + side / 4, bottom - side / 4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        spring.currentDate = null;
+//                        autumn.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                } else {
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 7, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//            }
+//            if (firstOccurrence) {
+//                augustLength = -bottomRightCornerX + getWidth()/2;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//
+//            if(x <= julyLength - monthNameWidth/2  && x >= augustLength + monthNameWidth/2) {
+//                p.setTextAlign(Paint.Align.CENTER);
+//                canvas.drawText(monthName, getWidth()/2, y + side / 2, p);
+//            }else if(x >= julyLength - monthNameWidth/2){
+//                p.setTextAlign(Paint.Align.LEFT);
+//                canvas.drawText(monthName, bottomRightCornerX + (augustLength - julyLength),  y + side / 2, p);
+//            }else {
+//                p.setTextAlign(Paint.Align.RIGHT);
+//                canvas.drawText(monthName, bottomRightCornerX,  y + side / 2, p);
+//            }
+//
+//
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint(bottomRightCornerX, y, p);
+//
+//            //3-ий месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//
+//            p.getTextBounds(monthName, 0, monthName.length(), textBounds);
+//            monthNameHeight = textBounds.height();
+//            monthNameWidth = textBounds.width();
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                k += side;
+//                l += 1;
+//
+//                bottomRightCornerX = x + k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = bottomRightCornerX - side;
+//                float top = y - side;//y-side/2;
+//                float right = bottomRightCornerX;
+//                float bottom = y;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 8, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                //canvas.drawText(text, left, y+side/4, p);
+//                canvas.drawText(text, left + side / 4, bottom - side / 4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        spring.currentDate = null;
+//                        autumn.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                } else {
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 8, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//            }
+//            if (firstOccurrence) {
+//
+//                septemberLength = -bottomRightCornerX + getWidth()/2;
+//                length = -bottomRightCornerX + getWidth();
+//                //Log.d("XY", "length:" + length);
+//
+//                if (currentDate != null || selectedDay != null) {
+//                    Day date = currentDate;
+//                    if (currentDate == null){
+//                        date = selectedDay;
+//                    }
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(date.date.getTime());
+//
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//
+//                    if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
+//                        x = x - date.right + getWidth() / 2 - getWidth() / 4;
+//                        if(x >= 0) {
+//                            x = 0;
+//                        }
+//                        if(x <= length){
+//                            x = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
+//                        x = x - date.right + getWidth() / 2;
+//                        if(x >= 0) {
+//                            x = 0;
+//                        }
+//                        if(x <= length){
+//                            x = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
+//                        x = x - date.left + getWidth() / 2 + getWidth() / 4;
+//                        if(x >= 0) {
+//                            x = 0;
+//                        }
+//                        if(x <= length){
+//                            x = length;
+//                        }
+//                    }
+//                    invalidate();
+//                }
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            if(x <= augustLength - monthNameWidth/2) {
+//                p.setTextAlign(Paint.Align.CENTER);
+//                canvas.drawText(monthName, getWidth()/2,  y + side / 2, p);
+//            }else {
+//                p.setTextAlign(Paint.Align.LEFT);
+//                canvas.drawText(monthName, bottomRightCornerX + (septemberLength - augustLength), y + side / 2, p);
+//            }
+//
+//
+//            p.setColor(Color.WHITE);
+//            p.setStrokeWidth(strokeWidth);
+//            canvas.drawPoint(doubleTapX, doubleTapY, p);
+//
+//            if (currentDate != null) {
+//                p.setColor(Color.WHITE);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (firstOccurrence) {
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(currentDate.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//                if (!firstOccurrence && day == null) {
+//                    day = currentDate;
+//
+//                    updateSchedule(day);
+//                }
+//            }
+//
+//            if (selectedDay != null) {
+//                p.setColor(Color.GREEN);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (!firstOccurrence && selectedDay != day) {
+//                    day = selectedDay;
+//
+//                    updateSchedule(day);
+//
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(selectedDay.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//            }
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint(bottomRightCornerX, y, p);
+////
+////            p.setColor(Color.BLUE);
+////            p.setStrokeWidth(10);
+////            canvas.drawPoint(x, y, p);
+//
+//
+//            if (firstOccurrence) {
+//                firstOccurrence = false;
+//            }
+//            if (restore) {
+//                restore = false;
+//                restore();
+//            }
+//
+//        }
+//
+//        public void restore (){
+//
+//            JsonParser parser = new JsonParser();
+//            Gson gson = new Gson();
+//            JsonArray array = parser.parse(yearStr.daysSummer).getAsJsonArray();
+//            for (int i = 0; i < array.size(); i++) {
+//                summer.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+//
+//                for (Task task : summer.days.get(i).tasks) {
+//                    if (task.extra == taskExtra){
+//                        task.shown = true;
+//                        changedeTasksOfYear = true;
+//                    }
+//                    setReminder(task, summer.days.get(i).date);
+//                    if (!task.done){
+//                        summer.days.get(i).dayClosed = false;
+//                    }
+//                }
+//                //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
+//            }
+//
+//        }
+//
+//
+//
+//        @Override
+//        public boolean onTouchEvent(MotionEvent event) {
+//            // координаты Touch-события
+//            float evX = event.getX();
+//            float evY = event.getY();
+//
+//            switch (event.getAction()) {
+//                // касание началось
+//                case MotionEvent.ACTION_DOWN:
+//                    // если касание было начато в пределах квадрата
+//
+//                    // включаем режим перетаскивания
+//                    drag = true;
+//
+//                    // разница между левым верхним углом квадрата и точкой касания
+//                    dragX = evX - x;
+//                    dragY = evY - y;
+//
+//                    countDownTimer.cancel();
+//
+//
+//                    break;
+//                // тащим
+//                case MotionEvent.ACTION_MOVE:
+//                    // если режим перетаскивания включен
+//                    if (drag) {
+//                        // определеяем новые координаты
+//                        x = evX - dragX;
+//                        //y = evY - dragY;////////////////////////////////////////////////////////////
+//                        if(x >= 0) {
+//                            x = 0;
+//                        }
+//                        if(x <= length){
+//                            x = length;
+//                        }
+//                        invalidate();
+//                        //Log.d("XY", "X:" + x + "Y:" + y + "length" + length);
+//                    }
+//
+//                    break;
+//                // касание завершено
+//                case MotionEvent.ACTION_UP:
+//                case MotionEvent.ACTION_CANCEL:
+//                    // выключаем режим перетаскивания
+//                    drag = false;
+//                    break;
+//
+//            }
+//
+//            if (gestureDetector.onTouchEvent(event)) return true;
+//
+//            return true;
+//        }
+//
+//
+//        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+//
+//            public boolean onDoubleTap(MotionEvent e) {
+//                doubleTapX = e.getX();
+//                doubleTapY = e.getY();
+//
+//                Iterator<Day> j = days.iterator();
+//                while (j.hasNext()){
+//                    Day b = j.next();
+//                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
+//                        selectedDay = b;
+//                        winter.selectedDay = null;
+//                        winter.invalidate();
+//                        spring.selectedDay = null;
+//                        spring.invalidate();
+//                        autumn.selectedDay = null;
+//                        autumn.invalidate();
+//                        invalidate();
+//
+//                        calendar.clear();
+//                        calendar.setTimeInMillis(selectedDay.date.getTime());
+//                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                    }
+//                }
+//
+//                return super.onDoubleTap(e);
+//            }
+//
+//            @Override
+//            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
+//
+//                scrollTime = (int) velocityX;
+//                if (scrollTime < 0){
+//                    scrollTime *= -1;
+//                }
+//                countDownTimer = new CountDownTimer(scrollTime, 50) {
+//
+//                    public void onTick(long millisUntilFinished) {
+//                        if (velocityX > 0){
+//                            x += millisUntilFinished / 30;
+//                        }else{
+//                            x -= millisUntilFinished / 30;
+//                        }
+//                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+//
+//                        //проверить край
+//                        if(x >= 0) {
+//                            x = 0;
+//                        }
+//                        if(x <= length){
+//                            x = length;
+//                        }
+//
+//                        //обновить
+//                        invalidate();
+//                    }
+//
+//                    public void onFinish() {
+//                        //Log.d("onFling", "done!");
+//                    }
+//                }.start();
+//
+//                return true;
+//            }
+//
+//        }
+//
+//
+//    }
 
     //TODO Autumn
-    class Autumn extends View {
-        Context context;
-        Paint p;
-        // координаты для рисования квадрата
-        float x = 0;
-        float y = 0;
-        int side = 0;
-        //int width;//del
-        //int height;//del
-        float doubleTapX = 0;
-        float doubleTapY = 0;
-        float octoberLength = 0;
-        float novemberLength = 0;
-        float decemberLength = 0;
-        Day selectedDay = null;
-        Day currentDate = null;
-        ArrayList<Day> days = new ArrayList<Day>();
-        String monthName, reverseMonthName;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
-        boolean restore;
-        boolean addCyclicTasks;
-
-
-
-        boolean firstOccurrence = true;
-        int scrollTime = 0;
-        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
-            @Override
-            public void onTick(long l) {
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        };
-        // переменные для перетаскивания
-        boolean drag = false;
-        float dragX = 0;
-        float dragY = 0;
-
-        Bitmap backingBitmap;
-        Canvas drawCanvas;
-
-        private GestureDetector gestureDetector;
-
-        float upperLeftCornerX = 0;
-        float upperRightCornerX = 0;
-        float bottomLeftCornerY = 0;
-        float upperRightCornerY = 0;
-        float bottomRightCornerX = 0;
-
-        float length = 0;
-
-        public Autumn(Context context) {
-            super(context);
-            init(context);
-
-        }
-
-        public Autumn(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            init(context);
-        }
-
-        public Autumn(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-            init(context);
-        }
-
-        private void init(Context context) {
-
-            p = new Paint();
-            gestureDetector = new GestureDetector(context, new MyGestureListener());
-
-            calendar.clear();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            calendar.clear();
-            calendar.set(year, month, day);
-            currDate = new Date(calendar.getTimeInMillis());
-
-        }
-
-
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-
-            canvas.drawColor(Color.rgb(255, 215, 0));
-            drawAutumn(canvas);
-
-        }
-
-        public void drawAutumn(Canvas canvas){
-
-            int Width = canvas.getWidth();//del
-            int Height = canvas.getHeight();//del
-            int fontHeight = side / 2;
-            int strokeWidth = side / 5;
-            int l = 0;
-
-            //IV-ый квартал
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.OCTOBER);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-            reverseMonthName = new StringBuffer(monthName).reverse().toString();
-
-
-            p.reset();
-            p.setTextAlign(Paint.Align.CENTER);
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            //1-ый месяц
-            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            int k = 0;
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l = i - 1;
-                upperRightCornerY = y - k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = x-side;
-                float top =  upperRightCornerY -side;
-                float right =  x;
-                float bottom = upperRightCornerY;
-
-                p.reset();
-                p.setTextAlign(Paint.Align.CENTER);
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 9, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left+side/2, bottom-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                   Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    //if (date.getTime() == currDate.getTime()) {
-                    if (date.compareTo(currDate) == 0) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        spring.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                            selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 9, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        //if (date.getTime() == currDate.getTime()) {
-                        if (date.compareTo(currDate) == 0) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-                }
-                k += side;
-            }
-            if (firstOccurrence) {
-                octoberLength = -upperRightCornerY + getHeight() * 1.5f;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            p.setTextAlign(Paint.Align.CENTER);
-            if (y <= octoberLength - reverseMonthName.length()*fontHeight/2 + side) {
-                canvas.save();
-                canvas.rotate(360f);
-                int s = getHeight() / 2 +reverseMonthName.length()*fontHeight/2;
-                for (char c : (reverseMonthName).toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-            } else {
-                canvas.save();
-                canvas.rotate(360f);
-                int s = (int) upperRightCornerY - side/2;
-                for (char c : monthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
-                    s += fontHeight;
-                }
-                canvas.restore();
-            }
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint((float) x, upperRightCornerY, p);
-
-            //2-ой месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.NOVEMBER);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-            reverseMonthName = new StringBuffer(monthName).reverse().toString();
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-                l += 1;
-                upperRightCornerY = y - k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = x-side;
-                float top =  upperRightCornerY -side;
-                float right =  x;
-                float bottom = upperRightCornerY;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 10, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left+side/4, bottom-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-
-                    if (date.getTime() == currDate.getTime()) {
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        spring.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 10, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-
-                }
-                k += side;
-            }
-            if (firstOccurrence) {
-                novemberLength = -upperRightCornerY + getHeight() * 1.5f;
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            p.setTextAlign(Paint.Align.CENTER);
-
-            if (y <= novemberLength - monthName.length()*fontHeight/2 + side/2 && y >= octoberLength + monthName.length()*fontHeight/2 + side/2) {
-                canvas.save();
-                canvas.rotate(360f);
-                int s = getHeight() / 2 - monthName.length()*fontHeight/2 ;
-                for (char c : monthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
-                    s += fontHeight;
-                }
-                canvas.restore();
-            }else if(y <= novemberLength - monthName.length()*fontHeight/2 + side/2){
-                canvas.save();
-                canvas.rotate(360f);
-                int s = (int) (upperRightCornerY + (novemberLength - octoberLength) - side);
-                for (char c : reverseMonthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-            } else if(y >= novemberLength - monthName.length()*fontHeight/2 + side/2){
-                canvas.save();
-                canvas.rotate(360f);
-                int s = (int) upperRightCornerY - side/2;
-                for (char c : monthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
-                    s += fontHeight;
-                }
-                canvas.restore();
-            }
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint((float) x, upperRightCornerY, p);
-
-            //3-ий месяц
-            calendar.clear();
-            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
-            calendar.set(Calendar.MONTH, Calendar.DECEMBER);
-
-            monthName = dateFormat.format(calendar.getTimeInMillis());
-            monthName = monthName.toUpperCase();
-            reverseMonthName = new StringBuffer(monthName).reverse().toString();
-
-
-            p.reset();
-            p.setColor(Color.BLACK);
-            p.setTextSize(fontHeight);
-
-            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            for (int i = 1; i <= maxDaysOfMonth; i++) {
-//                k += side;
-//                upperRightCornerY = y - k;
-//                canvas.drawText(("" + i).length() == 1 ? "0" + i : "" + i, x, upperRightCornerY, p);
-                l += 1;
-                upperRightCornerY = y - k;
-                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-                float left = x-side;
-                float top =  upperRightCornerY -side;
-                float right =  x;
-                float bottom = upperRightCornerY;
-
-                p.reset();
-                p.setColor(Color.BLACK);
-                p.setTextSize(fontHeight);
-
-                p.setStyle(Paint.Style.FILL);
-                calendar.clear();
-                calendar.set(numberYearPicker.getValue(), 11, i);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                    p.setColor(Color.RED);
-                }
-                canvas.drawText(text, left+side/4, bottom-side/4, p);
-
-                p.setColor(Color.BLACK);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(left, top, right, bottom, p);
-                if (firstOccurrence) {
-                    Date date = new Date(calendar.getTimeInMillis());
-                    days.add(new Day(date, left, top, right, bottom));
-                    if (date.getTime() == currDate.getTime()) {
-                        //currentDate = new Day(date, left, top, right, bottom);
-                        currentDate = days.get(days.size()-1);
-                        winter.currentDate = null;
-                        spring.currentDate = null;
-                        summer.currentDate = null;
-                    }
-
-                    if (selectedDay != null) {
-                        if (selectedDay.date.getMonth() == date.getMonth() &&
-                                selectedDay.date.getDate() == date.getDate() ) {
-                            selectedDay = days.get(days.size()-1);
-                        }
-                    }
-                }else{
-                    days.get(l).left = left;
-                    days.get(l).top = top;
-                    days.get(l).right = right;
-                    days.get(l).bottom = bottom;
-
-                    if (currentDate != null) {
-                        calendar.clear();
-                        calendar.set(numberYearPicker.getValue(), 11, i);
-                        Date date = new Date(calendar.getTimeInMillis());
-
-                        if (date.getTime() == currDate.getTime()) {
-                            currentDate.left = left;
-                            currentDate.top = top;
-                            currentDate.right = right;
-                            currentDate.bottom = bottom;
-                        }
-                    }
-
-                    if(!days.get(l).dayClosed){
-                        p.setColor(Color.CYAN);
-                        p.setStrokeWidth(strokeWidth/2);
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                    }
-
-
-                }
-                k += side;
-            }
-
-            if (firstOccurrence) {
-
-                decemberLength = -upperRightCornerY + getHeight() * 1.5f;
-                length = -upperRightCornerY + getHeight() + side;
-                //Log.d("XY", "upperRightCornerY:" + length);
-
-                if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null){
-                        date = selectedDay;
-                    }
-                    calendar.clear();
-                    calendar.setTimeInMillis(date.date.getTime());
-
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-
-                    if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER) {
-                        y = y - date.top + getHeight() / 2 + getHeight() / 4;
-                        if (y <= getHeight()) {
-                            y = getHeight();
-                        }
-                        if (y >= length) {
-                            y = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.NOVEMBER) {
-                        y = y - date.bottom + getHeight() / 2;
-                        if (y <= getHeight()) {
-                            y = getHeight();
-                        }
-                        if (y >= length) {
-                            y = length;
-                        }
-                    }else if(calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
-                        y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
-                        if (y <= getHeight()) {
-                            y = getHeight();
-                        }
-                        if (y >= length) {
-                            y = length;
-                        }
-                    }
-                    invalidate();
-                }
-            }
-
-            p.setColor(Color.BLACK);
-            p.setStyle(Paint.Style.FILL);
-            p.setTextAlign(Paint.Align.CENTER);
-
-            //if (y <= decemberLength  && y >= novemberLength + monthName.length()*fontHeight/2) {
-            if (y >= novemberLength + side*2.5) {
-                canvas.save();
-                canvas.rotate(360f);
-                int s = getHeight() / 2 - monthName.length()*fontHeight/2;
-                for (char c : monthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
-                    s += fontHeight;
-                }
-                canvas.restore();
-
-            //} else if (y <= decemberLength) {
-            } else {
-                canvas.save();
-                canvas.rotate(360f);
-                int s =(int) (upperRightCornerY + (decemberLength - novemberLength) - side);
-                for (char c : reverseMonthName.toCharArray()) {
-                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
-                    s -= fontHeight;
-                }
-                canvas.restore();
-            }
-
-            p.setColor(Color.WHITE);
-            p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
-
-            if (currentDate != null) {
-                p.setColor(Color.WHITE);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (firstOccurrence) {
-                    calendar.clear();
-                    calendar.setTimeInMillis(currentDate.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-                if (!firstOccurrence && day == null) {
-                    day = currentDate;
-
-                    updateSchedule(day);
-                }
-            }
-
-            if (selectedDay != null) {
-                p.setColor(Color.GREEN);
-                p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
-                p.setStyle(Paint.Style.FILL);
-
-                if (!firstOccurrence && selectedDay != day) {
-                    day = selectedDay;
-
-                    updateSchedule(day);
-
-                    calendar.clear();
-                    calendar.setTimeInMillis(selectedDay.date.getTime());
-                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-                }
-            }
-
-
-
-
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint((float) x, upperRightCornerY, p);
+//    class Autumn extends View {
+//        Context context;
+//        Paint p;
+//        // координаты для рисования квадрата
+//        float x = 0;
+//        float y = 0;
+//        int side = 0;
+//        //int width;//del
+//        //int height;//del
+//        float doubleTapX = 0;
+//        float doubleTapY = 0;
+//        float octoberLength = 0;
+//        float novemberLength = 0;
+//        float decemberLength = 0;
+//        Day selectedDay = null;
+//        Day currentDate = null;
+//        ArrayList<Day> days = new ArrayList<Day>();
+//        String monthName, reverseMonthName;
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
+//        boolean restore;
+//        boolean addCyclicTasks;
 //
 //
-//            p.setColor(Color.BLUE);
-//            p.setStrokeWidth(10);
-//            canvas.drawPoint(x, y, p);
-
-            if (firstOccurrence) {
-                firstOccurrence = false;
-            }
-            if (restore) {
-                restore = false;
-                restore();
-            }
-            if (addCyclicTasks) {
-                addCyclicTasks = false;
-                addCyclicTasks();
-
-                winter.invalidate();
-                spring.invalidate();
-                summer.invalidate();
-                invalidate();
-            }
-
-        }
-
-        public void restore (){
-
-            JsonParser parser = new JsonParser();
-            Gson gson = new Gson();
-            JsonArray array = parser.parse(yearStr.daysAutumn).getAsJsonArray();
-            for (int i = 0; i < array.size(); i++) {
-                autumn.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
-
-                for (Task task : autumn.days.get(i).tasks) {
-                    if (task.extra == taskExtra){
-                        task.shown = true;
-                        changedeTasksOfYear = true;
-                    }
-                    setReminder(task, autumn.days.get(i).date);
-                    if (!task.done){
-                        autumn.days.get(i).dayClosed = false;
-                    }
-                }
-                //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
-            }
-
-        }
-
-        public void addCyclicTasks (){
-
-            Iterator<Task> j = cyclicTasks.iterator();
-            while (j.hasNext()) {
-                Task t = j.next();
-                refreshCyclicTasks(t);
-            }
-
-        }
-
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            // координаты Touch-события
-            float evX = event.getX();
-            float evY = event.getY();
-
-            switch (event.getAction()) {
-                // касание началось
-                case MotionEvent.ACTION_DOWN:
-
-                    countDownTimer.cancel();
-
-                    // включаем режим перетаскивания
-                    drag = true;
-
-                    // разница между левым верхним углом квадрата и точкой касания
-                    dragX = evX - x;
-                    dragY = evY - y;
-
-                    //Log.d("WH", "W:" + Width + "H:" + Height);
-
-
-                    break;
-                // тащим
-                case MotionEvent.ACTION_MOVE:
-                    // если режим перетаскивания включен
-                    if (drag) {
-                        // определеяем новые координаты
-                        //x = evX - dragX;////////////////////////////////////////////
-                        y = evY - dragY;
-                        if(y <= getHeight()) {
-                            y = getHeight();
-                        }
-                        if(y >= length){
-                            y = length;
-                        }
-                        invalidate();
-                        //Log.d("XY", "X:" + x + "Y:" + y + "length "+length);
-                    }
-
-                    break;
-                // касание завершено
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    // выключаем режим перетаскивания
-                    drag = false;
-                    break;
-
-            }
-
-            gestureDetector.onTouchEvent(event);
-
-            return true;
-        }
-
-        @Override
-        protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-            width = width;
-            height = height;
-            //Log.d("WH", "W:" + width + "H:" + height);
-        }
-
-
-        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                doubleTapX = e.getX();
-                doubleTapY = e.getY();
-
-                Iterator<Day> j = days.iterator();
-                while (j.hasNext()){
-                    Day b = j.next();
-                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        selectedDay = b;
-                        winter.selectedDay = null;
-                        winter.invalidate();
-                        spring.selectedDay = null;
-                        spring.invalidate();
-                        summer.selectedDay = null;
-                        summer.invalidate();
-                        invalidate();
-
-                        calendar.clear();
-                        calendar.setTimeInMillis(selectedDay.date.getTime());
-                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-
-//                        taskTime.setText("__:__");
-//                        taskDuration.setText("__:__");
-//                        taskDescription.setText("");
-//                        updateSchedule(selectedDay);
-
-                    }
-                }
-
-                return super.onDoubleTap(e);
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
-
-                scrollTime = (int) velocityY;
-                if (scrollTime < 0){
-                    scrollTime *= -1;
-                }
-                countDownTimer = new CountDownTimer(scrollTime, 50) {
-
-                    public void onTick(long millisUntilFinished) {
-                        if (velocityY > 0){
-                            y += millisUntilFinished / 30;
-                        }else{
-                            y -= millisUntilFinished / 30;
-                        }
-                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-                        //проверить край
-                        if(y <= getHeight()) {
-                            y = getHeight();
-                        }
-                        if(y >= length){
-                            y = length;
-                        }
-
-                        //обновить
-                        invalidate();
-                    }
-
-                    public void onFinish() {
-                        //Log.d("onFling", "done!");
-                    }
-                }.start();
-
-
-                return true;
-            }
-
-        }
-
-//        public class Date
-//        {
-//            /**Картинка*/
-//            private Bitmap bmp;
 //
-//            /**Позиция*/
-//            public int x;
-//            public int y;
-//
-//            /**Скорость по Х=15*/
-//            private int mSpeed=25;
-//
-//            public double angle;
-//
-//            /**Ширина*/
-//            public int width;
-//
-//            /**Ввыоста*/
-//            public  int height;
-//
-//            public GameView gameView;
-//
-//            /**Конструктор*/
-//            public Date(GameView gameView, Bitmap bmp) {
-//                this.gameView=gameView;
-//                this.bmp=bmp;
-//
-//                this.x = 0;            //позиция по Х
-//                this.y = 120;          //позиция по У
-//                this.width = 27;       //ширина снаряда
-//                this.height = 40;      //высота снаряда
-//
-//                //угол полета пули в зависипости от координаты косания к экрану
-//                angle = Math.atan((double)(y - gameView.shotY) / (x - gameView.shotX));
+//        boolean firstOccurrence = true;
+//        int scrollTime = 0;
+//        CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
+//            @Override
+//            public void onTick(long l) {
 //            }
 //
-//            /**Перемещение объекта, его направление*/
-//            private void update() {
-//                x += mSpeed * Math.cos(angle);         //движение по Х со скоростью mSpeed и углу заданном координатой angle
-//                y += mSpeed * Math.sin(angle);         // движение по У -//-
+//            @Override
+//            public void onFinish() {
 //            }
+//        };
+//        // переменные для перетаскивания
+//        boolean drag = false;
+//        float dragX = 0;
+//        float dragY = 0;
 //
-//            /**Рисуем наши спрайты*/
-//            public void onDraw(Canvas canvas) {
-//                update();                              //говорим что эту функцию нам нужно вызывать для работы класса
-//                canvas.drawBitmap(bmp, x, y, null);
-//            }
+//        Bitmap backingBitmap;
+//        Canvas drawCanvas;
+//
+//        private GestureDetector gestureDetector;
+//
+//        float upperLeftCornerX = 0;
+//        float upperRightCornerX = 0;
+//        float bottomLeftCornerY = 0;
+//        float upperRightCornerY = 0;
+//        float bottomRightCornerX = 0;
+//
+//        float length = 0;
+//
+//        public Autumn(Context context) {
+//            super(context);
+//            init(context);
+//
 //        }
-
-
-
-
-
-
-
-    }
+//
+//        public Autumn(Context context, AttributeSet attrs) {
+//            super(context, attrs);
+//            init(context);
+//        }
+//
+//        public Autumn(Context context, AttributeSet attrs, int defStyle) {
+//            super(context, attrs, defStyle);
+//            init(context);
+//        }
+//
+//        private void init(Context context) {
+//
+//            p = new Paint();
+//            gestureDetector = new GestureDetector(context, new MyGestureListener());
+//
+//            calendar.clear();
+//            calendar.setTimeInMillis(System.currentTimeMillis());
+//            int year = calendar.get(Calendar.YEAR);
+//            int month = calendar.get(Calendar.MONTH);
+//            int day = calendar.get(Calendar.DAY_OF_MONTH);
+//            calendar.clear();
+//            calendar.set(year, month, day);
+//            currDate = new Date(calendar.getTimeInMillis());
+//
+//        }
+//
+//
+//
+//        @Override
+//        protected void onDraw(Canvas canvas) {
+//
+//            canvas.drawColor(Color.rgb(255, 215, 0));
+//            drawAutumn(canvas);
+//
+//        }
+//
+//        public void drawAutumn(Canvas canvas){
+//
+//            int Width = canvas.getWidth();//del
+//            int Height = canvas.getHeight();//del
+//            int fontHeight = side / 2;
+//            int strokeWidth = side / 5;
+//            int l = 0;
+//
+//            //IV-ый квартал
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.OCTOBER);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//            reverseMonthName = new StringBuffer(monthName).reverse().toString();
+//
+//
+//            p.reset();
+//            p.setTextAlign(Paint.Align.CENTER);
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            //1-ый месяц
+//            int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            int k = 0;
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l = i - 1;
+//                upperRightCornerY = y - k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = x-side;
+//                float top =  upperRightCornerY -side;
+//                float right =  x;
+//                float bottom = upperRightCornerY;
+//
+//                p.reset();
+//                p.setTextAlign(Paint.Align.CENTER);
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 9, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left+side/2, bottom-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                   Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    //if (date.getTime() == currDate.getTime()) {
+//                    if (date.compareTo(currDate) == 0) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        spring.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                            selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 9, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        //if (date.getTime() == currDate.getTime()) {
+//                        if (date.compareTo(currDate) == 0) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//                }
+//                k += side;
+//            }
+//            if (firstOccurrence) {
+//                octoberLength = -upperRightCornerY + getHeight() * 1.5f;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            p.setTextAlign(Paint.Align.CENTER);
+//            if (y <= octoberLength - reverseMonthName.length()*fontHeight/2 + side) {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = getHeight() / 2 +reverseMonthName.length()*fontHeight/2;
+//                for (char c : (reverseMonthName).toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//            } else {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = (int) upperRightCornerY - side/2;
+//                for (char c : monthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+//                    s += fontHeight;
+//                }
+//                canvas.restore();
+//            }
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint((float) x, upperRightCornerY, p);
+//
+//            //2-ой месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.NOVEMBER);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//            reverseMonthName = new StringBuffer(monthName).reverse().toString();
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                l += 1;
+//                upperRightCornerY = y - k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = x-side;
+//                float top =  upperRightCornerY -side;
+//                float right =  x;
+//                float bottom = upperRightCornerY;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 10, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left+side/4, bottom-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//
+//                    if (date.getTime() == currDate.getTime()) {
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        spring.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 10, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//
+//                }
+//                k += side;
+//            }
+//            if (firstOccurrence) {
+//                novemberLength = -upperRightCornerY + getHeight() * 1.5f;
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            p.setTextAlign(Paint.Align.CENTER);
+//
+//            if (y <= novemberLength - monthName.length()*fontHeight/2 + side/2 && y >= octoberLength + monthName.length()*fontHeight/2 + side/2) {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = getHeight() / 2 - monthName.length()*fontHeight/2 ;
+//                for (char c : monthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+//                    s += fontHeight;
+//                }
+//                canvas.restore();
+//            }else if(y <= novemberLength - monthName.length()*fontHeight/2 + side/2){
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = (int) (upperRightCornerY + (novemberLength - octoberLength) - side);
+//                for (char c : reverseMonthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//            } else if(y >= novemberLength - monthName.length()*fontHeight/2 + side/2){
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = (int) upperRightCornerY - side/2;
+//                for (char c : monthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+//                    s += fontHeight;
+//                }
+//                canvas.restore();
+//            }
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint((float) x, upperRightCornerY, p);
+//
+//            //3-ий месяц
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.DECEMBER);
+//
+//            monthName = dateFormat.format(calendar.getTimeInMillis());
+//            monthName = monthName.toUpperCase();
+//            reverseMonthName = new StringBuffer(monthName).reverse().toString();
+//
+//
+//            p.reset();
+//            p.setColor(Color.BLACK);
+//            p.setTextSize(fontHeight);
+//
+//            maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            for (int i = 1; i <= maxDaysOfMonth; i++) {
+////                k += side;
+////                upperRightCornerY = y - k;
+////                canvas.drawText(("" + i).length() == 1 ? "0" + i : "" + i, x, upperRightCornerY, p);
+//                l += 1;
+//                upperRightCornerY = y - k;
+//                String text = ("" + i).length() == 1 ? "0" + i : "" + i;
+//                float left = x-side;
+//                float top =  upperRightCornerY -side;
+//                float right =  x;
+//                float bottom = upperRightCornerY;
+//
+//                p.reset();
+//                p.setColor(Color.BLACK);
+//                p.setTextSize(fontHeight);
+//
+//                p.setStyle(Paint.Style.FILL);
+//                calendar.clear();
+//                calendar.set(numberYearPicker.getValue(), 11, i);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                    p.setColor(Color.RED);
+//                }
+//                canvas.drawText(text, left+side/4, bottom-side/4, p);
+//
+//                p.setColor(Color.BLACK);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(left, top, right, bottom, p);
+//                if (firstOccurrence) {
+//                    Date date = new Date(calendar.getTimeInMillis());
+//                    days.add(new Day(date, left, top, right, bottom));
+//                    if (date.getTime() == currDate.getTime()) {
+//                        //currentDate = new Day(date, left, top, right, bottom);
+//                        currentDate = days.get(days.size()-1);
+//                        winter.currentDate = null;
+//                        spring.currentDate = null;
+//                        summer.currentDate = null;
+//                    }
+//
+//                    if (selectedDay != null) {
+//                        if (selectedDay.date.getMonth() == date.getMonth() &&
+//                                selectedDay.date.getDate() == date.getDate() ) {
+//                            selectedDay = days.get(days.size()-1);
+//                        }
+//                    }
+//                }else{
+//                    days.get(l).left = left;
+//                    days.get(l).top = top;
+//                    days.get(l).right = right;
+//                    days.get(l).bottom = bottom;
+//
+//                    if (currentDate != null) {
+//                        calendar.clear();
+//                        calendar.set(numberYearPicker.getValue(), 11, i);
+//                        Date date = new Date(calendar.getTimeInMillis());
+//
+//                        if (date.getTime() == currDate.getTime()) {
+//                            currentDate.left = left;
+//                            currentDate.top = top;
+//                            currentDate.right = right;
+//                            currentDate.bottom = bottom;
+//                        }
+//                    }
+//
+//                    if(!days.get(l).dayClosed){
+//                        p.setColor(Color.CYAN);
+//                        p.setStrokeWidth(strokeWidth/2);
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                    }
+//
+//
+//                }
+//                k += side;
+//            }
+//
+//            if (firstOccurrence) {
+//
+//                decemberLength = -upperRightCornerY + getHeight() * 1.5f;
+//                length = -upperRightCornerY + getHeight() + side;
+//                //Log.d("XY", "upperRightCornerY:" + length);
+//
+//                if (currentDate != null || selectedDay != null) {
+//                    Day date = currentDate;
+//                    if (currentDate == null){
+//                        date = selectedDay;
+//                    }
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(date.date.getTime());
+//
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//
+//                    if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER) {
+//                        y = y - date.top + getHeight() / 2 + getHeight() / 4;
+//                        if (y <= getHeight()) {
+//                            y = getHeight();
+//                        }
+//                        if (y >= length) {
+//                            y = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.NOVEMBER) {
+//                        y = y - date.bottom + getHeight() / 2;
+//                        if (y <= getHeight()) {
+//                            y = getHeight();
+//                        }
+//                        if (y >= length) {
+//                            y = length;
+//                        }
+//                    }else if(calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
+//                        y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
+//                        if (y <= getHeight()) {
+//                            y = getHeight();
+//                        }
+//                        if (y >= length) {
+//                            y = length;
+//                        }
+//                    }
+//                    invalidate();
+//                }
+//            }
+//
+//            p.setColor(Color.BLACK);
+//            p.setStyle(Paint.Style.FILL);
+//            p.setTextAlign(Paint.Align.CENTER);
+//
+//            //if (y <= decemberLength  && y >= novemberLength + monthName.length()*fontHeight/2) {
+//            if (y >= novemberLength + side*2.5) {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s = getHeight() / 2 - monthName.length()*fontHeight/2;
+//                for (char c : monthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+//                    s += fontHeight;
+//                }
+//                canvas.restore();
+//
+//            //} else if (y <= decemberLength) {
+//            } else {
+//                canvas.save();
+//                canvas.rotate(360f);
+//                int s =(int) (upperRightCornerY + (decemberLength - novemberLength) - side);
+//                for (char c : reverseMonthName.toCharArray()) {
+//                    canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+//                    s -= fontHeight;
+//                }
+//                canvas.restore();
+//            }
+//
+//            p.setColor(Color.WHITE);
+//            p.setStrokeWidth(strokeWidth);
+//            canvas.drawPoint(doubleTapX, doubleTapY, p);
+//
+//            if (currentDate != null) {
+//                p.setColor(Color.WHITE);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(currentDate.left, currentDate.top, currentDate.right, currentDate.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (firstOccurrence) {
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(currentDate.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//                if (!firstOccurrence && day == null) {
+//                    day = currentDate;
+//
+//                    updateSchedule(day);
+//                }
+//            }
+//
+//            if (selectedDay != null) {
+//                p.setColor(Color.GREEN);
+//                p.setStyle(Paint.Style.STROKE);
+//                canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
+//                p.setStyle(Paint.Style.FILL);
+//
+//                if (!firstOccurrence && selectedDay != day) {
+//                    day = selectedDay;
+//
+//                    updateSchedule(day);
+//
+//                    calendar.clear();
+//                    calendar.setTimeInMillis(selectedDay.date.getTime());
+//                    dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//                }
+//            }
+//
+//
+//
+//
+//
+////            p.setColor(Color.RED);
+////            p.setStrokeWidth(side);
+////            canvas.drawPoint((float) x, upperRightCornerY, p);
+////
+////
+////            p.setColor(Color.BLUE);
+////            p.setStrokeWidth(10);
+////            canvas.drawPoint(x, y, p);
+//
+//            if (firstOccurrence) {
+//                firstOccurrence = false;
+//            }
+//            if (restore) {
+//                restore = false;
+//                restore();
+//            }
+//            if (addCyclicTasks) {
+//                addCyclicTasks = false;
+//                addCyclicTasks();
+//
+//                winter.invalidate();
+//                spring.invalidate();
+//                summer.invalidate();
+//                invalidate();
+//            }
+//
+//        }
+//
+//        public void restore (){
+//
+//            JsonParser parser = new JsonParser();
+//            Gson gson = new Gson();
+//            JsonArray array = parser.parse(yearStr.daysAutumn).getAsJsonArray();
+//            for (int i = 0; i < array.size(); i++) {
+//                autumn.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+//
+//                for (Task task : autumn.days.get(i).tasks) {
+//                    if (task.extra == taskExtra){
+//                        task.shown = true;
+//                        changedeTasksOfYear = true;
+//                    }
+//                    setReminder(task, autumn.days.get(i).date);
+//                    if (!task.done){
+//                        autumn.days.get(i).dayClosed = false;
+//                    }
+//                }
+//                //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
+//            }
+//
+//        }
+//
+//        public void addCyclicTasks (){
+//
+//            Iterator<Task> j = cyclicTasks.iterator();
+//            while (j.hasNext()) {
+//                Task t = j.next();
+//                refreshCyclicTasks(t);
+//            }
+//
+//        }
+//
+//
+//        @Override
+//        public boolean onTouchEvent(MotionEvent event) {
+//            // координаты Touch-события
+//            float evX = event.getX();
+//            float evY = event.getY();
+//
+//            switch (event.getAction()) {
+//                // касание началось
+//                case MotionEvent.ACTION_DOWN:
+//
+//                    countDownTimer.cancel();
+//
+//                    // включаем режим перетаскивания
+//                    drag = true;
+//
+//                    // разница между левым верхним углом квадрата и точкой касания
+//                    dragX = evX - x;
+//                    dragY = evY - y;
+//
+//                    //Log.d("WH", "W:" + Width + "H:" + Height);
+//
+//
+//                    break;
+//                // тащим
+//                case MotionEvent.ACTION_MOVE:
+//                    // если режим перетаскивания включен
+//                    if (drag) {
+//                        // определеяем новые координаты
+//                        //x = evX - dragX;////////////////////////////////////////////
+//                        y = evY - dragY;
+//                        if(y <= getHeight()) {
+//                            y = getHeight();
+//                        }
+//                        if(y >= length){
+//                            y = length;
+//                        }
+//                        invalidate();
+//                        //Log.d("XY", "X:" + x + "Y:" + y + "length "+length);
+//                    }
+//
+//                    break;
+//                // касание завершено
+//                case MotionEvent.ACTION_UP:
+//                case MotionEvent.ACTION_CANCEL:
+//                    // выключаем режим перетаскивания
+//                    drag = false;
+//                    break;
+//
+//            }
+//
+//            gestureDetector.onTouchEvent(event);
+//
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+//            width = width;
+//            height = height;
+//            //Log.d("WH", "W:" + width + "H:" + height);
+//        }
+//
+//
+//        private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+//
+//            @Override
+//            public boolean onDoubleTap(MotionEvent e) {
+//                doubleTapX = e.getX();
+//                doubleTapY = e.getY();
+//
+//                Iterator<Day> j = days.iterator();
+//                while (j.hasNext()){
+//                    Day b = j.next();
+//                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
+//                        selectedDay = b;
+//                        winter.selectedDay = null;
+//                        winter.invalidate();
+//                        spring.selectedDay = null;
+//                        spring.invalidate();
+//                        summer.selectedDay = null;
+//                        summer.invalidate();
+//                        invalidate();
+//
+//                        calendar.clear();
+//                        calendar.setTimeInMillis(selectedDay.date.getTime());
+//                        dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                                +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                                +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+//
+////                        taskTime.setText("__:__");
+////                        taskDuration.setText("__:__");
+////                        taskDescription.setText("");
+////                        updateSchedule(selectedDay);
+//
+//                    }
+//                }
+//
+//                return super.onDoubleTap(e);
+//            }
+//
+//            @Override
+//            public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
+//
+//                scrollTime = (int) velocityY;
+//                if (scrollTime < 0){
+//                    scrollTime *= -1;
+//                }
+//                countDownTimer = new CountDownTimer(scrollTime, 50) {
+//
+//                    public void onTick(long millisUntilFinished) {
+//                        if (velocityY > 0){
+//                            y += millisUntilFinished / 30;
+//                        }else{
+//                            y -= millisUntilFinished / 30;
+//                        }
+//                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+//
+//                        //проверить край
+//                        if(y <= getHeight()) {
+//                            y = getHeight();
+//                        }
+//                        if(y >= length){
+//                            y = length;
+//                        }
+//
+//                        //обновить
+//                        invalidate();
+//                    }
+//
+//                    public void onFinish() {
+//                        //Log.d("onFling", "done!");
+//                    }
+//                }.start();
+//
+//
+//                return true;
+//            }
+//
+//        }
+//
+////        public class Date
+////        {
+////            /**Картинка*/
+////            private Bitmap bmp;
+////
+////            /**Позиция*/
+////            public int x;
+////            public int y;
+////
+////            /**Скорость по Х=15*/
+////            private int mSpeed=25;
+////
+////            public double angle;
+////
+////            /**Ширина*/
+////            public int width;
+////
+////            /**Ввыоста*/
+////            public  int height;
+////
+////            public GameView gameView;
+////
+////            /**Конструктор*/
+////            public Date(GameView gameView, Bitmap bmp) {
+////                this.gameView=gameView;
+////                this.bmp=bmp;
+////
+////                this.x = 0;            //позиция по Х
+////                this.y = 120;          //позиция по У
+////                this.width = 27;       //ширина снаряда
+////                this.height = 40;      //высота снаряда
+////
+////                //угол полета пули в зависипости от координаты косания к экрану
+////                angle = Math.atan((double)(y - gameView.shotY) / (x - gameView.shotX));
+////            }
+////
+////            /**Перемещение объекта, его направление*/
+////            private void update() {
+////                x += mSpeed * Math.cos(angle);         //движение по Х со скоростью mSpeed и углу заданном координатой angle
+////                y += mSpeed * Math.sin(angle);         // движение по У -//-
+////            }
+////
+////            /**Рисуем наши спрайты*/
+////            public void onDraw(Canvas canvas) {
+////                update();                              //говорим что эту функцию нам нужно вызывать для работы класса
+////                canvas.drawBitmap(bmp, x, y, null);
+////            }
+////        }
+//
+//
+//
+//
+//
+//
+//
+//    }
 
     public class YearStr
     {
@@ -5771,50 +5873,50 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class Day
-    {
-        /**Позиция*/
-        public float left;
-        public float top;
-        public float right;
-        public float bottom;
-        public ArrayList<Task> tasks = new ArrayList<Task>();
-        public boolean dayClosed;
+//    public class Day
+//    {
+//        /**Позиция*/
+//        public float left;
+//        public float top;
+//        public float right;
+//        public float bottom;
+//        public ArrayList<Task> tasks = new ArrayList<Task>();
+//        public boolean dayClosed;
+//
+//        /**Дата*/
+//        Date date;
+//
+//        /**Ширина*/
+//        public int width;
+//
+//        /**Ввыоста*/
+//        public  int height;
+//
+//        public Day(Date date, float left, float top, float right, float bottom) {
+//            this.date = date;
+//            this.left = left;
+//            this.top = top;
+//            this.right = right;
+//            this.bottom = bottom;
+//            this.dayClosed = true;
+//
+////            tasks.add(new Task(true,"Задача 1", date.getTime(), 1, 6));
+////            tasks.add(new Task(false,"Задача 2", date.getTime(), 2, 15));
+////            tasks.add(new Task(true,"Задача 3", date.getTime(), 17, 1));
+//
+//           /* Calendar rightNow = Calendar.getInstance();
+//            Date d = new Date();
+//            System.out.println(d);
+//            rightNow.setTime(d);
+//            rightNow.add(Calendar.HOUR, yourHours);
+//            d = rightNow.getTime();
+//            System.out.println(d);
+//*/
+//
+//        }
+//    }
 
-        /**Дата*/
-        Date date;
-
-        /**Ширина*/
-        public int width;
-
-        /**Ввыоста*/
-        public  int height;
-
-        public Day(Date date, float left, float top, float right, float bottom) {
-            this.date = date;
-            this.left = left;
-            this.top = top;
-            this.right = right;
-            this.bottom = bottom;
-            this.dayClosed = true;
-
-//            tasks.add(new Task(true,"Задача 1", date.getTime(), 1, 6));
-//            tasks.add(new Task(false,"Задача 2", date.getTime(), 2, 15));
-//            tasks.add(new Task(true,"Задача 3", date.getTime(), 17, 1));
-
-           /* Calendar rightNow = Calendar.getInstance();
-            Date d = new Date();
-            System.out.println(d);
-            rightNow.setTime(d);
-            rightNow.add(Calendar.HOUR, yourHours);
-            d = rightNow.getTime();
-            System.out.println(d);
-*/
-
-        }
-    }
-
-    public class Task
+    public static class Task
     {
         public long id;
         public int extra;
