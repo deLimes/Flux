@@ -1399,87 +1399,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    public static void setTestReminder() {
-
-        /////////////
-        /*
-        Intent intent = new Intent(context, Receiver.class);
-        intent.putExtra("extra", "123321");
-        intent.putExtra("content", "123321");
-
-
-
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
-        notificationIntent.putExtra("content", intent.getStringExtra("content"));
-
-        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
-        notificationIntent.setData(data);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(context,
-                Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-        Resources res = context.getResources();
-        Notification.Builder builder = new Notification.Builder(context);
-
-        builder.setContentIntent(contentIntent)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                // большая картинка
-                .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                //.setTicker(res.getString(R.string.warning)) // текст в строке состояния
-                .setTicker("Пора!")
-                .setWhen(System.currentTimeMillis())
-                .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_SOUND)
-                //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
-                .setContentTitle("Напоминание")
-                //.setContentText(res.getString(R.string.notifytext))
-                .setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
-
-        // Notification notification = builder.getNotification(); // до API 16
-        Notification notification = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            notification = builder.build();
-        }
-
-
-        NotificationManager notificationManager = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        notifyId = Integer.valueOf(intent.getStringExtra("extra"));
-        notificationManager.notify(notifyId, notification);
-        */
-        //////////////
-
-
-        Log.d("myLogs", "setReminder: "+ context);
-        Intent notificationIntent = new Intent(context, Receiver.class);
-        notificationIntent.putExtra("extra", "123321");
-        notificationIntent.putExtra("content", "123321");
-        //notificationIntent.putExtra("task", task);
-
-        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
-        notificationIntent.setData(data);
-
-//        calendar.clear();
-//        calendar.setTimeInMillis(task.startTime);
-
-        final Calendar myCalender = Calendar.getInstance();
-//        myCalender.setTimeInMillis(date.getTime());
-//        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-//        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
-
-        pIntent = PendingIntent.getBroadcast(context, Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        am.cancel(pIntent);
-        ///////////////am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
-        am.set(AlarmManager.RTC, System.currentTimeMillis() + 1000*10, pIntent);
-
-
-
-    }
-
     public static void setReminder(Task task, Date date) {
 
         Intent notificationIntent = new Intent(context, Receiver.class);
@@ -1515,42 +1434,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    public static void setReminder2(Task task) {
-
-        Intent notificationIntent = new Intent(context, Receiver.class);
-        notificationIntent.putExtra("extra", Integer.toString(task.extra));
-        notificationIntent.putExtra("content", task.content);
-        //notificationIntent.putExtra("task", task);
-
-        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
-        notificationIntent.setData(data);
-
-
-        calendar.clear();
-        calendar.setTimeInMillis(task.startTime);
-
-        final Calendar myCalender = Calendar.getInstance();
-        myCalender.setTimeInMillis(task.startTime);
-        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
-
-        pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (task.removeFromAM) {
-            am.cancel(pIntent);
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
-            notificationManager.cancel(notifyId);
-            task.removeFromAM = false;
-        }else {
-            if(task.valid && !task.shown && !task.done) {
-                am.cancel(pIntent);
-                am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
-            }
-        }
-
-    }
-
 
     public static void sendNotif(Context context, Intent intent) {
 
@@ -2432,10 +2315,6 @@ public class MainActivity extends AppCompatActivity {
                         myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
                         myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
                         task.clockStartTime = myCalender.getTimeInMillis();
-
-                        //del previous alarm.
-                        task.removeFromAM = true;
-                        setReminder(task, day.date);
 
                         //set new alarm
                         setReminder(task, day.date);
