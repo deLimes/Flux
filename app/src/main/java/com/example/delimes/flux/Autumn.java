@@ -129,7 +129,7 @@ class Autumn extends View {
 
     }
 
-    public void FillInDays(int year){
+    public void fillInDays(int year){
 
         int l = 0;
 
@@ -144,7 +144,7 @@ class Autumn extends View {
             l = i - 1;
 
             calendar.clear();
-            calendar.set(year, 0, i);
+            calendar.set(year, 9, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -160,7 +160,7 @@ class Autumn extends View {
             l += 1;
 
             calendar.clear();
-            calendar.set(year, 1, i);
+            calendar.set(year, 10, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -177,7 +177,7 @@ class Autumn extends View {
             l += 1;
 
             calendar.clear();
-            calendar.set(year, 2, i);
+            calendar.set(year, 11, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -752,7 +752,7 @@ class Autumn extends View {
                     MainActivity.changedeTasksOfYear = true;
                 }
                 //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
-                MainActivity.setReminder(task);
+                //%%C del - MainActivity.setReminder(task);
                 if (!task.done){
                     MainActivity.autumn.days.get(i).dayClosed = false;
                 }

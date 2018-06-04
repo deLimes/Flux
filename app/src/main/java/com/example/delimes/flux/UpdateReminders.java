@@ -43,6 +43,7 @@ public class UpdateReminders extends Service {
 
         calendar.setTimeInMillis(System.currentTimeMillis());
         String year = String.valueOf(calendar.get(Calendar.YEAR));
+        Log.d("myLogs", "updateReminders: year"+year);
 
         String json = preference.getString(year, "");
         if (json.isEmpty()) {
@@ -65,14 +66,14 @@ public class UpdateReminders extends Service {
             winter.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
             for (MainActivity.Task task : winter.days.get(i).tasks) {
-                MainActivity.setReminder(task);
+                MainActivity.setReminder(task, winter.days.get(i).date);
             }
         }
 
         //Весна
         Spring spring = new Spring(getApplicationContext());
         spring.context = getApplicationContext();
-        spring.FillInDays(Integer.valueOf(year));
+        spring.fillInDays(Integer.valueOf(year));
 
         array = parser.parse(yearStr.daysSpring).getAsJsonArray();
         //Log.d("test", "Reminders: " + new Date(yearStr.daysSpring.get(62).tasks.get(0).startTime));
@@ -82,35 +83,35 @@ public class UpdateReminders extends Service {
             for (MainActivity.Task task : spring.days.get(i).tasks) {
                 Log.d("myLogs", "updateReminders test1: "+ new Date(task.startTime));
                 Log.d("myLogs", "updateReminders2 test2: "+ spring.days.get(i).date);
-                MainActivity.setReminder(task);
+                MainActivity.setReminder(task, spring.days.get(i).date);
             }
         }
 
         //Лето
         Summer summer = new Summer(getApplicationContext());
         summer.context = getApplicationContext();
-        summer.FillInDays(Integer.valueOf(year));
+        summer.fillInDays(Integer.valueOf(year));
 
         array = parser.parse(yearStr.daysSpring).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
             summer.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
             for (MainActivity.Task task : summer.days.get(i).tasks) {
-                MainActivity.setReminder(task);
+                MainActivity.setReminder(task, summer.days.get(i).date);
             }
         }
 
         //Осень
         Autumn autumn = new Autumn(getApplicationContext());
         autumn.context = getApplicationContext();
-        autumn.FillInDays(Integer.valueOf(year));
+        autumn.fillInDays(Integer.valueOf(year));
 
         array = parser.parse(yearStr.daysSpring).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
             autumn.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
             for (MainActivity.Task task : autumn.days.get(i).tasks) {
-                MainActivity.setReminder(task);
+                MainActivity.setReminder(task, autumn.days.get(i).date);
             }
         }
 

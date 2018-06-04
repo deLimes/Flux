@@ -131,7 +131,7 @@ class Summer extends View {
 
     }
 
-    public void FillInDays(int year){
+    public void fillInDays(int year){
 
         int l = 0;
 
@@ -146,7 +146,7 @@ class Summer extends View {
             l = i - 1;
 
             calendar.clear();
-            calendar.set(year, 0, i);
+            calendar.set(year, 6, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -162,7 +162,7 @@ class Summer extends View {
             l += 1;
 
             calendar.clear();
-            calendar.set(year, 1, i);
+            calendar.set(year, 7, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -179,7 +179,7 @@ class Summer extends View {
             l += 1;
 
             calendar.clear();
-            calendar.set(year, 2, i);
+            calendar.set(year, 8, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -711,7 +711,7 @@ class Summer extends View {
                     MainActivity.changedeTasksOfYear = true;
                 }
                 //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
-                MainActivity.setReminder(task);
+                //%%C del - MainActivity.setReminder(task);
                 if (!task.done){
                     MainActivity.summer.days.get(i).dayClosed = false;
                 }

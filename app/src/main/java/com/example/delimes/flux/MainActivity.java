@@ -650,8 +650,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     task.removeFromAM = true;
-                    //%%C del - setReminder(task, day.date);
-                    setReminder(task);
+                    setReminder(task, day.date);
+                    //%%C del - setReminder(task);
 
                     day.dayClosed = true;
                     for (Task task : day.tasks) {
@@ -661,6 +661,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     updateSchedule(day);
+
+                    winter.invalidate();
+                    spring.invalidate();
+                    summer.invalidate();
+                    autumn.invalidate();
+
                 }
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -1313,7 +1319,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         task.inDays = 0;
                     }
-                    while (cyclicTasks.remove(task));;
+                    while (cyclicTasks.remove(task));
                     Iterator<Task> iter = cyclicTasks.iterator();
                     while (iter.hasNext()) {
                         Task t = iter.next();
@@ -1474,7 +1480,43 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static void setReminder(Task task) {
+    public static void setReminder(Task task, Date date) {
+
+        Intent notificationIntent = new Intent(context, Receiver.class);
+        notificationIntent.putExtra("extra", Integer.toString(task.extra));
+        notificationIntent.putExtra("content", task.content);
+        //notificationIntent.putExtra("task", task);
+
+        Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
+        notificationIntent.setData(data);
+
+
+        calendar.clear();
+        calendar.setTimeInMillis(task.startTime);
+
+        final Calendar myCalender = Calendar.getInstance();
+        //myCalender.setTimeInMillis(task.startTime);
+        myCalender.setTimeInMillis(date.getTime());
+        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+        pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (task.removeFromAM) {
+            am.cancel(pIntent);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
+            notificationManager.cancel(notifyId);
+            task.removeFromAM = false;
+        }else {
+            if(task.valid && !task.shown && !task.done) {
+                am.cancel(pIntent);
+                am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
+            }
+        }
+
+    }
+
+    public static void setReminder2(Task task) {
 
         Intent notificationIntent = new Intent(context, Receiver.class);
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
@@ -2391,8 +2433,13 @@ public class MainActivity extends AppCompatActivity {
                         myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
                         task.clockStartTime = myCalender.getTimeInMillis();
 
-                        //%%C del - setReminder(task, day.date);
-                        setReminder(task);
+                        //del previous alarm.
+                        task.removeFromAM = true;
+                        setReminder(task, day.date);
+
+                        //set new alarm
+                        setReminder(task, day.date);
+                        //%%C del - setReminder(task);
 
                         while (cyclicTasks.remove(task));;
                         Iterator<Task> iter = cyclicTasks.iterator();
@@ -2596,8 +2643,8 @@ public class MainActivity extends AppCompatActivity {
 
                     changedeTasksOfYear = true;
                     task.valid = b;
-                    //%%C del - setReminder(task, day.date);
-                    setReminder(task);
+                    setReminder(task, day.date);
+                    //%%C del - setReminder(task);
                 }
             });
 
@@ -2611,8 +2658,8 @@ public class MainActivity extends AppCompatActivity {
 
                     if(b){
                         task.removeFromAM = true;
-                        //%%C del - setReminder(task, day.date);
-                        setReminder(task);
+                        setReminder(task, day.date);
+                        //%%C del - setReminder(task);
                     }
 
                     day.dayClosed = true;
