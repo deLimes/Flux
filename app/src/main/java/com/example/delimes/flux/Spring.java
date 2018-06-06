@@ -760,7 +760,7 @@ class Spring extends View {
                 }
                 //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
-                if (!task.done){
+                if (!task.isDone){
                     MainActivity.spring.days.get(i).dayClosed = false;
                 }
             }

@@ -712,7 +712,7 @@ class Summer extends View {
                 }
                 //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
-                if (!task.done){
+                if (!task.isDone){
                     MainActivity.summer.days.get(i).dayClosed = false;
                 }
             }

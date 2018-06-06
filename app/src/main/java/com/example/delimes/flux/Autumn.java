@@ -753,7 +753,7 @@ class Autumn extends View {
                 }
                 //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
-                if (!task.done){
+                if (!task.isDone){
                     MainActivity.autumn.days.get(i).dayClosed = false;
                 }
             }

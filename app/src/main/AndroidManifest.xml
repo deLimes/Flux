@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".MainActivity$DateChangedReceiver">
+        <receiver
+            android:name=".DateChangedReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>

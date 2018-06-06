@@ -2,14 +2,17 @@ package com.example.delimes.flux;
 
 import android.app.ActivityManager;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Instrumentation;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     static Day day;
     static Task task;
     ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
-    ArrayList<Task> remoteTasksOfYear = new ArrayList<Task>();
+    ArrayList<Task> destroyedTasksOfYear = new ArrayList<Task>();
     static boolean changedeTasksOfYear, yearNumberChanged, processUpdateSchedule;
     public static ArrayList<Task> cyclicTasks = new ArrayList<Task>();
     View layoutDayOfWeek;
@@ -160,9 +163,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        restoreCyclicTasks();//временно коммент для проверки запуска сервиса. строки н ниже до //%%С
-        //context.startService(new Intent(context, UpdateReminders.class));
-        //%%С
+        restoreCyclicTasks();
 
         //task = (Task) getIntent().getSerializableExtra("task");
     }
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         saveCyclicTasks();
-        if(changedeTasksOfYear || addedTasksOfYear.size() > 0 || remoteTasksOfYear.size() > 0){
+        if(changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0){
             //Log.d("Year", "Year was saved");
             saveYear();
         }
@@ -557,7 +558,7 @@ public class MainActivity extends AppCompatActivity {
                 myCalender.set(Calendar.HOUR_OF_DAY, hour);
                 myCalender.set(Calendar.MINUTE, minute);
 
-                Task newTask = new Task(true, "", myCalender.getTimeInMillis(), 0, 0);
+                Task newTask = new Task(true, false,"", myCalender.getTimeInMillis(), 0, 0);
                 day.tasks.add(newTask);
                 addedTasksOfYear.add(newTask);
 
@@ -576,7 +577,7 @@ public class MainActivity extends AppCompatActivity {
 
                 day.dayClosed = true;
                 for (Task task : day.tasks) {
-                    if(!task.done){
+                    if(!task.isDone){
                         day.dayClosed = false;
                     }
                 }
@@ -589,6 +590,31 @@ public class MainActivity extends AppCompatActivity {
                 taskDescription.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
+
+                //Замер памяти
+//                SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = preference.edit();
+//
+//                for (int i = 0; i < 365 * 5; i++) {
+//                    Task taskCopy = new Task(false, false, "", 0, 0, 0);
+//                    task.duplicate(taskCopy);
+//
+//                    Runtime.getRuntime().gc();
+//                    long before = Runtime.getRuntime().freeMemory();
+//
+//                    cyclicTasks.add(taskCopy);
+//                    long after = Runtime.getRuntime().freeMemory();
+//
+//                    long result = before - after;
+//                    if(result > 0){
+//                        Log.d("myLogs", "Memory used:" + result);
+//                    }
+//
+//                    String jsonStr = new Gson().toJson(cyclicTasks);
+//                    editor.putString("cyclicTasks", jsonStr);
+//                    editor.commit();
+//                }
+                //Замер памяти
 
             }
         });
@@ -606,7 +632,7 @@ public class MainActivity extends AppCompatActivity {
 
                     day.tasks.remove(task);
                     if (!addedTasksOfYear.remove(task)) {
-                        remoteTasksOfYear.add(task);
+                        destroyedTasksOfYear.add(task);
                     }
 
 
@@ -634,18 +660,22 @@ public class MainActivity extends AppCompatActivity {
                                 task.everyMonth ||
                                 task.inDays > 0) {
 
-                            while (cyclicTasks.remove(task));
+                            //%%C del - [
+                            //////////while (cyclicTasks.remove(task));
                             Iterator<Task> iter = cyclicTasks.iterator();
                             while (iter.hasNext()) {
                                 Task t = iter.next();
 
                                 if (t.equals(task)) {
-                                    cyclicTasks.remove(task);
+                                    //%%C timel del - cyclicTasks.remove(task);
+                                    t.remove = true;
                                 }
                             }
+//                            ]
 
                             task.remove = true;
                             refreshCyclicTasks(task);
+
                         }
                     }
 
@@ -655,7 +685,7 @@ public class MainActivity extends AppCompatActivity {
 
                     day.dayClosed = true;
                     for (Task task : day.tasks) {
-                        if(!task.done){
+                        if(!task.isDone){
                             day.dayClosed = false;
                         }
                     }
@@ -721,6 +751,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.monday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -740,7 +771,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -773,6 +805,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.tuesday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -793,7 +826,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -826,6 +860,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.wednesday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -846,7 +881,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -879,6 +915,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.thursday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -898,7 +935,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -931,6 +969,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.friday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -950,7 +989,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -983,6 +1023,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.saturday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1004,7 +1045,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1037,6 +1079,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.sunday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1058,7 +1101,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1108,6 +1152,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     //установить контент
                     if (task.content != taskDescription.getText().toString()) {
@@ -1128,7 +1173,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "", 0, 0, 0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
 
@@ -1217,6 +1263,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.monday ||
                             task.tuesday ||
@@ -1230,7 +1277,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "",0,0,0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"",0,0,0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1268,6 +1316,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.monday ||
                             task.tuesday ||
@@ -1281,7 +1330,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "",0,0,0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"",0,0,0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1328,6 +1378,7 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.isCyclic = false;
 
                     if (task.monday ||
                             task.tuesday ||
@@ -1341,7 +1392,8 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
                         //cyclicTasks.add(task);
-                        Task taskCopy = new Task(false, "",0,0,0);
+                        task.isCyclic = true;
+                        Task taskCopy = new Task(false, false,"",0,0,0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1427,8 +1479,8 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.cancel(notifyId);
             task.removeFromAM = false;
         }else {
-            if(task.valid && !task.shown && !task.done) {
-                am.cancel(pIntent);
+            if(task.isValid && !task.shown && !task.isDone) {
+                //%%C del - am.cancel(pIntent);
                 am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
             }
         }
@@ -1454,7 +1506,7 @@ public class MainActivity extends AppCompatActivity {
 
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
 
         Resources res = context.getResources();
@@ -1545,9 +1597,28 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t) && !t.done) {
-                                iter.remove();
+                            //%%C Del -
+//                       [
+//                            if (task.equals(t) && !t.done) {
+//                                iter.remove();
+//                            }
+//                       ]
+
+                            //%%C Проверка в ходе эксплуатации{
+//                            if (task.equals(t) && !t.isDone) {
+//                                iter.remove();
+//                            }
+
+                            if (task.equals(t)) {
+                                if(!t.isDone) {
+                                    iter.remove();
+                                }
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(t, d.date);
+                                }
                             }
+                            //%%C }Проверка в ходе эксплуатации
                         }
                     }else{
                         Iterator<Task> iter = d.tasks.iterator();
@@ -1594,7 +1665,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1619,7 +1690,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1642,7 +1713,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1688,7 +1759,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -1700,7 +1771,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.done){
+                        if(!task2.isDone){
                             d.dayClosed = false;
                         }
                     }
@@ -1728,9 +1799,28 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t) && !t.done) {
-                                iter.remove();
+                            //%%C Del -
+//                       [
+//                            if (task.equals(t) && !t.done) {
+//                                iter.remove();
+//                            }
+//                       ]
+
+                            //%%C Проверка в ходе эксплуатации{
+//                            if (task.equals(t) && !t.isDone) {
+//                                iter.remove();
+//                            }
+
+                            if (task.equals(t)) {
+                                if(!t.isDone) {
+                                    iter.remove();
+                                }
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(t, d.date);
+                                }
                             }
+                            //%%C }Проверка в ходе эксплуатации
                         }
 
                     }else{
@@ -1773,7 +1863,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1799,7 +1889,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1822,7 +1912,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1868,7 +1958,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -1882,7 +1972,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.done){
+                        if(!task2.isDone){
                             d.dayClosed = false;
                         }
                     }
@@ -1906,9 +1996,29 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t) && !t.done) {
-                                iter.remove();
+                            //%%C Del -
+//                       [
+//                            if (task.equals(t) && !t.done) {
+//                                iter.remove();
+//                            }
+//                       ]
+
+
+                            //%%C Проверка в ходе эксплуатации{
+//                            if (task.equals(t) && !t.isDone) {
+//                                iter.remove();
+//                            }
+
+                            if (task.equals(t)) {
+                                if(!t.isDone) {
+                                    iter.remove();
+                                }
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(t, d.date);
+                                }
                             }
+                            //%%C }Проверка в ходе эксплуатации
                         }
                     }else{
                         Iterator<Task> iter = d.tasks.iterator();
@@ -1949,7 +2059,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1976,7 +2086,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1999,7 +2109,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2045,7 +2155,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -2058,7 +2168,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.done){
+                        if(!task2.isDone){
                             d.dayClosed = false;
                         }
                     }
@@ -2082,9 +2192,29 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            if (task.equals(t) && !t.done) {
-                                iter.remove();
+                            //%%C Del -
+//                       [
+//                            if (task.equals(t) && !t.done) {
+//                                iter.remove();
+//                            }
+//                       ]
+
+
+                            //%%C Проверка в ходе эксплуатации{
+//                            if (task.equals(t) && !t.isDone) {
+//                                iter.remove();
+//                            }
+
+                            if (task.equals(t)) {
+                                if(!t.isDone) {
+                                    iter.remove();
+                                }
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(t, d.date);
+                                }
                             }
+                            //%%C }Проверка в ходе эксплуатации
                         }
                     }else{
                         Iterator<Task> iter = d.tasks.iterator();
@@ -2125,7 +2255,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2152,7 +2282,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2175,7 +2305,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, "", 0, 0, 0);
+                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2220,7 +2350,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, "", 0, 0, 0);
+                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -2234,7 +2364,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.done){
+                        if(!task2.isDone){
                             d.dayClosed = false;
                         }
                     }
@@ -2256,6 +2386,8 @@ public class MainActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 if (view.isShown()) {
 
+                    task.isCyclic = false;
+
                     if (duration){
                         if(task.durationHours != hourOfDay ||
                                 task.durationMinutes != minute){
@@ -2276,7 +2408,8 @@ public class MainActivity extends AppCompatActivity {
                                 task.inDays > 0) {
 
                             //cyclicTasks.add(task);
-                            Task taskCopy = new Task(false, "",0,0,0);
+                            task.isCyclic = true;
+                            Task taskCopy = new Task(false, false,"",0,0,0);
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
 
@@ -2316,9 +2449,9 @@ public class MainActivity extends AppCompatActivity {
                         myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
                         task.clockStartTime = myCalender.getTimeInMillis();
 
-                        //set new alarm
+                        //clear old remind
+                        task.removeFromAM = true;
                         setReminder(task, day.date);
-                        //%%C del - setReminder(task);
 
                         while (cyclicTasks.remove(task));;
                         Iterator<Task> iter = cyclicTasks.iterator();
@@ -2342,7 +2475,8 @@ public class MainActivity extends AppCompatActivity {
                                 task.inDays > 0) {
 
                             //cyclicTasks.add(task);
-                            Task taskCopy = new Task(false, "",0,0,0);
+                            task.isCyclic = true;
+                            Task taskCopy = new Task(false, false,"",0,0,0);
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
 
@@ -2352,6 +2486,9 @@ public class MainActivity extends AppCompatActivity {
                         if(dateTaskStartTime == day.date.getTime()) {
                             refreshCyclicTasks(task);
                         }
+
+                        //set new remind
+                        setReminder(task, day.date);
 
                         /*taskTime.setText(((""+ calendar.get(Calendar.HOUR_OF_DAY)).length() == 1 ? "0" + calendar.get(Calendar.HOUR_OF_DAY) : "" + calendar.get(Calendar.HOUR_OF_DAY))+
                                 ":"+ ((""+ calendar.get(Calendar.MINUTE)).length() == 1 ? "0" + calendar.get(Calendar.MINUTE) : "" + calendar.get(Calendar.MINUTE)));
@@ -2515,25 +2652,25 @@ public class MainActivity extends AppCompatActivity {
             View item = ltInflater.inflate(R.layout.item, linLayout, false);
 
             CheckBox checkBox = (CheckBox) item.findViewById(R.id.checkBox);
-            checkBox.setChecked(task.valid);
+            checkBox.setChecked(task.isValid);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
                     changedeTasksOfYear = true;
-                    task.valid = b;
+                    task.isValid = b;
                     setReminder(task, day.date);
                     //%%C del - setReminder(task);
                 }
             });
 
             CheckBox checkBoxDone = (CheckBox) item.findViewById(R.id.checkBoxDone);
-            checkBoxDone.setChecked(task.done);
+            checkBoxDone.setChecked(task.isDone);
             checkBoxDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     changedeTasksOfYear = true;
-                    task.done = b;
+                    task.isDone = b;
 
                     if(b){
                         task.removeFromAM = true;
@@ -2543,7 +2680,7 @@ public class MainActivity extends AppCompatActivity {
 
                     day.dayClosed = true;
                     for (Task task : day.tasks) {
-                        if(!task.done){
+                        if(!task.isDone){
                             day.dayClosed = false;
                         }
                     }
@@ -2661,10 +2798,37 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_reset:
 
-                cyclicTasks.clear();
+                //Dialog
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setTitle("Сброс задач за все годы");  // заголовок
+                alertDialog.setMessage("Очистить задачи?"); // сообщение
+                alertDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                    }
+                });
+                alertDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        Toast toast = Toast.makeText(MainActivity.this,
+                                "Задачи сбрасываются",
+                                Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 0);
+                        toast.show();
 
-                SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-                preference.edit().clear().commit();
+                        cyclicTasks.clear();
+                        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+                        preference.edit().clear().commit();
+
+                        toast = Toast.makeText(MainActivity.this,
+                                "Готово",
+                                Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 0);
+                        toast.show();
+
+                    }
+                });
+                alertDialog.setCancelable(true);
+                alertDialog.show();
+
 
                 return true;
 
@@ -2814,6 +2978,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preference.edit();
+
         String jsonStr = new Gson().toJson(cyclicTasks);
         editor.putString("cyclicTasks", jsonStr);
         editor.commit();
@@ -5971,8 +6136,9 @@ public class MainActivity extends AppCompatActivity {
     {
         public long id;
         public int extra;
-        public boolean valid;
-        public boolean done;
+        public boolean isValid;
+        public boolean isCyclic;//not used
+        public boolean isDone;
         public String content;
         public Long startTime;
         public Long clockStartTime;
@@ -5996,11 +6162,12 @@ public class MainActivity extends AppCompatActivity {
         public boolean removeFromAM;
         public boolean shown;
 
-        public Task(boolean valid, String content, long startTime, int durationHours, int durationMinutes){
+        public Task(boolean isValid, boolean isCyclic, String content, long startTime, int durationHours, int durationMinutes){
 
             this.id = new Random(System.nanoTime()).nextLong();
             this.extra = new Random(System.nanoTime()).nextInt();
-            this.valid = valid;
+            this.isValid = isValid;
+            this.isCyclic = isCyclic;
             this.content = content;
             this.startTime = startTime;
             this.finishTime = startTime;
@@ -6035,7 +6202,7 @@ public class MainActivity extends AppCompatActivity {
             //obj.extra = new Random(System.currentTimeMillis()).nextInt();
             obj.extra = new Random(System.nanoTime()).nextInt();
             obj.shown = false;
-            obj.done = false;
+            obj.isDone = false;
             //Log.d("myLogs", "obj.extra:" + obj.extra);
 
         }
@@ -6084,30 +6251,30 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public class DateChangedReceiver extends BroadcastReceiver {
-
-        public DateChangedReceiver() {
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            calendar.clear();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            calendar.clear();
-            calendar.set(year, month, day);
-            currDate = new Date(calendar.getTimeInMillis());
-
-            winter.invalidate();
-            spring.invalidate();
-            summer.invalidate();
-            autumn.invalidate();
-        }
-
-    }
+//    public class DateChangedReceiver extends BroadcastReceiver {
+//
+//        public DateChangedReceiver() {
+//        }
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//
+//            calendar.clear();
+//            calendar.setTimeInMillis(System.currentTimeMillis());
+//            int year = calendar.get(Calendar.YEAR);
+//            int month = calendar.get(Calendar.MONTH);
+//            int day = calendar.get(Calendar.DAY_OF_MONTH);
+//            calendar.clear();
+//            calendar.set(year, month, day);
+//            currDate = new Date(calendar.getTimeInMillis());
+//
+//            winter.invalidate();
+//            spring.invalidate();
+//            summer.invalidate();
+//            autumn.invalidate();
+//        }
+//
+//    }
 
     //TODO NumberYearPicker
     public class NumberYearPicker extends LinearLayout {
@@ -6296,7 +6463,7 @@ public class MainActivity extends AppCompatActivity {
             valueText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if(changedeTasksOfYear || addedTasksOfYear.size() > 0 || remoteTasksOfYear.size() > 0){
+                    if(changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0){
                         //Log.d("Year", "Year was saved");
                         saveYear();
                     }
@@ -6320,6 +6487,7 @@ public class MainActivity extends AppCompatActivity {
                         chosenYearNumber = Integer.valueOf(editable.toString());
                     }
 
+                    //%%C del -
                     if( curentYearNumber < chosenYearNumber) {
                         autumn.addCyclicTasks = true;
                     }
@@ -6329,7 +6497,7 @@ public class MainActivity extends AppCompatActivity {
                         linLayout.removeAllViews();
                     }
                     addedTasksOfYear.clear();
-                    remoteTasksOfYear.clear();
+                    destroyedTasksOfYear.clear();
                     changedeTasksOfYear = false;
 
                     int width = constraintLayout.getRight() + guideline.getLeft();
