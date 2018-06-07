@@ -52,7 +52,7 @@ public class UpdateReminders extends Service {
 
         MainActivity.YearStr yearStr = new Gson().fromJson(json, MainActivity.YearStr.class);
         MainActivity.context = getApplicationContext();
-        MainActivity.am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        MainActivity.alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         //Зима
         Winter winter = new Winter(getApplicationContext());

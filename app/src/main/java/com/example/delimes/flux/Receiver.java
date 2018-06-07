@@ -19,7 +19,6 @@ public class Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-       // ((MainActivity)context).onClick3();
         MainActivity.sendNotif(context, intent);
 
         Log.d(LOG_TAG, "onReceive");

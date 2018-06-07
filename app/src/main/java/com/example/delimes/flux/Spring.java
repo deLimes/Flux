@@ -106,7 +106,7 @@ class Spring extends View {
 
     private void init(Context context) {
 
-        MainActivity.am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        MainActivity.alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         p = new Paint();
         gestureDetector = new GestureDetector(context, new MyGestureListener());
 

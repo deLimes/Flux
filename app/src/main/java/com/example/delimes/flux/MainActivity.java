@@ -1,5 +1,6 @@
 package com.example.delimes.flux;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -33,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
+import android.support.v4.app.ActivityManagerCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -103,6 +105,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import android.os.Process;
 
 import static android.os.Environment.MEDIA_MOUNTED;
 import static android.os.Environment.getExternalStorageDirectory;
@@ -150,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
     static Calendar calendar = GregorianCalendar.getInstance();
 
     ///////////////////////////////////////////////////////////////////////////
-    static AlarmManager am;
+    static AlarmManager alarmManager;
+    static ActivityManager activityManager;
     static PendingIntent pIntent;
 
     private static int notifyId = 101;
@@ -172,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         saveCyclicTasks();
-        if(changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0){
+        if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
             //Log.d("Year", "Year was saved");
             saveYear();
         }
@@ -1426,14 +1430,27 @@ public class MainActivity extends AppCompatActivity {
 
 
         ///////////////////////////////////////////////////////////////////////////
-        am = (AlarmManager) getSystemService(ALARM_SERVICE);
-
         //task = (Task) getIntent().getSerializableExtra("task");
         String strTaskExtra = getIntent().getStringExtra("extra");
         if (strTaskExtra != null) {
             taskExtra = Integer.valueOf(strTaskExtra);
         }
         //Log.d("myLogs", "taskRxtra onCreate " + taskExtra);
+
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+        List<ActivityManager.RunningTaskInfo> list = activityManager.getRunningTasks(50);
+        for (ActivityManager.RunningTaskInfo task : list) {
+            if (task.baseActivity.flattenToShortString().startsWith("com.example.delimes.flux")) {
+                Log.d("myLogs", "------------------");
+                Log.d("myLogs", "Count: " + task.numActivities);
+                Log.d("myLogs", "Root: " + task.baseActivity.flattenToShortString());
+                Log.d("myLogs", "Top: " + task.topActivity.flattenToShortString());
+                //Process.killProcess(Process.myPid());
+            }
+        }
+
 
         ///////////////////////////////////////////////////////////////////////////
 
@@ -1473,7 +1490,7 @@ public class MainActivity extends AppCompatActivity {
 
         pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.removeFromAM) {
-            am.cancel(pIntent);
+            alarmManager.cancel(pIntent);
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
             notificationManager.cancel(notifyId);
@@ -1481,7 +1498,7 @@ public class MainActivity extends AppCompatActivity {
         }else {
             if(task.isValid && !task.shown && !task.isDone) {
                 //%%C del - am.cancel(pIntent);
-                am.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
+                alarmManager.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
             }
         }
 
@@ -1489,12 +1506,16 @@ public class MainActivity extends AppCompatActivity {
 
     public static void sendNotif(Context context, Intent intent) {
 
+        //%%C - del
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
         notificationIntent.putExtra("content", intent.getStringExtra("content"));
 
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
+        //
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         //Log.d("myLogs", "extra = " + notificationIntent.getStringExtra("extra"));
         //Task serializableTask = (Task) notificationIntent.getSerializableExtra("task");
@@ -1504,15 +1525,20 @@ public class MainActivity extends AppCompatActivity {
         //}
 
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context,
-                Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
+        //%%C - del
+//        PendingIntent contentIntent = PendingIntent.getActivity(context,
+//                Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
+        PendingIntent pIntent = PendingIntent.getActivity(context,
+                Integer.valueOf(intent.getStringExtra("extra")), notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
         Resources res = context.getResources();
         Notification.Builder builder = new Notification.Builder(context);
 
-        builder.setContentIntent(contentIntent)
+        //%%C - del builder.setContentIntent(contentIntent)
+        builder.setContentIntent(pIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 // большая картинка
                 .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
@@ -1520,11 +1546,16 @@ public class MainActivity extends AppCompatActivity {
                 .setTicker("Пора!")
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_SOUND)
+                .setOngoing(true)
+                //.setDefaults(Notification.DEFAULT_SOUND)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
                 //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
                 .setContentTitle("Напоминание")
                 //.setContentText(res.getString(R.string.notifytext))
-                .setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
+                //%%C - del.setContentText(notificationIntent.getStringExtra("content")); // Текст уведомления
+                .setContentText(intent.getStringExtra("content")); // Текст уведомления
+
 
         // Notification notification = builder.getNotification(); // до API 16
         Notification notification = null;
@@ -1535,7 +1566,7 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        notifyId = Integer.valueOf(intent.getStringExtra("extra"));
+        notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
         notificationManager.notify(notifyId, notification);
 
 
@@ -2952,6 +2983,12 @@ public class MainActivity extends AppCompatActivity {
                     spring.restore = true;
                     summer.restore = true;
                     autumn.restore = true;
+
+                    //не пашит
+                    winter.invalidate();
+                    spring.invalidate();
+                    summer.invalidate();
+                    autumn.invalidate();
                 }else{
                     Toast toast = Toast.makeText(this,
                             "Выберете год: " + yearStr.year,
@@ -6463,7 +6500,7 @@ public class MainActivity extends AppCompatActivity {
             valueText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if(changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0){
+                    if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
                         //Log.d("Year", "Year was saved");
                         saveYear();
                     }
