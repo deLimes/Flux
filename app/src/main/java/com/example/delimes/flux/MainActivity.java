@@ -45,6 +45,7 @@ import android.text.style.LineHeightSpan;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.util.Log;
+import android.util.Printer;
 import android.view.ContextThemeWrapper;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -1440,17 +1441,6 @@ public class MainActivity extends AppCompatActivity {
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
-        List<ActivityManager.RunningTaskInfo> list = activityManager.getRunningTasks(50);
-        for (ActivityManager.RunningTaskInfo task : list) {
-            if (task.baseActivity.flattenToShortString().startsWith("com.example.delimes.flux")) {
-                Log.d("myLogs", "------------------");
-                Log.d("myLogs", "Count: " + task.numActivities);
-                Log.d("myLogs", "Root: " + task.baseActivity.flattenToShortString());
-                Log.d("myLogs", "Top: " + task.topActivity.flattenToShortString());
-                //Process.killProcess(Process.myPid());
-            }
-        }
-
 
         ///////////////////////////////////////////////////////////////////////////
 
@@ -1468,7 +1458,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        String strTaskExtra = intent.getStringExtra("extra");
+        if (strTaskExtra != null) {
+            taskExtra = Integer.valueOf(strTaskExtra);
+        }
+
+        //Сохраним текущий изменения
+        saveYear();
+
+        // Для того, чтобы таску поставить признак shown=true
+        winter.restore = true;
+        spring.restore = true;
+        summer.restore = true;
+        autumn.restore = true;
+
+        winter.invalidate();
+        spring.invalidate();
+        summer.invalidate();
+        autumn.invalidate();
+    }
+
     public static void setReminder(Task task, Date date) {
+
+        Log.d("myLogs", "setReminder: 0");
+        try {
+            int jh = 1/0;
+        }catch (Exception e){
+            //Log.d("myLogs", "setReminder: 0.1"+ e.printStackTrace() );
+            e.printStackTrace();
+        }
 
         Intent notificationIntent = new Intent(context, Receiver.class);
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
@@ -1477,7 +1499,6 @@ public class MainActivity extends AppCompatActivity {
 
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
-
 
         calendar.clear();
         calendar.setTimeInMillis(task.startTime);
@@ -1490,15 +1511,27 @@ public class MainActivity extends AppCompatActivity {
 
         pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.removeFromAM) {
+            Log.d("myLogs", "setReminder: 1");
             alarmManager.cancel(pIntent);
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
             notificationManager.cancel(notifyId);
             task.removeFromAM = false;
         }else {
+            Log.d("myLogs", "setReminder: 2 ");
+            Log.d("myLogs", "setReminder: 2.1 "
+                    + "isValid: " + task.isValid
+                    + "!shown: " + !task.shown
+                    + "!isDone: " + !task.isDone
+            );
+            Log.d("myLogs", "setReminder: 2.1 content: " + task.content);
+
             if(task.isValid && !task.shown && !task.isDone) {
+                Log.d("myLogs", "setReminder: 3");
                 //%%C del - am.cancel(pIntent);
-                alarmManager.set(AlarmManager.RTC, myCalender.getTimeInMillis(), pIntent);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, myCalender.getTimeInMillis(), pIntent);
+                Log.d("myLogs", "setReminder: Date: "+new Date(myCalender.getTimeInMillis()));
+                Log.d("myLogs", "setReminder: notificationIntent.extra: "+notificationIntent.getStringExtra("extra"));
             }
         }
 
@@ -1530,8 +1563,9 @@ public class MainActivity extends AppCompatActivity {
 //                Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
 //                PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
+        Log.d("myLogs", "sendNotif: notificationIntent.extra: " + notificationIntent.getStringExtra("extra"));
         PendingIntent pIntent = PendingIntent.getActivity(context,
-                Integer.valueOf(intent.getStringExtra("extra")), notificationIntent,
+                Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
         Resources res = context.getResources();
@@ -2483,6 +2517,7 @@ public class MainActivity extends AppCompatActivity {
                         //clear old remind
                         task.removeFromAM = true;
                         setReminder(task, day.date);
+                        task.shown = false;
 
                         while (cyclicTasks.remove(task));;
                         Iterator<Task> iter = cyclicTasks.iterator();
@@ -2512,11 +2547,15 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.add(taskCopy);
 
                             //refreshCyclicTasks(task);
+                            if(dateTaskStartTime == day.date.getTime()) {
+                                refreshCyclicTasks(task);
+                            }
                         }
 
-                        if(dateTaskStartTime == day.date.getTime()) {
-                            refreshCyclicTasks(task);
-                        }
+                        //%%C - del
+//                        if(dateTaskStartTime == day.date.getTime()) {
+//                            refreshCyclicTasks(task);
+//                        }
 
                         //set new remind
                         setReminder(task, day.date);
@@ -2778,7 +2817,7 @@ public class MainActivity extends AppCompatActivity {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    com.example.delimes.flux.MainActivity.task = task;
+                    MainActivity.task = task;
                     updateSchedule(day);
                     taskDescription.setEnabled(true);
 //                    taskIndex = selectedDay.tasks.indexOf(task);

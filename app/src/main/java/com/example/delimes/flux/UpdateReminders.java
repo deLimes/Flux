@@ -92,7 +92,7 @@ public class UpdateReminders extends Service {
         summer.context = getApplicationContext();
         summer.fillInDays(Integer.valueOf(year));
 
-        array = parser.parse(yearStr.daysSpring).getAsJsonArray();
+        array = parser.parse(yearStr.daysSummer).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
             summer.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
@@ -106,7 +106,7 @@ public class UpdateReminders extends Service {
         autumn.context = getApplicationContext();
         autumn.fillInDays(Integer.valueOf(year));
 
-        array = parser.parse(yearStr.daysSpring).getAsJsonArray();
+        array = parser.parse(yearStr.daysAutumn).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
             autumn.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
@@ -115,73 +115,6 @@ public class UpdateReminders extends Service {
             }
         }
 
-        /*
-        JsonParser parser = new JsonParser();
-        Gson gson = new Gson();
-        JsonArray array = parser.parse(yearStr.daysWinter).getAsJsonArray();
-        for (int i = 0; i < array.size(); i++) {
-            winter.days.get(i).tasks = (gson.fromJson(array.get(i), MainActivity.Day.class)).tasks;
-
-            for (MainActivity.Task task : winter.days.get(i).tasks) {
-                if (task.extra == taskExtra){
-                    task.shown = true;
-                    changedeTasksOfYear = true;
-                }
-                setReminder(task, winter.days.get(i).date);
-                if (!task.done){
-                    winter.days.get(i).dayClosed = false;
-                }
-            }
-        }
-
-        array = parser.parse(yearStr.daysSpring).getAsJsonArray();
-        for (int i = 0; i < array.size(); i++) {
-            spring.days.get(i).tasks = (gson.fromJson(array.get(i), MainActivity.Day.class)).tasks;
-
-            for (MainActivity.Task task : spring.days.get(i).tasks) {
-                if (task.extra == taskExtra){
-                    task.shown = true;
-                    changedeTasksOfYear = true;
-                }
-                setReminder(task, spring.days.get(i).date);
-                if (!task.done){
-                    spring.days.get(i).dayClosed = false;
-                }
-            }
-        }
-
-        array = parser.parse(yearStr.daysSummer).getAsJsonArray();
-        for (int i = 0; i < array.size(); i++) {
-            summer.days.get(i).tasks = (gson.fromJson(array.get(i), MainActivity.Day.class)).tasks;
-
-            for (MainActivity.Task task : summer.days.get(i).tasks) {
-                if (task.extra == taskExtra){
-                    task.shown = true;
-                    changedeTasksOfYear = true;
-                }
-                setReminder(task, summer.days.get(i).date);
-                if (!task.done){
-                    summer.days.get(i).dayClosed = false;
-                }
-            }
-        }
-
-        array = parser.parse(yearStr.daysAutumn).getAsJsonArray();
-        for (int i = 0; i < array.size(); i++) {
-            autumn.days.get(i).tasks = (gson.fromJson(array.get(i), MainActivity.Day.class)).tasks;
-
-            for (MainActivity.Task task : autumn.days.get(i).tasks) {
-                if (task.extra == taskExtra){
-                    task.shown = true;
-                    changedeTasksOfYear = true;
-                }
-                setReminder(task, autumn.days.get(i).date);
-                if (!task.done){
-                    autumn.days.get(i).dayClosed = false;
-                }
-            }
-        }
-        */
 
     }
 }

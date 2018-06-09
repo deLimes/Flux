@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -42,12 +43,16 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".Receiver" />
+        <receiver
+            android:name=".Receiver"
+            android:enabled="true">
+        </receiver>
 
         <service
             android:name=".UpdateReminders"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false">
+        </service>
 
 
     </application>
