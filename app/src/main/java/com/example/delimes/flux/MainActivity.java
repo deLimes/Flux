@@ -582,7 +582,7 @@ public class MainActivity extends AppCompatActivity {
 
                 day.dayClosed = true;
                 for (Task task : day.tasks) {
-                    if(!task.isDone){
+                    if(!task.isDone && task.isValid){
                         day.dayClosed = false;
                     }
                 }
@@ -690,7 +690,7 @@ public class MainActivity extends AppCompatActivity {
 
                     day.dayClosed = true;
                     for (Task task : day.tasks) {
-                        if(!task.isDone){
+                        if(!task.isDone && task.isValid){
                             day.dayClosed = false;
                         }
                     }
@@ -777,7 +777,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -832,7 +832,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -887,7 +887,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -941,7 +941,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -995,7 +995,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1051,7 +1051,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1107,7 +1107,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1179,7 +1179,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
 
@@ -1283,7 +1283,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"",0,0,0);
+                        Task taskCopy = new Task(true, false,"",0,0,0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1336,7 +1336,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"",0,0,0);
+                        Task taskCopy = new Task(true, false,"",0,0,0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1398,7 +1398,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //cyclicTasks.add(task);
                         task.isCyclic = true;
-                        Task taskCopy = new Task(false, false,"",0,0,0);
+                        Task taskCopy = new Task(true, false,"",0,0,0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }
@@ -1730,7 +1730,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1755,7 +1755,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1778,7 +1778,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1824,7 +1824,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                    Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -1836,7 +1836,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone){
+                        if(!task2.isDone && task.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -1928,7 +1928,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1954,7 +1954,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -1977,7 +1977,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2023,7 +2023,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                    Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -2037,7 +2037,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone){
+                        if(!task2.isDone && task.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -2124,7 +2124,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2151,7 +2151,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2174,7 +2174,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2220,7 +2220,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                    Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -2233,7 +2233,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone){
+                        if(!task2.isDone && task.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -2320,7 +2320,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2347,7 +2347,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2370,7 +2370,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (addTask) {
                                 // d.tasks.add(task);
-                                Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
                             }
@@ -2415,7 +2415,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (addTask) {
                                     // d.tasks.add(task);
-                                    Task taskCopy = new Task(false, false,"", 0, 0, 0);
+                                    Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
                                 }
@@ -2429,7 +2429,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone){
+                        if(!task2.isDone && task.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -2474,7 +2474,7 @@ public class MainActivity extends AppCompatActivity {
 
                             //cyclicTasks.add(task);
                             task.isCyclic = true;
-                            Task taskCopy = new Task(false, false,"",0,0,0);
+                            Task taskCopy = new Task(true, false,"",0,0,0);
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
 
@@ -2542,7 +2542,7 @@ public class MainActivity extends AppCompatActivity {
 
                             //cyclicTasks.add(task);
                             task.isCyclic = true;
-                            Task taskCopy = new Task(false, false,"",0,0,0);
+                            Task taskCopy = new Task(true, false,"",0,0,0);
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
 
@@ -2731,6 +2731,14 @@ public class MainActivity extends AppCompatActivity {
                     task.isValid = b;
                     setReminder(task, day.date);
                     //%%C del - setReminder(task);
+
+                    day.dayClosed = true;
+                    for (Task task : day.tasks) {
+                        if(!task.isDone && task.isValid){
+                            day.dayClosed = false;
+                        }
+                    }
+
                 }
             });
 
@@ -2750,7 +2758,7 @@ public class MainActivity extends AppCompatActivity {
 
                     day.dayClosed = true;
                     for (Task task : day.tasks) {
-                        if(!task.isDone){
+                        if(!task.isDone && task.isValid){
                             day.dayClosed = false;
                         }
                     }

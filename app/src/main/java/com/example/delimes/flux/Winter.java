@@ -773,7 +773,7 @@ class Winter extends View {
                 }
                 //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
-                if (!task.isDone){
+                if (!task.isDone && task.isValid){
                     MainActivity.winter.days.get(i).dayClosed = false;
                 }
             }

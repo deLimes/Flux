@@ -298,7 +298,9 @@ class Summer extends View {
                         p.setStyle(Paint.Style.FILL);
                     }
 
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    //if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    if( (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date)))
+                            && !days.get(l).dayClosed ){
                         p.setColor(Color.rgb(139, 0, 139));
                         p.setStyle(Paint.Style.STROKE);
                         canvas.drawRect(left, top, right, bottom, p);
@@ -433,7 +435,9 @@ class Summer extends View {
                         p.setStyle(Paint.Style.FILL);
                     }
 
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    //if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    if( (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date)))
+                            && !days.get(l).dayClosed ){
                         p.setColor(Color.rgb(139, 0, 139));
                         p.setStyle(Paint.Style.STROKE);
                         canvas.drawRect(left, top, right, bottom, p);
@@ -567,7 +571,9 @@ class Summer extends View {
                         p.setStyle(Paint.Style.FILL);
                     }
 
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    //if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    if( (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date)))
+                            && !days.get(l).dayClosed ){
                         p.setColor(Color.rgb(139, 0, 139));
                         p.setStyle(Paint.Style.STROKE);
                         canvas.drawRect(left, top, right, bottom, p);
@@ -712,7 +718,7 @@ class Summer extends View {
                 }
                 //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
-                if (!task.isDone){
+                if (!task.isDone && task.isValid){
                     MainActivity.summer.days.get(i).dayClosed = false;
                 }
             }
