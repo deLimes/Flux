@@ -21,6 +21,7 @@
     <item name="buttonDeleteTask" type="id"/>
     <item name="layoutDayOfWeek" type="id"/>
     <item name="endOfTask" type="id"/>
+    <item name="startOfTask" type="id"/>
     <item name="everyYear" type="id"/>
     <item name="everyMonth" type="id"/>
     <item name="inDays" type="id"/>

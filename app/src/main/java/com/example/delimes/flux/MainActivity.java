@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     static TextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
-    TextView endOfTask;
+    TextView startOfTask, endOfTask;
     EditText taskDescription, inDays;
     Button buttonAddTask, buttonDeleteTask;
     CheckBox everyYear, everyMonth;
@@ -421,12 +421,21 @@ public class MainActivity extends AppCompatActivity {
                 params.topToBottom = R.id.taskDescription;
                 layoutDayOfWeek.setLayoutParams(params);
 
-                //endOfTask
+                //startOfTask
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.layoutDayOfWeek;
                 params.topToBottom = R.id.taskDescription;
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                startOfTask.setLayoutParams(params);
+                //////startOfTask.setBackgroundColor(Color.BLUE);
+
+                //endOfTask
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToRight = R.id.layoutDayOfWeek;
+                params.topToBottom = R.id.startOfTask;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 endOfTask.setLayoutParams(params);
+                //////endOfTask.setBackgroundColor(Color.RED);
 
                 //everyYear
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -541,6 +550,10 @@ public class MainActivity extends AppCompatActivity {
         taskDescription.setSingleLine();
         taskDescription.setEnabled(false);
         сonstraintLayoutForSchedule.addView(taskDescription);
+
+        startOfTask = new TextView(this);
+        startOfTask.setId(R.id.startOfTask);
+        сonstraintLayoutForSchedule.addView(startOfTask);
 
         endOfTask = new TextView(this);
         endOfTask.setId(R.id.endOfTask);
@@ -1217,12 +1230,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        startOfTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(task != null) {
+                    showDatePickerForStartTime();
+                }
+            }
+        });
 
         endOfTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(task != null) {
-                    showDatePicker();
+                    showDatePickerForFinishTime();
                 }
             }
         });
@@ -2576,7 +2597,7 @@ public class MainActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    public void showDatePicker() {
+    public void showDatePickerForFinishTime() {
         final Calendar myCalender = Calendar.getInstance();
         myCalender.setTimeInMillis(task.startTime);
         int year = myCalender.get(Calendar.YEAR);
@@ -2631,6 +2652,113 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    public void showDatePickerForStartTime() {
+
+        ////////////////////////////////////////////////////////////////////////////
+        final Calendar myCalender = Calendar.getInstance();
+        myCalender.setTimeInMillis(task.startTime);
+        int year = myCalender.get(Calendar.YEAR);
+        int month = myCalender.get(Calendar.MONTH);
+        int dayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+
+                calendar.clear();
+                calendar.setTimeInMillis(task.startTime);
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                if(task.startTime != calendar.getTimeInMillis()){
+                    changedeTasksOfYear = true;
+                    day.tasks.remove(task);
+                    task.startTime = calendar.getTimeInMillis();
+                }else{
+                    return;
+                }
+
+                if(task.finishTime < task.startTime){
+                    task.finishTime = task.startTime;
+                }
+
+                Iterator<Task> iter = cyclicTasks.iterator();
+                while (iter.hasNext()) {
+                    Task t = iter.next();
+
+                    if (t.equals(task)) {
+                        task.duplicate(t);
+                        refreshCyclicTasks(t);
+                    }
+                }
+
+                //reschedule task
+                Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
+                int numberDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+                if (MainActivity.winter.days.size() > numberDayOfYear){
+
+                    dayOfYear = MainActivity.winter.days.get(numberDayOfYear);
+                    dayOfYear.tasks.add(task);
+
+                }else if(MainActivity.winter.days.size()
+                        + MainActivity.spring.days.size() > numberDayOfYear){
+
+                    dayOfYear = MainActivity.spring.days.get(numberDayOfYear - MainActivity.winter.days.size() - 1);
+                    dayOfYear.tasks.add(task);
+
+                }else if(MainActivity.winter.days.size()
+                        + MainActivity.spring.days.size()
+                        + MainActivity.summer.days.size() > numberDayOfYear){
+
+                    dayOfYear = MainActivity.summer.days.get(numberDayOfYear
+                            - MainActivity.winter.days.size()
+                            - MainActivity.spring.days.size() - 1);
+                    dayOfYear.tasks.add(task);
+
+                }else if(MainActivity.winter.days.size()
+                        + MainActivity.spring.days.size()
+                        + MainActivity.summer.days.size()
+                        + MainActivity.autumn.days.size() > numberDayOfYear){
+
+                    dayOfYear = MainActivity.autumn.days.get(numberDayOfYear
+                            - MainActivity.winter.days.size()
+                            - MainActivity.spring.days.size()
+                            - MainActivity.summer.days.size() - 1);
+                    dayOfYear.tasks.add(task);
+                }
+// Доработать не подсвечиваются дни перенесенных незавершенныз задач
+//                dayOfYear.dayClosed = true;
+//                for (Task task : dayOfYear.tasks) {
+//                    if(!task.isDone && task.isValid){
+//                        day.dayClosed = false;
+//                    }
+//                }
+
+//                day.dayClosed = true;
+//                for (Task task : day.tasks) {
+//                    if(!task.isDone && task.isValid){
+//                        day.dayClosed = false;
+//                    }
+//                }
+
+                updateSchedule(day);
+
+                winter.invalidate();
+                spring.invalidate();
+                summer.invalidate();
+                autumn.invalidate();
+            }
+        };
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, year, month, dayOfMonth);
+
+        datePickerDialog.setTitle("Select the end date for the task");
+        datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        datePickerDialog.show();
+    }
+
     public void updateSchedule(final Day selectedDay){
 
         processUpdateSchedule = true;
@@ -2638,6 +2766,7 @@ public class MainActivity extends AppCompatActivity {
         taskTime.setText("__:__");
         taskDuration.setText("__:__");
         taskDescription.setText("");
+        startOfTask.setText("__.__.____");
         endOfTask.setText("__.__.____");
         everyYear.setChecked(false);
         everyMonth.setChecked(false);
@@ -2655,6 +2784,7 @@ public class MainActivity extends AppCompatActivity {
 
             taskDescription.setText(task.content);
 
+            startOfTask.setText(new SimpleDateFormat("dd.MM.yyyy").format(task.startTime));
             endOfTask.setText(new SimpleDateFormat("dd.MM.yyyy").format(task.finishTime));
 
             if(task.monday){
