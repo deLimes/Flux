@@ -2719,7 +2719,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < selectedDay.tasks.size(); i++) {
             //Log.d("myLogs", "i = " + i);
             final Task task = selectedDay.tasks.get(i);
-            View item = ltInflater.inflate(R.layout.item, linLayout, false);
+            final View item = ltInflater.inflate(R.layout.item, linLayout, false);
 
             CheckBox checkBox = (CheckBox) item.findViewById(R.id.checkBox);
             checkBox.setChecked(task.isValid);
@@ -2729,7 +2729,12 @@ public class MainActivity extends AppCompatActivity {
 
                     changedeTasksOfYear = true;
                     task.isValid = b;
-                    setReminder(task, day.date);
+                    if(b){
+                        setReminder(task, day.date);
+                    }else{
+                        task.removeFromAM = true;
+                        setReminder(task, day.date);
+                    }
                     //%%C del - setReminder(task);
 
                     day.dayClosed = true;
@@ -2822,12 +2827,18 @@ public class MainActivity extends AppCompatActivity {
                     item.setBackgroundColor(colors2[i % 2]);
                 }
             }
+
+            if(task == MainActivity.task){
+                item.setBackgroundColor(Color.TRANSPARENT);
+            }
+
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     MainActivity.task = task;
                     updateSchedule(day);
                     taskDescription.setEnabled(true);
+
 //                    taskIndex = selectedDay.tasks.indexOf(task);
 //                    calendar.clear();
 //                    calendar.setTimeInMillis(task.startTime);

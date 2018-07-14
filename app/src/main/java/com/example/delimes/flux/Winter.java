@@ -234,6 +234,7 @@ class Winter extends View {
         //1-ый месяц
         int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int k = 0;
+        int g = 1;
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l = i - 1;
 
@@ -290,6 +291,8 @@ class Winter extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -325,6 +328,7 @@ class Winter extends View {
             }
 
             k += side;
+            g += 1;
         }
         if (firstOccurrence) {
             januaryLength = -upperLeftCornerX + getWidth()* 1.5f;
@@ -425,6 +429,8 @@ class Winter extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -459,6 +465,7 @@ class Winter extends View {
 
             }
             k += side;
+            g += 1;
         }
         if (firstOccurrence) {
             februaryLength = -upperLeftCornerX + getWidth() * 1.5f;
@@ -580,6 +587,8 @@ class Winter extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -614,6 +623,7 @@ class Winter extends View {
 
             }
             k += side;
+            g += 1;
         }
         if (firstOccurrence) {
 

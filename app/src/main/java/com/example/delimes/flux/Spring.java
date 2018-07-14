@@ -210,6 +210,7 @@ class Spring extends View {
         //1-ый месяц
         int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int k = 0;
+        int g = 1;
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l = i - 1;
             bottomLeftCornerY = y + k;
@@ -266,6 +267,8 @@ class Spring extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -313,6 +316,7 @@ class Spring extends View {
             }
 
             k += side;
+            g += 1;
         }
         if (firstOccurrence) {
             aprilLength = -bottomLeftCornerY + getHeight()/2;
@@ -366,6 +370,7 @@ class Spring extends View {
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l += 1;
+
             bottomLeftCornerY = y + k;
             String text = ("" + i).length() == 1 ? "0" + i : "" + i;
             float left = x;
@@ -421,6 +426,8 @@ class Spring extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -455,6 +462,7 @@ class Spring extends View {
             }
 
             k += side;
+            g += 1;
         }
         if (firstOccurrence) {
             mayLength = -bottomLeftCornerY + getHeight()/2;
@@ -568,6 +576,8 @@ class Spring extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -603,6 +613,7 @@ class Spring extends View {
             }
 
             k += side;
+            g += 1;
         }
 
         if (firstOccurrence) {

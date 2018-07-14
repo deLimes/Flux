@@ -211,6 +211,7 @@ class Autumn extends View {
         //1-ый месяц
         int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int k = 0;
+        int g = 1;
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l = i - 1;
             upperRightCornerY = y - k;
@@ -269,6 +270,8 @@ class Autumn extends View {
 
                     //if (date.getTime() == currDate.getTime()) {
                     if (date.compareTo(MainActivity.currDate) == 0) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -304,6 +307,7 @@ class Autumn extends View {
 
             }
             k += side;
+            g += 1;
         }
         if (firstOccurrence) {
             octoberLength = -upperRightCornerY + getHeight() * 1.5f;
@@ -406,6 +410,8 @@ class Autumn extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -442,6 +448,7 @@ class Autumn extends View {
 
             }
             k += side;
+            g += 1;
         }
         if (firstOccurrence) {
             novemberLength = -upperRightCornerY + getHeight() * 1.5f;
@@ -556,6 +563,8 @@ class Autumn extends View {
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
+                        currentDate = days.get(g);
+
                         currentDate.left = left;
                         currentDate.top = top;
                         currentDate.right = right;
@@ -592,6 +601,7 @@ class Autumn extends View {
 
             }
             k += side;
+            g += 1;
         }
 
         if (firstOccurrence) {
