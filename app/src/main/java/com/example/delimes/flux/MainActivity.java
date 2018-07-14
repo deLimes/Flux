@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     static TextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
+    TextView labelStartOfTask, labelEndOfTask;
     TextView startOfTask, endOfTask;
     EditText taskDescription, inDays;
     Button buttonAddTask, buttonDeleteTask;
@@ -421,19 +422,33 @@ public class MainActivity extends AppCompatActivity {
                 params.topToBottom = R.id.taskDescription;
                 layoutDayOfWeek.setLayoutParams(params);
 
-                //startOfTask
+                //labelStartOfTask
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.layoutDayOfWeek;
+                params.topToBottom = R.id.taskDescription;
+                params.rightToLeft = R.id.startOfTask;
+                labelStartOfTask.setLayoutParams(params);
+
+                //startOfTask
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToRight = R.id.labelStartOfTask;
                 params.topToBottom = R.id.taskDescription;
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 startOfTask.setLayoutParams(params);
                 //////startOfTask.setBackgroundColor(Color.BLUE);
 
+                //labelEndOfTask
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToRight = R.id.endOfTask;
+                params.topToBottom = R.id.startOfTask;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                labelEndOfTask.setLayoutParams(params);
+
                 //endOfTask
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.layoutDayOfWeek;
                 params.topToBottom = R.id.startOfTask;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                params.rightToRight = R.id.labelEndOfTask;
                 endOfTask.setLayoutParams(params);
                 //////endOfTask.setBackgroundColor(Color.RED);
 
@@ -551,9 +566,20 @@ public class MainActivity extends AppCompatActivity {
         taskDescription.setEnabled(false);
         сonstraintLayoutForSchedule.addView(taskDescription);
 
+
+        labelStartOfTask = new TextView(this);
+        labelStartOfTask.setId(R.id.labelStartOfTask);
+        labelStartOfTask.setText("начало->");
+        сonstraintLayoutForSchedule.addView(labelStartOfTask);
+
         startOfTask = new TextView(this);
         startOfTask.setId(R.id.startOfTask);
         сonstraintLayoutForSchedule.addView(startOfTask);
+
+        labelEndOfTask = new TextView(this);
+        labelEndOfTask.setId(R.id.labelEndOfTask);
+        labelEndOfTask.setText("<-конец");
+        сonstraintLayoutForSchedule.addView(labelEndOfTask);
 
         endOfTask = new TextView(this);
         endOfTask.setId(R.id.endOfTask);
@@ -2728,19 +2754,19 @@ public class MainActivity extends AppCompatActivity {
                     dayOfYear.tasks.add(task);
                 }
 // Доработать не подсвечиваются дни перенесенных незавершенныз задач
-//                dayOfYear.dayClosed = true;
-//                for (Task task : dayOfYear.tasks) {
-//                    if(!task.isDone && task.isValid){
-//                        day.dayClosed = false;
-//                    }
-//                }
+                dayOfYear.dayClosed = true;
+                for (Task task : dayOfYear.tasks) {
+                    if(!task.isDone && task.isValid){
+                        dayOfYear.dayClosed = false;
+                    }
+                }
 
-//                day.dayClosed = true;
-//                for (Task task : day.tasks) {
-//                    if(!task.isDone && task.isValid){
-//                        day.dayClosed = false;
-//                    }
-//                }
+                day.dayClosed = true;
+                for (Task task : day.tasks) {
+                    if(!task.isDone && task.isValid){
+                        day.dayClosed = false;
+                    }
+                }
 
                 updateSchedule(day);
 
@@ -2938,8 +2964,6 @@ public class MainActivity extends AppCompatActivity {
 
             long dateTaskStartTime = myCalender.getTimeInMillis();
 
-
-
             item.setBackgroundColor(colors[i % 2]);
             if (dateTaskStartTime == day.date.getTime()){
 
@@ -2959,7 +2983,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if(task == MainActivity.task){
-                item.setBackgroundColor(Color.TRANSPARENT);
+                item.setBackgroundResource(R.drawable.layout_border);//
             }
 
             item.setOnClickListener(new View.OnClickListener() {
