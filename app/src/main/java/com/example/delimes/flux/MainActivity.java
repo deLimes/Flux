@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Instrumentation;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -359,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //dateMonth.setBackgroundColor(Color.RED);
 
-                dateMonth.setTextSize(width/2/2/2);
+                dateMonth.setTextSize(width/10);
                 dateMonth.setTextColor(Color.BLACK);
                 dateMonth.setLayoutParams(params);
 
@@ -426,14 +427,15 @@ public class MainActivity extends AppCompatActivity {
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.layoutDayOfWeek;
                 params.topToBottom = R.id.taskDescription;
-                params.rightToLeft = R.id.startOfTask;
+                params.leftMargin = 10;
+                //params.rightToLeft = R.id.startOfTask;
                 labelStartOfTask.setLayoutParams(params);
 
                 //startOfTask
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.labelStartOfTask;
                 params.topToBottom = R.id.taskDescription;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 startOfTask.setLayoutParams(params);
                 //////startOfTask.setBackgroundColor(Color.BLUE);
 
@@ -441,14 +443,15 @@ public class MainActivity extends AppCompatActivity {
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.endOfTask;
                 params.topToBottom = R.id.startOfTask;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 labelEndOfTask.setLayoutParams(params);
 
                 //endOfTask
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.layoutDayOfWeek;
                 params.topToBottom = R.id.startOfTask;
-                params.rightToRight = R.id.labelEndOfTask;
+                params.leftMargin = 10;
+                //params.rightToLeft = R.id.labelEndOfTask;
                 endOfTask.setLayoutParams(params);
                 //////endOfTask.setBackgroundColor(Color.RED);
 
@@ -1645,9 +1648,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
+
+        //////////////////////////////
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "default_channel_id";
+            String channelDescription = "Default Channel";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
+            if (notificationChannel  == null) {
+                notificationChannel  = new NotificationChannel(channelId, channelDescription, importance);
+                notificationChannel .enableVibration(true);
+                notificationChannel .setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                notificationManager.createNotificationChannel(notificationChannel );
+            }
+            NotificationCompat.Builder builderCompat = new NotificationCompat.Builder(context, channelId);
+            builderCompat.setContentTitle("Напоминание")                            // required
+                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
+                    .setContentText(intent.getStringExtra("content")) // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pIntent)
+                    .setTicker("Пора!")
+                    .setWhen(System.currentTimeMillis())
+                    .setAutoCancel(true)
+                    .setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+
+            notification = builderCompat.build();
+        }
+        //////////////////////////////
+
         notificationManager.notify(notifyId, notification);
 
 
