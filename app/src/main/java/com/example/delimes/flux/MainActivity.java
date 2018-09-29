@@ -1656,42 +1656,47 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
 
         //////////////////////////////
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId = "default_channel_id";
-            String channelDescription = "Default Channel";
+            //String channelId = "default_channel_id";
+            String channelId = "channel_id";
+            //String channelDescription = "Default Channel";
+            String channelDescription = "Channel";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
             if (notificationChannel  == null) {
                 notificationChannel  = new NotificationChannel(channelId, channelDescription, importance);
-                notificationChannel .enableVibration(true);
-                notificationChannel .setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                notificationChannel.enableLights(true);//doesn't work
+                notificationChannel.setLightColor(Color.BLUE);//doesn't work
+                notificationChannel.enableVibration(true);//doesn't work
+                notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});//doesn't work
                 notificationManager.createNotificationChannel(notificationChannel );
             }
             NotificationCompat.Builder builderCompat = new NotificationCompat.Builder(context, channelId);
-            builderCompat.setContentTitle("Напоминание")                            // required
-                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
-                    .setContentText(intent.getStringExtra("content")) // required
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true)
-                    .setContentIntent(pIntent)
-                    .setTicker("Пора!")
-                    .setWhen(System.currentTimeMillis())
-                    .setAutoCancel(true)
-                    .setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
-                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            builderCompat.setContentTitle("Напоминание");                            // required
+            //builderCompat.setDefaults(Notification.DEFAULT_ALL);
+            builderCompat.setSmallIcon(android.R.drawable.ic_popup_reminder);   // required
+            builderCompat.setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher));
+            builderCompat.setContentText(intent.getStringExtra("content")); // required
+            builderCompat.setDefaults(Notification.DEFAULT_ALL);
+            builderCompat.setAutoCancel(true);
+            builderCompat.setContentIntent(pIntent);
+            builderCompat.setTicker("Пора!");
+            builderCompat.setWhen(System.currentTimeMillis());
+            builderCompat.setAutoCancel(true);
+            builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
+            builderCompat.setLights(0xff0000ff, 300, 1000);// blue color//doesn't work
+            builderCompat.setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});//doesn't work
 
             notification = builderCompat.build();
         }
         //////////////////////////////
 
+        //notification.defaults |= Notification.DEFAULT_VIBRATE;//doesn't work
         notificationManager.notify(notifyId, notification);
 
 
