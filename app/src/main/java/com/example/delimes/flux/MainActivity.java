@@ -1579,7 +1579,15 @@ public class MainActivity extends AppCompatActivity {
             if(task.isValid && !task.shown && !task.isDone) {
                 Log.d("myLogs", "setReminder: 3");
                 //%%C del - am.cancel(pIntent);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, myCalender.getTimeInMillis(), pIntent);
+                long alarmPeriodicTime = myCalender.getTimeInMillis();
+                if (Build.VERSION.SDK_INT >= 23) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmPeriodicTime, pIntent);
+                } else if (Build.VERSION.SDK_INT >= 19) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmPeriodicTime, pIntent);
+                } else {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmPeriodicTime, pIntent);
+                }
+                //alarmManager.set(AlarmManager.RTC_WAKEUP, myCalender.getTimeInMillis(), pIntent);
                 Log.d("myLogs", "setReminder: Date: "+new Date(myCalender.getTimeInMillis()));
                 Log.d("myLogs", "setReminder: notificationIntent.extra: "+notificationIntent.getStringExtra("extra"));
             }
