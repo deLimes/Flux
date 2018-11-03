@@ -211,7 +211,7 @@ class Autumn extends View {
         //1-ый месяц
         int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int k = 0;
-        int g = 1;
+        int g = 0;
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l = i - 1;
             upperRightCornerY = y - k;
