@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -66,6 +67,12 @@ class Autumn extends View {
     boolean drag = false;
     float dragX = 0;
     float dragY = 0;
+
+    ////////////////////////////
+    float posY = 0;
+    float relativePosY = 0;
+    float previousDragDirection = 0;
+    ////////////////////////////
 
     Bitmap backingBitmap;
     Canvas drawCanvas;
@@ -794,6 +801,12 @@ class Autumn extends View {
         float evX = event.getX();
         float evY = event.getY();
 
+        //////////////////////////////////////////////////////////////
+        float lengthDraggingY = 0;
+        float dragDirection = 0;
+        //////////////////////////////////////////////////////////////
+
+
         switch (event.getAction()) {
             // касание началось
             case MotionEvent.ACTION_DOWN:
@@ -808,6 +821,11 @@ class Autumn extends View {
                 dragY = evY - y;
 
                 //Log.d("WH", "W:" + Width + "H:" + Height);
+                ////////////////////////////////////
+                posY = evY;
+                previousDragDirection = 0;
+                ////////////////////////////////////
+
 
 
                 break;
@@ -826,6 +844,39 @@ class Autumn extends View {
                     }
                     invalidate();
                     //Log.d("XY", "X:" + x + "Y:" + y + "length "+length);
+                    /////////////////////////////////////////////////////////////////////
+                    dragDirection = evY - posY;
+                    lengthDraggingY = previousDragDirection - dragDirection;
+                    previousDragDirection = dragDirection;
+
+                    //summer//
+                    MainActivity.summer.x += lengthDraggingY;
+                    if(MainActivity.summer.x >= 0) {
+                        MainActivity.summer.x = 0;
+                    }
+                    if(MainActivity.summer.x <= MainActivity.summer.length){
+                        MainActivity.summer.x = MainActivity.summer.length;
+                    }
+                    MainActivity.summer.invalidate();
+                    //spring//
+                    MainActivity.spring.y += lengthDraggingY;
+                    if(MainActivity.spring.y >= 0) {
+                        MainActivity.spring.y = 0;
+                    }
+                    if(MainActivity.spring.y <= MainActivity.spring.length){
+                        MainActivity.spring.y = MainActivity.spring.length;
+                    }
+                    MainActivity.spring.invalidate();
+                    //winter//
+                    MainActivity.winter.x -= lengthDraggingY;
+                    if(MainActivity.winter.x <= MainActivity.winter.getWidth()) {
+                        MainActivity.winter.x = MainActivity.winter.getWidth();
+                    }
+                    if(MainActivity.winter.x >= MainActivity.winter.length){
+                        MainActivity.winter.x = MainActivity.winter.length;
+                    }
+                    MainActivity.winter.invalidate();
+                    /////////////////////////////////////////////////////////////////////////////
                 }
 
                 break;
@@ -900,8 +951,26 @@ class Autumn extends View {
                 public void onTick(long millisUntilFinished) {
                     if (velocityY > 0){
                         y += millisUntilFinished / 30;
+
+                        /////////////////////////////////////////////////////////////////////
+                        //summer//
+                        MainActivity.summer.x -= millisUntilFinished / 30;
+                        //spring//
+                        MainActivity.spring.y -= millisUntilFinished / 30;
+                        //winter//
+                        MainActivity.winter.x += millisUntilFinished / 30;
+                        /////////////////////////////////////////////////////////////////////////////
                     }else{
                         y -= millisUntilFinished / 30;
+
+                        /////////////////////////////////////////////////////////////////////
+                        //summer//
+                        MainActivity.summer.x += millisUntilFinished / 30;
+                        //spring//
+                        MainActivity.spring.y += millisUntilFinished / 30;
+                        //winter//
+                        MainActivity.winter.x -= millisUntilFinished / 30;
+                        /////////////////////////////////////////////////////////////////////////////
                     }
                     // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
 
@@ -915,6 +984,31 @@ class Autumn extends View {
 
                     //обновить
                     invalidate();
+
+                    //summer//
+                    if(MainActivity.summer.x >= 0) {
+                        MainActivity.summer.x = 0;
+                    }
+                    if(MainActivity.summer.x <= MainActivity.summer.length){
+                        MainActivity.summer.x = MainActivity.summer.length;
+                    }
+                    MainActivity.summer.invalidate();
+                    //spring//
+                    if(MainActivity.spring.y >= 0) {
+                        MainActivity.spring.y = 0;
+                    }
+                    if(MainActivity.spring.y <= MainActivity.spring.length){
+                        MainActivity.spring.y = MainActivity.spring.length;
+                    }
+                    MainActivity.spring.invalidate();
+                    //winter//
+                    if(MainActivity.winter.x <= MainActivity.winter.getWidth()) {
+                        MainActivity.winter.x = MainActivity.winter.getWidth();
+                    }
+                    if(MainActivity.winter.x >= MainActivity.winter.length){
+                        MainActivity.winter.x = MainActivity.winter.length;
+                    }
+                    MainActivity.winter.invalidate();
                 }
 
                 public void onFinish() {

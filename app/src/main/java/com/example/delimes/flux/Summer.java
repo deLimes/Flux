@@ -759,6 +759,8 @@ class Summer extends View {
 
                 countDownTimer.cancel();
 
+                //Log.d("XY1", "X:" + x + " Y:" + y + " evY:" + evY + " dragY:" + dragY + " length "+length+ " getHeight() "+getHeight());
+
 
                 break;
             // тащим
@@ -775,7 +777,13 @@ class Summer extends View {
                         x = length;
                     }
                     invalidate();
-                    //Log.d("XY", "X:" + x + "Y:" + y + "length" + length);
+                    //Log.d("XY2", "X:" + x + "Y:" + y + "length" + length);
+
+                    //////////////////////////////////////////////////
+                    float lengthDragging = x - length;
+                    //Log.d("XY", "X:" + x + " Y:" + y + " evY:" + evY + " dragY:" + dragY + " length "+length+ " getHeight() "+getHeight()+ " lengthDragging:" + lengthDragging);
+//
+                    //////////////////////////////////////////////////
                 }
 
                 break;
