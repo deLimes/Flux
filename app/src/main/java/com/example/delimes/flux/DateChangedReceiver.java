@@ -9,7 +9,10 @@ import java.util.Date;
 
 public class DateChangedReceiver extends BroadcastReceiver {
 
-    public DateChangedReceiver() {
+    public MainActivity mainActivity;
+
+    public DateChangedReceiver(Context context) {
+        this.mainActivity = (MainActivity)context;
     }
 
     @Override
@@ -24,10 +27,10 @@ public class DateChangedReceiver extends BroadcastReceiver {
         MainActivity.calendar.set(year, month, day);
         MainActivity.currDate = new Date(MainActivity.calendar.getTimeInMillis());
 
-        MainActivity.winter.invalidate();
-        MainActivity.spring.invalidate();
-        MainActivity.summer.invalidate();
-        MainActivity.autumn.invalidate();
+        mainActivity.winter.invalidate();
+        mainActivity.spring.invalidate();
+        mainActivity.summer.invalidate();
+        mainActivity.autumn.invalidate();
     }
 
 }

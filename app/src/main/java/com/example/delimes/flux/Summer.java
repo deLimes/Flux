@@ -52,6 +52,7 @@ class Summer extends View {
     boolean restore;
 
     Calendar calendar = GregorianCalendar.getInstance();
+    public MainActivity mainActivity;
 
     boolean firstOccurrence = true;
     int scrollTime = 0;
@@ -85,6 +86,7 @@ class Summer extends View {
     public Summer(Context context) {
         super(context);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
 
@@ -93,6 +95,7 @@ class Summer extends View {
     public Summer(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -100,6 +103,7 @@ class Summer extends View {
     public Summer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -203,7 +207,7 @@ class Summer extends View {
 
         //III-ий квартал
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.JULY);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -234,7 +238,7 @@ class Summer extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 6, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 6, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -251,9 +255,9 @@ class Summer extends View {
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.autumn.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.spring.currentDate = null;
+                    mainActivity.autumn.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -271,7 +275,7 @@ class Summer extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 6, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 6, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -342,7 +346,7 @@ class Summer extends View {
 
         //2-ой месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.AUGUST);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -375,7 +379,7 @@ class Summer extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 7, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 7, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -391,9 +395,9 @@ class Summer extends View {
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.autumn.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.spring.currentDate = null;
+                    mainActivity.autumn.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -411,7 +415,7 @@ class Summer extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 7, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 7, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -480,7 +484,7 @@ class Summer extends View {
 
         //3-ий месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -513,7 +517,7 @@ class Summer extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 8, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 8, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -530,9 +534,9 @@ class Summer extends View {
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.autumn.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.spring.currentDate = null;
+                    mainActivity.autumn.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -550,7 +554,7 @@ class Summer extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 8, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 8, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -599,6 +603,9 @@ class Summer extends View {
             length = -bottomRightCornerX + getWidth();
             //Log.d("XY", "length:" + length);
 
+            if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+                x = length;
+            }
             if (currentDate != null || selectedDay != null) {
                 Day date = currentDate;
                 if (currentDate == null){
@@ -613,31 +620,20 @@ class Summer extends View {
 
                 if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
                     x = x - date.right + getWidth() / 2 - getWidth() / 4;
-                    if(x >= 0) {
-                        x = 0;
-                    }
-                    if(x <= length){
-                        x = length;
-                    }
                 }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
                     x = x - date.right + getWidth() / 2;
-                    if(x >= 0) {
-                        x = 0;
-                    }
-                    if(x <= length){
-                        x = length;
-                    }
                 }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
                     x = x - date.left + getWidth() / 2 + getWidth() / 4;
-                    if(x >= 0) {
-                        x = 0;
-                    }
-                    if(x <= length){
-                        x = length;
-                    }
                 }
-                invalidate();
+
+                if(x >= 0) {
+                    x = 0;
+                }
+                if(x <= length){
+                    x = length;
+                }
             }
+            invalidate();
         }
 
         p.setColor(Color.BLACK);
@@ -719,9 +715,9 @@ class Summer extends View {
         Gson gson = new Gson();
         JsonArray array = parser.parse(MainActivity.yearStr.daysSummer).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
-            MainActivity.summer.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+            days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-            for (MainActivity.Task task : MainActivity.summer.days.get(i).tasks) {
+            for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
                 if (task.extra == taskExtra){
                     task.shown = true;
                     MainActivity.changedeTasksOfYear = true;
@@ -729,12 +725,12 @@ class Summer extends View {
                 //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
                 if (!task.isDone && task.isValid){
-                    MainActivity.summer.days.get(i).dayClosed = false;
+                    days.get(i).dayClosed = false;
                 }
             }
             //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
         }
-
+        invalidate();
     }
 
 
@@ -813,12 +809,12 @@ class Summer extends View {
                 Day b = j.next();
                 if(b.left <= doubleTapX && b.right >= doubleTapX) {
                     selectedDay = b;
-                    MainActivity.winter.selectedDay = null;
-                    MainActivity.winter.invalidate();
-                    MainActivity.spring.selectedDay = null;
-                    MainActivity.spring.invalidate();
-                    MainActivity.autumn.selectedDay = null;
-                    MainActivity.autumn.invalidate();
+                    mainActivity.winter.selectedDay = null;
+                    mainActivity.winter.invalidate();
+                    mainActivity.spring.selectedDay = null;
+                    mainActivity.spring.invalidate();
+                    mainActivity.autumn.selectedDay = null;
+                    mainActivity.autumn.invalidate();
                     invalidate();
 
                     calendar.clear();

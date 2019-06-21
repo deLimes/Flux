@@ -1,4 +1,15 @@
 
+
+06-20 17:17:51.631 17584-17584/com.example.delimes.flux D/123: Winter length: 5400.0
+06-20 17:17:51.632 17584-17584/com.example.delimes.flux D/123: Spring length: -4602.0
+06-20 17:17:51.632 17584-17584/com.example.delimes.flux D/123: Summer length: -4720.0
+06-20 17:17:51.633 17584-17584/com.example.delimes.flux D/123: Autumn length: 5522.0 side 60
+
+06-20 17:25:19.636 17678-17678/com.example.delimes.flux D/123: Winter length: 5460.0
+06-20 17:25:19.637 17678-17678/com.example.delimes.flux D/123: Spring length: -4844.0
+06-20 17:25:19.637 17678-17678/com.example.delimes.flux D/123: Summer length: -4720.0
+06-20 17:25:19.638 17678-17678/com.example.delimes.flux D/123: Autumn length: 5282.0 side 60
+//////////////////////////////////////////////////////////////////////
 String monthName;
 SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
 

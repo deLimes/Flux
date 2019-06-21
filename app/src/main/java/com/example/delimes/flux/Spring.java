@@ -52,6 +52,7 @@ class Spring extends View {
     boolean restore;
 
     Calendar calendar = GregorianCalendar.getInstance();
+    public MainActivity mainActivity;
 
     boolean firstOccurrence = true;
     int scrollTime = 0;
@@ -85,6 +86,7 @@ class Spring extends View {
     public Spring(Context context) {
         super(context);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
 
@@ -93,6 +95,7 @@ class Spring extends View {
     public Spring(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -100,6 +103,7 @@ class Spring extends View {
     public Spring(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -196,7 +200,7 @@ class Spring extends View {
 
         //II-ой квартал
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.APRIL);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -226,7 +230,7 @@ class Spring extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 3, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 3, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -243,9 +247,9 @@ class Spring extends View {
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.autumn.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.autumn.currentDate = null;
+                    mainActivity.summer.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -263,7 +267,7 @@ class Spring extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 3, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 3, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -355,7 +359,7 @@ class Spring extends View {
 
         //2-ой месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.MAY);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -384,7 +388,7 @@ class Spring extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 4, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 4, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -396,15 +400,15 @@ class Spring extends View {
             canvas.drawRect(left, top, right, bottom, p);
             if (firstOccurrence) {
                 calendar.clear();
-                calendar.set(MainActivity.numberYearPicker.getValue(), 4, i);
+                calendar.set(mainActivity.numberYearPicker.getValue(), 4, i);
                 Date date = new Date(calendar.getTimeInMillis());
                 days.add(new Day(date, left, top, right, bottom));
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.autumn.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.autumn.currentDate = null;
+                    mainActivity.summer.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -422,7 +426,7 @@ class Spring extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 4, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 4, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -507,7 +511,7 @@ class Spring extends View {
 
         //3-ий месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.JUNE);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -536,7 +540,7 @@ class Spring extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 5, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 5, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -552,9 +556,9 @@ class Spring extends View {
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.autumn.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.autumn.currentDate = null;
+                    mainActivity.summer.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -572,7 +576,7 @@ class Spring extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 5, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 5, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -622,6 +626,9 @@ class Spring extends View {
             length = -bottomLeftCornerY + getHeight() - side;
             //Log.d("XY", "bottomLeftCornerY:" + length);
 
+            if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+                y = length;
+            }
             if (currentDate != null || selectedDay != null) {
                 Day date = currentDate;
                 if (currentDate == null){
@@ -636,31 +643,20 @@ class Spring extends View {
 
                 if(calendar.get(Calendar.MONTH) == Calendar.APRIL) {
                     y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
-                    if (y >= 0) {
-                        y = 0;
-                    }
-                    if (y <= length) {
-                        y = length;
-                    }
                 }else if(calendar.get(Calendar.MONTH) == Calendar.MAY) {
                     y = y - date.top + getHeight() / 2;
-                    if (y >= 0) {
-                        y = 0;
-                    }
-                    if (y <= length) {
-                        y = length;
-                    }
                 }else if(calendar.get(Calendar.MONTH) == Calendar.JUNE) {
                     y = y - date.top + getHeight() / 2 + getHeight() / 4;
-                    if (y >= 0) {
-                        y = 0;
-                    }
-                    if (y <= length) {
-                        y = length;
-                    }
                 }
-                invalidate();
+
+                if (y >= 0) {
+                    y = 0;
+                }
+                if (y <= length) {
+                    y = length;
+                }
             }
+            invalidate();
         }
 
         p.setColor(Color.BLACK);
@@ -762,9 +758,9 @@ class Spring extends View {
         Gson gson = new Gson();
         JsonArray array = parser.parse(MainActivity.yearStr.daysSpring).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
-            MainActivity.spring.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+            days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-            for (MainActivity.Task task : MainActivity.spring.days.get(i).tasks) {
+            for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
                 if (task.extra == taskExtra){
                     task.shown = true;
                     MainActivity.changedeTasksOfYear = true;
@@ -772,12 +768,12 @@ class Spring extends View {
                 //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
                 if (!task.isDone && task.isValid){
-                    MainActivity.spring.days.get(i).dayClosed = false;
+                    days.get(i).dayClosed = false;
                 }
             }
             //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
         }
-
+        invalidate();
     }
 
 
@@ -859,12 +855,12 @@ class Spring extends View {
                 Day b = j.next();
                 if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
                     selectedDay = b;
-                    MainActivity.winter.selectedDay = null;
-                    MainActivity.winter.invalidate();
-                    MainActivity.summer.selectedDay = null;
-                    MainActivity.summer.invalidate();
-                    MainActivity.autumn.selectedDay = null;
-                    MainActivity.autumn.invalidate();
+                    mainActivity.winter.selectedDay = null;
+                    mainActivity.winter.invalidate();
+                    mainActivity.summer.selectedDay = null;
+                    mainActivity.summer.invalidate();
+                    mainActivity.autumn.selectedDay = null;
+                    mainActivity.autumn.invalidate();
                     invalidate();
 
                     calendar.clear();

@@ -56,6 +56,7 @@ class Winter extends View {
     boolean restore;
 
     Calendar calendar = GregorianCalendar.getInstance();
+    public MainActivity mainActivity;
 
 
     boolean firstOccurrence = true;
@@ -91,6 +92,7 @@ class Winter extends View {
     public Winter(Context context) {
         super(context);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
 
@@ -99,6 +101,7 @@ class Winter extends View {
     public Winter(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -106,6 +109,7 @@ class Winter extends View {
     public Winter(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -124,6 +128,7 @@ class Winter extends View {
         calendar.clear();
         calendar.set(year, month, day);
         MainActivity.currDate = new Date(calendar.getTimeInMillis());
+        fillInDays(mainActivity.chosenYearNumber);
 
     }
 
@@ -144,10 +149,9 @@ class Winter extends View {
 
         canvas.drawColor(Color.rgb(106, 90, 205));
         drawWinter(canvas);
-
     }
 
-    public void FillInDays(int year){
+    public void fillInDays(int year){
 
         int l = 0;
 
@@ -158,14 +162,38 @@ class Winter extends View {
 
         //1-ый месяц
         int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int k = 0;
+        int g = 0;
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l = i - 1;
+            upperLeftCornerX = x - k;
 
             calendar.clear();
             calendar.set(year, 0, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
+//
+            if (date.getTime() == MainActivity.currDate.getTime()) {
+                currentDate = days.get(days.size() - 1);
+                mainActivity.autumn.currentDate = null;
+                mainActivity.spring.currentDate = null;
+                mainActivity.summer.currentDate = null;
+            }
+            if (selectedDay != null) {
+                if (selectedDay.date.getMonth() == date.getMonth() &&
+                        selectedDay.date.getDate() == date.getDate()) {
+                    selectedDay = days.get(days.size() - 1);
+
+                }
+            }
+//
+
+            k += side;
+//            g += 1;
+        }
+        if (side > 0) {
+            januaryLength = -upperLeftCornerX + getWidth()* 1.5f;
         }
 
         //2-ой месяц
@@ -176,6 +204,7 @@ class Winter extends View {
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l += 1;
+            upperLeftCornerX = x - k;
 
             calendar.clear();
             calendar.set(year, 1, i);
@@ -183,6 +212,26 @@ class Winter extends View {
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
 
+            if (date.getTime() == MainActivity.currDate.getTime()) {
+                currentDate = days.get(days.size() - 1);
+                mainActivity.autumn.currentDate = null;
+                mainActivity.spring.currentDate = null;
+                mainActivity.summer.currentDate = null;
+            }
+            if (selectedDay != null) {
+                if (selectedDay.date.getMonth() == date.getMonth() &&
+                        selectedDay.date.getDate() == date.getDate()) {
+                    selectedDay = days.get(days.size() - 1);
+
+                }
+            }
+//
+//
+            k += side;
+//            g += 1;
+        }
+        if (side > 0) {
+            februaryLength = -upperLeftCornerX + getWidth() * 1.5f;
         }
 
         //3-ий месяц
@@ -193,14 +242,35 @@ class Winter extends View {
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l += 1;
+            upperLeftCornerX = x - k;
 
             calendar.clear();
             calendar.set(year, 2, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
-        }
 
+            if (date.getTime() == MainActivity.currDate.getTime()) {
+                currentDate = days.get(days.size() - 1);
+                mainActivity.autumn.currentDate = null;
+                mainActivity.spring.currentDate = null;
+                mainActivity.summer.currentDate = null;
+            }
+            if (selectedDay != null) {
+                if (selectedDay.date.getMonth() == date.getMonth() &&
+                        selectedDay.date.getDate() == date.getDate()) {
+                    selectedDay = days.get(days.size() - 1);
+
+                }
+            }
+
+            k += side;
+//            g += 1;
+        }
+        if (side > 0) {
+            marchLength = -upperLeftCornerX + getWidth() * 1.5f - side/2;
+            length = -upperLeftCornerX + getWidth() + side;
+        }
     }
 
     public void drawWinter(Canvas canvas){
@@ -221,7 +291,7 @@ class Winter extends View {
 
         //I-ый квартал
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.JANUARY);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -230,6 +300,22 @@ class Winter extends View {
         p.getTextBounds(monthName, 0, monthName.length(), textBounds);
         monthNameHeight = textBounds.height();
         monthNameWidth = textBounds.width();
+
+        ///////////////////////////////////
+//        int length2 = 0;
+//        if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+//            //mainActivity.previousChosenYearNumber = mainActivity.chosenYearNumber;
+//            calendar.clear();
+//            calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
+//            calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
+//
+//            int maxDaysOfMonthFebruary = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//            length2 = (31 + maxDaysOfMonthFebruary + 31 - 3) * side + getWidth() + side;
+//            Log.d("vnc", "length2: "+ length2+" maxDaysOfMonthFebruary()"+maxDaysOfMonthFebruary);
+//             x = 5307;
+//            //x = mainActivity.constraintLayout.getRight();
+//        }
+        /////////////////////
 
         //1-ый месяц
         int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -251,7 +337,7 @@ class Winter extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 0, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 0, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -261,102 +347,137 @@ class Winter extends View {
             p.setColor(Color.BLACK);
             p.setStyle(Paint.Style.STROKE);
             canvas.drawRect(left, top, right, bottom, p);
-            if (firstOccurrence) {
+//            if (firstOccurrence) {
+//                Date date = new Date(calendar.getTimeInMillis());
+//                days.add(new Day(date, left, top, right, bottom));
+//
+//                if (date.getTime() == MainActivity.currDate.getTime()) {
+//                    currentDate = days.get(g);
+//                    mainActivity.autumn.currentDate = null;
+//                    mainActivity.spring.currentDate = null;
+//                    mainActivity.summer.currentDate = null;
+//                }
+//
+//                if (selectedDay != null) {
+//                    if (selectedDay.date.getMonth() == date.getMonth() &&
+//                            selectedDay.date.getDate() == date.getDate() ) {
+//                        selectedDay = days.get(g);
+//
+//                    }
+//                }
+//            }else{
+//                days.get(l).left = left;
+//                days.get(l).top = top;
+//                days.get(l).right = right;
+//                days.get(l).bottom = bottom;
+//
+//                if (currentDate != null) {
+//                    calendar.clear();
+//                    calendar.set(mainActivity.numberYearPicker.getValue(), 0, i);
+//                    Date date = new Date(calendar.getTimeInMillis());
+//
+//                    if (date.getTime() == MainActivity.currDate.getTime()) {
+//                        currentDate = days.get(g);
+//
+//                        currentDate.left = left;
+//                        currentDate.top = top;
+//                        currentDate.right = right;
+//                        currentDate.bottom = bottom;
+//                    }
+//                }
+//
+//                if(!days.get(l).dayClosed){
+//                    p.setColor(Color.CYAN);
+//                    p.setStrokeWidth(strokeWidth/2);
+//                    p.setStyle(Paint.Style.STROKE);
+//                    canvas.drawRect(left, top, right, bottom, p);
+//                }
+//
+//                for (MainActivity.Task task : days.get(l).tasks) {
+//
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+//                        p.setColor(Color.rgb(221, 160, 221));
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                        p.setStyle(Paint.Style.FILL);
+//                    }
+//
+//                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+//                        p.setColor(Color.rgb(139, 0, 139));
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                        p.setStyle(Paint.Style.FILL);
+//                    }
+//                }
+//
+//            }
+
+            days.get(l).left = left;
+            days.get(l).top = top;
+            days.get(l).right = right;
+            days.get(l).bottom = bottom;
+
+            if (currentDate != null) {
+                calendar.clear();
+                calendar.set(mainActivity.numberYearPicker.getValue(), 0, i);
                 Date date = new Date(calendar.getTimeInMillis());
-                days.add(new Day(date, left, top, right, bottom));
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
-                    currentDate = days.get(days.size()-1);
-                    MainActivity.autumn.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    currentDate = days.get(g);
+
+                    currentDate.left = left;
+                    currentDate.top = top;
+                    currentDate.right = right;
+                    currentDate.bottom = bottom;
                 }
+            }
 
-                if (selectedDay != null) {
-                    if (selectedDay.date.getMonth() == date.getMonth() &&
-                            selectedDay.date.getDate() == date.getDate() ) {
-                        selectedDay = days.get(days.size()-1);
+            if (!days.get(l).dayClosed) {
+                p.setColor(Color.CYAN);
+                p.setStrokeWidth(strokeWidth / 2);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+            }
 
-                    }
-                }
-            }else{
-                days.get(l).left = left;
-                days.get(l).top = top;
-                days.get(l).right = right;
-                days.get(l).bottom = bottom;
+            for (MainActivity.Task task : days.get(l).tasks) {
 
-                if (currentDate != null) {
-                    calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 0, i);
-                    Date date = new Date(calendar.getTimeInMillis());
-
-                    if (date.getTime() == MainActivity.currDate.getTime()) {
-                        currentDate = days.get(g);
-
-                        currentDate.left = left;
-                        currentDate.top = top;
-                        currentDate.right = right;
-                        currentDate.bottom = bottom;
-                    }
-                }
-
-                if(!days.get(l).dayClosed){
-                    p.setColor(Color.CYAN);
-                    p.setStrokeWidth(strokeWidth/2);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                if (sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))) {
+                    p.setColor(Color.rgb(221, 160, 221));
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
+                    p.setStyle(Paint.Style.FILL);
                 }
 
-                for (MainActivity.Task task : days.get(l).tasks) {
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
-                        p.setColor(Color.rgb(221, 160, 221));
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                        p.setStyle(Paint.Style.FILL);
-                    }
-
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
-                        p.setColor(Color.rgb(139, 0, 139));
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                        p.setStyle(Paint.Style.FILL);
-                    }
+                if (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))) {
+                    p.setColor(Color.rgb(139, 0, 139));
+                    p.setStyle(Paint.Style.STROKE);
+                    canvas.drawRect(left, top, right, bottom, p);
+                    p.setStyle(Paint.Style.FILL);
                 }
-
             }
 
             k += side;
             g += 1;
         }
-        if (firstOccurrence) {
-            januaryLength = -upperLeftCornerX + getWidth()* 1.5f;
-        }
+//        if (firstOccurrence) {
+//            januaryLength = -upperLeftCornerX + getWidth()* 1.5f;
+//        }
 
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.FILL);
         if(x <= januaryLength) {
             p.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(monthName, getWidth() / 2, y - side * 1.5f, p);
-
-               /* p.setStyle(Paint.Style.STROKE);
-                canvas.drawRect(getWidth()/2,y - side * 1.5f-monthNameHeight,getWidth()/2+monthNameWidth ,y - side * 1.5f, p);
-                p.setStyle(Paint.Style.FILL);*/
         }else{
             p.setTextAlign(Paint.Align.LEFT);
             canvas.drawText(monthName, upperLeftCornerX - side, y - side * 1.5f, p);
         }
 
-
-
-//            p.setColor(Color.CYAN);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(upperLeftCornerX, y, p);
-
         //2-ой месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -388,7 +509,7 @@ class Winter extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 1, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 1, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -399,103 +520,128 @@ class Winter extends View {
             p.setColor(Color.BLACK);
             p.setStyle(Paint.Style.STROKE);
             canvas.drawRect(left, top, right, bottom, p);
-            if (firstOccurrence) {
+//            if (firstOccurrence) {
+//                Date date = new Date(calendar.getTimeInMillis());
+//                days.add(new Day(date, left, top, right, bottom));
+//
+//                if (date.getTime() == MainActivity.currDate.getTime()) {
+//                    //currentDate = days.get(days.size()-1);
+//                    currentDate = days.get(g);
+//                    mainActivity.autumn.currentDate = null;
+//                    mainActivity.spring.currentDate = null;
+//                    mainActivity.summer.currentDate = null;
+//                }
+//
+//                if (selectedDay != null) {
+//                    if (selectedDay.date.getMonth() == date.getMonth() &&
+//                            selectedDay.date.getDate() == date.getDate() ) {
+//                        //selectedDay = days.get(days.size()-1);
+//                        selectedDay = days.get(g);
+//
+//                    }
+//                }
+//            }else{
+//                days.get(l).left = left;
+//                days.get(l).top = top;
+//                days.get(l).right = right;
+//                days.get(l).bottom = bottom;
+//
+//                if (currentDate != null) {
+//                    calendar.clear();
+//                    calendar.set(mainActivity.numberYearPicker.getValue(), 1, i);
+//                    Date date = new Date(calendar.getTimeInMillis());
+//
+//                    if (date.getTime() == MainActivity.currDate.getTime()) {
+//                        currentDate = days.get(g);
+//
+//                        currentDate.left = left;
+//                        currentDate.top = top;
+//                        currentDate.right = right;
+//                        currentDate.bottom = bottom;
+//                    }
+//                }
+//
+//                if(!days.get(l).dayClosed){
+//                    p.setColor(Color.CYAN);
+//                    p.setStrokeWidth(strokeWidth/2);
+//                    p.setStyle(Paint.Style.STROKE);
+//                    canvas.drawRect(left, top, right, bottom, p);
+//                }
+//
+//                for (MainActivity.Task task : days.get(l).tasks) {
+//
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+//                        p.setColor(Color.rgb(221, 160, 221));
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                        p.setStyle(Paint.Style.FILL);
+//                    }
+//
+//                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+//                        p.setColor(Color.rgb(139, 0, 139));
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                        p.setStyle(Paint.Style.FILL);
+//                    }
+//                }
+//
+//            }
+
+            days.get(l).left = left;
+            days.get(l).top = top;
+            days.get(l).right = right;
+            days.get(l).bottom = bottom;
+
+            if (currentDate != null) {
+                calendar.clear();
+                calendar.set(mainActivity.numberYearPicker.getValue(), 1, i);
                 Date date = new Date(calendar.getTimeInMillis());
-                days.add(new Day(date, left, top, right, bottom));
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
-                    currentDate = days.get(days.size()-1);
-                    MainActivity.autumn.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    currentDate = days.get(g);
+
+                    currentDate.left = left;
+                    currentDate.top = top;
+                    currentDate.right = right;
+                    currentDate.bottom = bottom;
                 }
+            }
 
-                if (selectedDay != null) {
-                    if (selectedDay.date.getMonth() == date.getMonth() &&
-                            selectedDay.date.getDate() == date.getDate() ) {
-                        selectedDay = days.get(days.size()-1);
+            if (!days.get(l).dayClosed) {
+                p.setColor(Color.CYAN);
+                p.setStrokeWidth(strokeWidth / 2);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+            }
 
-                    }
-                }
-            }else{
-                days.get(l).left = left;
-                days.get(l).top = top;
-                days.get(l).right = right;
-                days.get(l).bottom = bottom;
+            for (MainActivity.Task task : days.get(l).tasks) {
 
-                if (currentDate != null) {
-                    calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 1, i);
-                    Date date = new Date(calendar.getTimeInMillis());
-
-                    if (date.getTime() == MainActivity.currDate.getTime()) {
-                        currentDate = days.get(g);
-
-                        currentDate.left = left;
-                        currentDate.top = top;
-                        currentDate.right = right;
-                        currentDate.bottom = bottom;
-                    }
-                }
-
-                if(!days.get(l).dayClosed){
-                    p.setColor(Color.CYAN);
-                    p.setStrokeWidth(strokeWidth/2);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                if (sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))) {
+                    p.setColor(Color.rgb(221, 160, 221));
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
+                    p.setStyle(Paint.Style.FILL);
                 }
 
-                for (MainActivity.Task task : days.get(l).tasks) {
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
-                        p.setColor(Color.rgb(221, 160, 221));
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                        p.setStyle(Paint.Style.FILL);
-                    }
-
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
-                        p.setColor(Color.rgb(139, 0, 139));
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                        p.setStyle(Paint.Style.FILL);
-                    }
+                if (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))) {
+                    p.setColor(Color.rgb(139, 0, 139));
+                    p.setStyle(Paint.Style.STROKE);
+                    canvas.drawRect(left, top, right, bottom, p);
+                    p.setStyle(Paint.Style.FILL);
                 }
-
             }
+
             k += side;
             g += 1;
         }
-        if (firstOccurrence) {
-            februaryLength = -upperLeftCornerX + getWidth() * 1.5f;
-        }
+//        if (firstOccurrence) {
+//            februaryLength = -upperLeftCornerX + getWidth() * 1.5f;
+//        }
 
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.FILL);
-//            if(x <= februaryLength && x >= januaryLength + side * 2) {
-//                p.setTextAlign(Paint.Align.CENTER);
-//                canvas.drawText("FEBRUARY", getWidth()/2, y - side * 1.5f, p);
-//            }else if(x <= februaryLength){
-//                p.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText("FEBRUARY", upperLeftCornerX + (februaryLength - januaryLength) - side, y - side * 1.5f, p);
-//            }else if(x >= februaryLength){
-//                p.setTextAlign(Paint.Align.LEFT);
-//                canvas.drawText("FEBRUARY", upperLeftCornerX - side, y - side * 1.5f, p);
-//            }
-
-//            if(x <= februaryLength - side*0.25f && x >= januaryLength + "january".length()*fontHeight/2 + side/2) {
-//                p.setTextAlign(Paint.Align.CENTER);
-//                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
-//            }else if(x <= februaryLength - side*0.25f){
-//                p.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText(monthName, upperLeftCornerX + (februaryLength - januaryLength) - side, y - side * 1.5f, p);
-//            }else{
-//                p.setTextAlign(Paint.Align.LEFT);
-//                canvas.drawText(monthName, upperLeftCornerX - side, y - side * 1.5f, p);
-//            }
-
-
         if(x <= februaryLength && x >= januaryLength + monthNameWidth) {
             p.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
@@ -514,7 +660,7 @@ class Winter extends View {
 
         //3-ий месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.MARCH);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -546,7 +692,7 @@ class Winter extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 2, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 2, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -557,80 +703,130 @@ class Winter extends View {
             p.setColor(Color.BLACK);
             p.setStyle(Paint.Style.STROKE);
             canvas.drawRect(left, top, right, bottom, p);
-            if (firstOccurrence) {
+//            if (firstOccurrence) {
+//                Date date = new Date(calendar.getTimeInMillis());
+//                days.add(new Day(date, left, top, right, bottom));
+//
+//                if (date.getTime() == MainActivity.currDate.getTime()) {
+//                    currentDate = days.get(days.size()-1);
+//                    mainActivity.autumn.currentDate = null;
+//                    mainActivity.spring.currentDate = null;
+//                    mainActivity.summer.currentDate = null;
+//                }
+//
+//                if (selectedDay != null) {
+//                    if (selectedDay.date.getMonth() == date.getMonth() &&
+//                            selectedDay.date.getDate() == date.getDate() ) {
+//                        selectedDay = days.get(days.size()-1);
+//
+//                    }
+//                }
+//            }else{
+//                days.get(l).left = left;
+//                days.get(l).top = top;
+//                days.get(l).right = right;
+//                days.get(l).bottom = bottom;
+//
+//                if (currentDate != null) {
+//                    calendar.clear();
+//                    calendar.set(mainActivity.numberYearPicker.getValue(), 2, i);
+//                    Date date = new Date(calendar.getTimeInMillis());
+//
+//                    if (date.getTime() == MainActivity.currDate.getTime()) {
+//                        currentDate = days.get(g);
+//
+//                        currentDate.left = left;
+//                        currentDate.top = top;
+//                        currentDate.right = right;
+//                        currentDate.bottom = bottom;
+//                    }
+//                }
+//
+//                if(!days.get(l).dayClosed){
+//                    p.setColor(Color.CYAN);
+//                    p.setStrokeWidth(strokeWidth/2);
+//                    p.setStyle(Paint.Style.STROKE);
+//                    canvas.drawRect(left, top, right, bottom, p);
+//                }
+//
+//                for (MainActivity.Task task : days.get(l).tasks) {
+//
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+//                        p.setColor(Color.rgb(221, 160, 221));
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                        p.setStyle(Paint.Style.FILL);
+//                    }
+//
+//                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+//                        p.setColor(Color.rgb(139, 0, 139));
+//                        p.setStyle(Paint.Style.STROKE);
+//                        canvas.drawRect(left, top, right, bottom, p);
+//                        p.setStyle(Paint.Style.FILL);
+//                    }
+//                }
+//
+//            }
+
+            days.get(l).left = left;
+            days.get(l).top = top;
+            days.get(l).right = right;
+            days.get(l).bottom = bottom;
+
+            if (currentDate != null) {
+                calendar.clear();
+                calendar.set(mainActivity.numberYearPicker.getValue(), 2, i);
                 Date date = new Date(calendar.getTimeInMillis());
-                days.add(new Day(date, left, top, right, bottom));
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
-                    currentDate = days.get(days.size()-1);
-                    MainActivity.autumn.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    currentDate = days.get(g);
+
+                    currentDate.left = left;
+                    currentDate.top = top;
+                    currentDate.right = right;
+                    currentDate.bottom = bottom;
                 }
+            }
 
-                if (selectedDay != null) {
-                    if (selectedDay.date.getMonth() == date.getMonth() &&
-                            selectedDay.date.getDate() == date.getDate() ) {
-                        selectedDay = days.get(days.size()-1);
+            if(!days.get(l).dayClosed){
+                p.setColor(Color.CYAN);
+                p.setStrokeWidth(strokeWidth/2);
+                p.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(left, top, right, bottom, p);
+            }
 
-                    }
-                }
-            }else{
-                days.get(l).left = left;
-                days.get(l).top = top;
-                days.get(l).right = right;
-                days.get(l).bottom = bottom;
+            for (MainActivity.Task task : days.get(l).tasks) {
 
-                if (currentDate != null) {
-                    calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 2, i);
-                    Date date = new Date(calendar.getTimeInMillis());
-
-                    if (date.getTime() == MainActivity.currDate.getTime()) {
-                        currentDate = days.get(g);
-
-                        currentDate.left = left;
-                        currentDate.top = top;
-                        currentDate.right = right;
-                        currentDate.bottom = bottom;
-                    }
-                }
-
-                if(!days.get(l).dayClosed){
-                    p.setColor(Color.CYAN);
-                    p.setStrokeWidth(strokeWidth/2);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
+                    p.setColor(Color.rgb(221, 160, 221));
                     p.setStyle(Paint.Style.STROKE);
                     canvas.drawRect(left, top, right, bottom, p);
+                    p.setStyle(Paint.Style.FILL);
                 }
 
-                for (MainActivity.Task task : days.get(l).tasks) {
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                    if(sdf.format(new Date(task.startTime)).equals(sdf.format(days.get(l).date))){
-                        p.setColor(Color.rgb(221, 160, 221));
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                        p.setStyle(Paint.Style.FILL);
-                    }
-
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
-                        p.setColor(Color.rgb(139, 0, 139));
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                        p.setStyle(Paint.Style.FILL);
-                    }
+                if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    p.setColor(Color.rgb(139, 0, 139));
+                    p.setStyle(Paint.Style.STROKE);
+                    canvas.drawRect(left, top, right, bottom, p);
+                    p.setStyle(Paint.Style.FILL);
                 }
-
             }
+
             k += side;
             g += 1;
         }
+        //Log.d("cv", "length3: " + length+ "upperLeftCornerX"+upperLeftCornerX+ " getWidth()"+ getWidth()+" side "+ side+" x "+x);
         if (firstOccurrence) {
 
-            marchLength = -upperLeftCornerX + getWidth() * 1.5f - side/2;
-            //length = -upperLeftCornerX + getWidth();
-            length = -upperLeftCornerX + getWidth() + side;
+            //marchLength = -upperLeftCornerX + getWidth() * 1.5f - side/2;
+            ///////length = -upperLeftCornerX + getWidth() + side;
+            //Log.d("cv", "length2: " + length+ "upperLeftCornerX"+upperLeftCornerX+" getWidth()"+ getWidth()+" side "+ side+" x "+x);
 
+            if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+                x = length;
+            }
             if (currentDate != null || selectedDay != null) {
                 Day date = currentDate;
                 if (currentDate == null){
@@ -647,52 +843,49 @@ class Winter extends View {
                 if(calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
                     //x = x - date.left + getWidth() / 2 + getWidth() / 4;
                     x = x - date.right + getWidth() / 2 + getWidth() / 4;
+                    /*
                     if(x <= getWidth()) {
                         x = getWidth();
                     }
                     if(x >= length){
                         x = length;
                     }
+                    */
                 }else if(calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
                     //x = x - date.left + getWidth() / 2;
                     x = x - date.right + getWidth() / 2;
+                    /*
                     if(x <= getWidth()) {
                         x = getWidth();
                     }
                     if(x >= length){
                         x = length;
                     }
+                    */
                 }else if(calendar.get(Calendar.MONTH) == Calendar.MARCH) {
                     //x = x - date.right + getWidth() / 2 - getWidth() / 4;
                     x = x - date.left + getWidth() / 2 - getWidth() / 4;
+                    /*
                     if(x <= getWidth()) {
                         x = getWidth();
                     }
                     if(x >= length){
                         x = length;
                     }
+                    */
                 }
-                invalidate();
+                if(x <= getWidth()) {
+                    x = getWidth();
+                }
+                if(x >= length){
+                    x = length;
+                }
             }
+            invalidate();
         }
 
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.FILL);
-//            if(x <= marchLength && x >= februaryLength + side * 2) {
-//                p.setTextAlign(Paint.Align.CENTER);
-//                canvas.drawText("MARCH", getWidth()/2, y - side * 1.5f, p);
-//            }else if(x <= marchLength){
-//                p.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText("MARCH", upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
-//            }
-
-//            if( x >= februaryLength + side * 2) {
-//                p.setTextAlign(Paint.Align.CENTER);
-//                canvas.drawText(monthName, getWidth()/2, y - side * 1.5f, p);
-//            }else {
-//                p.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText(monthName, upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
-//            }
 
         if( x >= februaryLength + monthNameWidth*1.25f) {
             p.setTextAlign(Paint.Align.CENTER);
@@ -702,20 +895,12 @@ class Winter extends View {
             canvas.drawText(monthName, upperLeftCornerX + (marchLength - februaryLength) - side/2, y - side * 1.5f, p);
         }
 
-
         p.setColor(Color.RED);
-        //p.setStrokeWidth(side);
         canvas.drawPoint(upperLeftCornerX, y, p);
-
-
-        //canvas.drawPoint(x-correctiveX-240, y-correctiveY-270, p);//NexusS
 
         p.setColor(Color.WHITE);
         p.setStrokeWidth(strokeWidth);
         canvas.drawPoint(doubleTapX, doubleTapY, p);
-
-
-        //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
 
         if (currentDate != null) {
             p.setColor(Color.WHITE);
@@ -774,9 +959,9 @@ class Winter extends View {
         Gson gson = new Gson();
         JsonArray array = parser.parse(MainActivity.yearStr.daysWinter).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
-            MainActivity.winter.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+            days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-            for (MainActivity.Task task : MainActivity.winter.days.get(i).tasks) {
+            for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
                 if (task.extra == taskExtra){
                     task.shown = true;
                     MainActivity.changedeTasksOfYear = true;
@@ -784,12 +969,11 @@ class Winter extends View {
                 //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
                 if (!task.isDone && task.isValid){
-                    MainActivity.winter.days.get(i).dayClosed = false;
+                    days.get(i).dayClosed = false;
                 }
             }
         }
-
-
+        ///invalidate();
     }
 
 
@@ -873,12 +1057,12 @@ class Winter extends View {
                 Day b = j.next();
                 if(b.left <= doubleTapX && b.right >= doubleTapX) {
                     selectedDay = b;
-                    MainActivity.spring.selectedDay = null;
-                    MainActivity.spring.invalidate();
-                    MainActivity.summer.selectedDay = null;
-                    MainActivity.summer.invalidate();
-                    MainActivity.autumn.selectedDay = null;
-                    MainActivity.autumn.invalidate();
+                    mainActivity.spring.selectedDay = null;
+                    mainActivity.spring.invalidate();
+                    mainActivity.summer.selectedDay = null;
+                    mainActivity.summer.invalidate();
+                    mainActivity.autumn.selectedDay = null;
+                    mainActivity.autumn.invalidate();
                     invalidate();
 
                     calendar.clear();

@@ -50,7 +50,7 @@ class Autumn extends View {
     boolean addCyclicTasks;
 
     Calendar calendar = GregorianCalendar.getInstance();
-    MainActivity mainActivityObject = new MainActivity();
+    public MainActivity mainActivity;
 
     boolean firstOccurrence = true;
     int scrollTime = 0;
@@ -70,8 +70,9 @@ class Autumn extends View {
 
     ////////////////////////////
     float posY = 0;
-    float relativePosY = 0;
     float previousDragDirection = 0;
+//    boolean incrementYear = false;
+//    boolean decrementYear = false;
     ////////////////////////////
 
     Bitmap backingBitmap;
@@ -90,6 +91,7 @@ class Autumn extends View {
     public Autumn(Context context) {
         super(context);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
 
@@ -98,6 +100,7 @@ class Autumn extends View {
     public Autumn(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -105,6 +108,7 @@ class Autumn extends View {
     public Autumn(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
+        this.mainActivity = (MainActivity)context;
         this.context = context;
         init(context);
     }
@@ -202,7 +206,7 @@ class Autumn extends View {
 
         //IV-ый квартал
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.OCTOBER);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -235,7 +239,7 @@ class Autumn extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 9, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 9, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -252,9 +256,9 @@ class Autumn extends View {
                 //if (date.getTime() == currDate.getTime()) {
                 if (date.compareTo(MainActivity.currDate) == 0) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.spring.currentDate = null;
+                    mainActivity.summer.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -272,7 +276,7 @@ class Autumn extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 9, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 9, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     //if (date.getTime() == currDate.getTime()) {
@@ -349,7 +353,7 @@ class Autumn extends View {
 
         //2-ой месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.NOVEMBER);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -377,7 +381,7 @@ class Autumn extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 10, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 10, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -393,9 +397,9 @@ class Autumn extends View {
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.spring.currentDate = null;
+                    mainActivity.summer.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -413,7 +417,7 @@ class Autumn extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 10, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 10, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -500,7 +504,7 @@ class Autumn extends View {
 
         //3-ий месяц
         calendar.clear();
-        calendar.set(Calendar.YEAR, MainActivity.numberYearPicker.getValue());
+        calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
         calendar.set(Calendar.MONTH, Calendar.DECEMBER);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
@@ -531,7 +535,7 @@ class Autumn extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(MainActivity.numberYearPicker.getValue(), 11, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 11, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -547,9 +551,9 @@ class Autumn extends View {
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     //currentDate = new Day(date, left, top, right, bottom);
                     currentDate = days.get(days.size()-1);
-                    MainActivity.winter.currentDate = null;
-                    MainActivity.spring.currentDate = null;
-                    MainActivity.summer.currentDate = null;
+                    mainActivity.winter.currentDate = null;
+                    mainActivity.spring.currentDate = null;
+                    mainActivity.summer.currentDate = null;
                 }
 
                 if (selectedDay != null) {
@@ -566,7 +570,7 @@ class Autumn extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(MainActivity.numberYearPicker.getValue(), 11, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 11, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -617,6 +621,9 @@ class Autumn extends View {
             length = -upperRightCornerY + getHeight() + side;
             //Log.d("XY", "upperRightCornerY:" + length);
 
+            if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+                y = length;
+            }
             if (currentDate != null || selectedDay != null) {
                 Day date = currentDate;
                 if (currentDate == null){
@@ -631,31 +638,20 @@ class Autumn extends View {
 
                 if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER) {
                     y = y - date.top + getHeight() / 2 + getHeight() / 4;
-                    if (y <= getHeight()) {
-                        y = getHeight();
-                    }
-                    if (y >= length) {
-                        y = length;
-                    }
                 }else if(calendar.get(Calendar.MONTH) == Calendar.NOVEMBER) {
                     y = y - date.bottom + getHeight() / 2;
-                    if (y <= getHeight()) {
-                        y = getHeight();
-                    }
-                    if (y >= length) {
-                        y = length;
-                    }
                 }else if(calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
                     y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
-                    if (y <= getHeight()) {
-                        y = getHeight();
-                    }
-                    if (y >= length) {
-                        y = length;
-                    }
                 }
-                invalidate();
+
+                if (y <= getHeight()) {
+                    y = getHeight();
+                }
+                if (y >= length) {
+                    y = length;
+                }
             }
+            invalidate();
         }
 
         p.setColor(Color.BLACK);
@@ -752,9 +748,9 @@ class Autumn extends View {
             addCyclicTasks = false;
             addCyclicTasks();
 
-            MainActivity.winter.invalidate();
-            MainActivity.spring.invalidate();
-            MainActivity.summer.invalidate();
+            mainActivity.winter.invalidate();
+            mainActivity.spring.invalidate();
+            mainActivity.summer.invalidate();
             invalidate();
         }
 
@@ -766,9 +762,9 @@ class Autumn extends View {
         Gson gson = new Gson();
         JsonArray array = parser.parse(MainActivity.yearStr.daysAutumn).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
-            MainActivity.autumn.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
+            days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-            for (MainActivity.Task task : MainActivity.autumn.days.get(i).tasks) {
+            for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
                 if (task.extra == MainActivity.taskExtra){
                     task.shown = true;
                     MainActivity.changedeTasksOfYear = true;
@@ -776,12 +772,12 @@ class Autumn extends View {
                 //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
                 if (!task.isDone && task.isValid){
-                    MainActivity.autumn.days.get(i).dayClosed = false;
+                    days.get(i).dayClosed = false;
                 }
             }
             //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
         }
-
+        invalidate();
     }
 
     public void addCyclicTasks (){
@@ -789,7 +785,7 @@ class Autumn extends View {
         Iterator<MainActivity.Task> j = MainActivity.cyclicTasks.iterator();
         while (j.hasNext()) {
             MainActivity.Task t = j.next();
-            MainActivity.refreshCyclicTasks(t);
+            mainActivity.refreshCyclicTasks(t);
         }
 
     }
@@ -804,6 +800,14 @@ class Autumn extends View {
         //////////////////////////////////////////////////////////////
         float lengthDraggingY = 0;
         float dragDirection = 0;
+        boolean incrementYearWinter = false;
+        boolean incrementYearSpring = false;
+        boolean incrementYearSummer = false;
+        boolean incrementYearAutumn = false;
+        boolean decrementYearWinter = false;
+        boolean decrementYearSpring = false;
+        boolean decrementYearSummer = false;
+        boolean decrementYearAutumn = false;
         //////////////////////////////////////////////////////////////
 
 
@@ -838,9 +842,11 @@ class Autumn extends View {
                     y = evY - dragY;
                     if(y <= getHeight()) {
                         y = getHeight();
+                        decrementYearAutumn = true;
                     }
                     if(y >= length){
                         y = length;
+                        incrementYearAutumn = true;
                     }
                     invalidate();
                     //Log.d("XY", "X:" + x + "Y:" + y + "length "+length);
@@ -850,32 +856,63 @@ class Autumn extends View {
                     previousDragDirection = dragDirection;
 
                     //summer//
-                    MainActivity.summer.x += lengthDraggingY;
-                    if(MainActivity.summer.x >= 0) {
-                        MainActivity.summer.x = 0;
+                    mainActivity.summer.x += lengthDraggingY;
+                    if(mainActivity.summer.x >= 0) {
+                        mainActivity.summer.x = 0;
+                        decrementYearSummer = true;
                     }
-                    if(MainActivity.summer.x <= MainActivity.summer.length){
-                        MainActivity.summer.x = MainActivity.summer.length;
+                    if(mainActivity.summer.x <= mainActivity.summer.length){
+                        mainActivity.summer.x = mainActivity.summer.length;
+                        incrementYearSummer = true;
                     }
-                    MainActivity.summer.invalidate();
+                    mainActivity.summer.invalidate();
                     //spring//
-                    MainActivity.spring.y += lengthDraggingY;
-                    if(MainActivity.spring.y >= 0) {
-                        MainActivity.spring.y = 0;
+                    mainActivity.spring.y += lengthDraggingY;
+                    if(mainActivity.spring.y >= 0) {
+                        mainActivity.spring.y = 0;
+                        decrementYearSpring = true;
                     }
-                    if(MainActivity.spring.y <= MainActivity.spring.length){
-                        MainActivity.spring.y = MainActivity.spring.length;
+                    if(mainActivity.spring.y <= mainActivity.spring.length){
+                        mainActivity.spring.y = mainActivity.spring.length;
+                        incrementYearSpring = true;
                     }
-                    MainActivity.spring.invalidate();
+                    mainActivity.spring.invalidate();
                     //winter//
-                    MainActivity.winter.x -= lengthDraggingY;
-                    if(MainActivity.winter.x <= MainActivity.winter.getWidth()) {
-                        MainActivity.winter.x = MainActivity.winter.getWidth();
+                    mainActivity.winter.x -= lengthDraggingY;
+                    if(mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+                        mainActivity.winter.x = mainActivity.winter.getWidth();
+                        decrementYearWinter = true;
                     }
-                    if(MainActivity.winter.x >= MainActivity.winter.length){
-                        MainActivity.winter.x = MainActivity.winter.length;
+                    if(mainActivity.winter.x >= mainActivity.winter.length){
+                        mainActivity.winter.x = mainActivity.winter.length;
+                        incrementYearWinter = true;
                     }
-                    MainActivity.winter.invalidate();
+                    Log.d("cvhn", "length: " + mainActivity.winter.length+ " getWidth()"+ mainActivity.winter.getWidth()+" side "+ mainActivity.winter.side);
+                    mainActivity.winter.invalidate();
+
+                    Log.d("vsm", "previousChosenYearNumber: "+ mainActivity.previousChosenYearNumber + " chosenYearNumber: "+ mainActivity.chosenYearNumber);
+//                    if (mainActivity.previousChosenYearNumber == 0) {
+//                        mainActivity.previousChosenYearNumber = mainActivity.chosenYearNumber;
+//                    }
+
+
+                    //Log.d("incrementYear", "Wn:" + incrementYearWinter + "Sp:" + incrementYearSpring + "Sm:" + incrementYearSummer + "At:" + incrementYearAutumn);
+                    //Log.d("decrementYear", "Wn:" + decrementYearWinter + "Sp:" + decrementYearSpring + "Sm:" + decrementYearSummer + "At:" + decrementYearAutumn);
+                    if (incrementYearWinter && incrementYearSpring && incrementYearSummer && incrementYearAutumn) {
+                        mainActivity.numberYearPicker.increment();
+                    }
+                    if (decrementYearWinter && decrementYearSpring && decrementYearSummer && decrementYearAutumn) {
+                        mainActivity.numberYearPicker.decrement();
+//                        mainActivity.autumn.y = length;
+//                        mainActivity.autumn.invalidate();
+//                        mainActivity.summer.x = mainActivity.summer.length;
+//                        mainActivity.summer.invalidate();
+//                        mainActivity.spring.y = mainActivity.spring.length;
+//                        mainActivity.spring.invalidate();
+//                        mainActivity.winter.x = mainActivity.winter.length;
+//                        mainActivity.winter.invalidate();
+                    }
+
                     /////////////////////////////////////////////////////////////////////////////
                 }
 
@@ -914,12 +951,12 @@ class Autumn extends View {
                 Day b = j.next();
                 if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
                     selectedDay = b;
-                    MainActivity.winter.selectedDay = null;
-                    MainActivity.winter.invalidate();
-                    MainActivity.spring.selectedDay = null;
-                    MainActivity.spring.invalidate();
-                    MainActivity.summer.selectedDay = null;
-                    MainActivity.summer.invalidate();
+                    mainActivity.winter.selectedDay = null;
+                    mainActivity.winter.invalidate();
+                    mainActivity.spring.selectedDay = null;
+                    mainActivity.spring.invalidate();
+                    mainActivity.summer.selectedDay = null;
+                    mainActivity.summer.invalidate();
                     invalidate();
 
                     calendar.clear();
@@ -954,22 +991,22 @@ class Autumn extends View {
 
                         /////////////////////////////////////////////////////////////////////
                         //summer//
-                        MainActivity.summer.x -= millisUntilFinished / 30;
+                        mainActivity.summer.x -= millisUntilFinished / 30;
                         //spring//
-                        MainActivity.spring.y -= millisUntilFinished / 30;
+                        mainActivity.spring.y -= millisUntilFinished / 30;
                         //winter//
-                        MainActivity.winter.x += millisUntilFinished / 30;
+                        mainActivity.winter.x += millisUntilFinished / 30;
                         /////////////////////////////////////////////////////////////////////////////
                     }else{
                         y -= millisUntilFinished / 30;
 
                         /////////////////////////////////////////////////////////////////////
                         //summer//
-                        MainActivity.summer.x += millisUntilFinished / 30;
+                        mainActivity.summer.x += millisUntilFinished / 30;
                         //spring//
-                        MainActivity.spring.y += millisUntilFinished / 30;
+                        mainActivity.spring.y += millisUntilFinished / 30;
                         //winter//
-                        MainActivity.winter.x -= millisUntilFinished / 30;
+                        mainActivity.winter.x -= millisUntilFinished / 30;
                         /////////////////////////////////////////////////////////////////////////////
                     }
                     // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
@@ -986,29 +1023,29 @@ class Autumn extends View {
                     invalidate();
 
                     //summer//
-                    if(MainActivity.summer.x >= 0) {
-                        MainActivity.summer.x = 0;
+                    if(mainActivity.summer.x >= 0) {
+                        mainActivity.summer.x = 0;
                     }
-                    if(MainActivity.summer.x <= MainActivity.summer.length){
-                        MainActivity.summer.x = MainActivity.summer.length;
+                    if(mainActivity.summer.x <= mainActivity.summer.length){
+                        mainActivity.summer.x = mainActivity.summer.length;
                     }
-                    MainActivity.summer.invalidate();
+                    mainActivity.summer.invalidate();
                     //spring//
-                    if(MainActivity.spring.y >= 0) {
-                        MainActivity.spring.y = 0;
+                    if(mainActivity.spring.y >= 0) {
+                        mainActivity.spring.y = 0;
                     }
-                    if(MainActivity.spring.y <= MainActivity.spring.length){
-                        MainActivity.spring.y = MainActivity.spring.length;
+                    if(mainActivity.spring.y <= mainActivity.spring.length){
+                        mainActivity.spring.y = mainActivity.spring.length;
                     }
-                    MainActivity.spring.invalidate();
+                    mainActivity.spring.invalidate();
                     //winter//
-                    if(MainActivity.winter.x <= MainActivity.winter.getWidth()) {
-                        MainActivity.winter.x = MainActivity.winter.getWidth();
+                    if(mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+                        mainActivity.winter.x = mainActivity.winter.getWidth();
                     }
-                    if(MainActivity.winter.x >= MainActivity.winter.length){
-                        MainActivity.winter.x = MainActivity.winter.length;
+                    if(mainActivity.winter.x >= mainActivity.winter.length){
+                        mainActivity.winter.x = mainActivity.winter.length;
                     }
-                    MainActivity.winter.invalidate();
+                    mainActivity.winter.invalidate();
                 }
 
                 public void onFinish() {

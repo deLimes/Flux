@@ -123,13 +123,10 @@ public class MainActivity extends AppCompatActivity {
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
-    static Winter winter;
-    static Spring spring;
-    static Summer summer;
-    static Autumn autumn;
+    Quarter winter, spring, summer, autumn;
     static YearStr yearStr;
 
-    static NumberYearPicker numberYearPicker;
+    NumberYearPicker numberYearPicker;
     static TextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
@@ -150,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
     View layoutDayOfWeek;
     TextView  monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     static int curentYearNumber;
-    static int chosenYearNumber;
+    static int chosenYearNumber = 0;
+    static int previousChosenYearNumber = 0;
 
     static Date currDate;
     static Calendar calendar = GregorianCalendar.getInstance();
@@ -526,19 +524,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        winter = new Winter(this);
+        winter = new Quarter(this,1);
         winter.setId(R.id.winter);
         constraintLayout.addView(winter);
 
-        spring = new Spring(this);
+        spring = new Quarter(this, 2);//123
         spring.setId(R.id.spring);
         constraintLayout.addView(spring);
 
-        summer = new Summer(this);
+        summer = new Quarter(this,3);
         summer.setId(R.id.summer);
         constraintLayout.addView(summer);
 
-        autumn = new Autumn(this);
+        autumn = new Quarter(this,4);
         autumn.setId(R.id.autumn);
         constraintLayout.addView(autumn);
 
@@ -546,7 +544,7 @@ public class MainActivity extends AppCompatActivity {
         сonstraintLayoutForSchedule.setId(R.id.сonstraintLayoutForSchedule);
         constraintLayout.addView(сonstraintLayoutForSchedule);
 
-        numberYearPicker = new NumberYearPicker(getBaseContext(), 0);
+        numberYearPicker = new NumberYearPicker(this, 0);
         numberYearPicker.setId(R.id.numberYearPicker);
         сonstraintLayoutForSchedule.addView(numberYearPicker);
 
@@ -1705,7 +1703,7 @@ public class MainActivity extends AppCompatActivity {
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    public static void refreshCyclicTasks(Task task) {
+    public void refreshCyclicTasks(Task task) {
 
         long millis;
         Calendar myCalender = Calendar.getInstance();
@@ -2771,35 +2769,35 @@ public class MainActivity extends AppCompatActivity {
                 //reschedule task
                 Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
                 int numberDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
-                if (MainActivity.winter.days.size() > numberDayOfYear){
+                if (winter.days.size() > numberDayOfYear){
 
-                    dayOfYear = MainActivity.winter.days.get(numberDayOfYear);
+                    dayOfYear = winter.days.get(numberDayOfYear);
                     dayOfYear.tasks.add(task);
 
-                }else if(MainActivity.winter.days.size()
-                        + MainActivity.spring.days.size() > numberDayOfYear){
+                }else if(winter.days.size()
+                        + spring.days.size() > numberDayOfYear){
 
-                    dayOfYear = MainActivity.spring.days.get(numberDayOfYear - MainActivity.winter.days.size() - 1);
+                    dayOfYear = spring.days.get(numberDayOfYear - winter.days.size() - 1);
                     dayOfYear.tasks.add(task);
 
-                }else if(MainActivity.winter.days.size()
-                        + MainActivity.spring.days.size()
-                        + MainActivity.summer.days.size() > numberDayOfYear){
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size() > numberDayOfYear){
 
-                    dayOfYear = MainActivity.summer.days.get(numberDayOfYear
-                            - MainActivity.winter.days.size()
-                            - MainActivity.spring.days.size() - 1);
+                    dayOfYear = summer.days.get(numberDayOfYear
+                            - winter.days.size()
+                            - spring.days.size() - 1);
                     dayOfYear.tasks.add(task);
 
-                }else if(MainActivity.winter.days.size()
-                        + MainActivity.spring.days.size()
-                        + MainActivity.summer.days.size()
-                        + MainActivity.autumn.days.size() > numberDayOfYear){
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size()
+                        + autumn.days.size() > numberDayOfYear){
 
-                    dayOfYear = MainActivity.autumn.days.get(numberDayOfYear
-                            - MainActivity.winter.days.size()
-                            - MainActivity.spring.days.size()
-                            - MainActivity.summer.days.size() - 1);
+                    dayOfYear = autumn.days.get(numberDayOfYear
+                            - winter.days.size()
+                            - spring.days.size()
+                            - summer.days.size() - 1);
                     dayOfYear.tasks.add(task);
                 }
 // Доработать не подсвечиваются дни перенесенных незавершенныз задач
@@ -6575,459 +6573,459 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     //TODO NumberYearPicker
-    public class NumberYearPicker extends LinearLayout {
-
-
-        private Context context;
-        private int textColor = Color.BLACK;
-        private long repeatDeley = 50;
-
-
-        private int elementHeight = 60;
-
-        private int elementWidth = elementHeight; // you're all squares, yo
-
-
-        private int minimum = 0;
-        private int maximum = 4999;
-
-        private int textSize = 10;
-
-        public Integer value;
-
-        Button decrement;
-        Button increment;
-        public EditText valueText;
-
-        private Handler repeatUpdateHandler = new Handler();
-
-        private boolean autoIncrement = false;
-        private boolean autoDecrement = false;
-
-        class RepetetiveUpdater implements Runnable {
-            public void run() {
-                if( autoIncrement ){
-                    increment();
-                    repeatUpdateHandler.postDelayed( new RepetetiveUpdater(), repeatDeley );
-                } else if( autoDecrement ){
-                    decrement();
-                    repeatUpdateHandler.postDelayed( new RepetetiveUpdater(), repeatDeley );
-                }
-            }
-        }
-        public NumberYearPicker(Context context, AttributeSet attributeSet ) {
-            super(context, attributeSet);
-
-            this.context = context;
-            this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
-            LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-            initDecrementButton( context );
-            initValueEditText( context );
-            initIncrementButton( context );
-            if( getOrientation() == VERTICAL ){
-                addView( increment, elementParams );
-                addView( valueText, elementParams );
-                addView( decrement, elementParams );
-            } else {
-                addView( decrement, elementParams );
-                addView( valueText, elementParams );
-                addView( increment, elementParams );
-            }
-
-            LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-            valueTextParams.width = (int)(4 * textSize * 2.3f);
-            valueText.setLayoutParams(valueTextParams);
-        }
-
-        public NumberYearPicker(Context context, Integer value) {
-            super(context);
-            this.context = context;
-            this.value = value;
-
-            this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
-            LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-            initDecrementButton( context );
-            initValueEditText( context );
-            initIncrementButton( context );
-            if( getOrientation() == VERTICAL ){
-                addView( increment, elementParams );
-                addView( valueText, elementParams );
-                addView( decrement, elementParams );
-            } else {
-                addView( decrement, elementParams );
-                addView( valueText, elementParams );
-                addView( increment, elementParams );
-            }
-
-            LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-            valueTextParams.width = (int)(4 * textSize * 2.3f);
-            valueText.setLayoutParams(valueTextParams);
-        }
-
-        public void rebuild(Context context) {
-
-            removeAllViews();
-
-//        LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-//        increment.setLayoutParams(elementParams);
-//        decrement.setLayoutParams(elementParams);
+//    public class NumberYearPicker extends LinearLayout {
 //
-//        LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-//        valueTextParams.width = (int)(4 * textSize * 2.3f);
-//        valueText.setLayoutParams(valueTextParams);
-
-            this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
-            LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-            initDecrementButton( context );
-            initValueEditText( context );
-            initIncrementButton( context );
-            if( getOrientation() == VERTICAL ){
-                addView( increment, elementParams );
-                addView( valueText, elementParams );
-                addView( decrement, elementParams );
-            } else {
-                addView( decrement, elementParams );
-                addView( valueText, elementParams );
-                addView( increment, elementParams );
-            }
-
-            LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-            //valueTextParams.height = textSize;
-            valueTextParams.width = (int)(4 * textSize * 2.1f);
-            valueText.setLayoutParams(valueTextParams);
-
-
-
-        }
-
-        private void initIncrementButton(Context context){
-            increment = new Button( context );
-            increment.setTextSize( textSize );
-            increment.setText( "+" );
-            increment.setTextColor(textColor);
-
-            // Increment once for a click
-            increment.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    increment();
-                }
-            });
-
-            increment.setOnLongClickListener(
-                    new View.OnLongClickListener(){
-                        public boolean onLongClick(View arg0) {
-                            autoIncrement = true;
-                            repeatUpdateHandler.post( new RepetetiveUpdater() );
-                            return false;
-                        }
-                    }
-            );
-
-            increment.setOnTouchListener( new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    if( event.getAction() == MotionEvent.ACTION_UP && autoIncrement ){
-                        autoIncrement = false;
-                    }
-                    return false;
-                }
-            });
-        }
-
-        private void initValueEditText( Context context){
-
-            value = new Integer( 0 );
-
-            valueText = new EditText( context );
-            valueText.setTextSize( textSize );
-            valueText.setTextColor(textColor);
-
-            valueText.setOnKeyListener(new View.OnKeyListener() {
-                public boolean onKey(View v, int arg1, KeyEvent event) {
-                    int backupValue = value;
-                    try {
-                        value = Integer.parseInt( ((EditText)v).getText().toString() );
-                        if( value > maximum ) value = maximum;
-                        if( value < minimum ) value = minimum;
-                    } catch( NumberFormatException nfe ){
-                        value = backupValue;
-                    }
-
-                    //valueText.setText(value.toString());
-
-                    return false;
-                }
-            });
-
-            valueText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
-                        //Log.d("Year", "Year was saved");
-                        saveYear();
-                    }
-
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-//                    if(!charSequence.toString().isEmpty() && yearNumberChanged && Integer.valueOf(charSequence.toString()) > yearNumber){
+//
+//        private Context context;
+//        private int textColor = Color.BLACK;
+//        private long repeatDeley = 50;
+//
+//
+//        private int elementHeight = 60;
+//
+//        private int elementWidth = elementHeight; // you're all squares, yo
+//
+//
+//        private int minimum = 0;
+//        private int maximum = 4999;
+//
+//        private int textSize = 10;
+//
+//        public Integer value;
+//
+//        Button decrement;
+//        Button increment;
+//        public EditText valueText;
+//
+//        private Handler repeatUpdateHandler = new Handler();
+//
+//        private boolean autoIncrement = false;
+//        private boolean autoDecrement = false;
+//
+//        class RepetetiveUpdater implements Runnable {
+//            public void run() {
+//                if( autoIncrement ){
+//                    increment();
+//                    repeatUpdateHandler.postDelayed( new RepetetiveUpdater(), repeatDeley );
+//                } else if( autoDecrement ){
+//                    decrement();
+//                    repeatUpdateHandler.postDelayed( new RepetetiveUpdater(), repeatDeley );
+//                }
+//            }
+//        }
+//        public NumberYearPicker(Context context, AttributeSet attributeSet ) {
+//            super(context, attributeSet);
+//
+//            this.context = context;
+//            this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
+//            LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+//            initDecrementButton( context );
+//            initValueEditText( context );
+//            initIncrementButton( context );
+//            if( getOrientation() == VERTICAL ){
+//                addView( increment, elementParams );
+//                addView( valueText, elementParams );
+//                addView( decrement, elementParams );
+//            } else {
+//                addView( decrement, elementParams );
+//                addView( valueText, elementParams );
+//                addView( increment, elementParams );
+//            }
+//
+//            LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+//            valueTextParams.width = (int)(4 * textSize * 2.3f);
+//            valueText.setLayoutParams(valueTextParams);
+//        }
+//
+//        public NumberYearPicker(Context context, Integer value) {
+//            super(context);
+//            this.context = context;
+//            this.value = value;
+//
+//            this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
+//            LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+//            initDecrementButton( context );
+//            initValueEditText( context );
+//            initIncrementButton( context );
+//            if( getOrientation() == VERTICAL ){
+//                addView( increment, elementParams );
+//                addView( valueText, elementParams );
+//                addView( decrement, elementParams );
+//            } else {
+//                addView( decrement, elementParams );
+//                addView( valueText, elementParams );
+//                addView( increment, elementParams );
+//            }
+//
+//            LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+//            valueTextParams.width = (int)(4 * textSize * 2.3f);
+//            valueText.setLayoutParams(valueTextParams);
+//        }
+//
+//        public void rebuild(Context context) {
+//
+//            removeAllViews();
+//
+////        LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+////        increment.setLayoutParams(elementParams);
+////        decrement.setLayoutParams(elementParams);
+////
+////        LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+////        valueTextParams.width = (int)(4 * textSize * 2.3f);
+////        valueText.setLayoutParams(valueTextParams);
+//
+//            this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
+//            LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+//            initDecrementButton( context );
+//            initValueEditText( context );
+//            initIncrementButton( context );
+//            if( getOrientation() == VERTICAL ){
+//                addView( increment, elementParams );
+//                addView( valueText, elementParams );
+//                addView( decrement, elementParams );
+//            } else {
+//                addView( decrement, elementParams );
+//                addView( valueText, elementParams );
+//                addView( increment, elementParams );
+//            }
+//
+//            LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+//            //valueTextParams.height = textSize;
+//            valueTextParams.width = (int)(4 * textSize * 2.1f);
+//            valueText.setLayoutParams(valueTextParams);
+//
+//
+//
+//        }
+//
+//        private void initIncrementButton(Context context){
+//            increment = new Button( context );
+//            increment.setTextSize( textSize );
+//            increment.setText( "+" );
+//            increment.setTextColor(textColor);
+//
+//            // Increment once for a click
+//            increment.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    increment();
+//                }
+//            });
+//
+//            increment.setOnLongClickListener(
+//                    new View.OnLongClickListener(){
+//                        public boolean onLongClick(View arg0) {
+//                            autoIncrement = true;
+//                            repeatUpdateHandler.post( new RepetetiveUpdater() );
+//                            return false;
+//                        }
+//                    }
+//            );
+//
+//            increment.setOnTouchListener( new View.OnTouchListener() {
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    if( event.getAction() == MotionEvent.ACTION_UP && autoIncrement ){
+//                        autoIncrement = false;
+//                    }
+//                    return false;
+//                }
+//            });
+//        }
+//
+//        private void initValueEditText( Context context){
+//
+//            value = new Integer( 0 );
+//
+//            valueText = new EditText( context );
+//            valueText.setTextSize( textSize );
+//            valueText.setTextColor(textColor);
+//
+//            valueText.setOnKeyListener(new View.OnKeyListener() {
+//                public boolean onKey(View v, int arg1, KeyEvent event) {
+//                    int backupValue = value;
+//                    try {
+//                        value = Integer.parseInt( ((EditText)v).getText().toString() );
+//                        if( value > maximum ) value = maximum;
+//                        if( value < minimum ) value = minimum;
+//                    } catch( NumberFormatException nfe ){
+//                        value = backupValue;
+//                    }
+//
+//                    //valueText.setText(value.toString());
+//
+//                    return false;
+//                }
+//            });
+//
+//            valueText.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                    if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
+//                        //Log.d("Year", "Year was saved");
+//                        saveYear();
+//                    }
+//
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+////                    if(!charSequence.toString().isEmpty() && yearNumberChanged && Integer.valueOf(charSequence.toString()) > yearNumber){
+////                        autumn.addCyclicTasks = true;
+////                    }
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable editable) {
+//
+//                    if(!editable.toString().isEmpty()) {
+//                        chosenYearNumber = Integer.valueOf(editable.toString());
+//                    }
+//
+//                    //%%C del -
+//                    if( curentYearNumber < chosenYearNumber) {
 //                        autumn.addCyclicTasks = true;
 //                    }
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                    if(!editable.toString().isEmpty()) {
-                        chosenYearNumber = Integer.valueOf(editable.toString());
-                    }
-
-                    //%%C del -
-                    if( curentYearNumber < chosenYearNumber) {
-                        autumn.addCyclicTasks = true;
-                    }
-
-                    if(linLayout != null) {
-                        day = null;
-                        linLayout.removeAllViews();
-                    }
-                    addedTasksOfYear.clear();
-                    destroyedTasksOfYear.clear();
-                    changedeTasksOfYear = false;
-
-                    int width = constraintLayout.getRight() + guideline.getLeft();
-                    int tucherWidth;
-                    int tucherHeight;
-
-                    //Winter
-                    tucherWidth = constraintLayout.getRight();
-                    tucherHeight = width;
-
-                    winter.side = width/2;
-                    winter.x = tucherWidth;
-                    winter.y = tucherHeight;
-
-                    winter.days.clear();
-                    winter.currentDate = null;
-                    //winter.selectedDay = null;
-                    winter.upperLeftCornerX = 0;
-                    winter.firstOccurrence = true;
-                    winter.invalidate();
-
-
-                    //Spring
-                    tucherWidth = width;
-                    tucherHeight = constraintLayout.getBottom()-width*2;
-
-                    spring.side = width/2;
-                    spring.x = tucherWidth - tucherWidth / 2;
-                    spring.y = 0;
-
-                    spring.days.clear();
-                    spring.currentDate = null;
-                    //spring.selectedDay = null;
-                    spring.bottomLeftCornerY = 0;
-                    spring.firstOccurrence = true;
-                    spring.invalidate();
-
-
-                    //Summer
-                    tucherWidth = constraintLayout.getRight();;
-                    tucherHeight = width;
-
-                    summer.side = width/2;
-                    summer.x = 0;
-                    summer.y = tucherHeight - tucherHeight / 2;
-
-                    summer.days.clear();
-                    summer.currentDate = null;
-                    //summer.selectedDay = null;
-                    summer.bottomRightCornerX = 0;
-                    summer.firstOccurrence = true;
-                    summer.invalidate();
-
-
-                    //Autumn
-                    tucherWidth = width;
-                    tucherHeight = constraintLayout.getBottom()-width*2;
-
-                    autumn.side = width/2;
-                    autumn.x = tucherWidth - tucherWidth / 2;
-                    autumn.y = tucherHeight;
-
-                    autumn.days.clear();
-                    autumn.currentDate = null;
-                    //autumn.selectedDay = null;
-                    autumn.upperRightCornerY = 0;
-                    autumn.firstOccurrence = true;
-                    autumn.invalidate();
-
-                    restoreYear(editable.toString());
-
-
-                }
-            });
-
-            valueText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if( hasFocus ){
-                        ((EditText)v).selectAll();
-                    }
-                }
-            });
-            valueText.setGravity( Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL );
-            valueText.setText( value.toString() );
-            valueText.setInputType( InputType.TYPE_CLASS_NUMBER );
-        }
-
-        private void initDecrementButton( Context context){
-            decrement = new Button( context );
-            decrement.setTextSize( textSize );
-            decrement.setText( "-" );
-            decrement.setTextColor(textColor);
-
-
-            decrement.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    decrement();
-                }
-            });
-
-
-            decrement.setOnLongClickListener(
-                    new View.OnLongClickListener(){
-                        public boolean onLongClick(View arg0) {
-                            autoDecrement = true;
-                            repeatUpdateHandler.post( new RepetetiveUpdater() );
-                            return false;
-                        }
-                    }
-            );
-
-            decrement.setOnTouchListener( new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    if( event.getAction() == MotionEvent.ACTION_UP && autoDecrement ){
-                        autoDecrement = false;
-                    }
-                    return false;
-                }
-            });
-        }
-
-        public void increment(){
-            if( value < maximum ){
-                value = value + 1;
-            }else{
-                value = minimum;
-            }
-            String strValue= value.toString();
-            int valueLength = strValue.length();
-
-            if (valueLength < 4){
-                for (int i = 0; i < 4 - valueLength; i++){
-                    strValue = "0" + strValue;
-
-                }
-            }
-            valueText.setText(strValue);
-        }
-
-        public void decrement(){
-            if( value > minimum ){
-                value = value - 1;
-            }else{
-                value = maximum;
-            }
-
-            String strValue= value.toString();
-            int valueLength = strValue.length();
-
-            if (valueLength < 4){
-                for (int i = 0; i < 4 - valueLength; i++){
-                    strValue = "0" + strValue;
-
-                }
-            }
-            valueText.setText(strValue);
-        }
-
-        public int getValue(){
-            return value;
-        }
-
-        public void setValue( int value ){
-            if( value > maximum ) value = maximum;
-            if( value >= minimum ){
-                this.value = value;
-
-                String strValue=  Integer.toString(value);
-                int valueLength = strValue.length();
-
-                if (valueLength < 4){
-                    for (int i = 0; i < 4 - valueLength; i++){
-                        strValue = "0" + strValue;
-
-                    }
-                }
-                valueText.setText(strValue);
-            }
-        }
-
-        public long getRepeatDeley() {
-            return repeatDeley;
-        }
-
-        public int getElementHeight() {
-            return elementHeight;
-        }
-
-        public int getElementWidth() {
-            return elementWidth;
-        }
-
-        public int getMinimum() {
-            return minimum;
-        }
-
-        public int getMaximum() {
-            return maximum;
-        }
-
-        public int getTextSize() {
-            return textSize;
-        }
-
-        public void setRepeatDeley(long repeatDeley) {
-            this.repeatDeley = repeatDeley;
-        }
-
-        public void setElementHeight(int elementHeight) {
-            this.elementHeight = elementHeight;
-        }
-
-        public void setElementWidth(int elementWidth) {
-            this.elementWidth = elementWidth;
-        }
-
-        public void setMinimum(int minimum) {
-            this.minimum = minimum;
-        }
-
-        public void setMaximum(int maximum) {
-            this.maximum = maximum;
-        }
-
-        public void setTextSize(int textSize) {
-            this.textSize = textSize;
-        }
-
-        public void setTextColor(int textColor) {
-            this.textColor = textColor;
-        }
-    }
+//
+//                    if(linLayout != null) {
+//                        day = null;
+//                        linLayout.removeAllViews();
+//                    }
+//                    addedTasksOfYear.clear();
+//                    destroyedTasksOfYear.clear();
+//                    changedeTasksOfYear = false;
+//
+//                    int width = constraintLayout.getRight() + guideline.getLeft();
+//                    int tucherWidth;
+//                    int tucherHeight;
+//
+//                    //Winter
+//                    tucherWidth = constraintLayout.getRight();
+//                    tucherHeight = width;
+//
+//                    winter.side = width/2;
+//                    winter.x = tucherWidth;
+//                    winter.y = tucherHeight;
+//
+//                    winter.days.clear();
+//                    winter.currentDate = null;
+//                    //winter.selectedDay = null;
+//                    winter.upperLeftCornerX = 0;
+//                    winter.firstOccurrence = true;
+//                    winter.invalidate();
+//
+//
+//                    //Spring
+//                    tucherWidth = width;
+//                    tucherHeight = constraintLayout.getBottom()-width*2;
+//
+//                    spring.side = width/2;
+//                    spring.x = tucherWidth - tucherWidth / 2;
+//                    spring.y = 0;
+//
+//                    spring.days.clear();
+//                    spring.currentDate = null;
+//                    //spring.selectedDay = null;
+//                    spring.bottomLeftCornerY = 0;
+//                    spring.firstOccurrence = true;
+//                    spring.invalidate();
+//
+//
+//                    //Summer
+//                    tucherWidth = constraintLayout.getRight();;
+//                    tucherHeight = width;
+//
+//                    summer.side = width/2;
+//                    summer.x = 0;
+//                    summer.y = tucherHeight - tucherHeight / 2;
+//
+//                    summer.days.clear();
+//                    summer.currentDate = null;
+//                    //summer.selectedDay = null;
+//                    summer.bottomRightCornerX = 0;
+//                    summer.firstOccurrence = true;
+//                    summer.invalidate();
+//
+//
+//                    //Autumn
+//                    tucherWidth = width;
+//                    tucherHeight = constraintLayout.getBottom()-width*2;
+//
+//                    autumn.side = width/2;
+//                    autumn.x = tucherWidth - tucherWidth / 2;
+//                    autumn.y = tucherHeight;
+//
+//                    autumn.days.clear();
+//                    autumn.currentDate = null;
+//                    //autumn.selectedDay = null;
+//                    autumn.upperRightCornerY = 0;
+//                    autumn.firstOccurrence = true;
+//                    autumn.invalidate();
+//
+//                    restoreYear(editable.toString());
+//
+//
+//                }
+//            });
+//
+//            valueText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                public void onFocusChange(View v, boolean hasFocus) {
+//                    if( hasFocus ){
+//                        ((EditText)v).selectAll();
+//                    }
+//                }
+//            });
+//            valueText.setGravity( Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL );
+//            valueText.setText( value.toString() );
+//            valueText.setInputType( InputType.TYPE_CLASS_NUMBER );
+//        }
+//
+//        private void initDecrementButton( Context context){
+//            decrement = new Button( context );
+//            decrement.setTextSize( textSize );
+//            decrement.setText( "-" );
+//            decrement.setTextColor(textColor);
+//
+//
+//            decrement.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    decrement();
+//                }
+//            });
+//
+//
+//            decrement.setOnLongClickListener(
+//                    new View.OnLongClickListener(){
+//                        public boolean onLongClick(View arg0) {
+//                            autoDecrement = true;
+//                            repeatUpdateHandler.post( new RepetetiveUpdater() );
+//                            return false;
+//                        }
+//                    }
+//            );
+//
+//            decrement.setOnTouchListener( new View.OnTouchListener() {
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    if( event.getAction() == MotionEvent.ACTION_UP && autoDecrement ){
+//                        autoDecrement = false;
+//                    }
+//                    return false;
+//                }
+//            });
+//        }
+//
+//        public void increment(){
+//            if( value < maximum ){
+//                value = value + 1;
+//            }else{
+//                value = minimum;
+//            }
+//            String strValue= value.toString();
+//            int valueLength = strValue.length();
+//
+//            if (valueLength < 4){
+//                for (int i = 0; i < 4 - valueLength; i++){
+//                    strValue = "0" + strValue;
+//
+//                }
+//            }
+//            valueText.setText(strValue);
+//        }
+//
+//        public void decrement(){
+//            if( value > minimum ){
+//                value = value - 1;
+//            }else{
+//                value = maximum;
+//            }
+//
+//            String strValue= value.toString();
+//            int valueLength = strValue.length();
+//
+//            if (valueLength < 4){
+//                for (int i = 0; i < 4 - valueLength; i++){
+//                    strValue = "0" + strValue;
+//
+//                }
+//            }
+//            valueText.setText(strValue);
+//        }
+//
+//        public int getValue(){
+//            return value;
+//        }
+//
+//        public void setValue( int value ){
+//            if( value > maximum ) value = maximum;
+//            if( value >= minimum ){
+//                this.value = value;
+//
+//                String strValue=  Integer.toString(value);
+//                int valueLength = strValue.length();
+//
+//                if (valueLength < 4){
+//                    for (int i = 0; i < 4 - valueLength; i++){
+//                        strValue = "0" + strValue;
+//
+//                    }
+//                }
+//                valueText.setText(strValue);
+//            }
+//        }
+//
+//        public long getRepeatDeley() {
+//            return repeatDeley;
+//        }
+//
+//        public int getElementHeight() {
+//            return elementHeight;
+//        }
+//
+//        public int getElementWidth() {
+//            return elementWidth;
+//        }
+//
+//        public int getMinimum() {
+//            return minimum;
+//        }
+//
+//        public int getMaximum() {
+//            return maximum;
+//        }
+//
+//        public int getTextSize() {
+//            return textSize;
+//        }
+//
+//        public void setRepeatDeley(long repeatDeley) {
+//            this.repeatDeley = repeatDeley;
+//        }
+//
+//        public void setElementHeight(int elementHeight) {
+//            this.elementHeight = elementHeight;
+//        }
+//
+//        public void setElementWidth(int elementWidth) {
+//            this.elementWidth = elementWidth;
+//        }
+//
+//        public void setMinimum(int minimum) {
+//            this.minimum = minimum;
+//        }
+//
+//        public void setMaximum(int maximum) {
+//            this.maximum = maximum;
+//        }
+//
+//        public void setTextSize(int textSize) {
+//            this.textSize = textSize;
+//        }
+//
+//        public void setTextColor(int textColor) {
+//            this.textColor = textColor;
+//        }
+//    }
 
 
 
