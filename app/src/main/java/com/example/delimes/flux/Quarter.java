@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.example.delimes.flux.MainActivity.chosenYearNumber;
 import static com.example.delimes.flux.MainActivity.taskExtra;
 
 /**
@@ -105,6 +106,17 @@ class Quarter extends View {
     float upperRightCornerY = 0;
     float bottomRightCornerX = 0;
 
+    boolean incrementYearWinter = false;
+    boolean incrementYearSpring = false;
+    boolean incrementYearSummer = false;
+    boolean incrementYearAutumn = false;
+    boolean decrementYearWinter = false;
+    boolean decrementYearSpring = false;
+    boolean decrementYearSummer = false;
+    boolean decrementYearAutumn = false;
+
+    //boolean timerIsON = false;
+
     float length = 0;
 
     public Quarter(Context context, int quarter) {
@@ -145,7 +157,7 @@ class Quarter extends View {
         Point size = new Point();
         display.getSize(size);
         int width = (int) (size.x * 0.15f);
-        int height =  size.y;
+        int displayHeight =  size.y;
         this.side = width / 2;
 
 //        if(quarter == 1) {
@@ -415,20 +427,24 @@ class Quarter extends View {
 //            decemberLength = -upperRightCornerY + getHeight() * 1.5f;
 
             if (quarter == 1) {
-                length = -upperLeftCornerX + getWidth() + side;
-                Log.d("123", "Winter length: "+ length);
+                //length = -upperLeftCornerX + getWidth() + side;
+                calendar.clear();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
+                maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                length = (31+maxDaysOfMonth+31)*side;
             }else if (quarter == 2){
-                length = -bottomLeftCornerY + getHeight() - side;
+                //length = -bottomLeftCornerY + getHeight() - side;
                 //length = -bottomLeftCornerY + getHeight() - side*5;
-                Log.d("123", "Spring length: "+ length);
+                length = (30+31+30) * side ;
             }else if (quarter == 3){
-                length = -bottomRightCornerX + getWidth();
+                //length = -bottomRightCornerX + getWidth();
                 //length = -bottomRightCornerX + getWidth() - side;
-                Log.d("123", "Summer length: "+ length);
+                length = (31+31+30) * side;
             }else if (quarter == 4) {
-                length = -upperRightCornerY + getHeight() + side;
+                //length = -upperRightCornerY + getHeight() + side;
                 //length = -upperRightCornerY + getHeight() - side*3;
-                Log.d("123", "Autumn length: "+ length+" side "+side);
+                length = (31+30+31) * side;
             }
         }
     }
@@ -1215,6 +1231,7 @@ class Quarter extends View {
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(g);
+                    Log.d("123", "drawQuarter: MainActivity.currDate "+MainActivity.currDate);
 
                     currentDate.left = left;
                     currentDate.top = top;
@@ -1384,7 +1401,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if (!firstOccurrence && selectedDay != MainActivity.day) {
+                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1470,7 +1487,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if (!firstOccurrence && selectedDay != MainActivity.day) {
+                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1524,7 +1541,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if (!firstOccurrence && selectedDay != MainActivity.day) {
+                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1595,7 +1612,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if (!firstOccurrence && selectedDay != MainActivity.day) {
+                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1614,11 +1631,14 @@ class Quarter extends View {
         if (firstOccurrence) {
             firstOccurrence = false;
         }
+        if (mainActivity.yearNumberChangedForDraw && quarter == 4) {
+            mainActivity.yearNumberChangedForDraw = false;
+        }
         if (restore) {
             restore = false;
             restore();
         }
-        if (addCyclicTasks) {
+        if (addCyclicTasks && quarter == 4) {
             addCyclicTasks = false;
             addCyclicTasks();
         }
@@ -1714,6 +1734,12 @@ class Quarter extends View {
             MainActivity.Task t = j.next();
             mainActivity.refreshCyclicTasks(t);
         }
+        if (MainActivity.cyclicTasks.size() > 0){
+            mainActivity.winter.invalidate();
+            mainActivity.spring.invalidate();
+            mainActivity.summer.invalidate();
+            invalidate();//autumn
+        }
 
     }
 
@@ -1726,14 +1752,14 @@ class Quarter extends View {
         float lengthDraggingY;
         float dragDirection;
 
-        boolean incrementYearWinter = false;
-        boolean incrementYearSpring = false;
-        boolean incrementYearSummer = false;
-        boolean incrementYearAutumn = false;
-        boolean decrementYearWinter = false;
-        boolean decrementYearSpring = false;
-        boolean decrementYearSummer = false;
-        boolean decrementYearAutumn = false;
+        incrementYearWinter = false;
+        incrementYearSpring = false;
+        incrementYearSummer = false;
+        incrementYearAutumn = false;
+        decrementYearWinter = false;
+        decrementYearSpring = false;
+        decrementYearSummer = false;
+        decrementYearAutumn = false;
 
         switch (event.getAction()) {
             // касание началось
@@ -1773,8 +1799,8 @@ class Quarter extends View {
                         if(y >= 0) {
                             y = 0;
                         }
-                        if(y <= length){
-                            y = length;
+                        if( y <= -(length - getHeight()) ){
+                            y = -(length - getHeight());
                         }
                     }else if (quarter == 3){
                         // определеяем новые координаты
@@ -1782,45 +1808,46 @@ class Quarter extends View {
                         if(x >= 0) {
                             x = 0;
                         }
-                        if(x <= length){
-                            x = length;
+                        if( x <= -(length - getWidth()) ){
+                            x = -(length - getWidth());
                         }
                     }else if (quarter == 4){
                         // определеяем новые координаты
+                        if( mainActivity.yearNumberChangedForMove ) {
+                            //mainActivity.yearNumberChanged = false;
+                            //dragY = evY - getHeight();
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+                                dragY = evY - length;
+                                //decrementYearAutumn = true;
+                            }else {
+                                dragY = evY - getHeight();
+                            }
+
+                        }
                         y = evY - dragY;
+                        if(y <= getHeight() - side * 4) {
+                            decrementYearAutumn = true;
+                        }
                         if(y <= getHeight()) {
                             y = getHeight();
-                            decrementYearAutumn = true;
+                        }
+                        if(y >= length + side * 4){
+                            incrementYearAutumn = true;
                         }
                         if(y >= length){
                             y = length;
-                            incrementYearAutumn = true;
                         }
+
+//                        if (mainActivity.yearNumberChanged){
+//                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+//                                y = length;
+//                            }
+//                        }
 
                         dragDirection = evY - posY;
                         lengthDraggingY = previousDragDirection - dragDirection;
                         previousDragDirection = dragDirection;
 
-                        //summer//
-                        mainActivity.summer.x += lengthDraggingY;
-                        if(mainActivity.summer.x >= 0) {
-                            mainActivity.summer.x = 0;
-                            decrementYearSummer = true;
-                        }
-                        if(mainActivity.summer.x <= mainActivity.summer.length){
-                            mainActivity.summer.x = mainActivity.summer.length;
-                            incrementYearSummer = true;
-                        }
-                        //spring//
-                        mainActivity.spring.y += lengthDraggingY;
-                        if(mainActivity.spring.y >= 0) {
-                            mainActivity.spring.y = 0;
-                            decrementYearSpring = true;
-                        }
-                        if(mainActivity.spring.y <= mainActivity.spring.length){
-                            mainActivity.spring.y = mainActivity.spring.length;
-                            incrementYearSpring = true;
-                        }
                         //winter//
                         mainActivity.winter.x -= lengthDraggingY;
                         if(mainActivity.winter.x <= mainActivity.winter.getWidth()) {
@@ -1830,6 +1857,46 @@ class Quarter extends View {
                         if(mainActivity.winter.x >= mainActivity.winter.length){
                             mainActivity.winter.x = mainActivity.winter.length;
                             incrementYearWinter = true;
+                        }
+                        if (mainActivity.yearNumberChangedForMove){
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                                mainActivity.winter.x = mainActivity.winter.length;
+                            }
+                        }
+
+                        //spring//
+                        mainActivity.spring.y += lengthDraggingY;
+                        if(mainActivity.spring.y >= 0) {
+                            mainActivity.spring.y = 0;
+                            decrementYearSpring = true;
+                        }
+                        if(mainActivity.spring.y <= -(mainActivity.spring.length - getHeight())){
+                            mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                            incrementYearSpring = true;
+                        }
+                        if (mainActivity.yearNumberChangedForMove){
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                                mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                            }
+                        }
+                        //summer//
+                        mainActivity.summer.x += lengthDraggingY;
+                        if(mainActivity.summer.x >= 0) {
+                            mainActivity.summer.x = 0;
+                            decrementYearSummer = true;
+                        }
+                        if(mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth())){
+                            mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                            incrementYearSummer = true;
+                        }
+                        if (mainActivity.yearNumberChangedForMove){
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                                mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                            }
+                        }
+
+                        if (mainActivity.yearNumberChangedForMove){
+                            mainActivity.yearNumberChangedForMove = false;
                         }
 
                         if (incrementYearWinter && incrementYearSpring && incrementYearSummer && incrementYearAutumn) {
@@ -1871,21 +1938,58 @@ class Quarter extends View {
             Iterator<Day> j = days.iterator();
             while (j.hasNext()){
                 Day b = j.next();
-                if(b.left <= doubleTapX && b.right >= doubleTapX) {
-                    selectedDay = b;
-                    mainActivity.spring.selectedDay = null;
-                    mainActivity.spring.invalidate();
-                    mainActivity.summer.selectedDay = null;
-                    mainActivity.summer.invalidate();
-                    mainActivity.autumn.selectedDay = null;
-                    mainActivity.autumn.invalidate();
-                    invalidate();
+                if (quarter == 1) {
+                    if (b.left <= doubleTapX && b.right >= doubleTapX) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.spring.selectedDay = null;
+                        mainActivity.spring.invalidate();
+                        mainActivity.summer.selectedDay = null;
+                        mainActivity.summer.invalidate();
+                        mainActivity.autumn.selectedDay = null;
+                        mainActivity.autumn.invalidate();
+                    }
+                }else if (quarter == 2) {
+                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.winter.selectedDay = null;
+                        mainActivity.winter.invalidate();
+                        mainActivity.summer.selectedDay = null;
+                        mainActivity.summer.invalidate();
+                        mainActivity.autumn.selectedDay = null;
+                        mainActivity.autumn.invalidate();
+                    }
+                }else if (quarter == 3) {
+                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.winter.selectedDay = null;
+                        mainActivity.winter.invalidate();
+                        mainActivity.spring.selectedDay = null;
+                        mainActivity.spring.invalidate();
+                        mainActivity.autumn.selectedDay = null;
+                        mainActivity.autumn.invalidate();
+                    }
+                }else if (quarter == 4) {
+                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.winter.selectedDay = null;
+                        mainActivity.winter.invalidate();
+                        mainActivity.spring.selectedDay = null;
+                        mainActivity.spring.invalidate();
+                        mainActivity.summer.selectedDay = null;
+                        mainActivity.summer.invalidate();
+                    }
+                }
 
+                if (selectedDay != null) {
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
                 }
             }
 
@@ -1895,13 +1999,20 @@ class Quarter extends View {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
 
-            scrollTime = (int) velocityX;
+            if (quarter == 1 || quarter == 3) {
+                scrollTime = (int) velocityX;
+            }else if (quarter == 2 || quarter == 4){
+                scrollTime = (int) velocityY;
+            }
+
             if (scrollTime < 0){
                 scrollTime *= -1;
             }
+
             countDownTimer = new CountDownTimer(scrollTime, 50) {
 
                 public void onTick(long millisUntilFinished) {
+
                     if (quarter == 1) {
                         if (velocityX > 0) {
                             x += millisUntilFinished / 30;
@@ -1931,8 +2042,8 @@ class Quarter extends View {
                         if(y >= 0) {
                             y = 0;
                         }
-                        if(y <= length){
-                            y = length;
+                        if( y <= -(length - getHeight()) ){
+                            y = -(length - getHeight());
                         }
                     }else if (quarter == 3){
                         if (velocityX > 0){
@@ -1946,8 +2057,8 @@ class Quarter extends View {
                         if(x >= 0) {
                             x = 0;
                         }
-                        if(x <= length){
-                            x = length;
+                        if( x <= -(length - getWidth()) ){
+                            x = -(length - getWidth());
                         }
                     }else if (quarter == 4){
                         if (velocityY > 0){
@@ -1975,40 +2086,109 @@ class Quarter extends View {
                         }
                         // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
 
+
                         //проверить край
-                        if(y <= getHeight()) {
+
+                        if(y <= getHeight() && !mainActivity.yearReducedForFling) {
                             y = getHeight();
+                            decrementYearAutumn = true;
                         }
                         if(y >= length){
                             y = length;
+                            incrementYearAutumn = true;
                         }
-                        //обновить
-                        invalidate();
 
-                        //summer//
-                        if(mainActivity.summer.x >= 0) {
-                            mainActivity.summer.x = 0;
+                        if (mainActivity.yearNumberChangedForFling){
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                                y = length;
+                            }
                         }
-                        if(mainActivity.summer.x <= mainActivity.summer.length){
-                            mainActivity.summer.x = mainActivity.summer.length;
-                        }
-                        mainActivity.summer.invalidate();
-                        //spring//
-                        if(mainActivity.spring.y >= 0) {
-                            mainActivity.spring.y = 0;
-                        }
-                        if(mainActivity.spring.y <= mainActivity.spring.length){
-                            mainActivity.spring.y = mainActivity.spring.length;
-                        }
-                        mainActivity.spring.invalidate();
+
+                        //invalidate();
+
                         //winter//
-                        if(mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+
+                        if(mainActivity.winter.x <= mainActivity.winter.getWidth() && !mainActivity.yearReducedForFling) {
                             mainActivity.winter.x = mainActivity.winter.getWidth();
+                            decrementYearWinter = true;
                         }
                         if(mainActivity.winter.x >= mainActivity.winter.length){
                             mainActivity.winter.x = mainActivity.winter.length;
+                            incrementYearWinter = true;
                         }
-                        mainActivity.winter.invalidate();
+                        if (mainActivity.yearNumberChangedForFling){
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                                mainActivity.winter.x = mainActivity.winter.length;
+                            }
+                        }
+
+                        //mainActivity.winter.invalidate();
+                        //spring//
+
+                        if(mainActivity.spring.y >= 0 && !mainActivity.yearReducedForFling) {
+                            mainActivity.spring.y = 0;
+                            decrementYearSpring = true;
+                        }
+                        if(mainActivity.spring.y <= -(mainActivity.spring.length - getHeight())){
+                            mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                            incrementYearSpring = true;
+                        }
+                        if (mainActivity.yearNumberChangedForFling){
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                                mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                            }
+                        }
+
+                        //mainActivity.spring.invalidate();
+                        //summer//
+
+                        if(mainActivity.summer.x >= 0 && !mainActivity.yearReducedForFling) {
+                            mainActivity.summer.x = 0;
+                            decrementYearSummer = true;
+                        }
+                        if(mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth())){
+                            mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                            incrementYearSummer = true;
+                        }
+                        if (mainActivity.yearNumberChangedForFling){
+                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                                mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                            }
+                        }
+
+                        //mainActivity.summer.invalidate();
+
+                        if (mainActivity.yearReducedForFling){
+                            mainActivity.yearReducedForFling = false;
+                        }
+                        if (mainActivity.yearNumberChangedForFling){
+                            mainActivity.yearNumberChangedForFling = false;
+                            mainActivity.yearNumberChangedForMove = false;
+                        }
+
+                        if (incrementYearWinter && incrementYearSpring && incrementYearSummer && incrementYearAutumn) {
+                            //mainActivity.yearNumberChangedForFling = false;
+                            incrementYearWinter = false;
+                            incrementYearSpring = false;
+                            incrementYearSummer = false;
+                            incrementYearAutumn = false;
+                            mainActivity.numberYearPicker.increment();
+                        }else if (decrementYearWinter && decrementYearSpring && decrementYearSummer && decrementYearAutumn) {
+                            //mainActivity.yearNumberChangedForFling = false;
+                            decrementYearWinter = false;
+                            decrementYearSpring = false;
+                            decrementYearSummer = false;
+                            decrementYearAutumn = false;
+                            //mainActivity.decrementYear = true;
+                            mainActivity.numberYearPicker.decrement();
+                        }else {
+                            mainActivity.winter.invalidate();
+                            mainActivity.spring.invalidate();
+                            mainActivity.summer.invalidate();
+                        }
+//                        mainActivity.winter.invalidate();
+//                        mainActivity.spring.invalidate();
+//                        mainActivity.summer.invalidate();
                     }
 
                     //обновить

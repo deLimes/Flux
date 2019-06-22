@@ -229,109 +229,148 @@ public class NumberYearPicker extends LinearLayout {
                 if(!editable.toString().isEmpty()) {
                     mainActivity.previousChosenYearNumber = mainActivity.chosenYearNumber;
                     mainActivity.chosenYearNumber = Integer.valueOf(editable.toString());
+                    if (mainActivity.previousChosenYearNumber != mainActivity.chosenYearNumber) {
+                        mainActivity.yearNumberChangedForMove = true;
+                        mainActivity.yearNumberChangedForFling = true;
+                        mainActivity.yearNumberChangedForDraw = true;
+                        if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
+                            mainActivity.yearReducedForFling = true;
+                        }
+                    }else {
+                        mainActivity.yearNumberChangedForMove = false;
+                        mainActivity.yearNumberChangedForFling = false;
+                        mainActivity.yearNumberChangedForDraw = false;
+                    }
+
                 }
 
-//                //////////////////////////////////////////////////////////////////////////
-//
-//                //Log.d("vsm", "mainActivity.winter.length: "+ mainActivity.winter.length);
-//
-//                //%%C del -
-//                if( mainActivity.curentYearNumber < mainActivity.chosenYearNumber) {
-//                    mainActivity.autumn.addCyclicTasks = true;
+                //////////////////////////////////////////////////////////////////////////
+
+                //Log.d("vsm", "mainActivity.winter.length: "+ mainActivity.winter.length);
+
+                //%%C del -
+                if( mainActivity.curentYearNumber < mainActivity.chosenYearNumber) {
+                    mainActivity.autumn.addCyclicTasks = true;
+                }
+
+                if(mainActivity.linLayout != null) {
+                    mainActivity.day = null;
+                    mainActivity.linLayout.removeAllViews();
+                }
+                mainActivity.addedTasksOfYear.clear();
+                mainActivity.destroyedTasksOfYear.clear();
+                mainActivity.changedeTasksOfYear = false;
+
+                int width = mainActivity.constraintLayout.getRight() + mainActivity.guideline.getLeft();
+                Log.d("123", "width: "+width);
+                int tucherWidth;
+                int tucherHeight;
+
+                //Winter
+
+                tucherWidth = mainActivity.constraintLayout.getRight();
+                tucherHeight = width;
+
+                ////////mainActivity.winter.side = width/2;
+
+                ////////mainActivity.winter.y = tucherHeight;
+
+
+                mainActivity.winter.currentDate = null;
+                mainActivity.winter.firstOccurrence = true;
+                mainActivity.winter.days.clear();
+                mainActivity.winter.fillInDays(mainActivity.chosenYearNumber);
+                mainActivity.winter.x = tucherWidth;
+//                if (!mainActivity.decrementYear) {
+//                    mainActivity.winter.x = tucherWidth;
 //                }
-//
-//                if(mainActivity.linLayout != null) {
-//                    mainActivity.day = null;
-//                    mainActivity.linLayout.removeAllViews();
-//                }
-//                mainActivity.addedTasksOfYear.clear();
-//                mainActivity.destroyedTasksOfYear.clear();
-//                mainActivity.changedeTasksOfYear = false;
-//
-//                int width = mainActivity.constraintLayout.getRight() + mainActivity.guideline.getLeft();
-//                int tucherWidth;
-//                int tucherHeight;
-//
-//                //Winter
-//
-//                tucherWidth = mainActivity.constraintLayout.getRight();
-//                tucherHeight = width;
-//
-//                ////////mainActivity.winter.side = width/2;
-//                mainActivity.winter.x = tucherWidth;
-//                ////////mainActivity.winter.y = tucherHeight;
-//
-//                mainActivity.winter.days.clear();
-//                mainActivity.winter.currentDate = null;
-//                mainActivity.winter.firstOccurrence = true;
-//                mainActivity.winter.fillInDays(mainActivity.chosenYearNumber);
 //                if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
 //                    mainActivity.winter.x = mainActivity.winter.length;
 //                }
-//                //mainActivity.winter.invalidate();
-//
-//
-//                //Spring
-//                tucherWidth = width;
-//                tucherHeight = mainActivity.constraintLayout.getBottom()-width*2;
-//
-//                ////////////////
-//                //mainActivity.spring.x = tucherWidth - tucherWidth / 2;
-//                mainActivity.spring.y = 0;
-//
-//                mainActivity.spring.days.clear();
-//                mainActivity.spring.currentDate = null;
-//                mainActivity.spring.firstOccurrence = true;
-//                mainActivity.spring.fillInDays(mainActivity.chosenYearNumber);
-//                if( mainActivity.curentYearNumber > mainActivity.chosenYearNumber) {
-//                    mainActivity.spring.y = mainActivity.spring.length;
+                //mainActivity.winter.invalidate();
+
+
+                //Spring
+                tucherWidth = width;
+                tucherHeight = mainActivity.constraintLayout.getBottom()-width*2;
+
+                ////////////////
+                //mainActivity.spring.x = tucherWidth - tucherWidth / 2;
+
+
+
+                mainActivity.spring.currentDate = null;
+                mainActivity.spring.firstOccurrence = true;
+                mainActivity.spring.days.clear();
+                mainActivity.spring.fillInDays(mainActivity.chosenYearNumber);
+                mainActivity.spring.y = 0;
+//                if (!mainActivity.decrementYear) {
+//                    mainActivity.spring.y = 0;
 //                }
-//                //mainActivity.spring.invalidate();
-//
-//
-//                //Summer
-//                tucherWidth = mainActivity.constraintLayout.getRight();;
-//                tucherHeight = width;
-//
-//                ////////////////
-//                //mainActivity.summer.y = tucherHeight - tucherHeight / 2;
-//                mainActivity.summer.x = 0;
-//
-//                mainActivity.summer.days.clear();
-//                mainActivity.summer.currentDate = null;
-//                mainActivity.summer.firstOccurrence = true;
-//                mainActivity.summer.fillInDays(mainActivity.chosenYearNumber);
-//                if( mainActivity.curentYearNumber > mainActivity.chosenYearNumber) {
-//                    mainActivity.summer.x = mainActivity.summer.length;
+//                if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+//                    mainActivity.spring.y = -(mainActivity.spring.length - mainActivity.spring.getHeight());
 //                }
-//                //mainActivity.summer.invalidate();
-//
-//
-//                //Autumn
-//                tucherWidth = width;
-//                tucherHeight = mainActivity.constraintLayout.getBottom()-width*2;
-//
-//                ////////////////
-//                //mainActivity.autumn.side = width/2;
-//                //mainActivity.autumn.x = tucherWidth - tucherWidth / 2;
-//                mainActivity.autumn.y = tucherHeight;
-//
-//                mainActivity.autumn.days.clear();
-//                mainActivity.autumn.currentDate = null;
-//                mainActivity.autumn.firstOccurrence = true;
-//                mainActivity.autumn.fillInDays(mainActivity.chosenYearNumber);
-//                if( mainActivity.curentYearNumber > mainActivity.chosenYearNumber) {
+                //mainActivity.spring.invalidate();
+
+
+                //Summer
+                tucherWidth = mainActivity.constraintLayout.getRight();;
+                tucherHeight = width;
+
+                ////////////////
+                //mainActivity.summer.y = tucherHeight - tucherHeight / 2;
+
+
+
+                mainActivity.summer.currentDate = null;
+                mainActivity.summer.firstOccurrence = true;
+                mainActivity.summer.days.clear();
+                mainActivity.summer.fillInDays(mainActivity.chosenYearNumber);
+                mainActivity.summer.x = 0;
+//                if (!mainActivity.decrementYear) {
+//                    mainActivity.summer.x = 0;
+//                }
+//                if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+//                    mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+//                }
+                //mainActivity.summer.invalidate();
+
+
+                //Autumn
+                tucherWidth = width;
+                tucherHeight = mainActivity.constraintLayout.getBottom() - width * 2;
+
+                ////////////////
+                //mainActivity.autumn.side = width/2;
+                //mainActivity.autumn.x = tucherWidth - tucherWidth / 2;
+
+
+
+                mainActivity.autumn.currentDate = null;
+                mainActivity.autumn.firstOccurrence = true;
+                mainActivity.autumn.days.clear();
+                mainActivity.autumn.fillInDays(mainActivity.chosenYearNumber);
+                mainActivity.autumn.y = tucherHeight;
+//                if (!mainActivity.decrementYear) {
+//                    mainActivity.autumn.y = tucherHeight;
+//                }
+
+//                if (mainActivity.decrementYear){
+//                    mainActivity.decrementYear = false;
+//                }
+//                if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
 //                    mainActivity.autumn.y = mainActivity.autumn.length;
 //                }
-//                //mainActivity.autumn.invalidate();
-//
-//                mainActivity.restoreYear(editable.toString());
-////                mainActivity.winter.invalidate();
-////                mainActivity.spring.invalidate();
-////                mainActivity.summer.invalidate();
-////                mainActivity.autumn.invalidate();
-//
-//                //////////////////////////////////////////////////////////////////////////
+                //mainActivity.autumn.invalidate();
+
+                mainActivity.restoreYear(editable.toString());
+
+                mainActivity.winter.invalidate();
+                mainActivity.spring.invalidate();
+                mainActivity.summer.invalidate();
+                mainActivity.autumn.invalidate();
+
+                //////////////////////////////////////////////////////////////////////////
             }
         });
 

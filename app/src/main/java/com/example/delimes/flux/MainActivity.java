@@ -123,10 +123,10 @@ public class MainActivity extends AppCompatActivity {
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
-    Quarter winter, spring, summer, autumn;
+    static Quarter winter, spring, summer, autumn;
     static YearStr yearStr;
 
-    NumberYearPicker numberYearPicker;
+    static NumberYearPicker numberYearPicker;
     static TextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     static Task task;
     ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
     ArrayList<Task> destroyedTasksOfYear = new ArrayList<Task>();
-    static boolean changedeTasksOfYear, yearNumberChanged, processUpdateSchedule;
+    static boolean changedeTasksOfYear, yearNumberChangedForMove, yearNumberChangedForFling, yearNumberChangedForDraw, processUpdateSchedule;
     public static ArrayList<Task> cyclicTasks = new ArrayList<Task>();
     View layoutDayOfWeek;
     TextView  monday, tuesday, wednesday, thursday, friday, saturday, sunday;
@@ -162,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
     static Context context;
     static int taskExtra = 0;
     ///////////////////////////////////////////////////////////////////////////
+
+    boolean yearReducedForFling = false;
 
 
     @Override
@@ -195,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 //        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 //        im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        context = getApplicationContext();
+        context = this;
         curentYearNumber = calendar.get(Calendar.YEAR);
 
         colors[0] = Color.parseColor("#559966CC");
@@ -299,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Autumn
                 tucherWidth = width;
-                tucherHeight = constraintLayout.getBottom()-width*2;
+                tucherHeight = constraintLayout.getBottom() - width * 2;
                 //Log.d("WH", "tucherHeight:" +tucherHeight);
 
                 autumn.side = width/2;
@@ -3128,6 +3130,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public static Context getContext() {
+        return context;
     }
 
     public void saveYear() {

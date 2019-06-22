@@ -3,6 +3,7 @@ package com.example.delimes.flux;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,9 @@ public class DateChangedReceiver extends BroadcastReceiver {
 
     public DateChangedReceiver(Context context) {
         this.mainActivity = (MainActivity)context;
+    }
+
+    public DateChangedReceiver() {
     }
 
     @Override
@@ -27,10 +31,9 @@ public class DateChangedReceiver extends BroadcastReceiver {
         MainActivity.calendar.set(year, month, day);
         MainActivity.currDate = new Date(MainActivity.calendar.getTimeInMillis());
 
-        mainActivity.winter.invalidate();
-        mainActivity.spring.invalidate();
-        mainActivity.summer.invalidate();
-        mainActivity.autumn.invalidate();
+        if (mainActivity.numberYearPicker != null) {
+            mainActivity.numberYearPicker.setValue(year);
+        }
     }
 
 }
