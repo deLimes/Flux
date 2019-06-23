@@ -757,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     task.removeFromAM = true;
-                    setReminder(task, day.date);
+                    setReminder(context, task, day.date);
                     //%%C del - setReminder(task);
 
                     day.dayClosed = true;
@@ -1562,17 +1562,18 @@ public class MainActivity extends AppCompatActivity {
         autumn.invalidate();
     }
 
-    public static void setReminder(Task task, Date date) {
+    public static void setReminder(Context context,Task task, Date date) {
 
         Log.d("myLogs", "setReminder: 0");
-        try {
-            int jh = 1/0;
-        }catch (Exception e){
-            //Log.d("myLogs", "setReminder: 0.1"+ e.printStackTrace() );
-            e.printStackTrace();
-        }
+//        try {
+//            int jh = 1/0;
+//        }catch (Exception e){
+//            //Log.d("myLogs", "setReminder: 0.1"+ e.printStackTrace() );
+//            e.printStackTrace();
+//        }
 
-        Intent notificationIntent = new Intent(getContext(), Receiver.class);
+        Log.d("myLogs", "setReminder1: .context " +context);
+        Intent notificationIntent = new Intent(context, Receiver.class);
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
         notificationIntent.putExtra("content", task.content);
         //notificationIntent.putExtra("task", task);
@@ -1806,7 +1807,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if(task.remove){
                                     t.removeFromAM = true;
-                                    setReminder(t, d.date);
+                                    setReminder(context, t, d.date);
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
@@ -2008,7 +2009,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if(task.remove){
                                     t.removeFromAM = true;
-                                    setReminder(t, d.date);
+                                    setReminder(context, t, d.date);
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
@@ -2206,7 +2207,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if(task.remove){
                                     t.removeFromAM = true;
-                                    setReminder(t, d.date);
+                                    setReminder(context, t, d.date);
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
@@ -2402,7 +2403,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if(task.remove){
                                     t.removeFromAM = true;
-                                    setReminder(t, d.date);
+                                    setReminder(context, t, d.date);
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
@@ -2642,7 +2643,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //clear old remind
                         task.removeFromAM = true;
-                        setReminder(task, day.date);
+                        setReminder(context, task, day.date);
                         task.shown = false;
 
                         while (cyclicTasks.remove(task));;
@@ -2684,7 +2685,7 @@ public class MainActivity extends AppCompatActivity {
 //                        }
 
                         //set new remind
-                        setReminder(task, day.date);
+                        setReminder(context, task, day.date);
 
                         /*taskTime.setText(((""+ calendar.get(Calendar.HOUR_OF_DAY)).length() == 1 ? "0" + calendar.get(Calendar.HOUR_OF_DAY) : "" + calendar.get(Calendar.HOUR_OF_DAY))+
                                 ":"+ ((""+ calendar.get(Calendar.MINUTE)).length() == 1 ? "0" + calendar.get(Calendar.MINUTE) : "" + calendar.get(Calendar.MINUTE)));
@@ -2965,10 +2966,10 @@ public class MainActivity extends AppCompatActivity {
                     changedeTasksOfYear = true;
                     task.isValid = b;
                     if(b){
-                        setReminder(task, day.date);
+                        setReminder(context, task, day.date);
                     }else{
                         task.removeFromAM = true;
-                        setReminder(task, day.date);
+                        setReminder(context, task, day.date);
                     }
                     //%%C del - setReminder(task);
 
@@ -2992,7 +2993,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(b){
                         task.removeFromAM = true;
-                        setReminder(task, day.date);
+                        setReminder(context, task, day.date);
                         //%%C del - setReminder(task);
                     }
 

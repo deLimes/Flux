@@ -76,7 +76,7 @@ public class UpdateReminders extends Service {
             winter.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
             for (MainActivity.Task task : winter.days.get(i).tasks) {
-                MainActivity.setReminder(task, winter.days.get(i).date);
+                MainActivity.setReminder(this, task, winter.days.get(i).date);
             }
         }
 
@@ -93,7 +93,7 @@ public class UpdateReminders extends Service {
             for (MainActivity.Task task : spring.days.get(i).tasks) {
                 Log.d("myLogs", "updateReminders test1: "+ new Date(task.startTime));
                 Log.d("myLogs", "updateReminders2 test2: "+ spring.days.get(i).date);
-                MainActivity.setReminder(task, spring.days.get(i).date);
+                MainActivity.setReminder(this, task, spring.days.get(i).date);
             }
         }
 
@@ -107,7 +107,7 @@ public class UpdateReminders extends Service {
             summer.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
             for (MainActivity.Task task : summer.days.get(i).tasks) {
-                MainActivity.setReminder(task, summer.days.get(i).date);
+                MainActivity.setReminder(this, task, summer.days.get(i).date);
             }
         }
 
@@ -121,7 +121,7 @@ public class UpdateReminders extends Service {
             autumn.days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
             for (MainActivity.Task task : autumn.days.get(i).tasks) {
-                MainActivity.setReminder(task, autumn.days.get(i).date);
+                MainActivity.setReminder(this, task, autumn.days.get(i).date);
             }
         }
 
