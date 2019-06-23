@@ -114,6 +114,7 @@ import static android.os.Environment.getExternalStorageDirectory;
 import static android.os.Environment.getExternalStorageState;
 
 public class MainActivity extends AppCompatActivity {
+    static Context context;
     int tucherWidth = 100;
     int[] colors = new int[2];
     int[] colors2 = new int[2];
@@ -159,18 +160,26 @@ public class MainActivity extends AppCompatActivity {
     static PendingIntent pIntent;
 
     private static int notifyId = 101;
-    static Context context;
     static int taskExtra = 0;
     ///////////////////////////////////////////////////////////////////////////
 
     boolean yearReducedForFling = false;
 
+    public MainActivity() {
+        this.context = this;
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        /////////////////////////////////////////////
+        // Завершить работу данного окна
+        //this.finish();
+        //////////////////////////////////////////////
+
         restoreCyclicTasks();
+
 
         //task = (Task) getIntent().getSerializableExtra("task");
     }
@@ -178,11 +187,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.v("123", "onStop: ");
+
         saveCyclicTasks();
         if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
             //Log.d("Year", "Year was saved");
             saveYear();
         }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.v("123", "onDestroy: ");
     }
 
     @Override
@@ -196,6 +214,18 @@ public class MainActivity extends AppCompatActivity {
 
 //        InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 //        im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+        /////////////////////////////////////////////
+        // Завершить работу данного окна
+
+//        boolean finish = true;
+//        if (finish) {
+//            Log.v("123", "onCreate: finished ");
+//            this.finish();
+//            return;
+//        }
+        //////////////////////////////////////////////
 
         context = this;
         curentYearNumber = calendar.get(Calendar.YEAR);
@@ -530,7 +560,7 @@ public class MainActivity extends AppCompatActivity {
         winter.setId(R.id.winter);
         constraintLayout.addView(winter);
 
-        spring = new Quarter(this, 2);//123
+        spring = new Quarter(this, 2);
         spring.setId(R.id.spring);
         constraintLayout.addView(spring);
 
@@ -1542,7 +1572,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Intent notificationIntent = new Intent(context, Receiver.class);
+        Intent notificationIntent = new Intent(getContext(), Receiver.class);
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
         notificationIntent.putExtra("content", task.content);
         //notificationIntent.putExtra("task", task);

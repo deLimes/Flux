@@ -32,7 +32,7 @@ public class UpdateReminders extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        updateReminders(MainActivity.getContext());
+        updateReminders();
 
         stopService(new Intent(this, UpdateReminders.class));
 
@@ -45,7 +45,7 @@ public class UpdateReminders extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void updateReminders(Context context){
+    public void updateReminders(){
 
         SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
         Calendar calendar = GregorianCalendar.getInstance();
@@ -60,12 +60,13 @@ public class UpdateReminders extends Service {
         }
 
         MainActivity.YearStr yearStr = new Gson().fromJson(json, MainActivity.YearStr.class);
-        MainActivity.context = getApplicationContext();
+        //MainActivity.context = getApplicationContext();
         MainActivity.alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+        Log.v("123", "updateReminders context: "+ this);
         //Зима
-        Quarter winter = new Quarter(context, 1);
-        winter.context = context;
+        Quarter winter = new Quarter(this, 1, true);
+        //winter.context = context;
         //winter.fillInDays(Integer.valueOf(year));
 
         JsonParser parser = new JsonParser();
@@ -80,8 +81,8 @@ public class UpdateReminders extends Service {
         }
 
         //Весна
-        Quarter spring = new Quarter(context, 2);
-        spring.context = context;
+        Quarter spring = new Quarter(this, 2, true);
+        //spring.context = context;
         //spring.fillInDays(Integer.valueOf(year));
 
         array = parser.parse(yearStr.daysSpring).getAsJsonArray();
@@ -97,8 +98,8 @@ public class UpdateReminders extends Service {
         }
 
         //Лето
-        Quarter summer = new Quarter(context, 3);
-        summer.context = context;
+        Quarter summer = new Quarter(this, 3, true);
+        //summer.context = context;
         //summer.fillInDays(Integer.valueOf(year));
 
         array = parser.parse(yearStr.daysSummer).getAsJsonArray();
@@ -111,8 +112,8 @@ public class UpdateReminders extends Service {
         }
 
         //Осень
-        Quarter autumn = new Quarter(context, 4);
-        autumn.context = context;
+        Quarter autumn = new Quarter(this, 4, true);
+        //autumn.context = context;
         //autumn.fillInDays(Integer.valueOf(year));
 
         array = parser.parse(yearStr.daysAutumn).getAsJsonArray();

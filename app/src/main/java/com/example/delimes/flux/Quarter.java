@@ -119,8 +119,20 @@ class Quarter extends View {
 
     float length = 0;
 
+    public Quarter(Context context, int quarter, boolean isUpdateReminders) {
+        super(context);
+        Log.v("123", "ConstruktorQuarter context: "+ context);
+
+//        this.mainActivity = (MainActivity)context;
+//        this.context = context;
+        this.quarter = quarter;
+        init(context);
+
+    }
+
     public Quarter(Context context, int quarter) {
         super(context);
+        Log.v("123", "ConstruktorQuarter context: "+ context);
 
         this.mainActivity = (MainActivity)context;
         this.context = context;
@@ -185,7 +197,11 @@ class Quarter extends View {
         calendar.clear();
         calendar.set(year, month, day);
         MainActivity.currDate = new Date(calendar.getTimeInMillis());
-        fillInDays(mainActivity.chosenYearNumber);
+        if (MainActivity.chosenYearNumber != 0) {
+            fillInDays(MainActivity.chosenYearNumber);
+        }else{
+            fillInDays(year);
+        }
     }
 
 
@@ -248,20 +264,20 @@ class Quarter extends View {
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, left, top, right, bottom));
 //
-            if (date.getTime() == MainActivity.currDate.getTime()) {
-                mainActivity.winter.currentDate = null;
-                mainActivity.spring.currentDate = null;
-                mainActivity.summer.currentDate = null;
-                mainActivity.autumn.currentDate = null;
+            if (date.getTime() == MainActivity.currDate.getTime() && MainActivity.autumn != null) {
+                MainActivity.winter.currentDate = null;
+                MainActivity.spring.currentDate = null;
+                MainActivity.summer.currentDate = null;
+                MainActivity.autumn.currentDate = null;
 
                 if (quarter == 1) {
-                    mainActivity.winter.currentDate = days.get(days.size() - 1);
+                    MainActivity.winter.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 2){
-                    mainActivity.spring.currentDate = days.get(days.size() - 1);
+                    MainActivity.spring.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 3){
-                    mainActivity.summer.currentDate = days.get(days.size() - 1);
+                    MainActivity.summer.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 4){
-                    mainActivity.autumn.currentDate = days.get(days.size() - 1);
+                    MainActivity.autumn.currentDate = days.get(days.size() - 1);
                 }
             }
             if (selectedDay != null) {
@@ -320,20 +336,20 @@ class Quarter extends View {
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, left, top, right, bottom));
 
-            if (date.getTime() == MainActivity.currDate.getTime()) {
-                mainActivity.winter.currentDate = null;
-                mainActivity.spring.currentDate = null;
-                mainActivity.summer.currentDate = null;
-                mainActivity.autumn.currentDate = null;
+            if (date.getTime() == MainActivity.currDate.getTime() && MainActivity.autumn != null) {
+                MainActivity.winter.currentDate = null;
+                MainActivity.spring.currentDate = null;
+                MainActivity.summer.currentDate = null;
+                MainActivity.autumn.currentDate = null;
 
                 if (quarter == 1) {
-                    mainActivity.winter.currentDate = days.get(days.size() - 1);
+                    MainActivity.winter.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 2){
-                    mainActivity.spring.currentDate = days.get(days.size() - 1);
+                    MainActivity.spring.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 3){
-                    mainActivity.summer.currentDate = days.get(days.size() - 1);
+                    MainActivity.summer.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 4){
-                    mainActivity.autumn.currentDate = days.get(days.size() - 1);
+                    MainActivity.autumn.currentDate = days.get(days.size() - 1);
                 }
             }
             if (selectedDay != null) {
@@ -392,20 +408,20 @@ class Quarter extends View {
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, left, top, right, bottom));
 
-            if (date.getTime() == MainActivity.currDate.getTime()) {
-                mainActivity.winter.currentDate = null;
-                mainActivity.spring.currentDate = null;
-                mainActivity.summer.currentDate = null;
-                mainActivity.autumn.currentDate = null;
+            if (date.getTime() == MainActivity.currDate.getTime()&& MainActivity.autumn != null) {
+                MainActivity.winter.currentDate = null;
+                MainActivity.spring.currentDate = null;
+                MainActivity.summer.currentDate = null;
+                MainActivity.autumn.currentDate = null;
 
                 if (quarter == 1) {
-                    mainActivity.winter.currentDate = days.get(days.size() - 1);
+                    MainActivity.winter.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 2){
-                    mainActivity.spring.currentDate = days.get(days.size() - 1);
+                    MainActivity.spring.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 3){
-                    mainActivity.summer.currentDate = days.get(days.size() - 1);
+                    MainActivity.summer.currentDate = days.get(days.size() - 1);
                 }else if (quarter == 4){
-                    mainActivity.autumn.currentDate = days.get(days.size() - 1);
+                    MainActivity.autumn.currentDate = days.get(days.size() - 1);
                 }
             }
             if (selectedDay != null) {
