@@ -5,9 +5,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Shader;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.PaintDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -75,6 +82,7 @@ class Quarter extends View {
     SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
     boolean restore;
     boolean addCyclicTasks = false;
+
 
     Calendar calendar = GregorianCalendar.getInstance();
     public MainActivity mainActivity;
@@ -189,6 +197,7 @@ class Quarter extends View {
         p = new Paint();
         gestureDetector = new GestureDetector(context, new MyGestureListener());
 
+
         calendar.clear();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int year = calendar.get(Calendar.YEAR);
@@ -209,15 +218,16 @@ class Quarter extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        if (quarter == 1) {
-            canvas.drawColor(Color.rgb(106, 90, 205));
-        }else if (quarter == 2){
-            canvas.drawColor(Color.rgb(0, 255, 127));
-        }else if (quarter == 3){
-            canvas.drawColor(Color.YELLOW);
-        }else if (quarter == 4){
-            canvas.drawColor(Color.rgb(255, 215, 0));
-        }
+//        if (quarter == 1) {
+//            canvas.drawColor(Color.rgb(106, 90, 205));
+//        }else if (quarter == 2){
+//            canvas.drawColor(Color.rgb(0, 255, 127));
+//        }else if (quarter == 3){
+//            canvas.drawColor(Color.YELLOW);
+//        }else if (quarter == 4){
+//            canvas.drawColor(Color.rgb(255, 215, 0));
+//        }
+
         drawQuarter(canvas);
     }
 
@@ -471,6 +481,8 @@ class Quarter extends View {
         int strokeWidth = side / 5;
         float monthNameHeight;
         float monthNameWidth;
+
+
 
         int l = 0;
 
@@ -1798,6 +1810,45 @@ class Quarter extends View {
             // тащим
             case MotionEvent.ACTION_MOVE:
 
+//                if (quarter == 1) {
+//
+//                    ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
+//                        @Override
+//                        public Shader resize(int width, int height) {
+//                            return new LinearGradient(width , 0, 0, 0,
+//                                    new int[] {getResources().getColor(R.color.colorWinter), getResources().getColor(R.color.colorSpring)},
+//                                    new float[]{0f, new Float(x / length)},  // start, center and end position
+//                                    Shader.TileMode.CLAMP);
+//                        }
+//                    };
+//                    paintDrawable.setShaderFactory(shaderFactory);
+//                    setBackground(paintDrawable);
+//
+//
+//                    //           GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,
+////                    new int[] { Color.RED, Color.RED, Color.BLUE });
+//                    //GradientDrawable gradientDrawable = (GradientDrawable) context.getDrawable(R.drawable.background_gradient_winter);
+//
+////            gradientDrawable = new LinearGradient(;
+////            gradientDrawable.setColors( new int[] {
+////                    getResources().getColor(R.color.colorWinter),
+////                    getResources().getColor(R.color.colorWinter),
+////                    getResources().getColor(R.color.colorSpring)
+////            } );
+////            //gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+////            //gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+////            gradientDrawable.setGradientCenter(0, 0);
+//                    //gradientDrawable.setCornerRadius(40);
+////            gradientDrawable.setStroke(10, Color.BLACK, 20, 5);
+////            imageView.setImageDrawable(drawable);
+//
+//                }else if (quarter == 2){
+//                    //canvas.drawColor(Color.rgb(0, 255, 127));
+//                }else if (quarter == 3){
+//                    //canvas.drawColor(Color.YELLOW);
+//                }else if (quarter == 4){
+//                    //canvas.drawColor(Color.rgb(255, 215, 0));
+//                }
                 // если режим перетаскивания включен
                 if (drag) {
 
@@ -1810,6 +1861,22 @@ class Quarter extends View {
                         if (x >= length) {
                             x = length;
                         }
+
+                        ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
+                            @Override
+                            public Shader resize(int width, int height) {
+                                float gradientCoefficient = new Float((x) / (februaryLength+januaryLength) );
+                                return new LinearGradient(0, 0, width*gradientCoefficient, 0,
+                                        new int[]{getResources().getColor(R.color.colorSpring), getResources().getColor(R.color.colorWinter)},
+                                        new float[]{gradientCoefficient, gradientCoefficient},  // start, center and end position
+                                        Shader.TileMode.CLAMP);
+                            }
+                        };
+                        PaintDrawable paintDrawable = new PaintDrawable();
+                        paintDrawable.setShape(new RectShape());
+                        paintDrawable.setShaderFactory(shaderFactory);
+                        setBackground(paintDrawable);
+
                     }else if (quarter == 2){
                         y = evY - dragY;
                         if(y >= 0) {
