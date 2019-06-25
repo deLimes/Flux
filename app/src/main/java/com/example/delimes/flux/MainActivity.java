@@ -228,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
         //////////////////////////////////////////////
 
         context = this;
+
+        calendar.setTimeInMillis(System.currentTimeMillis());
         curentYearNumber = calendar.get(Calendar.YEAR);
 
         colors[0] = Color.parseColor("#559966CC");

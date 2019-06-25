@@ -38,6 +38,7 @@ import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
 import static com.example.delimes.flux.MainActivity.chosenYearNumber;
+import static com.example.delimes.flux.MainActivity.numberYearPicker;
 import static com.example.delimes.flux.MainActivity.taskExtra;
 
 /**
@@ -525,7 +526,6 @@ class Quarter extends View {
             canvas.drawRect(x - side, y - length, x + side, y - (octoberLengthF + novemberLengthF) , p);
         }
         /////////////////////////////
-
 
         int l = 0;
 
@@ -1699,6 +1699,127 @@ class Quarter extends View {
         }
 
 
+
+        ////////////////////////////////////////////////////
+        if (firstOccurrence) {
+            if (quarter == 1) {
+                if (currentDate != null || selectedDay != null) {
+                    Day date = currentDate;
+                    if (currentDate == null) {
+                        date = selectedDay;
+                    }
+                    calendar.clear();
+                    calendar.setTimeInMillis(date.date.getTime());
+
+                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+
+
+                    if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
+                        x = x - date.right + getWidth() / 2 + getWidth() / 4;
+                    } else if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                        x = x - date.right + getWidth() / 2;
+                    } else if (calendar.get(Calendar.MONTH) == Calendar.MARCH) {
+                        x = x - date.left + getWidth() / 2 - getWidth() / 4;
+                    }
+                    if (x <= getWidth()) {
+                        x = getWidth();
+                    }
+                    if (x >= length) {
+                        x = length;
+                    }
+                }
+            }else if(quarter == 2) {
+                if (currentDate != null || selectedDay != null) {
+                    Day date = currentDate;
+                    if (currentDate == null){
+                        date = selectedDay;
+                    }
+                    calendar.clear();
+                    calendar.setTimeInMillis(date.date.getTime());
+
+                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+
+                    if(calendar.get(Calendar.MONTH) == Calendar.APRIL) {
+                        y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
+                    }else if(calendar.get(Calendar.MONTH) == Calendar.MAY) {
+                        y = y - date.top + getHeight() / 2;
+                    }else if(calendar.get(Calendar.MONTH) == Calendar.JUNE) {
+                        y = y - date.top + getHeight() / 2 + getHeight() / 4;
+                    }
+
+                    if(y >= 0) {
+                        y = 0;
+                    }
+                    if( y <= -(length - getHeight()) ){
+                        y = -(length - getHeight());
+                    }
+                }
+            }else if(quarter == 3) {
+                if (currentDate != null || selectedDay != null) {
+                    Day date = currentDate;
+                    if (currentDate == null){
+                        date = selectedDay;
+                    }
+                    calendar.clear();
+                    calendar.setTimeInMillis(date.date.getTime());
+
+                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+
+                    if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
+                        x = x - date.right + getWidth() / 2 - getWidth() / 4;
+                    }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
+                        x = x - date.right + getWidth() / 2;
+                    }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
+                        x = x - date.left + getWidth() / 2 + getWidth() / 4;
+                    }
+
+                    if(x >= 0) {
+                        x = 0;
+                    }
+                    if( x <= -(length - getWidth()) ){
+                        x = -(length - getWidth());
+                    }
+                }
+            }else if(quarter == 4) {
+                if (currentDate != null || selectedDay != null) {
+                    Day date = currentDate;
+                    if (currentDate == null){
+                        date = selectedDay;
+                    }
+                    calendar.clear();
+                    calendar.setTimeInMillis(date.date.getTime());
+
+                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+                            +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+
+                    if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER) {
+                        y = y - date.top + getHeight() / 2 + getHeight() / 4;
+                    }else if(calendar.get(Calendar.MONTH) == Calendar.NOVEMBER) {
+                        y = y - date.bottom + getHeight() / 2;
+                    }else if(calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                        y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
+                    }
+
+                    if (y <= getHeight()) {
+                        y = getHeight();
+                    }
+                    if (y >= length) {
+                        y = length;
+                    }
+                }
+            }
+            invalidate();
+        }
+        ////////////////////////////////////////////////////
+
+
         if (firstOccurrence) {
             firstOccurrence = false;
         }
@@ -2062,6 +2183,71 @@ class Quarter extends View {
             doubleTapX = e.getX();
             doubleTapY = e.getY();
 
+            if (selectedDay != null){
+                if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+
+                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    return super.onDoubleTap(e);
+                }else if (quarter == 2 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+
+                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    return super.onDoubleTap(e);
+                }else if (quarter == 3 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+
+                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    return super.onDoubleTap(e);
+                }else if (quarter == 4 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+
+                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+                    return super.onDoubleTap(e);
+                }
+
+            }
+
             Iterator<Day> j = days.iterator();
             while (j.hasNext()){
                 Day b = j.next();
@@ -2075,6 +2261,28 @@ class Quarter extends View {
                         mainActivity.summer.invalidate();
                         mainActivity.autumn.selectedDay = null;
                         mainActivity.autumn.invalidate();
+
+                        if (b.right <= ( x - (januaryLengthF + februaryLengthF) )) {
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                        }else{
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                        }
                     }
                 }else if (quarter == 2) {
                     if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
@@ -2086,6 +2294,28 @@ class Quarter extends View {
                         mainActivity.summer.invalidate();
                         mainActivity.autumn.selectedDay = null;
                         mainActivity.autumn.invalidate();
+
+                        if (b.top >= ( y + (aprilLengthF + mayLengthF) ) ) {
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                        }else{
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorSpring));
+                        }
                     }
                 }else if (quarter == 3) {
                     if(b.left <= doubleTapX && b.right >= doubleTapX) {
@@ -2097,6 +2327,28 @@ class Quarter extends View {
                         mainActivity.spring.invalidate();
                         mainActivity.autumn.selectedDay = null;
                         mainActivity.autumn.invalidate();
+
+                        if (b.left >= ( x + (julyLengthF + augustLengthF) ) ) {
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                        }else{
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorSummer));
+                        }
                     }
                 }else if (quarter == 4) {
                     if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
@@ -2108,6 +2360,28 @@ class Quarter extends View {
                         mainActivity.spring.invalidate();
                         mainActivity.summer.selectedDay = null;
                         mainActivity.summer.invalidate();
+
+                        if (b.bottom <= ( y - (octoberLengthF + novemberLengthF) ) ) {
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorWinter));
+                        }else{
+                            mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+
+                            mainActivity.monday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.tuesday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.wednesday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.thursday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.friday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.saturday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                            mainActivity.sunday.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
+                        }
                     }
                 }
 
