@@ -69,6 +69,19 @@ class Quarter extends View {
     float novemberLength = 0;
     float decemberLength = 0;
 
+    float januaryLengthF = 0;
+    float februaryLengthF = 0;
+    float marchLengthF = 0;
+    float aprilLengthF = 0;
+    float mayLengthF = 0;
+    float juneLengthF = 0;
+    float julyLengthF = 0;
+    float augustLengthF = 0;
+    float septemberLengthF = 0;
+    float octoberLengthF = 0;
+    float novemberLengthF = 0;
+    float decemberLengthF = 0;
+
     float left = 0;
     float top =  0;
     float right = 0;
@@ -458,19 +471,31 @@ class Quarter extends View {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
                 maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-                length = (31+maxDaysOfMonth+31)*side;
+                length = (31+maxDaysOfMonth+31) * side;
+                januaryLengthF = 31 * side;
+                februaryLengthF = maxDaysOfMonth * side;
+                marchLengthF = 31 * side;
             }else if (quarter == 2){
                 //length = -bottomLeftCornerY + getHeight() - side;
                 //length = -bottomLeftCornerY + getHeight() - side*5;
                 length = (30+31+30) * side ;
+                aprilLengthF = 30 * side;
+                mayLengthF = 31 * side;
+                juneLengthF = 30 * side;
             }else if (quarter == 3){
                 //length = -bottomRightCornerX + getWidth();
                 //length = -bottomRightCornerX + getWidth() - side;
                 length = (31+31+30) * side;
+                julyLengthF = 31 * side;
+                augustLengthF =  31 * side;
+                septemberLengthF = 30 * side;
             }else if (quarter == 4) {
                 //length = -upperRightCornerY + getHeight() + side;
                 //length = -upperRightCornerY + getHeight() - side*3;
                 length = (31+30+31) * side;
+                octoberLengthF = 31 * side;
+                novemberLengthF = 30 * side;
+                decemberLength = 31 * side;
             }
         }
     }
@@ -482,6 +507,24 @@ class Quarter extends View {
         float monthNameHeight;
         float monthNameWidth;
 
+
+        /////////////////////////////////
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        if (quarter == 1) {
+            p.setColor(getResources().getColor(R.color.colorSpring));
+            canvas.drawRect(x - length, y - getHeight(), x - (januaryLengthF + februaryLengthF), y, p);
+        }else if(quarter == 2){
+            p.setColor(getResources().getColor(R.color.colorSummer));
+            canvas.drawRect(x - side, y + (aprilLengthF + mayLengthF), x + side, y + length , p);
+        }else if(quarter == 3){
+            p.setColor(getResources().getColor(R.color.colorAutumn));
+            canvas.drawRect(x + (julyLengthF + augustLengthF), y - side, x + length, y + side, p);
+        }else if(quarter == 4){
+            p.setColor(getResources().getColor(R.color.colorWinter));
+            canvas.drawRect(x - side, y - length, x + side, y - (octoberLengthF + novemberLengthF) , p);
+        }
+        /////////////////////////////
 
 
         int l = 0;
@@ -1862,20 +1905,21 @@ class Quarter extends View {
                             x = length;
                         }
 
-                        ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
-                            @Override
-                            public Shader resize(int width, int height) {
-                                float gradientCoefficient = new Float((x) / (februaryLength+januaryLength) );
-                                return new LinearGradient(0, 0, width*gradientCoefficient, 0,
-                                        new int[]{getResources().getColor(R.color.colorSpring), getResources().getColor(R.color.colorWinter)},
-                                        new float[]{gradientCoefficient, gradientCoefficient},  // start, center and end position
-                                        Shader.TileMode.CLAMP);
-                            }
-                        };
-                        PaintDrawable paintDrawable = new PaintDrawable();
-                        paintDrawable.setShape(new RectShape());
-                        paintDrawable.setShaderFactory(shaderFactory);
-                        setBackground(paintDrawable);
+//                        ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
+//                            @Override
+//                            public Shader resize(int width, int height) {
+//                                float gradientCoefficient = new Float((x) / (februaryLength+januaryLength) );
+//                                return new LinearGradient(0, 0, width*gradientCoefficient, 0,
+//                                        new int[]{getResources().getColor(R.color.colorSpring), getResources().getColor(R.color.colorWinter)},
+////                                        new float[]{gradientCoefficient, gradientCoefficient},  // start, center and end position
+//                                        null,
+//                                        Shader.TileMode.CLAMP);
+//                            }
+//                        };
+//                        PaintDrawable paintDrawable = new PaintDrawable();
+//                        paintDrawable.setShape(new RectShape());
+//                        paintDrawable.setShaderFactory(shaderFactory);
+//                        setBackground(paintDrawable);
 
                     }else if (quarter == 2){
                         y = evY - dragY;

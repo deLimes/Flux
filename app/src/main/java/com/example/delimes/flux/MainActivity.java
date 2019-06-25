@@ -559,21 +559,25 @@ public class MainActivity extends AppCompatActivity {
         winter = new Quarter(this,1);
         winter.setId(R.id.winter);
         //winter.setBackground(getDrawable(R.drawable.background_gradient_winter));
+        winter.setBackgroundColor(getResources().getColor(R.color.colorWinter));
         constraintLayout.addView(winter);
 
         spring = new Quarter(this, 2);
         spring.setId(R.id.spring);
-        spring.setBackground(getDrawable(R.drawable.background_gradient_spring));
+        //spring.setBackground(getDrawable(R.drawable.background_gradient_spring));
+        spring.setBackgroundColor(getResources().getColor(R.color.colorSpring));
         constraintLayout.addView(spring);
 
         summer = new Quarter(this,3);
         summer.setId(R.id.summer);
-        summer.setBackground(getDrawable(R.drawable.background_gradient_summer));
+        //summer.setBackground(getDrawable(R.drawable.background_gradient_summer));
+        summer.setBackgroundColor(getResources().getColor(R.color.colorSummer));
         constraintLayout.addView(summer);
 
         autumn = new Quarter(this,4);
         autumn.setId(R.id.autumn);
-        autumn.setBackground(getDrawable(R.drawable.background_gradient_autumn));
+        //autumn.setBackground(getDrawable(R.drawable.background_gradient_autumn));
+        autumn.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
         constraintLayout.addView(autumn);
 
         сonstraintLayoutForSchedule  = new ConstraintLayout(this);
