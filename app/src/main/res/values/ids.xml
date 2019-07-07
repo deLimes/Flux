@@ -28,5 +28,7 @@
     <item name="everyMonth" type="id"/>
     <item name="inDays" type="id"/>
 
+    <item name="analogClock" type="id"/>
+
 
 </resources>

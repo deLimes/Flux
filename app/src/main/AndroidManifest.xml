@@ -22,6 +22,14 @@
             </intent-filter>
         </activity>
 
+       <!-- <receiver
+            android:name=".TimeChangedReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_TICK" />
+            </intent-filter>
+        </receiver>-->
+
         <receiver
             android:name=".DateChangedReceiver"
             android:enabled="true">

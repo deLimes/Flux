@@ -16,6 +16,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -92,6 +93,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -152,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
     static int previousChosenYearNumber = 0;
 
     static Date currDate;
+    public static long currHours;
+    public static long currMinutes;
+    public static long currSeconds;
     static Calendar calendar = GregorianCalendar.getInstance();
 
     ///////////////////////////////////////////////////////////////////////////
@@ -164,6 +169,10 @@ public class MainActivity extends AppCompatActivity {
     ///////////////////////////////////////////////////////////////////////////
 
     boolean yearReducedForFling = false;
+
+    AnalogClock analogClock;
+    private static TimeChangedReceiver timeChangedReceiver;
+    public static Handler tickHandler;
 
     public MainActivity() {
         this.context = this;
@@ -195,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
             saveYear();
         }
 
+        unregisterReceiver(timeChangedReceiver);
     }
 
     @Override
@@ -267,6 +277,10 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout.addView(guideline);
         /////////////////////////////////////////////////////////////////
 
+        timeChangedReceiver = new TimeChangedReceiver(this);
+        //Register the broadcast receiver to receive TIME_TICK
+        registerReceiver(timeChangedReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+
         //winter.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         //Log.d("WH", "getWidth:" +winter.getMeasuredWidth()+"getHeight:"+winter.getMeasuredHeight());
 
@@ -277,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 ConstraintLayout.LayoutParams params;
-                int width = constraintLayout.getRight() + guideline.getLeft();
+                final int width = constraintLayout.getRight() + guideline.getLeft();
                 int tucherWidth;
                 int tucherHeight;
 
@@ -524,6 +538,24 @@ public class MainActivity extends AppCompatActivity {
 
                 buttonDeleteTask.setTextSize(width/2/2/2);
                 buttonDeleteTask.setLayoutParams(params);
+                ////////////
+
+                //analogClock
+                analogClock.side = width/2;
+                analogClock.x = analogClock.side * 5;
+                analogClock.y = 0;
+
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                params.width = analogClock.side * 5;
+                params.height = params.width;
+                //params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                //params.topToBottom = R.id.buttonAddTask;
+                params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
+
+                analogClock.setLayoutParams(params);
+                ////////////
 
                 //linearLayout
                 buttonAddTask.post(new Runnable() {
@@ -543,6 +575,33 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
+
+                /*
+                //analogClock
+                сonstraintLayoutForSchedule.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //analogClock
+                        constraintLayout.getRight();
+                        analogClock.side = width/2;
+                        analogClock.x = сonstraintLayoutForSchedule.getRight() - analogClock.side;
+                        analogClock.y = сonstraintLayoutForSchedule.getBottom() - analogClock.side;
+
+                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                        params.width = analogClock.side * 5;
+                        params.height = params.width;
+                        //params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                        params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                        //params.topToBottom = R.id.buttonAddTask;
+                        params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
+
+                        analogClock.setLayoutParams(params);
+                    }
+
+                });
+                */
 
             }
 
@@ -1513,11 +1572,11 @@ public class MainActivity extends AppCompatActivity {
         сonstraintLayoutForSchedule.addView(inDays);
 
 
-        /*
-        TextView text = new TextView(this);
-        text.setText("test");
-        constraintLayout.addView(text);
-        */
+        analogClock = new AnalogClock(this);
+        analogClock.setId(R.id.analogClock);
+        //spring.setBackground(getDrawable(R.drawable.background_gradient_spring));
+        analogClock.setBackgroundColor(getResources().getColor(R.color.colorSummerLight));
+        сonstraintLayoutForSchedule.addView(analogClock);
 
 
         ///////////////////////////////////////////////////////////////////////////
@@ -3100,6 +3159,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         processUpdateSchedule = false;
+    }
+
+    public static void onTimeChanged() {
+
+        calendar.clear();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        currHours = calendar.get(Calendar.HOUR);
+        currMinutes = calendar.get(Calendar.MINUTE);
+        currSeconds = calendar.get(Calendar.SECOND);
     }
 
 
