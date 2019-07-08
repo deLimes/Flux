@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     boolean yearReducedForFling = false;
 
     AnalogClock analogClock;
-    private static TimeChangedReceiver timeChangedReceiver;
+    public static TimeChangedReceiver timeChangedReceiver;
     public static Handler tickHandler;
 
     public MainActivity() {
@@ -203,8 +203,6 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Year", "Year was saved");
             saveYear();
         }
-
-        unregisterReceiver(timeChangedReceiver);
     }
 
     @Override
@@ -277,9 +275,7 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout.addView(guideline);
         /////////////////////////////////////////////////////////////////
 
-        timeChangedReceiver = new TimeChangedReceiver(this);
-        //Register the broadcast receiver to receive TIME_TICK
-        registerReceiver(timeChangedReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+
 
         //winter.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         //Log.d("WH", "getWidth:" +winter.getMeasuredWidth()+"getHeight:"+winter.getMeasuredHeight());

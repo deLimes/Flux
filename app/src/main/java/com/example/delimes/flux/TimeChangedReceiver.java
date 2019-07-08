@@ -26,7 +26,11 @@ public class TimeChangedReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         Log.d("123", "onReceive Tick");
-        if (intent.getAction().equals(Intent.ACTION_TIME_TICK) && mainActivity.numberYearPicker != null) {
+        if ( (intent.getAction().equals(Intent.ACTION_TIME_TICK)
+                || intent.getAction().equals(Intent.ACTION_TIME_CHANGED)
+                || intent.getAction().equals(Intent.ACTION_TIMEZONE_CHANGED) )
+                && mainActivity.numberYearPicker != null) {
+
             mainActivity.onTimeChanged();
         }
 
