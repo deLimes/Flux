@@ -13,4 +13,8 @@
     <color name="colorSpringLight">#90EE90</color>
     <color name="colorSummerLight">#FFDEAD</color>
     <color name="colorAutumnLight">#F0E68C</color>
+
+    <color name="colorHourdHand">#FF0000</color>
+    <color name="colorSecondHand">#00FF00</color>
+    <color name="colorMinuteHand">#0000FF</color>
 </resources>

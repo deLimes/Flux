@@ -3162,7 +3162,7 @@ public class MainActivity extends AppCompatActivity {
         calendar.clear();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        currHours = calendar.get(Calendar.HOUR);
+        currHours = calendar.get(Calendar.HOUR_OF_DAY);
         currMinutes = calendar.get(Calendar.MINUTE);
         currSeconds = calendar.get(Calendar.SECOND);
     }
