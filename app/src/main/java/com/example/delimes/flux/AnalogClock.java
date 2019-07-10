@@ -89,6 +89,1343 @@ public class AnalogClock extends View {
         super(context, attrs, defStyleAttr);
     }
 
+    private void drawFirstQuartReserve(Canvas canvas, int indexOfQuart, int indexOfThird, int bias, int indexOfHour) {
+
+        //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
+        int fontHeight = side / 2;
+        int[] hours = {2, 3, 4};
+        text = "";
+        if (indexOfThird != 0 && indexOfThird != 4) {
+            int currentHours = hours[indexOfHour];
+            text = ("" + currentHours).length() == 1 ? "0" + currentHours : "" + currentHours;
+        }
+
+        if (indexOfQuart == 0) {
+            upperLeftCornerX = x - bias;
+            left = upperLeftCornerX - side;
+            top = y;
+            right = upperLeftCornerX;
+            bottom = y + side;
+        } else if (indexOfQuart == 1) {
+            bottomLeftCornerY = y + bias;
+            left = upperLeftCornerX - side;
+            top = bottomLeftCornerY;
+            right = upperLeftCornerX;
+            bottom = bottomLeftCornerY + side;
+        } else if (indexOfQuart == 2) {
+            bottomRightCornerX = bias;
+            left = bottomRightCornerX;
+            top = bottomLeftCornerY;//y-side/2;
+            right = bottomRightCornerX + side;
+            bottom = bottomLeftCornerY + side;
+        } else if (indexOfQuart == 3) {
+            upperRightCornerY = bias + side;
+            left = x - side;
+            top = upperRightCornerY - side;
+            right = x;
+            bottom = upperRightCornerY;
+        }
+
+        p.reset();
+        p.setColor(Color.BLACK);
+        p.setTextSize(fontHeight);
+        p.setStyle(Paint.Style.FILL);
+
+        canvas.drawText(text, left + side / 4, bottom - side / 4, p);
+
+        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(left, top, right, bottom, p);
+
+        p.reset();
+        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.FILL);
+        //canvas.drawCircle(side * 2.5f, side * 2.5f, side / 4, p);
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfQuart == 0 && indexOfThird != 0 && indexOfThird != 1) {
+
+//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);;
+
+            if (indexOfThird == 4 && (MainActivity.currSeconds == 53)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 54)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
+
+
+            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 55)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
+
+
+            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 56)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 57)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 58)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 59)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 0)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 1)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 2)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 3)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 4)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 5)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 6)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 7)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+                        bottom,
+                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+                        bottom + side * 0.20f * 2, p);
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
+
+            }else {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+            }
+
+
+        } else if (indexOfQuart == 1 && indexOfThird != 0 && indexOfThird != 4) {
+            //canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side / 2, p);
+
+            if (indexOfThird == 3 && (MainActivity.currSeconds == 38)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 39)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 40)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 41)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 42)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 43)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 44)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 45)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 46)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 47)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 48)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 49)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 50)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 51)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 52)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            }else {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            }
+
+
+
+        } else if (indexOfQuart == 2 && indexOfThird != 0 && indexOfThird != 4) {
+            //canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side / 2, top, p);
+
+                    /*
+                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);;
+                    */
+
+            if (indexOfThird == 3 && (MainActivity.currSeconds == 23)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 24)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 25)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 26)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 27)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 28)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 29)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 30)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 31)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 32)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 33)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 34)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 35)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 36)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
+
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 37)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+
+                //HourdHand
+                p.setColor(getResources().getColor(R.color.colorHourdHand));
+                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+                        top - side * 0.20f * 2,
+                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+                        top, p);
+
+
+                //MinuteHand
+                p.setColor(getResources().getColor(R.color.colorMinuteHand));
+                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
+                canvas.drawPath(wallpath, p);
+
+                //SecondHand
+                p.setColor(getResources().getColor(R.color.colorSecondHand));
+                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
+
+            }else {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+            }
+
+
+        } else if (indexOfQuart == 3 && indexOfThird != 0 && indexOfThird != 4) {
+            //canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side / 2, p);
+
+                    /*
+                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+                    */
+
+
+            if (indexOfThird == 1 && (MainActivity.currSeconds == 8)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 9)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 10)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 11)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 12)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 13)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 14)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 15)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 16)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 17)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 18)) {
+
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 19)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 20)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 21)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 22)) {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                p.setColor(Color.RED);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            }else {
+
+                p.setColor(Color.BLACK);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
+                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
+            }
+
+
+
+        }
+
+    }
+
     private void drawFirstQuart(Canvas canvas, int indexOfQuart, int indexOfThird, int bias, int indexOfHour) {
 
         //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
@@ -1426,7 +2763,510 @@ public class AnalogClock extends View {
 
     }
 
-    private void drawSecondQuart(Canvas canvas, int indexOfQuart, int indexOfThird, int bias, int indexOfHour) {
+
+    private void drawHourdHandFirstPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f + side * 0.25f * 2 - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f + side * 0.25f * 2 + side * 0.20f,
+                top, p);
+
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, bottom);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandSecondPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f + side * 0.25f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f + side * 0.25f + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f - side * 0.20f, bottom);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandThirdPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f, bottom);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandFourthPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.25f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f - side * 0.25f + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, bottom);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandFifthPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.25f * 2 - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f - side * 0.25f * 2 + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, bottom);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandAllPositionSecondQuart(@NotNull Canvas canvas) {
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+    }
+
+
+    private void drawMinuteHandFirstPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, top);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandSecondPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f - side * 0.20f + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f + side * 0.20f, top);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandThirdPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f, top);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandFourthPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f + side * 0.20f + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f - side * 0.20f, top);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandFifthPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, top);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+
+    private void drawSecondHandFirstPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+//                top,
+//                left + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+//                top + side * 0.20f * 2, p);
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, top);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, top);
+//        canvas.drawPath(wallpath, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandSecondPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f - side * 0.20f,
+//                top,
+//                left + side * 0.50f - side * 0.20f + side * 0.20f,
+//                top + side * 0.20f * 2, p);
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f - side * 0.20f, top);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top);
+//        canvas.drawPath(wallpath, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(left + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandThirdPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f,
+//                top,
+//                left + side * 0.50f + side * 0.20f,
+//                top + side * 0.20f * 2, p);
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f, top);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f, top);
+//        canvas.drawPath(wallpath, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(left + side * 0.50f, top, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandFourthPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
+//                top,
+//                left + side * 0.50f + side * 0.20f + side * 0.20f,
+//                top + side * 0.20f * 2, p);
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, top);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top);
+//        canvas.drawPath(wallpath, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(left + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandFifthPositionSecondQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+//                top,
+//                left + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+//                top + side * 0.20f * 2, p);
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, top);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, top);
+//        canvas.drawPath(wallpath, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandAllPositionSecondQuart(@NotNull Canvas canvas) {
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+    }
+
+
+    private void drawSecondQuart(Canvas canvas, int indexOfThird, int bias, int indexOfHour) {
 
         //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
         int fontHeight = side / 2;
@@ -1437,38 +3277,18 @@ public class AnalogClock extends View {
             text = ("" + currentHours).length() == 1 ? "0" + currentHours : "" + currentHours;
         }
 
-        if (indexOfQuart == 0) {
-            upperLeftCornerX = x - bias;
-            left = upperLeftCornerX - side;
-            top = y;
-            right = upperLeftCornerX;
-            bottom = y + side;
-        } else if (indexOfQuart == 1) {
-            bottomLeftCornerY = y + bias;
-            left = upperLeftCornerX - side;
-            top = bottomLeftCornerY;
-            right = upperLeftCornerX;
-            bottom = bottomLeftCornerY + side;
-        } else if (indexOfQuart == 2) {
-            bottomRightCornerX = bias;
-            left = bottomRightCornerX;
-            top = bottomLeftCornerY;//y-side/2;
-            right = bottomRightCornerX + side;
-            bottom = bottomLeftCornerY + side;
-        } else if (indexOfQuart == 3) {
-            upperRightCornerY = bias + side;
-            left = x - side;
-            top = upperRightCornerY - side;
-            right = x;
-            bottom = upperRightCornerY;
-        }
+        bottomRightCornerX = bias;
+        left = bottomRightCornerX;
+        top = bottomLeftCornerY;//y-side/2;
+        right = bottomRightCornerX + side;
+        bottom = bottomLeftCornerY + side;
 
         p.reset();
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
         p.setStyle(Paint.Style.FILL);
 
-        canvas.drawText(text, left + side / 4, bottom - side / 4, p);
+        canvas.drawText(text, left + side / 4f, bottom - side / 4f, p);
 
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.STROKE);
@@ -1477,1293 +3297,159 @@ public class AnalogClock extends View {
         p.reset();
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.FILL);
-        //canvas.drawCircle(side * 2.5f, side * 2.5f, side / 4, p);
+
         p.reset();
         p.setStyle(Paint.Style.FILL);
         wallpath.reset();
 
-        if (indexOfQuart == 0 && indexOfThird != 0 && indexOfThird != 1) {
-
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);;
-
-            if (indexOfThird == 4 && (MainActivity.currSeconds == 53)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 54)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
-
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 55)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
-
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 56)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 57)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 58)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 59)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 0)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 1)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 2)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 3)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 4)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 5)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 6)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 7)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
+        if (indexOfThird == 3) {
+
+            //HourdHand
+            if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+                drawHourdHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+                drawHourdHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+                drawHourdHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+                drawHourdHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+                drawHourdHandFifthPositionSecondQuart(canvas);
+            } else {
+                drawHourdHandAllPositionSecondQuart(canvas);
             }
 
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 23) {
+//                drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 24) {
+//                drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 25) {
+//                drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 26) {
+//                drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 27) {
+//                drawMinuteHandFifthPositionSecondQuart(canvas);
+//            }
 
-        } else if (indexOfQuart == 1 && indexOfThird != 0 && indexOfThird != 4) {
-            //canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side / 2, p);
+//            //SecondHand
+//            if (MainActivity.currSeconds == 23) {
+//                //drawSecondHandFirstPositionSecondQuart(canvas);
+//                drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 24) {
+//                //drawSecondHandSecondPositionSecondQuart(canvas);
+//                drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 25) {
+//                //drawSecondHandThirdPositionSecondQuart(canvas);
+//                drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 26) {
+//                //drawSecondHandFourthPositionSecondQuart(canvas);
+//                drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 27) {
+//                //drawSecondHandFifthPositionSecondQuart(canvas);
+//                drawMinuteHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                drawSecondHandAllPositionSecondQuart(canvas);
+//            }
 
-            if (indexOfThird == 3 && (MainActivity.currSeconds == 38)) {
+        } else if (indexOfThird == 2) {
 
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 39)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 40)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 41)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 42)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 43)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 44)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 45)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 46)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 47)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 48)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 49)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 50)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 51)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 52)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
+            //HourdHand
+            if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+                drawHourdHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+                drawHourdHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+                drawHourdHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+                drawHourdHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+                drawHourdHandFifthPositionSecondQuart(canvas);
+            } else {
+                drawHourdHandAllPositionSecondQuart(canvas);
             }
 
-
-
-        } else if (indexOfQuart == 2 && indexOfThird != 0 && indexOfThird != 4) {
-            //canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side / 2, top, p);
-
-                    /*
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);;
-                    */
-
-            if (indexOfThird == 3 && (MainActivity.currSeconds == 23)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 24)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 25)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 26)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 27)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 28)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 29)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 30)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 31)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 32)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 33)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 34)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 35)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 36)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 37)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
-
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 28) {
+//                drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 29) {
+//                drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 30) {
+//                drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 31) {
+//                drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 32) {
+//                drawMinuteHandFifthPositionSecondQuart(canvas);
+//            }
+
+//            //SecondHand
+//            if (MainActivity.currSeconds == 28) {
+//                drawSecondHandFirstPositionSecondQuart(canvas);
+//                //drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 29) {
+//                drawSecondHandSecondPositionSecondQuart(canvas);
+//                //drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 30) {
+//                drawSecondHandThirdPositionSecondQuart(canvas);
+//                //drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 31) {
+//                drawSecondHandFourthPositionSecondQuart(canvas);
+//                //drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 32) {
+//                drawSecondHandFifthPositionSecondQuart(canvas);
+//                //drawMinuteHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                drawSecondHandAllPositionSecondQuart(canvas);
+//            }
+        } else if (indexOfThird == 1) {
+
+            //HourdHand
+            if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+                drawHourdHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+                drawHourdHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+                drawHourdHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+                drawHourdHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+                drawHourdHandFifthPositionSecondQuart(canvas);
+            } else {
+                drawHourdHandAllPositionSecondQuart(canvas);
             }
 
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 33) {
+//                drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 34) {
+//                drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 35) {
+//                drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 36) {
+//                drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 37) {
+//                drawMinuteHandFifthPositionSecondQuart(canvas);
+//            }
 
-        } else if (indexOfQuart == 3 && indexOfThird != 0 && indexOfThird != 4) {
-            //canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side / 2, p);
-
-                    /*
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-                    */
-
-
-            if (indexOfThird == 1 && (MainActivity.currSeconds == 8)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 9)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 10)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 11)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 12)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 13)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 14)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 15)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 16)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 17)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 18)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 19)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 20)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 21)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 22)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            }
-
-
-
+//            //SecondHand
+//            if (MainActivity.currSeconds == 33) {
+//                drawSecondHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 34) {
+//                drawSecondHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 35) {
+//                drawSecondHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 36) {
+//                drawSecondHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 37) {
+//                drawSecondHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                drawSecondHandAllPositionSecondQuart(canvas);
+//            }
         }
 
     }
 
-    private void drawThirdQuart(Canvas canvas, int indexOfQuart, int indexOfThird, int bias, int indexOfHour) {
+    private void drawThirdQuart(Canvas canvas, int indexOfThird, int bias, int indexOfHour) {
 
         //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
         int fontHeight = side / 2;
@@ -2774,31 +3460,11 @@ public class AnalogClock extends View {
             text = ("" + currentHours).length() == 1 ? "0" + currentHours : "" + currentHours;
         }
 
-        if (indexOfQuart == 0) {
-            upperLeftCornerX = x - bias;
-            left = upperLeftCornerX - side;
-            top = y;
-            right = upperLeftCornerX;
-            bottom = y + side;
-        } else if (indexOfQuart == 1) {
-            bottomLeftCornerY = y + bias;
-            left = upperLeftCornerX - side;
-            top = bottomLeftCornerY;
-            right = upperLeftCornerX;
-            bottom = bottomLeftCornerY + side;
-        } else if (indexOfQuart == 2) {
-            bottomRightCornerX = bias;
-            left = bottomRightCornerX;
-            top = bottomLeftCornerY;//y-side/2;
-            right = bottomRightCornerX + side;
-            bottom = bottomLeftCornerY + side;
-        } else if (indexOfQuart == 3) {
-            upperRightCornerY = bias + side;
-            left = x - side;
-            top = upperRightCornerY - side;
-            right = x;
-            bottom = upperRightCornerY;
-        }
+        bottomLeftCornerY = y + bias;
+        left = upperLeftCornerX - side;
+        top = bottomLeftCornerY;
+        right = upperLeftCornerX;
+        bottom = bottomLeftCornerY + side;
 
         p.reset();
         p.setColor(Color.BLACK);
@@ -2819,1284 +3485,11 @@ public class AnalogClock extends View {
         p.setStyle(Paint.Style.FILL);
         wallpath.reset();
 
-        if (indexOfQuart == 0 && indexOfThird != 0 && indexOfThird != 1) {
 
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-//                    canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);;
 
-            if (indexOfThird == 4 && (MainActivity.currSeconds == 53)) {
 
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 54)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
-
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 55)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
-
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 56)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 4 && (MainActivity.currSeconds == 57)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 58)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 59)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 0)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 1)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 2)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 3)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 4)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 5)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 6)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 7)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        bottom,
-                        upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        bottom + side * 0.20f * 2, p);
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-                wallpath.lineTo(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
-
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f * 2, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f - side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f, bottom, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, upperLeftCornerX + side * 0.50f + side * 0.20f * 2, bottom, p);
-            }
-
-
-        } else if (indexOfQuart == 1 && indexOfThird != 0 && indexOfThird != 4) {
-            //canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side / 2, p);
-
-            if (indexOfThird == 3 && (MainActivity.currSeconds == 38)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 39)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 40)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 41)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 42)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 43)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 44)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 45)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 46)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 47)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 48)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 49)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 50)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 51)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 52)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, right, bottomLeftCornerY + side * 0.50f + side * 0.20f * 2, p);
-            }
-
-
-
-        } else if (indexOfQuart == 2 && indexOfThird != 0 && indexOfThird != 4) {
-            //canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side / 2, top, p);
-
-                    /*
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);;
-                    */
-
-            if (indexOfThird == 3 && (MainActivity.currSeconds == 23)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 24)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 25)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 26)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 27)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 28)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 29)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 30)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 31)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 32)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 33)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 34)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f + side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 35)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 36)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
-
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 37)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-
-                //HourdHand
-                p.setColor(getResources().getColor(R.color.colorHourdHand));
-                canvas.drawRect(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-                        top - side * 0.20f * 2,
-                        bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-                        top, p);
-
-
-                //MinuteHand
-                p.setColor(getResources().getColor(R.color.colorMinuteHand));
-                wallpath.moveTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
-                wallpath.lineTo(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top);
-                canvas.drawPath(wallpath, p);
-
-                //SecondHand
-                p.setColor(getResources().getColor(R.color.colorSecondHand));
-                canvas.drawCircle(bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, side * 0.20f, p);
-
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f * 2, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f - side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f, top, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, bottomRightCornerX + side * 0.50f + side * 0.20f * 2, top, p);
-            }
-
-
-        } else if (indexOfQuart == 3 && indexOfThird != 0 && indexOfThird != 4) {
-            //canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side / 2, p);
-
-                    /*
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                    canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-                    */
-
-
-            if (indexOfThird == 1 && (MainActivity.currSeconds == 8)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 9)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 10)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 11)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 1 && (MainActivity.currSeconds == 12)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 13)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 14)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 15)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 16)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 2 && (MainActivity.currSeconds == 17)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 18)) {
-
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 19)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 20)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 21)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            } else if (indexOfThird == 3 && (MainActivity.currSeconds == 22)) {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                p.setColor(Color.RED);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            }else {
-
-                p.setColor(Color.BLACK);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f * 2, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f - side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f, p);
-                canvas.drawLine(side * 2.5f, side * 2.5f, left, upperRightCornerY - side * 0.50f + side * 0.20f * 2, p);;
-            }
-
-
-
-        }
+        bottomLeftCornerY = bottomLeftCornerY + side;
 
     }
 
@@ -4767,6 +4160,8 @@ public class AnalogClock extends View {
 //            }
         }
 
+        upperLeftCornerX = upperLeftCornerX - side;
+
     }
 
     @Override
@@ -4795,11 +4190,11 @@ public class AnalogClock extends View {
 
                 } else if (j == 1 && i > 0 && i < 4) {
 
-                    //drawThirdQuart(canvas, j, i, k, l);
+                    drawThirdQuart(canvas, i, k, l);
 
                 } else if (j == 2 && i > 0 && i < 4) {
 
-                    //drawSecondQuart(canvas, j, i, k, l);
+                    drawSecondQuart(canvas, i, k, l);
 
                 } else if (j == 3 && i > 0 && i < 4) {
 
