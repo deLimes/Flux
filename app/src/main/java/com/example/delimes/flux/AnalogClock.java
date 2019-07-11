@@ -3449,6 +3449,448 @@ public class AnalogClock extends View {
 
     }
 
+
+    private void drawHourdHandFirstPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f + side * 0.25f * 2 - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f + side * 0.25f * 2 + side * 0.20f,
+                top, p);
+
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, bottom);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandSecondPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f + side * 0.25f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f + side * 0.25f + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f - side * 0.20f, bottom);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandThirdPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f, bottom);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandFourthPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.25f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f - side * 0.25f + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, bottom);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandFifthPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.25f * 2 - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f - side * 0.25f * 2 + side * 0.20f,
+                top, p);
+
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, bottom);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, bottom);
+//        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawHourdHandAllPositionThirdQuart(@NotNull Canvas canvas) {
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+    }
+
+
+    private void drawMinuteHandFirstPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, top);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandSecondPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f - side * 0.20f + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f + side * 0.20f, top);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandThirdPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f, top);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandFourthPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f + side * 0.20f + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f - side * 0.20f, top);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
+
+    }
+
+    private void drawMinuteHandFifthPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
+//                bottom,
+//                left + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
+//                bottom + side * 0.20f * 2, p);
+//
+        //MinuteHand
+        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, top);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top - side * 0.40f);
+        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, top);
+        canvas.drawPath(wallpath, p);
+
+//        //SecondHand
+//        p.setColor(getResources().getColor(R.color.colorSecondHand));
+//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
+
+    }
+
+
+    private void drawSecondHandFirstPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(right, top + side * 0.50f + side * 0.20f * 2, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandSecondPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle( right, top + side * 0.50f - side * 0.20f, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandThirdPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(  right, top + side * 0.50f, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandFourthPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
+//        //HourdHand
+//        p.setColor(getResources().getColor(R.color.colorHourdHand));
+//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
+//                top,
+//                left + side * 0.50f + side * 0.20f + side * 0.20f,
+//                top + side * 0.20f * 2, p);
+//
+//        //MinuteHand
+//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
+//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, top);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, top + side * 0.40f);
+//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top);
+//        canvas.drawPath(wallpath, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle(left + side * 0.50f - side * 0.20f, top, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandFifthPositionThirdQuart(@NotNull Canvas canvas){
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+        p.setColor(Color.RED);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+
+        //SecondHand
+        p.setColor(getResources().getColor(R.color.colorSecondHand));
+        canvas.drawCircle( right, top + side * 0.50f - side * 0.20f * 2, side * 0.20f, p);
+
+    }
+
+    private void drawSecondHandAllPositionThirdQuart(@NotNull Canvas canvas) {
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+
+    }
+
     private void drawThirdQuart(Canvas canvas, int indexOfThird, int bias, int indexOfHour) {
 
         //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
@@ -3486,6 +3928,150 @@ public class AnalogClock extends View {
         wallpath.reset();
 
 
+        if (indexOfThird == 3) {
+
+//            //HourdHand
+//            if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+//                drawHourdHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+//                drawHourdHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+//                drawHourdHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+//                drawHourdHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+//                drawHourdHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                drawHourdHandAllPositionThirdQuart(canvas);
+//            }
+
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 23) {
+//                drawMinuteHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 24) {
+//                drawMinuteHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 25) {
+//                drawMinuteHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 26) {
+//                drawMinuteHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 27) {
+//                drawMinuteHandFifthPositionThirdQuart(canvas);
+//            }
+
+            //SecondHand
+            if (MainActivity.currSeconds == 38) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+                //drawMinuteHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 39) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+                //drawMinuteHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 40) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+                //drawMinuteHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 41) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+                //drawMinuteHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 42) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+                //drawMinuteHandFifthPositionThirdQuart(canvas);
+            } else {
+                drawSecondHandAllPositionThirdQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+//            //HourdHand
+//            if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+//                drawHourdHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+//                drawHourdHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+//                drawHourdHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+//                drawHourdHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+//                drawHourdHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                drawHourdHandAllPositionThirdQuart(canvas);
+//            }
+
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 28) {
+//                drawMinuteHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 29) {
+//                drawMinuteHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 30) {
+//                drawMinuteHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 31) {
+//                drawMinuteHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 32) {
+//                drawMinuteHandFifthPositionThirdQuart(canvas);
+//            }
+
+            //SecondHand
+            if (MainActivity.currSeconds == 43) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+                //drawMinuteHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 44) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+                //drawMinuteHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 45) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+                //drawMinuteHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 46) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+                //drawMinuteHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 47) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+                //drawMinuteHandFifthPositionThirdQuart(canvas);
+            } else {
+                drawSecondHandAllPositionThirdQuart(canvas);
+            }
+        } else if (indexOfThird == 1) {
+
+//            //HourdHand
+//            if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+//                drawHourdHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+//                drawHourdHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+//                drawHourdHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+//                drawHourdHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+//                drawHourdHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                drawHourdHandAllPositionThirdQuart(canvas);
+//            }
+
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 33) {
+//                drawMinuteHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 34) {
+//                drawMinuteHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 35) {
+//                drawMinuteHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 36) {
+//                drawMinuteHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 37) {
+//                drawMinuteHandFifthPositionThirdQuart(canvas);
+//            }
+
+            //SecondHand
+            if (MainActivity.currSeconds == 48) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 49) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 50) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 51) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 52) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+            } else {
+                drawSecondHandAllPositionThirdQuart(canvas);
+            }
+        }
 
 
 
