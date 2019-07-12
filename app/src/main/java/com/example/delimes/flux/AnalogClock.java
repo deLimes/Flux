@@ -1430,13 +1430,13 @@ public class AnalogClock extends View {
 
     private void drawHourdHandFirstPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -1449,14 +1449,14 @@ public class AnalogClock extends View {
 
     private void drawHourdHandSecondPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -1469,14 +1469,14 @@ public class AnalogClock extends View {
 
     private void drawHourdHandThirdPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -1489,14 +1489,14 @@ public class AnalogClock extends View {
 
     private void drawHourdHandFourthPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -1510,13 +1510,13 @@ public class AnalogClock extends View {
 
     private void drawHourdHandFifthPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.25f * 2, p);;
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -1543,13 +1543,13 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandFirstPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -1563,14 +1563,14 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandSecondPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -1584,14 +1584,14 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandThirdPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -1605,14 +1605,14 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandFourthPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -1626,13 +1626,13 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandFifthPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -1647,13 +1647,13 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFirstPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -1663,14 +1663,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandSecondPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -1680,14 +1680,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandThirdPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -1697,14 +1697,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFourthPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -1714,13 +1714,13 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFifthPositionFirstQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left, bottom - side * 0.50f + side * 0.20f * 2, p);;
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -1780,162 +1780,189 @@ public class AnalogClock extends View {
         if (indexOfThird == 1) {
 
             //HourdHand
-            if (MainActivity.currHours == 13 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 13 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFirstPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 14 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 14 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 14 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionFirstQuart(canvas);
             } else {
-                drawHourdHandAllPositionFirstQuart(canvas);
+                //drawHourdHandAllPositionFirstQuart(canvas);
             }
 
-//            //MinuteHand
-//            if (MainActivity.currMinutes == 8) {
-//                drawMinuteHandFirstPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 9) {
-//                drawMinuteHandSecondPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 10) {
-//                drawMinuteHandThirdPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 11) {
-//                drawMinuteHandFourthPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 12) {
-//                drawMinuteHandFifthPositionFirstQuart(canvas);
-//            }
+            //MinuteHand
+            if (MainActivity.currMinutes == 8) {
+                drawMinuteHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 9) {
+                drawMinuteHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 10) {
+                drawMinuteHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 11) {
+                drawMinuteHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 12) {
+                drawMinuteHandFifthPositionFirstQuart(canvas);
+            }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 8) {
-//                drawSecondHandFirstPositionFirstQuart(canvas);
-//                //drawMinuteHandFirstPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 9) {
-//                drawSecondHandSecondPositionFirstQuart(canvas);
-//                //drawMinuteHandSecondPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 10) {
-//                drawSecondHandThirdPositionFirstQuart(canvas);
-//                //drawMinuteHandThirdPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 11) {
-//                drawSecondHandFourthPositionFirstQuart(canvas);
-//                //drawMinuteHandFourthPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 12) {
-//                drawSecondHandFifthPositionFirstQuart(canvas);
-//                //drawMinuteHandFifthPositionFirstQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionFirstQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 8) {
+                drawSecondHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 9) {
+                drawSecondHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 10) {
+                drawSecondHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 11) {
+                drawSecondHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 12) {
+                drawSecondHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFirstQuart(canvas);
+            }
 
         } else if (indexOfThird == 2) {
 
             //HourdHand
-            if (MainActivity.currHours == 14 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 14 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 15 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 15 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 15 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionFirstQuart(canvas);
             } else {
-                drawHourdHandAllPositionFirstQuart(canvas);
+                //drawHourdHandAllPositionFirstQuart(canvas);
             }
 
-//            //MinuteHand
-//            if (MainActivity.currMinutes == 13) {
-//                drawMinuteHandFirstPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 14) {
-//                drawMinuteHandSecondPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 15) {
-//                drawMinuteHandThirdPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 16) {
-//                drawMinuteHandFourthPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 17) {
-//                drawMinuteHandFifthPositionFirstQuart(canvas);
-//            }
+            //MinuteHand
+            if (MainActivity.currMinutes == 13) {
+                drawMinuteHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 14) {
+                drawMinuteHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 15) {
+                drawMinuteHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 16) {
+                drawMinuteHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 17) {
+                drawMinuteHandFifthPositionFirstQuart(canvas);
+            }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 13) {
-//                drawSecondHandFirstPositionFirstQuart(canvas);
-//                //drawMinuteHandFirstPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 14) {
-//                drawSecondHandSecondPositionFirstQuart(canvas);
-//                //drawMinuteHandSecondPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 15) {
-//                drawSecondHandThirdPositionFirstQuart(canvas);
-//                //drawMinuteHandThirdPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 16) {
-//                drawSecondHandFourthPositionFirstQuart(canvas);
-//                //drawMinuteHandFourthPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 17) {
-//                drawSecondHandFifthPositionFirstQuart(canvas);
-//                //drawMinuteHandFifthPositionFirstQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionFirstQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 13) {
+                drawSecondHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 14) {
+                drawSecondHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 15) {
+                drawSecondHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 16) {
+                drawSecondHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 17) {
+                drawSecondHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFirstQuart(canvas);
+            }
         } else if (indexOfThird == 3) {
 
             //HourdHand
-            if (MainActivity.currHours == 15 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 15 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFifthPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFifthPositionFirstQuart(canvas);
             } else {
-                drawHourdHandAllPositionFirstQuart(canvas);
+                //drawHourdHandAllPositionFirstQuart(canvas);
             }
 
-//            //MinuteHand
-//            if (MainActivity.currMinutes == 18) {
-//                drawMinuteHandFirstPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 19) {
-//                drawMinuteHandSecondPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 20) {
-//                drawMinuteHandThirdPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 21) {
-//                drawMinuteHandFourthPositionFirstQuart(canvas);
-//            } else if (MainActivity.currMinutes == 22) {
-//                drawMinuteHandFifthPositionFirstQuart(canvas);
-//            }
+            //MinuteHand
+            if (MainActivity.currMinutes == 18) {
+                drawMinuteHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 19) {
+                drawMinuteHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 20) {
+                drawMinuteHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 21) {
+                drawMinuteHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 22) {
+                drawMinuteHandFifthPositionFirstQuart(canvas);
+            }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 18) {
-//                drawSecondHandFirstPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 19) {
-//                drawSecondHandSecondPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 20) {
-//                drawSecondHandThirdPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 21) {
-//                drawSecondHandFourthPositionFirstQuart(canvas);
-//            } else if (MainActivity.currSeconds == 22) {
-//                drawSecondHandFifthPositionFirstQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionFirstQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 18) {
+                drawSecondHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 19) {
+                drawSecondHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 20) {
+                drawSecondHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 21) {
+                drawSecondHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 22) {
+                drawSecondHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFirstQuart(canvas);
+            }
         }
 
 
 
     }
 
+    private void drawHourdHandRightPositionSecondQuart(@NotNull Canvas canvas){
+
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f + side * 0.30f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f + side * 0.30f + side * 0.20f,
+                top, p);
+
+    }
+
+    private void drawHourdHandLeftPositionSecondQuart(@NotNull Canvas canvas){
+
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.30f - side * 0.20f,
+                top - side * 0.20f * 2,
+                left + side * 0.50f - side * 0.30f + side * 0.20f,
+                top, p);
+
+    }
 
     private void drawHourdHandFirstPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -1944,30 +1971,18 @@ public class AnalogClock extends View {
                 left + side * 0.50f + side * 0.25f * 2 + side * 0.20f,
                 top, p);
 
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, bottom);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, bottom);
-//        canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
-
     }
 
     private void drawHourdHandSecondPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -1976,31 +1991,19 @@ public class AnalogClock extends View {
                 left + side * 0.50f + side * 0.25f + side * 0.20f,
                 top, p);
 
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f, bottom);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom);
-//        canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
     private void drawHourdHandThirdPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2009,31 +2012,20 @@ public class AnalogClock extends View {
                 left + side * 0.50f + side * 0.20f,
                 top, p);
 
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f, bottom);
-//        canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
 
     }
 
     private void drawHourdHandFourthPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2042,30 +2034,18 @@ public class AnalogClock extends View {
                 left + side * 0.50f - side * 0.25f + side * 0.20f,
                 top, p);
 
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom);
-//        canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
     private void drawHourdHandFifthPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, top, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2073,19 +2053,6 @@ public class AnalogClock extends View {
                 top - side * 0.20f * 2,
                 left + side * 0.50f - side * 0.25f * 2 + side * 0.20f,
                 top, p);
-
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, bottom);
-//        canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
 
     }
 
@@ -2102,21 +2069,14 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandFirstPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, top);
@@ -2125,30 +2085,20 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, top);
         canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
 
     }
 
     private void drawMinuteHandSecondPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f - side * 0.20f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f + side * 0.20f, top);
@@ -2157,30 +2107,20 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f + side * 0.20f, top);
         canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
     private void drawMinuteHandThirdPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f, top);
@@ -2189,30 +2129,20 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f, top);
         canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
 
     }
 
     private void drawMinuteHandFourthPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f - side * 0.20f, top);
@@ -2221,28 +2151,19 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f - side * 0.20f, top);
         canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
     private void drawMinuteHandFifthPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
 //
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -2252,37 +2173,20 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, top);
         canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
 
     }
 
 
     private void drawSecondHandFirstPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-//                top,
-//                left + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-//                top + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, top);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, top);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2292,29 +2196,15 @@ public class AnalogClock extends View {
 
     private void drawSecondHandSecondPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f - side * 0.20f,
-//                top,
-//                left + side * 0.50f - side * 0.20f + side * 0.20f,
-//                top + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f, top);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2323,30 +2213,16 @@ public class AnalogClock extends View {
     }
 
     private void drawSecondHandThirdPositionSecondQuart(@NotNull Canvas canvas){
-
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
-
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f,
-//                top,
-//                left + side * 0.50f + side * 0.20f,
-//                top + side * 0.20f * 2, p);
 //
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f, top);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f, top);
-//        canvas.drawPath(wallpath, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2356,29 +2232,15 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFourthPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
-//                top,
-//                left + side * 0.50f + side * 0.20f + side * 0.20f,
-//                top + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, top);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, top);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2388,28 +2250,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFifthPositionSecondQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, top, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, top, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, top, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-//                top,
-//                left + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-//                top + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, top);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, top + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, top);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2468,146 +2316,136 @@ public class AnalogClock extends View {
         if (indexOfThird == 3) {
 
             //HourdHand
-            if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 16 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandRightPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionSecondQuart(canvas);
             } else {
-                drawHourdHandAllPositionSecondQuart(canvas);
+                //drawHourdHandAllPositionSecondQuart(canvas);
             }
 
-//            //MinuteHand
-//            if (MainActivity.currMinutes == 23) {
-//                drawMinuteHandFirstPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 24) {
-//                drawMinuteHandSecondPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 25) {
-//                drawMinuteHandThirdPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 26) {
-//                drawMinuteHandFourthPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 27) {
-//                drawMinuteHandFifthPositionSecondQuart(canvas);
-//            }
+            //MinuteHand
+            if (MainActivity.currMinutes == 23) {
+                drawMinuteHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 24) {
+                drawMinuteHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 25) {
+                drawMinuteHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 26) {
+                drawMinuteHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 27) {
+                drawMinuteHandFifthPositionSecondQuart(canvas);
+            }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 23) {
-//                //drawSecondHandFirstPositionSecondQuart(canvas);
-//                drawMinuteHandFirstPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 24) {
-//                //drawSecondHandSecondPositionSecondQuart(canvas);
-//                drawMinuteHandSecondPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 25) {
-//                //drawSecondHandThirdPositionSecondQuart(canvas);
-//                drawMinuteHandThirdPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 26) {
-//                //drawSecondHandFourthPositionSecondQuart(canvas);
-//                drawMinuteHandFourthPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 27) {
-//                //drawSecondHandFifthPositionSecondQuart(canvas);
-//                drawMinuteHandFifthPositionSecondQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionSecondQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 23) {
+                drawSecondHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 24) {
+                drawSecondHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 25) {
+                drawSecondHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 26) {
+                drawSecondHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 27) {
+                drawSecondHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionSecondQuart(canvas);
+            }
 
         } else if (indexOfThird == 2) {
 
             //HourdHand
-            if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 17 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionSecondQuart(canvas);
             } else {
-                drawHourdHandAllPositionSecondQuart(canvas);
+                //drawHourdHandAllPositionSecondQuart(canvas);
             }
 
-//            //MinuteHand
-//            if (MainActivity.currMinutes == 28) {
-//                drawMinuteHandFirstPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 29) {
-//                drawMinuteHandSecondPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 30) {
-//                drawMinuteHandThirdPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 31) {
-//                drawMinuteHandFourthPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 32) {
-//                drawMinuteHandFifthPositionSecondQuart(canvas);
-//            }
+            //MinuteHand
+            if (MainActivity.currMinutes == 28) {
+                drawMinuteHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 29) {
+                drawMinuteHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 30) {
+                drawMinuteHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 31) {
+                drawMinuteHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 32) {
+                drawMinuteHandFifthPositionSecondQuart(canvas);
+            }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 28) {
-//                drawSecondHandFirstPositionSecondQuart(canvas);
-//                //drawMinuteHandFirstPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 29) {
-//                drawSecondHandSecondPositionSecondQuart(canvas);
-//                //drawMinuteHandSecondPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 30) {
-//                drawSecondHandThirdPositionSecondQuart(canvas);
-//                //drawMinuteHandThirdPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 31) {
-//                drawSecondHandFourthPositionSecondQuart(canvas);
-//                //drawMinuteHandFourthPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 32) {
-//                drawSecondHandFifthPositionSecondQuart(canvas);
-//                //drawMinuteHandFifthPositionSecondQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionSecondQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 28) {
+                drawSecondHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 29) {
+                drawSecondHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 30) {
+                drawSecondHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 31) {
+                drawSecondHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 32) {
+                drawSecondHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionSecondQuart(canvas);
+            }
         } else if (indexOfThird == 1) {
 
             //HourdHand
-            if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 18 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFifthPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandLeftPositionSecondQuart(canvas);
             } else {
-                drawHourdHandAllPositionSecondQuart(canvas);
+                //drawHourdHandAllPositionSecondQuart(canvas);
             }
 
-//            //MinuteHand
-//            if (MainActivity.currMinutes == 33) {
-//                drawMinuteHandFirstPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 34) {
-//                drawMinuteHandSecondPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 35) {
-//                drawMinuteHandThirdPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 36) {
-//                drawMinuteHandFourthPositionSecondQuart(canvas);
-//            } else if (MainActivity.currMinutes == 37) {
-//                drawMinuteHandFifthPositionSecondQuart(canvas);
-//            }
+            //MinuteHand
+            if (MainActivity.currMinutes == 33) {
+                drawMinuteHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 34) {
+                drawMinuteHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 35) {
+                drawMinuteHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 36) {
+                drawMinuteHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 37) {
+                drawMinuteHandFifthPositionSecondQuart(canvas);
+            }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 33) {
-//                drawSecondHandFirstPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 34) {
-//                drawSecondHandSecondPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 35) {
-//                drawSecondHandThirdPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 36) {
-//                drawSecondHandFourthPositionSecondQuart(canvas);
-//            } else if (MainActivity.currSeconds == 37) {
-//                drawSecondHandFifthPositionSecondQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionSecondQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 33) {
+                drawSecondHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 34) {
+                drawSecondHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 35) {
+                drawSecondHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 36) {
+                drawSecondHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 37) {
+                drawSecondHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionSecondQuart(canvas);
+            }
         }
 
     }
@@ -2615,13 +2453,13 @@ public class AnalogClock extends View {
 
     private void drawHourdHandFirstPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2634,14 +2472,14 @@ public class AnalogClock extends View {
 
     private void drawHourdHandSecondPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2654,14 +2492,14 @@ public class AnalogClock extends View {
 
     private void drawHourdHandThirdPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2674,14 +2512,14 @@ public class AnalogClock extends View {
 
     private void drawHourdHandFourthPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2694,13 +2532,13 @@ public class AnalogClock extends View {
 
     private void drawHourdHandFifthPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.25f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.25f * 2, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -2725,13 +2563,13 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandFirstPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -2745,14 +2583,14 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandSecondPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -2766,14 +2604,14 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandThirdPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -2787,14 +2625,14 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandFourthPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -2808,13 +2646,13 @@ public class AnalogClock extends View {
 
     private void drawMinuteHandFifthPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -2829,13 +2667,13 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFirstPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2845,14 +2683,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandSecondPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2862,14 +2700,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandThirdPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2879,14 +2717,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFourthPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2896,13 +2734,13 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFifthPositionThirdQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f * 2, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f + side * 0.20f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, right, top + side * 0.50f - side * 0.20f * 2, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -2961,18 +2799,18 @@ public class AnalogClock extends View {
         if (indexOfThird == 3) {
 
             //HourdHand
-            if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 19 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFirstPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 20 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 20 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 20 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionThirdQuart(canvas);
             } else {
-                drawHourdHandAllPositionThirdQuart(canvas);
+                //drawHourdHandAllPositionThirdQuart(canvas);
             }
 
             //MinuteHand
@@ -2988,41 +2826,36 @@ public class AnalogClock extends View {
                 drawMinuteHandFifthPositionThirdQuart(canvas);
             }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 38) {
-//                //drawSecondHandFirstPositionThirdQuart(canvas);
-//                drawMinuteHandFirstPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 39) {
-//                //drawSecondHandSecondPositionThirdQuart(canvas);
-//                drawMinuteHandSecondPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 40) {
-//                //drawSecondHandThirdPositionThirdQuart(canvas);
-//                drawMinuteHandThirdPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 41) {
-//                //drawSecondHandFourthPositionThirdQuart(canvas);
-//                drawMinuteHandFourthPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 42) {
-//                //drawSecondHandFifthPositionThirdQuart(canvas);
-//                drawMinuteHandFifthPositionThirdQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionThirdQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 38) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 39) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 40) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 41) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 42) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionThirdQuart(canvas);
+            }
 
         } else if (indexOfThird == 2) {
 
             //HourdHand
-            if (MainActivity.currHours == 20 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 20 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 21 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 21 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 21 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionThirdQuart(canvas);
             } else {
-                drawHourdHandAllPositionThirdQuart(canvas);
+                //drawHourdHandAllPositionThirdQuart(canvas);
             }
 
             //MinuteHand
@@ -3038,40 +2871,35 @@ public class AnalogClock extends View {
                 drawMinuteHandFifthPositionThirdQuart(canvas);
             }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 43) {
-//                //drawSecondHandFirstPositionThirdQuart(canvas);
-//                drawMinuteHandFirstPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 44) {
-//                //drawSecondHandSecondPositionThirdQuart(canvas);
-//                drawMinuteHandSecondPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 45) {
-//                //drawSecondHandThirdPositionThirdQuart(canvas);
-//                drawMinuteHandThirdPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 46) {
-//                //drawSecondHandFourthPositionThirdQuart(canvas);
-//                drawMinuteHandFourthPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 47) {
-//                //drawSecondHandFifthPositionThirdQuart(canvas);
-//                drawMinuteHandFifthPositionThirdQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionThirdQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 43) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 44) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 45) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 46) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 47) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionThirdQuart(canvas);
+            }
         } else if (indexOfThird == 1) {
 
             //HourdHand
-            if (MainActivity.currHours == 21 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 21 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 22 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 22 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currHours == 22 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFifthPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFifthPositionThirdQuart(canvas);
             } else {
-                drawHourdHandAllPositionThirdQuart(canvas);
+                //drawHourdHandAllPositionThirdQuart(canvas);
             }
 
             //MinuteHand
@@ -3087,20 +2915,20 @@ public class AnalogClock extends View {
                 drawMinuteHandFifthPositionThirdQuart(canvas);
             }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 48) {
-//                drawSecondHandFirstPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 49) {
-//                drawSecondHandSecondPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 50) {
-//                drawSecondHandThirdPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 51) {
-//                drawSecondHandFourthPositionThirdQuart(canvas);
-//            } else if (MainActivity.currSeconds == 52) {
-//                drawSecondHandFifthPositionThirdQuart(canvas);
-//            } else {
-//                drawSecondHandAllPositionThirdQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 48) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 49) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 50) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 51) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 52) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionThirdQuart(canvas);
+            }
         }
 
 
@@ -3109,16 +2937,54 @@ public class AnalogClock extends View {
 
     }
 
+    private void drawHourdHandLeftPositionFourthQuart(@NotNull Canvas canvas){
+
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f - side * 0.30f - side * 0.20f,
+                bottom,
+                left + side * 0.50f - side * 0.30f + side * 0.20f,
+                bottom + side * 0.20f * 2, p);
+
+
+    }
+
+    private void drawHourdHandRightPositionFourthQuart(@NotNull Canvas canvas){
+
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
+
+        //HourdHand
+        p.setColor(getResources().getColor(R.color.colorHourdHand));
+        canvas.drawRect(left + side * 0.50f + side * 0.30f - side * 0.20f,
+                bottom,
+                left + side * 0.50f + side * 0.30f + side * 0.20f,
+                bottom + side * 0.20f * 2, p);
+
+    }
 
     private void drawHourdHandFirstPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -3127,30 +2993,19 @@ public class AnalogClock extends View {
                 left + side * 0.50f - side * 0.25f * 2 + side * 0.20f,
                 bottom + side * 0.20f * 2, p);
 
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, bottom);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, bottom);
-//        canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
 
     }
 
     private void drawHourdHandSecondPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -3158,31 +3013,20 @@ public class AnalogClock extends View {
                 bottom,
                 left + side * 0.50f - side * 0.25f + side * 0.20f,
                 bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f, bottom);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom);
-//        canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
     private void drawHourdHandThirdPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -3190,31 +3034,20 @@ public class AnalogClock extends View {
                 bottom,
                 left + side * 0.50f + side * 0.20f,
                 bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f, bottom);
-//        canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
 
     }
 
     private void drawHourdHandFourthPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -3222,30 +3055,19 @@ public class AnalogClock extends View {
                 bottom,
                 left + side * 0.50f + side * 0.25f + side * 0.20f,
                 bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom);
-//        canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
     private void drawHourdHandFifthPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f * 2, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.25f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.25f * 2, bottom, p);
 
         //HourdHand
         p.setColor(getResources().getColor(R.color.colorHourdHand));
@@ -3253,18 +3075,6 @@ public class AnalogClock extends View {
                 bottom,
                 left + side * 0.50f + side * 0.25f * 2 + side * 0.20f,
                 bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, bottom);
-//        canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
 
     }
 
@@ -3289,12 +3099,6 @@ public class AnalogClock extends View {
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
 //
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
@@ -3303,10 +3107,6 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
         wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, bottom);
         canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f * 2, bottom, side * 0.20f, p);
 
     }
 
@@ -3321,13 +3121,6 @@ public class AnalogClock extends View {
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f - side * 0.20f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f - side * 0.20f, bottom);
@@ -3335,10 +3128,6 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
         wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom);
         canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f - side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
@@ -3353,13 +3142,6 @@ public class AnalogClock extends View {
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f, bottom);
@@ -3367,10 +3149,6 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
         wallpath.lineTo(left + side * 0.50f, bottom);
         canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f, bottom, side * 0.20f, p);
 
     }
 
@@ -3385,13 +3163,6 @@ public class AnalogClock extends View {
 //        p.setColor(Color.BLACK);
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f + side * 0.20f, bottom);
@@ -3399,10 +3170,6 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
         wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom);
         canvas.drawPath(wallpath, p);
-
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f, bottom, side * 0.20f, p);
 
     }
 
@@ -3416,13 +3183,6 @@ public class AnalogClock extends View {
 //        p.setColor(Color.RED);
 //        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
         //MinuteHand
         p.setColor(getResources().getColor(R.color.colorMinuteHand));
         wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, bottom);
@@ -3431,37 +3191,19 @@ public class AnalogClock extends View {
         wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, bottom);
         canvas.drawPath(wallpath, p);
 
-//        //SecondHand
-//        p.setColor(getResources().getColor(R.color.colorSecondHand));
-//        canvas.drawCircle(left + side * 0.50f + side * 0.20f * 2, bottom, side * 0.20f, p);
-
     }
 
 
     private void drawSecondHandFirstPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f - side * 0.20f * 2 + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f * 2, bottom);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f * 2, bottom);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -3471,29 +3213,15 @@ public class AnalogClock extends View {
 
     private void drawSecondHandSecondPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f - side * 0.20f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f - side * 0.20f, bottom);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -3503,29 +3231,15 @@ public class AnalogClock extends View {
 
     private void drawSecondHandThirdPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f, bottom);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -3535,29 +3249,15 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFourthPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f, bottom);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -3567,28 +3267,14 @@ public class AnalogClock extends View {
 
     private void drawSecondHandFifthPositionFourthQuart(@NotNull Canvas canvas){
 
-        p.setColor(Color.BLACK);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
-        p.setColor(Color.RED);
-        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
+//        p.setColor(Color.BLACK);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f * 2, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f - side * 0.20f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f, bottom, p);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f, bottom, p);
+//        p.setColor(Color.RED);
+//        canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
 
-//        //HourdHand
-//        p.setColor(getResources().getColor(R.color.colorHourdHand));
-//        canvas.drawRect(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f,
-//                bottom,
-//                left + side * 0.50f + side * 0.20f * 2 + side * 0.20f,
-//                bottom + side * 0.20f * 2, p);
-//
-//        //MinuteHand
-//        p.setColor(getResources().getColor(R.color.colorMinuteHand));
-//        wallpath.moveTo(left + side * 0.50f + side * 0.20f * 2, bottom);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 + side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2 - side * 0.20f, bottom + side * 0.40f);
-//        wallpath.lineTo(left + side * 0.50f + side * 0.20f * 2, bottom);
-//        canvas.drawPath(wallpath, p);
 
         //SecondHand
         p.setColor(getResources().getColor(R.color.colorSecondHand));
@@ -3644,18 +3330,18 @@ public class AnalogClock extends View {
         if (indexOfThird == 3) {
 
             //HourdHand
-            if (MainActivity.currHours == 22 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 22 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandLeftPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 23 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 23 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 23 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionFourthQuart(canvas);
             } else {
-                drawHourdHandAllPositionFourthQuart(canvas);
+                //drawHourdHandAllPositionFourthQuart(canvas);
             }
 
             //MinuteHand
@@ -3671,36 +3357,36 @@ public class AnalogClock extends View {
                 drawMinuteHandFifthPositionFourthQuart(canvas);
             }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 53) {
-//                drawSecondHandFirstPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 54) {
-//                drawSecondHandSecondPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 55) {
-//                drawSecondHandThirdPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 56) {
-//                drawSecondHandFourthPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 57) {
-//                drawSecondHandFifthPositionFourthQuart(canvas);
-//            } else {
-//                //drawSecondHandAllPositionFourthQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 53) {
+                drawSecondHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 54) {
+                drawSecondHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 55) {
+                drawSecondHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 56) {
+                drawSecondHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 57) {
+                drawSecondHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFourthQuart(canvas);
+            }
 
         } else if (indexOfThird == 2) {
 
             //HourdHand
-            if (MainActivity.currHours == 23 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 23 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionFourthQuart(canvas);
             } else {
-                drawHourdHandAllPositionFourthQuart(canvas);
+                //drawHourdHandAllPositionFourthQuart(canvas);
             }
 
             //MinuteHand
@@ -3716,35 +3402,35 @@ public class AnalogClock extends View {
                 drawMinuteHandFifthPositionFourthQuart(canvas);
             }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 58) {
-//                drawSecondHandFirstPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 59) {
-//                drawSecondHandSecondPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 0) {
-//                drawSecondHandThirdPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 1) {
-//                drawSecondHandFourthPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 2) {
-//                drawSecondHandFifthPositionFourthQuart(canvas);
-//            } else {
-//                //drawSecondHandAllPositionFourthQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 58) {
+                drawSecondHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 59) {
+                drawSecondHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 0) {
+                drawSecondHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 1) {
+                drawSecondHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 2) {
+                drawSecondHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFourthQuart(canvas);
+            }
         } else if (indexOfThird == 1) {
 
             //HourdHand
-            if (MainActivity.currHours == 0 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
+            if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currSeconds >= 45 && MainActivity.currSeconds < 60) {
+            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 1 && MainActivity.currSeconds >= 0 && MainActivity.currSeconds < 15) {
+            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 1 && MainActivity.currSeconds >= 15 && MainActivity.currSeconds < 30) {
+            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 1 && MainActivity.currSeconds >= 30 && MainActivity.currSeconds < 45) {
-                drawHourdHandFifthPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandRightPositionFourthQuart(canvas);
             } else {
-                drawHourdHandAllPositionFourthQuart(canvas);
+                //drawHourdHandAllPositionFourthQuart(canvas);
             }
 
             //MinuteHand
@@ -3760,20 +3446,20 @@ public class AnalogClock extends View {
                 drawMinuteHandFifthPositionFourthQuart(canvas);
             }
 
-//            //SecondHand
-//            if (MainActivity.currSeconds == 3) {
-//                drawSecondHandFirstPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 4) {
-//                drawSecondHandSecondPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 5) {
-//                drawSecondHandThirdPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 6) {
-//                drawSecondHandFourthPositionFourthQuart(canvas);
-//            } else if (MainActivity.currSeconds == 7) {
-//                drawSecondHandFifthPositionFourthQuart(canvas);
-//            } else {
-//                //drawSecondHandAllPositionFourthQuart(canvas);
-//            }
+            //SecondHand
+            if (MainActivity.currSeconds == 3) {
+                drawSecondHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 4) {
+                drawSecondHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 5) {
+                drawSecondHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 6) {
+                drawSecondHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 7) {
+                drawSecondHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFourthQuart(canvas);
+            }
         }
 
         upperLeftCornerX = upperLeftCornerX - side;
