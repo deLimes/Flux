@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     int[] colors2 = new int[2];
     boolean firstOccurrence = true;
     ConstraintLayout constraintLayout;
-    ConstraintLayout сonstraintLayoutForSchedule;
+    ConstraintLayoutForSchedule сonstraintLayoutForSchedule;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
@@ -536,6 +536,7 @@ public class MainActivity extends AppCompatActivity {
                 buttonDeleteTask.setLayoutParams(params);
                 ////////////
 
+
                 //analogClock
                 analogClock.side = width/2;
                 analogClock.x = analogClock.side * 5;
@@ -551,6 +552,7 @@ public class MainActivity extends AppCompatActivity {
                 params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
 
                 analogClock.setLayoutParams(params);
+
                 ////////////
 
                 //linearLayout
@@ -637,7 +639,7 @@ public class MainActivity extends AppCompatActivity {
         autumn.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
         constraintLayout.addView(autumn);
 
-        сonstraintLayoutForSchedule  = new ConstraintLayout(this);
+        сonstraintLayoutForSchedule  = new ConstraintLayoutForSchedule(this);
         сonstraintLayoutForSchedule.setId(R.id.сonstraintLayoutForSchedule);
         constraintLayout.addView(сonstraintLayoutForSchedule);
 
@@ -1573,6 +1575,10 @@ public class MainActivity extends AppCompatActivity {
         //spring.setBackground(getDrawable(R.drawable.background_gradient_spring));
         analogClock.setBackgroundColor(getResources().getColor(R.color.colorSummerLight));
         сonstraintLayoutForSchedule.addView(analogClock);
+        //сonstraintLayoutForSchedule.setAnalogClock((AnalogClock)сonstraintLayoutForSchedule.findViewById(R.id.analogClock));
+        //сonstraintLayoutForSchedule.setAnalogClock(analogClock);
+        //сonstraintLayoutForSchedule.draw(new Canvas());
+
 
 
         ///////////////////////////////////////////////////////////////////////////

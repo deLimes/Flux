@@ -10,11 +10,13 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -44,8 +46,11 @@ public class AnalogClock extends View {
 
     // переменные для перетаскивания
     boolean drag = false;
-    float dragX = 0;
-    float dragY = 0;
+    int dragX = 0;
+    int dragY = 0;
+    private float analogClockX = 0;
+    private float analogClockY = 0;
+    private ConstraintLayout.LayoutParams params;
 
     private boolean mAttached;
     String text = "";
@@ -3379,11 +3384,11 @@ public class AnalogClock extends View {
                 drawHourdHandFirstPositionFourthQuart(canvas);
             } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
                 drawHourdHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionFourthQuart(canvas);
             } else {
                 //drawHourdHandAllPositionFourthQuart(canvas);
@@ -3419,9 +3424,9 @@ public class AnalogClock extends View {
         } else if (indexOfThird == 1) {
 
             //HourdHand
-            if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+            if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currHours == 0 && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
                 drawHourdHandSecondPositionFourthQuart(canvas);
             } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
                 drawHourdHandThirdPositionFourthQuart(canvas);
@@ -3552,11 +3557,12 @@ public class AnalogClock extends View {
         }
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // координаты Touch-события
-        float evX = event.getX();
-        float evY = event.getY();
+        final int evX = (int) event.getRawX();
+        final int evY = (int) event.getRawY();
 
         switch (event.getAction()) {
             // касание началось
@@ -3564,16 +3570,17 @@ public class AnalogClock extends View {
                 //positionOfTouchX = evX;
                 //positionOfTouchY = evY;
 
+                params = (ConstraintLayout.LayoutParams) getLayoutParams();
                 // включаем режим перетаскивания
                 drag = true;
 
                 // разница между левым верхним углом квадрата и точкой касания
-                dragX = evX - x;
-                dragY = evY - y;
+                dragX = evX - params.leftMargin;
+                dragY = evY - params.rightMargin;
 
-                    /*
-                    dragX = x;
-                    dragY = y;*/
+
+                    //dragX = x;
+                    //dragY = y;
 
 
                 //invalidate();
@@ -3581,18 +3588,24 @@ public class AnalogClock extends View {
             // тащим
             case MotionEvent.ACTION_MOVE:
 
-
-
                 // если режим перетаскивания включен
                 if (drag) {
 
                     //positionOfTouchX = evX;
                     //positionOfTouchY = evY;
 
-                    // определеяем новые координаты
-                    x = evX - dragX;
-                    y = evY - dragY;
-                    invalidate();
+//                    // определеяем новые координаты
+//                    analogClockX = evX - dragX;
+//                    analogClockY = evY - dragY;
+
+                    params = (ConstraintLayout.LayoutParams) getLayoutParams();
+
+                    //params.rightMargin = ((View)MainActivity.autumn).getLeft() - (int)analogClockX;
+                    params.leftMargin = evX - dragX;
+                    params.topMargin = evY - dragY;
+                    params.rightMargin = -250;
+                    params.bottomMargin = -250;
+                    setLayoutParams(params);
                     //Log.d("XY", "X:" + x + "Y:" + y);
                 }
 
@@ -3608,6 +3621,7 @@ public class AnalogClock extends View {
 
         return true;
     }
+
 
 
 }
