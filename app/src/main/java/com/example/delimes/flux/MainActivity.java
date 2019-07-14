@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
     int[] colors = new int[2];
     int[] colors2 = new int[2];
     boolean firstOccurrence = true;
-    ConstraintLayout constraintLayout;
-    ConstraintLayoutForSchedule сonstraintLayoutForSchedule;
+    public ConstraintLayout constraintLayout;
+    ConstraintLayout сonstraintLayoutForSchedule;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
@@ -639,7 +639,7 @@ public class MainActivity extends AppCompatActivity {
         autumn.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
         constraintLayout.addView(autumn);
 
-        сonstraintLayoutForSchedule  = new ConstraintLayoutForSchedule(this);
+        сonstraintLayoutForSchedule  = new ConstraintLayout(this);
         сonstraintLayoutForSchedule.setId(R.id.сonstraintLayoutForSchedule);
         constraintLayout.addView(сonstraintLayoutForSchedule);
 

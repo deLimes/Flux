@@ -8,12 +8,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ public class AnalogClock extends View {
     Context context;
     Paint p;
     Path wallpath;
+    public ConstraintLayout constraintLayout;
     // координаты для рисования квадрата
     float x = 0;
     float y = 0;
@@ -55,6 +58,7 @@ public class AnalogClock extends View {
 
     private boolean mAttached;
     String text = "";
+    private GestureDetector gestureDetector;
 
     private Runnable mTickRunnable = new Runnable() {
         @Override
@@ -67,11 +71,18 @@ public class AnalogClock extends View {
         }
     };
 
+    int scrollTimeX = 0;
+    int scrollTimeY = 0;
+    CountDownTimer countDownTimerX;
+    CountDownTimer countDownTimerY;
+
     public AnalogClock(Context context) {
         super(context);
 
         this.context = context;
         MainActivity.tickHandler = new Handler();
+        constraintLayout = ((MainActivity)context).constraintLayout;
+        gestureDetector = new GestureDetector(context, new MyGestureListener());
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -3582,15 +3593,21 @@ public class AnalogClock extends View {
             // тащим
             case MotionEvent.ACTION_MOVE:
 
+
                 // если режим перетаскивания включен
                 if (drag) {
 
                     params = (ConstraintLayout.LayoutParams) getLayoutParams();
+                    if ( (getWidth() + (int)(evX - dragX)) < constraintLayout.getWidth()){
 
-                    params.leftMargin = (int)(evX - dragX);
-                    params.topMargin = (int)(evY - dragY);
+                        params.leftMargin = (int)(evX - dragX);
+                    }
+                    if ( (getHeight() + (int)(evY - dragY)) < constraintLayout.getHeight()){
+
+                        params.topMargin = (int)(evY - dragY);
+                    }
+
                     setLayoutParams(params);
-
                 }
 
                 break;
@@ -3603,9 +3620,80 @@ public class AnalogClock extends View {
 
         }
 
+        gestureDetector.onTouchEvent(event);
+
         return true;
     }
 
+    private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
+
+
+                scrollTimeX = (int) velocityX;
+                scrollTimeY = (int) velocityY;
+
+
+            if (scrollTimeX < 0){
+                scrollTimeX *= -1;
+            }
+            if (scrollTimeY < 0){
+                scrollTimeY *= -1;
+            }
+
+            params = (ConstraintLayout.LayoutParams) getLayoutParams();
+
+            countDownTimerX = new CountDownTimer(scrollTimeX, 10) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                    if ( (getWidth() + params.leftMargin + millisUntilFinished / 150) < constraintLayout.getWidth() &&
+                            params.leftMargin > 0) {
+                        if (velocityX > 0) {
+                            params.leftMargin += millisUntilFinished / 150;
+                        } else {
+                            params.leftMargin -= millisUntilFinished / 150;
+                        }
+                        setLayoutParams(params);
+                    }else{
+                        countDownTimerX.cancel();
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            }.start();
+
+            countDownTimerY = new CountDownTimer(scrollTimeY, 10) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                    if ( (getHeight() + params.topMargin + millisUntilFinished / 150) < constraintLayout.getHeight() &&
+                            params.topMargin > 0) {
+                        if (velocityY > 0) {
+                            params.topMargin += millisUntilFinished / 150;
+                        } else {
+                            params.topMargin -= millisUntilFinished / 150;
+                        }
+                        setLayoutParams(params);
+                    }else{
+                        countDownTimerY.cancel();
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            }.start();
+
+
+
+            return true;
+        }
+    }
 
 }
