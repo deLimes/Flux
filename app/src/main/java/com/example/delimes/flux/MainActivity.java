@@ -371,6 +371,21 @@ public class MainActivity extends AppCompatActivity {
                 //сonstraintLayoutForSchedule.setBackgroundColor(Color.CYAN);
                 сonstraintLayoutForSchedule.setLayoutParams(params);
 
+                //analogClock
+                analogClock.side = width/2;
+                analogClock.x = analogClock.side * 5;
+                analogClock.y = 0;
+
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.width = analogClock.side * 5;
+                params.height = params.width;
+                params.leftToLeft = R.id.constraintLayout;
+                //params.rightToRight = R.id.constraintLayout;
+                params.topToTop = R.id.constraintLayout;
+                //params.bottomToBottom = R.id.constraintLayout;
+
+                analogClock.setLayoutParams(params);
+
                 //NumberYearPicker
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.topToTop = R.id.сonstraintLayoutForSchedule;
@@ -537,21 +552,6 @@ public class MainActivity extends AppCompatActivity {
                 ////////////
 
 
-                //analogClock
-                analogClock.side = width/2;
-                analogClock.x = analogClock.side * 5;
-                analogClock.y = 0;
-
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                params.width = analogClock.side * 5;
-                params.height = params.width;
-                //params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                //params.topToBottom = R.id.buttonAddTask;
-                params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
-
-                analogClock.setLayoutParams(params);
 
                 ////////////
 
@@ -1574,7 +1574,7 @@ public class MainActivity extends AppCompatActivity {
         analogClock.setId(R.id.analogClock);
         //spring.setBackground(getDrawable(R.drawable.background_gradient_spring));
         analogClock.setBackgroundColor(getResources().getColor(R.color.colorSummerLight));
-        сonstraintLayoutForSchedule.addView(analogClock);
+        constraintLayout.addView(analogClock, constraintLayout.getChildCount());
         //сonstraintLayoutForSchedule.setAnalogClock((AnalogClock)сonstraintLayoutForSchedule.findViewById(R.id.analogClock));
         //сonstraintLayoutForSchedule.setAnalogClock(analogClock);
         //сonstraintLayoutForSchedule.draw(new Canvas());

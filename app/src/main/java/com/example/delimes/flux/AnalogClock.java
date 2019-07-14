@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,8 +47,8 @@ public class AnalogClock extends View {
 
     // переменные для перетаскивания
     boolean drag = false;
-    int dragX = 0;
-    int dragY = 0;
+    float dragX = 0;
+    float dragY = 0;
     private float analogClockX = 0;
     private float analogClockY = 0;
     private ConstraintLayout.LayoutParams params;
@@ -3561,29 +3562,22 @@ public class AnalogClock extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // координаты Touch-события
-        final int evX = (int) event.getRawX();
-        final int evY = (int) event.getRawY();
+        final float evX = event.getRawX();
+        final float evY = event.getRawY();
+
 
         switch (event.getAction()) {
             // касание началось
             case MotionEvent.ACTION_DOWN:
-                //positionOfTouchX = evX;
-                //positionOfTouchY = evY;
 
-                params = (ConstraintLayout.LayoutParams) getLayoutParams();
                 // включаем режим перетаскивания
                 drag = true;
+                params = (ConstraintLayout.LayoutParams) getLayoutParams();
 
                 // разница между левым верхним углом квадрата и точкой касания
                 dragX = evX - params.leftMargin;
-                dragY = evY - params.rightMargin;
+                dragY = evY - params.topMargin;
 
-
-                    //dragX = x;
-                    //dragY = y;
-
-
-                //invalidate();
                 break;
             // тащим
             case MotionEvent.ACTION_MOVE:
@@ -3591,22 +3585,12 @@ public class AnalogClock extends View {
                 // если режим перетаскивания включен
                 if (drag) {
 
-                    //positionOfTouchX = evX;
-                    //positionOfTouchY = evY;
-
-//                    // определеяем новые координаты
-//                    analogClockX = evX - dragX;
-//                    analogClockY = evY - dragY;
-
                     params = (ConstraintLayout.LayoutParams) getLayoutParams();
 
-                    //params.rightMargin = ((View)MainActivity.autumn).getLeft() - (int)analogClockX;
-                    params.leftMargin = evX - dragX;
-                    params.topMargin = evY - dragY;
-                    params.rightMargin = -250;
-                    params.bottomMargin = -250;
+                    params.leftMargin = (int)(evX - dragX);
+                    params.topMargin = (int)(evY - dragY);
                     setLayoutParams(params);
-                    //Log.d("XY", "X:" + x + "Y:" + y);
+
                 }
 
                 break;
