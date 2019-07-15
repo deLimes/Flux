@@ -73,8 +73,28 @@ public class AnalogClock extends View {
 
     int scrollTimeX = 0;
     int scrollTimeY = 0;
-    CountDownTimer countDownTimerX;
-    CountDownTimer countDownTimerY;
+    CountDownTimer countDownTimerX = new CountDownTimer(0, 0) {
+        @Override
+        public void onTick(long l) {
+
+        }
+        @Override
+        public void onFinish() {
+
+        }
+    };
+    CountDownTimer countDownTimerY = new CountDownTimer(0, 0) {
+        @Override
+        public void onTick(long l) {
+
+        }
+        @Override
+        public void onFinish() {
+
+        }
+    };
+    boolean hitX = false;
+    boolean hitY = false;
 
     public AnalogClock(Context context) {
         super(context);
@@ -3581,6 +3601,8 @@ public class AnalogClock extends View {
             // касание началось
             case MotionEvent.ACTION_DOWN:
 
+                countDownTimerX.cancel();
+                countDownTimerY.cancel();
                 // включаем режим перетаскивания
                 drag = true;
                 params = (ConstraintLayout.LayoutParams) getLayoutParams();
@@ -3630,10 +3652,10 @@ public class AnalogClock extends View {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {
 
-
-                scrollTimeX = (int) velocityX;
-                scrollTimeY = (int) velocityY;
-
+            hitX = false;
+            hitY = false;
+            scrollTimeX = (int) velocityX;
+            scrollTimeY = (int) velocityY;
 
             if (scrollTimeX < 0){
                 scrollTimeX *= -1;
@@ -3644,21 +3666,48 @@ public class AnalogClock extends View {
 
             params = (ConstraintLayout.LayoutParams) getLayoutParams();
 
-            countDownTimerX = new CountDownTimer(scrollTimeX, 10) {
+            countDownTimerX = new CountDownTimer(scrollTimeX, 5) {
 
                 @Override
                 public void onTick(long millisUntilFinished) {
 
-                    if ( (getWidth() + params.leftMargin + millisUntilFinished / 150) < constraintLayout.getWidth() &&
+                    if ( (getWidth() + params.leftMargin + millisUntilFinished / 75) < constraintLayout.getWidth() &&
                             params.leftMargin > 0) {
-                        if (velocityX > 0) {
-                            params.leftMargin += millisUntilFinished / 150;
-                        } else {
-                            params.leftMargin -= millisUntilFinished / 150;
+                        if (velocityX > 0 && !hitX) {
+                            params.leftMargin += millisUntilFinished / 75;
+                        } else if (velocityX < 0 && !hitX) {
+                            params.leftMargin -= millisUntilFinished / 75;
+                        }
+                        if (velocityX > 0 && hitX) {
+                            params.leftMargin -= millisUntilFinished / 75;
+                        } else if (velocityX < 0 && hitX) {
+                            params.leftMargin += millisUntilFinished / 75;
                         }
                         setLayoutParams(params);
                     }else{
-                        countDownTimerX.cancel();
+//                        if ( (getWidth() + params.leftMargin + millisUntilFinished / 150) > constraintLayout.getWidth() ) {
+//                            params.leftMargin = constraintLayout.getWidth() - getWidth();
+//                        }
+//                        if (params.leftMargin < 0) {
+//                            params.leftMargin = 0;
+//                        }
+
+                        if (velocityX > 0 && !hitX) {
+                            params.leftMargin -= millisUntilFinished / 75;
+                        } else if (velocityX < 0 && !hitX) {
+                            params.leftMargin += millisUntilFinished / 75;
+                        }
+                        if (velocityX > 0 && hitX) {
+                            params.leftMargin += millisUntilFinished / 75;
+                        } else if (velocityX < 0 && hitX) {
+                            params.leftMargin -= millisUntilFinished / 75;
+                        }
+
+                        hitX = !hitX;
+                        //setLayoutParams(params);
+
+                        //Log.d("123", "onTick hitX: " + hitX);
+                        //countDownTimerX.cancel();
                     }
                 }
 
@@ -3667,21 +3716,47 @@ public class AnalogClock extends View {
                 }
             }.start();
 
-            countDownTimerY = new CountDownTimer(scrollTimeY, 10) {
+            countDownTimerY = new CountDownTimer(scrollTimeY, 5) {
 
                 @Override
                 public void onTick(long millisUntilFinished) {
 
-                    if ( (getHeight() + params.topMargin + millisUntilFinished / 150) < constraintLayout.getHeight() &&
+                    if ( (getHeight() + params.topMargin + millisUntilFinished / 75) < constraintLayout.getHeight() &&
                             params.topMargin > 0) {
-                        if (velocityY > 0) {
-                            params.topMargin += millisUntilFinished / 150;
-                        } else {
-                            params.topMargin -= millisUntilFinished / 150;
+                        if (velocityY > 0 && !hitY) {
+                            params.topMargin += millisUntilFinished / 75;
+                        } else if (velocityY < 0 && !hitY) {
+                            params.topMargin -= millisUntilFinished / 75;
+                        }
+                        if (velocityY > 0 && hitY) {
+                            params.topMargin -= millisUntilFinished / 75;
+                        } else if (velocityY < 0 && hitY) {
+                            params.topMargin += millisUntilFinished / 75;
                         }
                         setLayoutParams(params);
                     }else{
-                        countDownTimerY.cancel();
+//                        if (  (getHeight() + params.topMargin + millisUntilFinished / 75) > constraintLayout.getHeight() ) {
+//                            params.topMargin = constraintLayout.getHeight() - getHeight();
+//                        }
+//                        if (params.topMargin < 0) {
+//                            params.topMargin = 0;
+//                        }
+                        if (velocityY > 0 && !hitY) {
+                            params.topMargin -= millisUntilFinished / 75;
+                        } else if (velocityY < 0 && !hitY) {
+                            params.topMargin += millisUntilFinished / 75;
+                        }
+                        if (velocityY > 0 && hitY) {
+                            params.topMargin += millisUntilFinished / 75;
+                        } else if (velocityY < 0 && hitY) {
+                            params.topMargin -= millisUntilFinished / 75;
+                        }
+
+                        hitY = !hitY;
+                        //setLayoutParams(params);
+
+                        //Log.d("123", "onTick hitY: " + hitY);
+                        //countDownTimerX.cancel();
                     }
                 }
 
