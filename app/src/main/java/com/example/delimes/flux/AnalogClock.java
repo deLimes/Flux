@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -95,6 +96,8 @@ public class AnalogClock extends View {
     };
     boolean hitX = false;
     boolean hitY = false;
+    Rect textBounds = new Rect();
+    public int clockColor;
 
     public AnalogClock(Context context) {
         super(context);
@@ -115,6 +118,7 @@ public class AnalogClock extends View {
         p = new Paint();
         wallpath = new Path();
         float length = 5 * side;
+        clockColor = Color.WHITE;
     }
 
 
@@ -1796,10 +1800,13 @@ public class AnalogClock extends View {
         bottom = upperRightCornerY;
 
         p.reset();
+        p.setColor(clockColor);
+        p.setStyle(Paint.Style.FILL);
+        canvas.drawRect(left, top, right, bottom, p);
+
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
         p.setStyle(Paint.Style.FILL);
-
         canvas.drawText(text, left + side / 4f, bottom - side / 4f, p);
 
         p.setColor(Color.BLACK);
@@ -2332,10 +2339,13 @@ public class AnalogClock extends View {
         bottom = bottomLeftCornerY + side;
 
         p.reset();
+        p.setColor(clockColor);
+        p.setStyle(Paint.Style.FILL);
+        canvas.drawRect(left, top, right, bottom, p);
+
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
         p.setStyle(Paint.Style.FILL);
-
         canvas.drawText(text, left + side / 4f, bottom - side / 4f, p);
 
         p.setColor(Color.BLACK);
@@ -2814,10 +2824,13 @@ public class AnalogClock extends View {
         bottom = bottomLeftCornerY + side;
 
         p.reset();
+        p.setColor(clockColor);
+        p.setStyle(Paint.Style.FILL);
+        canvas.drawRect(left, top, right, bottom, p);
+
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
         p.setStyle(Paint.Style.FILL);
-
         canvas.drawText(text, left + side / 4, bottom - side / 4, p);
 
         p.setColor(Color.BLACK);
@@ -3346,10 +3359,13 @@ public class AnalogClock extends View {
         bottom = y + side;
 
         p.reset();
+        p.setColor(clockColor);
+        p.setStyle(Paint.Style.FILL);
+        canvas.drawRect(left, top, right, bottom, p);
+
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
         p.setStyle(Paint.Style.FILL);
-
         canvas.drawText(text, left + side / 4f, bottom - side / 4f, p);
 
         p.setColor(Color.BLACK);
@@ -3506,16 +3522,10 @@ public class AnalogClock extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        int fontHeight = side / 2;
-
         p.reset();
-        p.setColor(Color.BLACK);
-        p.setTextSize(fontHeight);
-
-        text = "" + ( ("" + MainActivity.currHours).length() == 1 ? "0" + MainActivity.currHours : "" + MainActivity.currHours )
-                + ":" + ( ("" + MainActivity.currMinutes).length() == 1 ? "0" + MainActivity.currMinutes : "" + MainActivity.currMinutes )
-                + ":" + ( ("" + MainActivity.currSeconds).length() == 1 ? "0" + MainActivity.currSeconds : "" + MainActivity.currSeconds );
-        canvas.drawText(text, side * 2.5f, side * 2.5f, p);
+        p.setColor(clockColor);
+        p.setStyle(Paint.Style.FILL);
+        canvas.drawRect(side, side, side * 4, side * 4, p);
 
         for (int j = 0; j < 4 ; j++) {
             int k = 0;
@@ -3548,6 +3558,23 @@ public class AnalogClock extends View {
 
             }
         }
+
+        int fontHeight = side / 2;
+
+        p.reset();
+        p.setColor(Color.BLACK);
+        p.setTextSize(fontHeight);
+
+        text = "" + ( ("" + MainActivity.currHours).length() == 1 ? "0" + MainActivity.currHours : "" + MainActivity.currHours )
+                + ":" + ( ("" + MainActivity.currMinutes).length() == 1 ? "0" + MainActivity.currMinutes : "" + MainActivity.currMinutes )
+                + ":" + ( ("" + MainActivity.currSeconds).length() == 1 ? "0" + MainActivity.currSeconds : "" + MainActivity.currSeconds );
+
+        p.getTextBounds(text, 0, text.length(), textBounds);
+        int textHeight = textBounds.height();
+        int textWidth = textBounds.width();
+
+        canvas.drawText(text, side * 2.5f - textWidth * 0.5f, side * 2.5f + textHeight * 0.5f, p);
+
 
 
 

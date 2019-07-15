@@ -1573,7 +1573,7 @@ public class MainActivity extends AppCompatActivity {
         analogClock = new AnalogClock(this);
         analogClock.setId(R.id.analogClock);
         //spring.setBackground(getDrawable(R.drawable.background_gradient_spring));
-        analogClock.setBackgroundColor(getResources().getColor(R.color.colorSummerLight));
+        //analogClock.setBackgroundColor(getResources().getColor(R.color.colorSummerLight));
         constraintLayout.addView(analogClock, constraintLayout.getChildCount());
         //сonstraintLayoutForSchedule.setAnalogClock((AnalogClock)сonstraintLayoutForSchedule.findViewById(R.id.analogClock));
         //сonstraintLayoutForSchedule.setAnalogClock(analogClock);
