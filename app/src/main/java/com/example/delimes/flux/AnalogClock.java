@@ -119,6 +119,9 @@ public class AnalogClock extends View {
         wallpath = new Path();
         float length = 5 * side;
         clockColor = Color.WHITE;
+        setVisibility(View.INVISIBLE);
+
+
     }
 
 
@@ -3647,11 +3650,13 @@ public class AnalogClock extends View {
                 if (drag) {
 
                     params = (ConstraintLayout.LayoutParams) getLayoutParams();
-                    if ( (getWidth() + (int)(evX - dragX)) < constraintLayout.getWidth()){
+                    if ( (getWidth() + (int)(evX - dragX)) <= constraintLayout.getWidth()
+                            && params.leftMargin >= 0 ){
 
                         params.leftMargin = (int)(evX - dragX);
                     }
-                    if ( (getHeight() + (int)(evY - dragY)) < constraintLayout.getHeight()){
+                    if ( (getHeight() + (int)(evY - dragY)) <= constraintLayout.getHeight()
+                            && params.topMargin >= 0 ){
 
                         params.topMargin = (int)(evY - dragY);
                     }
@@ -3698,44 +3703,30 @@ public class AnalogClock extends View {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
-                    if ( (getWidth() + params.leftMargin + millisUntilFinished / 75) < constraintLayout.getWidth() &&
-                            params.leftMargin > 0) {
-                        if (velocityX > 0 && !hitX) {
-                            params.leftMargin += millisUntilFinished / 75;
-                        } else if (velocityX < 0 && !hitX) {
-                            params.leftMargin -= millisUntilFinished / 75;
-                        }
-                        if (velocityX > 0 && hitX) {
-                            params.leftMargin -= millisUntilFinished / 75;
-                        } else if (velocityX < 0 && hitX) {
-                            params.leftMargin += millisUntilFinished / 75;
-                        }
-                        setLayoutParams(params);
-                    }else{
-//                        if ( (getWidth() + params.leftMargin + millisUntilFinished / 150) > constraintLayout.getWidth() ) {
-//                            params.leftMargin = constraintLayout.getWidth() - getWidth();
-//                        }
-//                        if (params.leftMargin < 0) {
-//                            params.leftMargin = 0;
-//                        }
+                    if ( (getWidth() + params.leftMargin) <= constraintLayout.getWidth() &&
+                            params.leftMargin >= 0) {
 
                         if (velocityX > 0 && !hitX) {
-                            params.leftMargin -= millisUntilFinished / 75;
-                        } else if (velocityX < 0 && !hitX) {
                             params.leftMargin += millisUntilFinished / 75;
+                        } else if (velocityX < 0 && !hitX) {
+                            params.leftMargin -= millisUntilFinished / 75;
                         }
                         if (velocityX > 0 && hitX) {
-                            params.leftMargin += millisUntilFinished / 75;
-                        } else if (velocityX < 0 && hitX) {
                             params.leftMargin -= millisUntilFinished / 75;
+                        } else if (velocityX < 0 && hitX) {
+                            params.leftMargin += millisUntilFinished / 75;
+                        }
+                    }else{
+                        if ( getWidth() + params.leftMargin > constraintLayout.getWidth() ) {
+                            params.leftMargin = constraintLayout.getWidth() - getWidth();
+                        }
+                        if (params.leftMargin < 0) {
+                            params.leftMargin = 0;
                         }
 
                         hitX = !hitX;
-                        //setLayoutParams(params);
-
-                        //Log.d("123", "onTick hitX: " + hitX);
-                        //countDownTimerX.cancel();
                     }
+                    setLayoutParams(params);
                 }
 
                 @Override
@@ -3748,8 +3739,8 @@ public class AnalogClock extends View {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
-                    if ( (getHeight() + params.topMargin + millisUntilFinished / 75) < constraintLayout.getHeight() &&
-                            params.topMargin > 0) {
+                    if ( (getHeight() + params.topMargin) <= constraintLayout.getHeight() &&
+                            params.topMargin >= 0) {
                         if (velocityY > 0 && !hitY) {
                             params.topMargin += millisUntilFinished / 75;
                         } else if (velocityY < 0 && !hitY) {
@@ -3760,31 +3751,17 @@ public class AnalogClock extends View {
                         } else if (velocityY < 0 && hitY) {
                             params.topMargin += millisUntilFinished / 75;
                         }
-                        setLayoutParams(params);
                     }else{
-//                        if (  (getHeight() + params.topMargin + millisUntilFinished / 75) > constraintLayout.getHeight() ) {
-//                            params.topMargin = constraintLayout.getHeight() - getHeight();
-//                        }
-//                        if (params.topMargin < 0) {
-//                            params.topMargin = 0;
-//                        }
-                        if (velocityY > 0 && !hitY) {
-                            params.topMargin -= millisUntilFinished / 75;
-                        } else if (velocityY < 0 && !hitY) {
-                            params.topMargin += millisUntilFinished / 75;
+                        if ( getHeight() + params.topMargin > constraintLayout.getHeight() ) {
+                            params.topMargin = constraintLayout.getHeight() - getHeight();
                         }
-                        if (velocityY > 0 && hitY) {
-                            params.topMargin += millisUntilFinished / 75;
-                        } else if (velocityY < 0 && hitY) {
-                            params.topMargin -= millisUntilFinished / 75;
+                        if (params.topMargin < 0) {
+                            params.topMargin = 0;
                         }
 
                         hitY = !hitY;
-                        //setLayoutParams(params);
-
-                        //Log.d("123", "onTick hitY: " + hitY);
-                        //countDownTimerX.cancel();
                     }
+                    setLayoutParams(params);
                 }
 
                 @Override

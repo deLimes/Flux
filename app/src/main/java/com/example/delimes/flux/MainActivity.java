@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,6 +59,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -173,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
     AnalogClock analogClock;
     public static TimeChangedReceiver timeChangedReceiver;
     public static Handler tickHandler;
+    private Menu menu_main;
 
     public MainActivity() {
         this.context = this;
@@ -190,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
         restoreCyclicTasks();
 
 
+
         //task = (Task) getIntent().getSerializableExtra("task");
     }
 
@@ -203,6 +207,11 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Year", "Year was saved");
             saveYear();
         }
+
+        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preference.edit();
+        editor.putBoolean("analogClockIsVisibile", analogClock.getVisibility() == View.VISIBLE);
+        editor.commit();
     }
 
     @Override
@@ -372,6 +381,15 @@ public class MainActivity extends AppCompatActivity {
                 сonstraintLayoutForSchedule.setLayoutParams(params);
 
                 //analogClock
+                SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+                boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
+
+                if (analogClockIsVisibile) {
+                    analogClock.setVisibility(View.VISIBLE);
+                    MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
+                    actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
+                }
+
                 analogClock.side = width/2;
                 analogClock.x = analogClock.side * 5;
                 analogClock.y = 0;
@@ -383,6 +401,9 @@ public class MainActivity extends AppCompatActivity {
                 //params.rightToRight = R.id.constraintLayout;
                 params.topToTop = R.id.constraintLayout;
                 //params.bottomToBottom = R.id.constraintLayout;
+
+                params.leftMargin = constraintLayout.getWidth() - analogClock.side * 5;
+                params.topMargin = constraintLayout.getHeight() - analogClock.side * 5;
 
                 analogClock.setLayoutParams(params);
 
@@ -1572,8 +1593,6 @@ public class MainActivity extends AppCompatActivity {
 
         analogClock = new AnalogClock(this);
         analogClock.setId(R.id.analogClock);
-        //spring.setBackground(getDrawable(R.drawable.background_gradient_spring));
-        //analogClock.setBackgroundColor(getResources().getColor(R.color.colorSummerLight));
         constraintLayout.addView(analogClock, constraintLayout.getChildCount());
         //сonstraintLayoutForSchedule.setAnalogClock((AnalogClock)сonstraintLayoutForSchedule.findViewById(R.id.analogClock));
         //сonstraintLayoutForSchedule.setAnalogClock(analogClock);
@@ -3179,6 +3198,7 @@ public class MainActivity extends AppCompatActivity {
         //return super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu_main = menu;
         return true;
     }
 
@@ -3235,6 +3255,18 @@ public class MainActivity extends AppCompatActivity {
 
 
                 return true;
+
+            case R.id.action_clock:
+
+                if (analogClock.getVisibility() == View.INVISIBLE) {
+                    analogClock.setVisibility(View.VISIBLE);
+                    item.setTitle(getResources().getString(R.string.action_clock_off));
+                }else {
+                    analogClock.setVisibility(View.INVISIBLE);
+                    item.setTitle(getResources().getString(R.string.action_clock_on));
+                }
+                return true;
+
 
             default:
                 //return true;

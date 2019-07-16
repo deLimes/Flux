@@ -3,4 +3,6 @@
     <string name="action_save">Сохранить текущий год</string>
     <string name="action_restore">Восстановить текущий год</string>
     <string name="action_reset">Очистить сохранение</string>
+    <string name="action_clock_on">Показать часы</string>
+    <string name="action_clock_off">Скрыть часы</string>
 </resources>
