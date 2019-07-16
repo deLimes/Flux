@@ -2187,66 +2187,25 @@ class Quarter extends View {
                 if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
                     selectedDay = null;
                     numberYearPicker.setValue(mainActivity.curentYearNumber);
-
                     mainActivity.analogClock.clockColor = Color.WHITE;
-
-//                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//
-//                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
                     return super.onDoubleTap(e);
                 }else if (quarter == 2 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
                     selectedDay = null;
                     numberYearPicker.setValue(mainActivity.curentYearNumber);
-
                     mainActivity.analogClock.clockColor = Color.WHITE;
-//                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//
-//                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
                     return super.onDoubleTap(e);
                 }else if (quarter == 3 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
                     selectedDay = null;
                     numberYearPicker.setValue(mainActivity.curentYearNumber);
-
                     mainActivity.analogClock.clockColor = Color.WHITE;
-//                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//
-//                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
                     return super.onDoubleTap(e);
                 }else if (quarter == 4 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
                     selectedDay = null;
                     numberYearPicker.setValue(mainActivity.curentYearNumber);
-
                     mainActivity.analogClock.clockColor = Color.WHITE;
-//                    mainActivity.сonstraintLayoutForSchedule.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//
-//                    mainActivity.monday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.tuesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.wednesday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.thursday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.friday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.saturday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                    mainActivity.sunday.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
                     return super.onDoubleTap(e);
                 }
@@ -2336,6 +2295,129 @@ class Quarter extends View {
             }
 
             return super.onDoubleTap(e);
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            // Внимание! код дублируется в событии onDoubleTap()
+            doubleTapX = e.getX();
+            doubleTapY = e.getY();
+
+            if (selectedDay != null){
+                if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    super.onLongPress(e);
+                    return;
+                }else if (quarter == 2 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    super.onLongPress(e);
+                    return;
+                }else if (quarter == 3 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    super.onLongPress(e);
+                    return;
+                }else if (quarter == 4 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(mainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    super.onLongPress(e);
+                    return;
+                }
+
+            }
+
+            Iterator<Day> j = days.iterator();
+            while (j.hasNext()){
+                Day b = j.next();
+                if (quarter == 1) {
+                    if (b.left <= doubleTapX && b.right >= doubleTapX) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.spring.selectedDay = null;
+                        mainActivity.spring.invalidate();
+                        mainActivity.summer.selectedDay = null;
+                        mainActivity.summer.invalidate();
+                        mainActivity.autumn.selectedDay = null;
+                        mainActivity.autumn.invalidate();
+
+                        if (b.right <= ( x - (januaryLengthF + februaryLengthF) )) {
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+                        }else{
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+                        }
+                    }
+                }else if (quarter == 2) {
+                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.winter.selectedDay = null;
+                        mainActivity.winter.invalidate();
+                        mainActivity.summer.selectedDay = null;
+                        mainActivity.summer.invalidate();
+                        mainActivity.autumn.selectedDay = null;
+                        mainActivity.autumn.invalidate();
+
+                        if (b.top >= ( y + (aprilLengthF + mayLengthF) ) ) {
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+                        }else{
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+                        }
+                    }
+                }else if (quarter == 3) {
+                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.winter.selectedDay = null;
+                        mainActivity.winter.invalidate();
+                        mainActivity.spring.selectedDay = null;
+                        mainActivity.spring.invalidate();
+                        mainActivity.autumn.selectedDay = null;
+                        mainActivity.autumn.invalidate();
+
+                        if (b.left >= ( x + (julyLengthF + augustLengthF) ) ) {
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+                        }else{
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+                        }
+                    }
+                }else if (quarter == 4) {
+                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
+                        selectedDay = b;
+                        invalidate();
+                        mainActivity.winter.selectedDay = null;
+                        mainActivity.winter.invalidate();
+                        mainActivity.spring.selectedDay = null;
+                        mainActivity.spring.invalidate();
+                        mainActivity.summer.selectedDay = null;
+                        mainActivity.summer.invalidate();
+
+                        if (b.bottom <= ( y - (octoberLengthF + novemberLengthF) ) ) {
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+                        }else{
+                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+                        }
+                    }
+                }
+
+                if (selectedDay != null) {
+                    calendar.clear();
+                    calendar.setTimeInMillis(selectedDay.date.getTime());
+                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+                            + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+                }
+            }
+            super.onLongPress(e);
         }
 
         @Override
@@ -2522,7 +2604,9 @@ class Quarter extends View {
                             decrementYearSummer = false;
                             decrementYearAutumn = false;
                             //mainActivity.decrementYear = true;
+                            mainActivity.numberYearPicker.extendYear = true;
                             mainActivity.numberYearPicker.decrement();
+                            mainActivity.numberYearPicker.extendYear = false;
                         }else {
                             mainActivity.winter.invalidate();
                             mainActivity.spring.invalidate();

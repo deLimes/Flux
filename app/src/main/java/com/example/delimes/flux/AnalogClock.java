@@ -1785,6 +1785,208 @@ public class AnalogClock extends View {
     }
 
 
+    private void drawSecondHandFirstQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        upperRightCornerY = bias + side;
+        left = x - side;
+        top = upperRightCornerY - side;
+        right = x;
+        bottom = upperRightCornerY;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 1) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 8) {
+                drawSecondHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 9) {
+                drawSecondHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 10) {
+                drawSecondHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 11) {
+                drawSecondHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 12) {
+                drawSecondHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFirstQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 13) {
+                drawSecondHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 14) {
+                drawSecondHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 15) {
+                drawSecondHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 16) {
+                drawSecondHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 17) {
+                drawSecondHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFirstQuart(canvas);
+            }
+        } else if (indexOfThird == 3) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 18) {
+                drawSecondHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 19) {
+                drawSecondHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 20) {
+                drawSecondHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 21) {
+                drawSecondHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currSeconds == 22) {
+                drawSecondHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFirstQuart(canvas);
+            }
+        }
+
+
+
+    }
+
+    private void drawMinuteHandFirstQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        upperRightCornerY = bias + side;
+        left = x - side;
+        top = upperRightCornerY - side;
+        right = x;
+        bottom = upperRightCornerY;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 1) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 8) {
+                drawMinuteHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 9) {
+                drawMinuteHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 10) {
+                drawMinuteHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 11) {
+                drawMinuteHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 12) {
+                drawMinuteHandFifthPositionFirstQuart(canvas);
+            }
+
+
+        } else if (indexOfThird == 2) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 13) {
+                drawMinuteHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 14) {
+                drawMinuteHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 15) {
+                drawMinuteHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 16) {
+                drawMinuteHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 17) {
+                drawMinuteHandFifthPositionFirstQuart(canvas);
+            }
+
+        } else if (indexOfThird == 3) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 18) {
+                drawMinuteHandFirstPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 19) {
+                drawMinuteHandSecondPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 20) {
+                drawMinuteHandThirdPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 21) {
+                drawMinuteHandFourthPositionFirstQuart(canvas);
+            } else if (MainActivity.currMinutes == 22) {
+                drawMinuteHandFifthPositionFirstQuart(canvas);
+            }
+
+
+        }
+
+
+
+    }
+
+    private void drawHourdHandFirstQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        upperRightCornerY = bias + side;
+        left = x - side;
+        top = upperRightCornerY - side;
+        right = x;
+        bottom = upperRightCornerY;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 1) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFirstPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionFirstQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionFirstQuart(canvas);
+            }
+
+        } else if (indexOfThird == 3) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionFirstQuart(canvas);
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFifthPositionFirstQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionFirstQuart(canvas);
+            }
+
+
+        }
+
+
+
+    }
+
     private void drawFirstQuart(Canvas canvas, int indexOfThird, int bias, int indexOfHour) {
 
         //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
@@ -1816,148 +2018,148 @@ public class AnalogClock extends View {
         p.setStyle(Paint.Style.STROKE);
         canvas.drawRect(left, top, right, bottom, p);
 
-        p.reset();
-        p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.FILL);
-
-        p.reset();
-        p.setStyle(Paint.Style.FILL);
-        wallpath.reset();
-
-        if (indexOfThird == 1) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                //drawHourdHandFirstPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionFirstQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFirstQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 8) {
-                drawMinuteHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 9) {
-                drawMinuteHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 10) {
-                drawMinuteHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 11) {
-                drawMinuteHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 12) {
-                drawMinuteHandFifthPositionFirstQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 8) {
-                drawSecondHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 9) {
-                drawSecondHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 10) {
-                drawSecondHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 11) {
-                drawSecondHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 12) {
-                drawSecondHandFifthPositionFirstQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionFirstQuart(canvas);
-            }
-
-        } else if (indexOfThird == 2) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionFirstQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFirstQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 13) {
-                drawMinuteHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 14) {
-                drawMinuteHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 15) {
-                drawMinuteHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 16) {
-                drawMinuteHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 17) {
-                drawMinuteHandFifthPositionFirstQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 13) {
-                drawSecondHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 14) {
-                drawSecondHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 15) {
-                drawSecondHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 16) {
-                drawSecondHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 17) {
-                drawSecondHandFifthPositionFirstQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionFirstQuart(canvas);
-            }
-        } else if (indexOfThird == 3) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionFirstQuart(canvas);
-            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                //drawHourdHandFifthPositionFirstQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFirstQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 18) {
-                drawMinuteHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 19) {
-                drawMinuteHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 20) {
-                drawMinuteHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 21) {
-                drawMinuteHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currMinutes == 22) {
-                drawMinuteHandFifthPositionFirstQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 18) {
-                drawSecondHandFirstPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 19) {
-                drawSecondHandSecondPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 20) {
-                drawSecondHandThirdPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 21) {
-                drawSecondHandFourthPositionFirstQuart(canvas);
-            } else if (MainActivity.currSeconds == 22) {
-                drawSecondHandFifthPositionFirstQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionFirstQuart(canvas);
-            }
-        }
+//        p.reset();
+//        p.setColor(Color.BLACK);
+//        p.setStyle(Paint.Style.FILL);
+//
+//        p.reset();
+//        p.setStyle(Paint.Style.FILL);
+//        wallpath.reset();
+//
+//        if (indexOfThird == 1) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                //drawHourdHandFirstPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 13 || MainActivity.currHours == 1) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionFirstQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionFirstQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 8) {
+//                drawMinuteHandFirstPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 9) {
+//                drawMinuteHandSecondPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 10) {
+//                drawMinuteHandThirdPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 11) {
+//                drawMinuteHandFourthPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 12) {
+//                drawMinuteHandFifthPositionFirstQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 8) {
+//                drawSecondHandFirstPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 9) {
+//                drawSecondHandSecondPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 10) {
+//                drawSecondHandThirdPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 11) {
+//                drawSecondHandFourthPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 12) {
+//                drawSecondHandFifthPositionFirstQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionFirstQuart(canvas);
+//            }
+//
+//        } else if (indexOfThird == 2) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 14 || MainActivity.currHours == 2) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionFirstQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionFirstQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 13) {
+//                drawMinuteHandFirstPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 14) {
+//                drawMinuteHandSecondPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 15) {
+//                drawMinuteHandThirdPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 16) {
+//                drawMinuteHandFourthPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 17) {
+//                drawMinuteHandFifthPositionFirstQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 13) {
+//                drawSecondHandFirstPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 14) {
+//                drawSecondHandSecondPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 15) {
+//                drawSecondHandThirdPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 16) {
+//                drawSecondHandFourthPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 17) {
+//                drawSecondHandFifthPositionFirstQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionFirstQuart(canvas);
+//            }
+//        } else if (indexOfThird == 3) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 15 || MainActivity.currHours == 3) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionFirstQuart(canvas);
+//            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                //drawHourdHandFifthPositionFirstQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionFirstQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 18) {
+//                drawMinuteHandFirstPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 19) {
+//                drawMinuteHandSecondPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 20) {
+//                drawMinuteHandThirdPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 21) {
+//                drawMinuteHandFourthPositionFirstQuart(canvas);
+//            } else if (MainActivity.currMinutes == 22) {
+//                drawMinuteHandFifthPositionFirstQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 18) {
+//                drawSecondHandFirstPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 19) {
+//                drawSecondHandSecondPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 20) {
+//                drawSecondHandThirdPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 21) {
+//                drawSecondHandFourthPositionFirstQuart(canvas);
+//            } else if (MainActivity.currSeconds == 22) {
+//                drawSecondHandFifthPositionFirstQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionFirstQuart(canvas);
+//            }
+//        }
 
 
 
@@ -2324,6 +2526,201 @@ public class AnalogClock extends View {
     }
 
 
+    private void drawSecondHandSecondQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        bottomRightCornerX = bias;
+        left = bottomRightCornerX;
+        top = bottomLeftCornerY;//y-side/2;
+        right = bottomRightCornerX + side;
+        bottom = bottomLeftCornerY + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 3) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 23) {
+                drawSecondHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 24) {
+                drawSecondHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 25) {
+                drawSecondHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 26) {
+                drawSecondHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 27) {
+                drawSecondHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionSecondQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 28) {
+                drawSecondHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 29) {
+                drawSecondHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 30) {
+                drawSecondHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 31) {
+                drawSecondHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 32) {
+                drawSecondHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionSecondQuart(canvas);
+            }
+        } else if (indexOfThird == 1) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 33) {
+                drawSecondHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 34) {
+                drawSecondHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 35) {
+                drawSecondHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 36) {
+                drawSecondHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currSeconds == 37) {
+                drawSecondHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionSecondQuart(canvas);
+            }
+        }
+
+    }
+
+    private void drawMinuteHandSecondQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        bottomRightCornerX = bias;
+        left = bottomRightCornerX;
+        top = bottomLeftCornerY;//y-side/2;
+        right = bottomRightCornerX + side;
+        bottom = bottomLeftCornerY + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 3) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 23) {
+                drawMinuteHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 24) {
+                drawMinuteHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 25) {
+                drawMinuteHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 26) {
+                drawMinuteHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 27) {
+                drawMinuteHandFifthPositionSecondQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 28) {
+                drawMinuteHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 29) {
+                drawMinuteHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 30) {
+                drawMinuteHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 31) {
+                drawMinuteHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 32) {
+                drawMinuteHandFifthPositionSecondQuart(canvas);
+            }
+
+        } else if (indexOfThird == 1) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 33) {
+                drawMinuteHandFirstPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 34) {
+                drawMinuteHandSecondPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 35) {
+                drawMinuteHandThirdPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 36) {
+                drawMinuteHandFourthPositionSecondQuart(canvas);
+            } else if (MainActivity.currMinutes == 37) {
+                drawMinuteHandFifthPositionSecondQuart(canvas);
+            }
+
+        }
+
+    }
+
+    private void drawHourdHandSecondQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        bottomRightCornerX = bias;
+        left = bottomRightCornerX;
+        top = bottomLeftCornerY;//y-side/2;
+        right = bottomRightCornerX + side;
+        bottom = bottomLeftCornerY + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 3) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandRightPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionSecondQuart(canvas);
+            }
+
+
+        } else if (indexOfThird == 2) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionSecondQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionSecondQuart(canvas);
+            }
+
+
+        } else if (indexOfThird == 1) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionSecondQuart(canvas);
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandLeftPositionSecondQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionSecondQuart(canvas);
+            }
+
+        }
+
+    }
+
     private void drawSecondQuart(Canvas canvas, int indexOfThird, int bias, int indexOfHour) {
 
         //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
@@ -2355,148 +2752,148 @@ public class AnalogClock extends View {
         p.setStyle(Paint.Style.STROKE);
         canvas.drawRect(left, top, right, bottom, p);
 
-        p.reset();
-        p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.FILL);
-
-        p.reset();
-        p.setStyle(Paint.Style.FILL);
-        wallpath.reset();
-
-        if (indexOfThird == 3) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandRightPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionSecondQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionSecondQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 23) {
-                drawMinuteHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 24) {
-                drawMinuteHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 25) {
-                drawMinuteHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 26) {
-                drawMinuteHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 27) {
-                drawMinuteHandFifthPositionSecondQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 23) {
-                drawSecondHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 24) {
-                drawSecondHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 25) {
-                drawSecondHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 26) {
-                drawSecondHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 27) {
-                drawSecondHandFifthPositionSecondQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionSecondQuart(canvas);
-            }
-
-        } else if (indexOfThird == 2) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionSecondQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionSecondQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 28) {
-                drawMinuteHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 29) {
-                drawMinuteHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 30) {
-                drawMinuteHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 31) {
-                drawMinuteHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 32) {
-                drawMinuteHandFifthPositionSecondQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 28) {
-                drawSecondHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 29) {
-                drawSecondHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 30) {
-                drawSecondHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 31) {
-                drawSecondHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 32) {
-                drawSecondHandFifthPositionSecondQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionSecondQuart(canvas);
-            }
-        } else if (indexOfThird == 1) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionSecondQuart(canvas);
-            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandLeftPositionSecondQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionSecondQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 33) {
-                drawMinuteHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 34) {
-                drawMinuteHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 35) {
-                drawMinuteHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 36) {
-                drawMinuteHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currMinutes == 37) {
-                drawMinuteHandFifthPositionSecondQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 33) {
-                drawSecondHandFirstPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 34) {
-                drawSecondHandSecondPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 35) {
-                drawSecondHandThirdPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 36) {
-                drawSecondHandFourthPositionSecondQuart(canvas);
-            } else if (MainActivity.currSeconds == 37) {
-                drawSecondHandFifthPositionSecondQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionSecondQuart(canvas);
-            }
-        }
+//        p.reset();
+//        p.setColor(Color.BLACK);
+//        p.setStyle(Paint.Style.FILL);
+//
+//        p.reset();
+//        p.setStyle(Paint.Style.FILL);
+//        wallpath.reset();
+//
+//        if (indexOfThird == 3) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandRightPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 16 || MainActivity.currHours == 4) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionSecondQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 23) {
+//                drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 24) {
+//                drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 25) {
+//                drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 26) {
+//                drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 27) {
+//                drawMinuteHandFifthPositionSecondQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 23) {
+//                drawSecondHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 24) {
+//                drawSecondHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 25) {
+//                drawSecondHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 26) {
+//                drawSecondHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 27) {
+//                drawSecondHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionSecondQuart(canvas);
+//            }
+//
+//        } else if (indexOfThird == 2) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 17 || MainActivity.currHours == 5) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionSecondQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 28) {
+//                drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 29) {
+//                drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 30) {
+//                drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 31) {
+//                drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 32) {
+//                drawMinuteHandFifthPositionSecondQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 28) {
+//                drawSecondHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 29) {
+//                drawSecondHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 30) {
+//                drawSecondHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 31) {
+//                drawSecondHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 32) {
+//                drawSecondHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionSecondQuart(canvas);
+//            }
+//        } else if (indexOfThird == 1) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 18 || MainActivity.currHours == 6) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionSecondQuart(canvas);
+//            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandLeftPositionSecondQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionSecondQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 33) {
+//                drawMinuteHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 34) {
+//                drawMinuteHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 35) {
+//                drawMinuteHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 36) {
+//                drawMinuteHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currMinutes == 37) {
+//                drawMinuteHandFifthPositionSecondQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 33) {
+//                drawSecondHandFirstPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 34) {
+//                drawSecondHandSecondPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 35) {
+//                drawSecondHandThirdPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 36) {
+//                drawSecondHandFourthPositionSecondQuart(canvas);
+//            } else if (MainActivity.currSeconds == 37) {
+//                drawSecondHandFifthPositionSecondQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionSecondQuart(canvas);
+//            }
+//        }
 
     }
 
@@ -2809,6 +3206,215 @@ public class AnalogClock extends View {
 
     }
 
+    private void drawSecondHandThirdQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        bottomLeftCornerY = y + bias;
+        left = upperLeftCornerX - side;
+        top = bottomLeftCornerY;
+        right = upperLeftCornerX;
+        bottom = bottomLeftCornerY + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+
+        if (indexOfThird == 3) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 38) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 39) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 40) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 41) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 42) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionThirdQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 43) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 44) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 45) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 46) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 47) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionThirdQuart(canvas);
+            }
+        } else if (indexOfThird == 1) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 48) {
+                drawSecondHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 49) {
+                drawSecondHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 50) {
+                drawSecondHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 51) {
+                drawSecondHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currSeconds == 52) {
+                drawSecondHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionThirdQuart(canvas);
+            }
+        }
+
+
+
+        bottomLeftCornerY = bottomLeftCornerY + side;
+
+    }
+
+    private void drawMinuteHandThirdQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        bottomLeftCornerY = y + bias;
+        left = upperLeftCornerX - side;
+        top = bottomLeftCornerY;
+        right = upperLeftCornerX;
+        bottom = bottomLeftCornerY + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+
+        if (indexOfThird == 3) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 38) {
+                drawMinuteHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 39) {
+                drawMinuteHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 40) {
+                drawMinuteHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 41) {
+                drawMinuteHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 42) {
+                drawMinuteHandFifthPositionThirdQuart(canvas);
+            }
+
+
+        } else if (indexOfThird == 2) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 43) {
+                drawMinuteHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 44) {
+                drawMinuteHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 45) {
+                drawMinuteHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 46) {
+                drawMinuteHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 47) {
+                drawMinuteHandFifthPositionThirdQuart(canvas);
+            }
+
+        } else if (indexOfThird == 1) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 48) {
+                drawMinuteHandFirstPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 49) {
+                drawMinuteHandSecondPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 50) {
+                drawMinuteHandThirdPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 51) {
+                drawMinuteHandFourthPositionThirdQuart(canvas);
+            } else if (MainActivity.currMinutes == 52) {
+                drawMinuteHandFifthPositionThirdQuart(canvas);
+            }
+
+        }
+
+
+
+        bottomLeftCornerY = bottomLeftCornerY + side;
+
+    }
+
+    private void drawHourdHandThirdQuart(Canvas canvas, int indexOfThird, int bias) {
+
+        bottomLeftCornerY = y + bias;
+        left = upperLeftCornerX - side;
+        top = bottomLeftCornerY;
+        right = upperLeftCornerX;
+        bottom = bottomLeftCornerY + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+
+        if (indexOfThird == 3) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFirstPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionThirdQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionThirdQuart(canvas);
+            }
+
+        } else if (indexOfThird == 1) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionThirdQuart(canvas);
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                //drawHourdHandFifthPositionThirdQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionThirdQuart(canvas);
+            }
+
+        }
+
+
+
+        bottomLeftCornerY = bottomLeftCornerY + side;
+
+    }
+
     private void drawThirdQuart(Canvas canvas, int indexOfThird, int bias, int indexOfHour) {
 
         //int[] hours = {1, 12, 11, 10, 9, 8, 7, 6, 5, 2, 3, 4};
@@ -2840,149 +3446,149 @@ public class AnalogClock extends View {
         p.setStyle(Paint.Style.STROKE);
         canvas.drawRect(left, top, right, bottom, p);
 
-        p.reset();
-        p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.FILL);
-        //canvas.drawCircle(side * 2.5f, side * 2.5f, side / 4, p);
-        p.reset();
-        p.setStyle(Paint.Style.FILL);
-        wallpath.reset();
-
-
-        if (indexOfThird == 3) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                //drawHourdHandFirstPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionThirdQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionThirdQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 38) {
-                drawMinuteHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 39) {
-                drawMinuteHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 40) {
-                drawMinuteHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 41) {
-                drawMinuteHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 42) {
-                drawMinuteHandFifthPositionThirdQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 38) {
-                drawSecondHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 39) {
-                drawSecondHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 40) {
-                drawSecondHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 41) {
-                drawSecondHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 42) {
-                drawSecondHandFifthPositionThirdQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionThirdQuart(canvas);
-            }
-
-        } else if (indexOfThird == 2) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionThirdQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionThirdQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 43) {
-                drawMinuteHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 44) {
-                drawMinuteHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 45) {
-                drawMinuteHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 46) {
-                drawMinuteHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 47) {
-                drawMinuteHandFifthPositionThirdQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 43) {
-                drawSecondHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 44) {
-                drawSecondHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 45) {
-                drawSecondHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 46) {
-                drawSecondHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 47) {
-                drawSecondHandFifthPositionThirdQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionThirdQuart(canvas);
-            }
-        } else if (indexOfThird == 1) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionThirdQuart(canvas);
-            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                //drawHourdHandFifthPositionThirdQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionThirdQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 48) {
-                drawMinuteHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 49) {
-                drawMinuteHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 50) {
-                drawMinuteHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 51) {
-                drawMinuteHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currMinutes == 52) {
-                drawMinuteHandFifthPositionThirdQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 48) {
-                drawSecondHandFirstPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 49) {
-                drawSecondHandSecondPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 50) {
-                drawSecondHandThirdPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 51) {
-                drawSecondHandFourthPositionThirdQuart(canvas);
-            } else if (MainActivity.currSeconds == 52) {
-                drawSecondHandFifthPositionThirdQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionThirdQuart(canvas);
-            }
-        }
+//        p.reset();
+//        p.setColor(Color.BLACK);
+//        p.setStyle(Paint.Style.FILL);
+//        //canvas.drawCircle(side * 2.5f, side * 2.5f, side / 4, p);
+//        p.reset();
+//        p.setStyle(Paint.Style.FILL);
+//        wallpath.reset();
+//
+//
+//        if (indexOfThird == 3) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                //drawHourdHandFirstPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 19 || MainActivity.currHours == 7) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionThirdQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 38) {
+//                drawMinuteHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 39) {
+//                drawMinuteHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 40) {
+//                drawMinuteHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 41) {
+//                drawMinuteHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 42) {
+//                drawMinuteHandFifthPositionThirdQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 38) {
+//                drawSecondHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 39) {
+//                drawSecondHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 40) {
+//                drawSecondHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 41) {
+//                drawSecondHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 42) {
+//                drawSecondHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionThirdQuart(canvas);
+//            }
+//
+//        } else if (indexOfThird == 2) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 20 || MainActivity.currHours == 8) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionThirdQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 43) {
+//                drawMinuteHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 44) {
+//                drawMinuteHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 45) {
+//                drawMinuteHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 46) {
+//                drawMinuteHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 47) {
+//                drawMinuteHandFifthPositionThirdQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 43) {
+//                drawSecondHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 44) {
+//                drawSecondHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 45) {
+//                drawSecondHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 46) {
+//                drawSecondHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 47) {
+//                drawSecondHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionThirdQuart(canvas);
+//            }
+//        } else if (indexOfThird == 1) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 21 || MainActivity.currHours == 9) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionThirdQuart(canvas);
+//            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                //drawHourdHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionThirdQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 48) {
+//                drawMinuteHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 49) {
+//                drawMinuteHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 50) {
+//                drawMinuteHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 51) {
+//                drawMinuteHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currMinutes == 52) {
+//                drawMinuteHandFifthPositionThirdQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 48) {
+//                drawSecondHandFirstPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 49) {
+//                drawSecondHandSecondPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 50) {
+//                drawSecondHandThirdPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 51) {
+//                drawSecondHandFourthPositionThirdQuart(canvas);
+//            } else if (MainActivity.currSeconds == 52) {
+//                drawSecondHandFifthPositionThirdQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionThirdQuart(canvas);
+//            }
+//        }
 
 
 
@@ -3345,6 +3951,207 @@ public class AnalogClock extends View {
         canvas.drawLine(side * 2.5f, side * 2.5f, left + side * 0.50f + side * 0.20f * 2, bottom, p);
     }
 
+    private void drawSecondHandFourthQuart(@NotNull Canvas canvas, int indexOfThird, int bias) {
+
+        upperLeftCornerX = x - bias;
+        left = upperLeftCornerX - side;
+        top = y;
+        right = upperLeftCornerX;
+        bottom = y + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 3) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 53) {
+                drawSecondHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 54) {
+                drawSecondHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 55) {
+                drawSecondHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 56) {
+                drawSecondHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 57) {
+                drawSecondHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFourthQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 58) {
+                drawSecondHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 59) {
+                drawSecondHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 0) {
+                drawSecondHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 1) {
+                drawSecondHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 2) {
+                drawSecondHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFourthQuart(canvas);
+            }
+        } else if (indexOfThird == 1) {
+
+            //SecondHand
+            if (MainActivity.currSeconds == 3) {
+                drawSecondHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 4) {
+                drawSecondHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 5) {
+                drawSecondHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 6) {
+                drawSecondHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currSeconds == 7) {
+                drawSecondHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawSecondHandAllPositionFourthQuart(canvas);
+            }
+        }
+
+        upperLeftCornerX = upperLeftCornerX - side;
+
+    }
+
+    private void drawMinuteHandFourthQuart(@NotNull Canvas canvas, int indexOfThird, int bias) {
+
+        upperLeftCornerX = x - bias;
+        left = upperLeftCornerX - side;
+        top = y;
+        right = upperLeftCornerX;
+        bottom = y + side;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 3) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 53) {
+                drawMinuteHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 54) {
+                drawMinuteHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 55) {
+                drawMinuteHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 56) {
+                drawMinuteHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 57) {
+                drawMinuteHandFifthPositionFourthQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 58) {
+                drawMinuteHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 59) {
+                drawMinuteHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 0) {
+                drawMinuteHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 1) {
+                drawMinuteHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 2) {
+                drawMinuteHandFifthPositionFourthQuart(canvas);
+            }
+
+        } else if (indexOfThird == 1) {
+
+            //MinuteHand
+            if (MainActivity.currMinutes == 3) {
+                drawMinuteHandFirstPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 4) {
+                drawMinuteHandSecondPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 5) {
+                drawMinuteHandThirdPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 6) {
+                drawMinuteHandFourthPositionFourthQuart(canvas);
+            } else if (MainActivity.currMinutes == 7) {
+                drawMinuteHandFifthPositionFourthQuart(canvas);
+            }
+
+        }
+
+        upperLeftCornerX = upperLeftCornerX - side;
+
+    }
+
+    private void drawHourdHandFourthQuart(@NotNull Canvas canvas, int indexOfThird, int bias) {
+
+        upperLeftCornerX = x - bias;
+        left = upperLeftCornerX - side;
+        top = y;
+        right = upperLeftCornerX;
+        bottom = y + side;
+
+        p.reset();
+        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.FILL);
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        wallpath.reset();
+
+        if (indexOfThird == 3) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandLeftPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionFourthQuart(canvas);
+            }
+
+        } else if (indexOfThird == 2) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFifthPositionFourthQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionFourthQuart(canvas);
+            }
+
+        } else if (indexOfThird == 1) {
+
+            //HourdHand
+            if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandFirstPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+                drawHourdHandSecondPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+                drawHourdHandThirdPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+                drawHourdHandFourthPositionFourthQuart(canvas);
+            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+                drawHourdHandRightPositionFourthQuart(canvas);
+            } else {
+                //drawHourdHandAllPositionFourthQuart(canvas);
+            }
+        }
+
+        upperLeftCornerX = upperLeftCornerX - side;
+
+    }
 
     private void drawFourthQuart(@NotNull Canvas canvas, int indexOfThird, int bias, int indexOfHour) {
 
@@ -3375,148 +4182,148 @@ public class AnalogClock extends View {
         p.setStyle(Paint.Style.STROKE);
         canvas.drawRect(left, top, right, bottom, p);
 
-        p.reset();
-        p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.FILL);
-
-        p.reset();
-        p.setStyle(Paint.Style.FILL);
-        wallpath.reset();
-
-        if (indexOfThird == 3) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandLeftPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionFourthQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFourthQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 53) {
-                drawMinuteHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 54) {
-                drawMinuteHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 55) {
-                drawMinuteHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 56) {
-                drawMinuteHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 57) {
-                drawMinuteHandFifthPositionFourthQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 53) {
-                drawSecondHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 54) {
-                drawSecondHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 55) {
-                drawSecondHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 56) {
-                drawSecondHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 57) {
-                drawSecondHandFifthPositionFourthQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionFourthQuart(canvas);
-            }
-
-        } else if (indexOfThird == 2) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFifthPositionFourthQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFourthQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 58) {
-                drawMinuteHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 59) {
-                drawMinuteHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 0) {
-                drawMinuteHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 1) {
-                drawMinuteHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 2) {
-                drawMinuteHandFifthPositionFourthQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 58) {
-                drawSecondHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 59) {
-                drawSecondHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 0) {
-                drawSecondHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 1) {
-                drawSecondHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 2) {
-                drawSecondHandFifthPositionFourthQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionFourthQuart(canvas);
-            }
-        } else if (indexOfThird == 1) {
-
-            //HourdHand
-            if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandFirstPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
-                drawHourdHandSecondPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
-                drawHourdHandThirdPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
-                drawHourdHandFourthPositionFourthQuart(canvas);
-            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
-                drawHourdHandRightPositionFourthQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFourthQuart(canvas);
-            }
-
-            //MinuteHand
-            if (MainActivity.currMinutes == 3) {
-                drawMinuteHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 4) {
-                drawMinuteHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 5) {
-                drawMinuteHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 6) {
-                drawMinuteHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currMinutes == 7) {
-                drawMinuteHandFifthPositionFourthQuart(canvas);
-            }
-
-            //SecondHand
-            if (MainActivity.currSeconds == 3) {
-                drawSecondHandFirstPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 4) {
-                drawSecondHandSecondPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 5) {
-                drawSecondHandThirdPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 6) {
-                drawSecondHandFourthPositionFourthQuart(canvas);
-            } else if (MainActivity.currSeconds == 7) {
-                drawSecondHandFifthPositionFourthQuart(canvas);
-            } else {
-                //drawSecondHandAllPositionFourthQuart(canvas);
-            }
-        }
+//        p.reset();
+//        p.setColor(Color.BLACK);
+//        p.setStyle(Paint.Style.FILL);
+//
+//        p.reset();
+//        p.setStyle(Paint.Style.FILL);
+//        wallpath.reset();
+//
+//        if (indexOfThird == 3) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandLeftPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 22 || MainActivity.currHours == 10) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionFourthQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionFourthQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 53) {
+//                drawMinuteHandFirstPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 54) {
+//                drawMinuteHandSecondPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 55) {
+//                drawMinuteHandThirdPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 56) {
+//                drawMinuteHandFourthPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 57) {
+//                drawMinuteHandFifthPositionFourthQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 53) {
+//                drawSecondHandFirstPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 54) {
+//                drawSecondHandSecondPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 55) {
+//                drawSecondHandThirdPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 56) {
+//                drawSecondHandFourthPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 57) {
+//                drawSecondHandFifthPositionFourthQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionFourthQuart(canvas);
+//            }
+//
+//        } else if (indexOfThird == 2) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 23 || MainActivity.currHours == 11) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFifthPositionFourthQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionFourthQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 58) {
+//                drawMinuteHandFirstPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 59) {
+//                drawMinuteHandSecondPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 0) {
+//                drawMinuteHandThirdPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 1) {
+//                drawMinuteHandFourthPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 2) {
+//                drawMinuteHandFifthPositionFourthQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 58) {
+//                drawSecondHandFirstPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 59) {
+//                drawSecondHandSecondPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 0) {
+//                drawSecondHandThirdPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 1) {
+//                drawSecondHandFourthPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 2) {
+//                drawSecondHandFifthPositionFourthQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionFourthQuart(canvas);
+//            }
+//        } else if (indexOfThird == 1) {
+//
+//            //HourdHand
+//            if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandFirstPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 45 && MainActivity.currMinutes < 60) {
+//                drawHourdHandSecondPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 0 && MainActivity.currMinutes < 15) {
+//                drawHourdHandThirdPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 15 && MainActivity.currMinutes < 30) {
+//                drawHourdHandFourthPositionFourthQuart(canvas);
+//            } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
+//                drawHourdHandRightPositionFourthQuart(canvas);
+//            } else {
+//                //drawHourdHandAllPositionFourthQuart(canvas);
+//            }
+//
+//            //MinuteHand
+//            if (MainActivity.currMinutes == 3) {
+//                drawMinuteHandFirstPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 4) {
+//                drawMinuteHandSecondPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 5) {
+//                drawMinuteHandThirdPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 6) {
+//                drawMinuteHandFourthPositionFourthQuart(canvas);
+//            } else if (MainActivity.currMinutes == 7) {
+//                drawMinuteHandFifthPositionFourthQuart(canvas);
+//            }
+//
+//            //SecondHand
+//            if (MainActivity.currSeconds == 3) {
+//                drawSecondHandFirstPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 4) {
+//                drawSecondHandSecondPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 5) {
+//                drawSecondHandThirdPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 6) {
+//                drawSecondHandFourthPositionFourthQuart(canvas);
+//            } else if (MainActivity.currSeconds == 7) {
+//                drawSecondHandFifthPositionFourthQuart(canvas);
+//            } else {
+//                //drawSecondHandAllPositionFourthQuart(canvas);
+//            }
+//        }
 
         upperLeftCornerX = upperLeftCornerX - side;
 
@@ -3535,30 +4342,89 @@ public class AnalogClock extends View {
             int l = 0;
 
             for (int i = 0; i < 5; i++) {
-
                 if (j == 0 && i > 0 && i < 4) {
-
                     drawFourthQuart(canvas, i, k, l);
-
                 } else if (j == 1 && i > 0 && i < 4) {
-
                     drawThirdQuart(canvas, i, k, l);
-
                 } else if (j == 2 && i > 0 && i < 4) {
-
                     drawSecondQuart(canvas, i, k, l);
-
                 } else if (j == 3 && i > 0 && i < 4) {
-
                     drawFirstQuart(canvas, i, k, l);
                 }
 
                 if (i > 0 && i < 4) {
                     l += 1;
                 }
-
                 k += side;
+            }
+        }
 
+        //drawHourdHand
+        for (int j = 0; j < 4 ; j++) {
+            int k = 0;
+            int l = 0;
+
+            for (int i = 0; i < 5; i++) {
+                if (j == 0 && i > 0 && i < 4) {
+                    drawHourdHandFourthQuart(canvas, i, k);
+                } else if (j == 1 && i > 0 && i < 4) {
+                    drawHourdHandThirdQuart(canvas, i, k);
+                } else if (j == 2 && i > 0 && i < 4) {
+                    drawHourdHandSecondQuart(canvas, i, k);
+                } else if (j == 3 && i > 0 && i < 4) {
+                    drawHourdHandFirstQuart(canvas, i, k);
+                }
+
+                if (i > 0 && i < 4) {
+                    l += 1;
+                }
+                k += side;
+            }
+        }
+
+        //drawMinuteHand
+        for (int j = 0; j < 4 ; j++) {
+            int k = 0;
+            int l = 0;
+
+            for (int i = 0; i < 5; i++) {
+                if (j == 0 && i > 0 && i < 4) {
+                    drawMinuteHandFourthQuart(canvas, i, k);
+                } else if (j == 1 && i > 0 && i < 4) {
+                    drawMinuteHandThirdQuart(canvas, i, k);
+                } else if (j == 2 && i > 0 && i < 4) {
+                    drawMinuteHandSecondQuart(canvas, i, k);
+                } else if (j == 3 && i > 0 && i < 4) {
+                    drawMinuteHandFirstQuart(canvas, i, k);
+                }
+
+                if (i > 0 && i < 4) {
+                    l += 1;
+                }
+                k += side;
+            }
+        }
+
+        //drawSecondHand
+        for (int j = 0; j < 4 ; j++) {
+            int k = 0;
+            int l = 0;
+
+            for (int i = 0; i < 5; i++) {
+                if (j == 0 && i > 0 && i < 4) {
+                    drawSecondHandFourthQuart(canvas, i, k);
+                } else if (j == 1 && i > 0 && i < 4) {
+                    drawSecondHandThirdQuart(canvas, i, k);
+                } else if (j == 2 && i > 0 && i < 4) {
+                    drawSecondHandSecondQuart(canvas, i, k);
+                } else if (j == 3 && i > 0 && i < 4) {
+                    drawSecondHandFirstQuart(canvas, i, k);
+                }
+
+                if (i > 0 && i < 4) {
+                    l += 1;
+                }
+                k += side;
             }
         }
 
@@ -3680,6 +4546,35 @@ public class AnalogClock extends View {
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+
+            clockColor = Color.WHITE;
+            MainActivity.winter.selectedDay = null;
+            MainActivity.spring.selectedDay = null;
+            MainActivity.summer.selectedDay = null;
+            MainActivity.autumn.selectedDay = null;
+
+            MainActivity.numberYearPicker.setValue(MainActivity.curentYearNumber);
+
+            return super.onDoubleTap(e);
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+
+            // Внимание! код дублируется в событии onDoubleTap()
+            clockColor = Color.WHITE;
+            MainActivity.winter.selectedDay = null;
+            MainActivity.spring.selectedDay = null;
+            MainActivity.summer.selectedDay = null;
+            MainActivity.autumn.selectedDay = null;
+
+            MainActivity.numberYearPicker.setValue(MainActivity.curentYearNumber);
+
+            super.onLongPress(e);
+        }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {

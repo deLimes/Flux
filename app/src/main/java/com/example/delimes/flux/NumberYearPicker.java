@@ -45,6 +45,8 @@ public class NumberYearPicker extends LinearLayout {
     private boolean autoIncrement = false;
     private boolean autoDecrement = false;
 
+    public boolean extendYear = false;
+
     public MainActivity mainActivity ;
 
     class RepetetiveUpdater implements Runnable {
@@ -230,8 +232,10 @@ public class NumberYearPicker extends LinearLayout {
                     mainActivity.previousChosenYearNumber = mainActivity.chosenYearNumber;
                     mainActivity.chosenYearNumber = Integer.valueOf(editable.toString());
                     if (mainActivity.previousChosenYearNumber != mainActivity.chosenYearNumber) {
-                        mainActivity.yearNumberChangedForMove = true;
-                        mainActivity.yearNumberChangedForFling = true;
+                        if (extendYear) {
+                            mainActivity.yearNumberChangedForMove = true;
+                            mainActivity.yearNumberChangedForFling = true;
+                        }
                         mainActivity.yearNumberChangedForDraw = true;
                         if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
                             mainActivity.yearReducedForFling = true;
@@ -412,12 +416,13 @@ public class NumberYearPicker extends LinearLayout {
 
         decrement.setOnTouchListener( new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                if( event.getAction() == MotionEvent.ACTION_UP && autoDecrement ){
+                if( event.getAction() == MotionEvent.ACTION_UP && autoDecrement){
                     autoDecrement = false;
                 }
                 return false;
             }
         });
+
     }
 
     public void increment(){
@@ -455,6 +460,7 @@ public class NumberYearPicker extends LinearLayout {
             }
         }
         valueText.setText(strValue);
+
     }
 
     public int getValue(){
