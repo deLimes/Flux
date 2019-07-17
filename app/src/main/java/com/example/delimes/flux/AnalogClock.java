@@ -4520,11 +4520,25 @@ public class AnalogClock extends View {
                             && params.leftMargin >= 0 ){
 
                         params.leftMargin = (int)(evX - dragX);
+                    }else{
+                        if((getWidth() + params.leftMargin) > constraintLayout.getWidth()){
+                            params.leftMargin = constraintLayout.getWidth() - getWidth();
+                        }
+                        if(params.leftMargin < 0){
+                            params.leftMargin = 0;
+                        }
                     }
                     if ( (getHeight() + (int)(evY - dragY)) <= constraintLayout.getHeight()
                             && params.topMargin >= 0 ){
 
                         params.topMargin = (int)(evY - dragY);
+                    }else{
+                        if((getHeight() + params.topMargin) > constraintLayout.getHeight()){
+                            params.topMargin = constraintLayout.getHeight() - getHeight();
+                        }
+                        if(params.topMargin < 0){
+                            params.topMargin = 0;
+                        }
                     }
 
                     setLayoutParams(params);
@@ -4561,20 +4575,20 @@ public class AnalogClock extends View {
             return super.onDoubleTap(e);
         }
 
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-            // Внимание! код дублируется в событии onDoubleTap()
-            clockColor = Color.WHITE;
-            MainActivity.winter.selectedDay = null;
-            MainActivity.spring.selectedDay = null;
-            MainActivity.summer.selectedDay = null;
-            MainActivity.autumn.selectedDay = null;
-
-            MainActivity.numberYearPicker.setValue(MainActivity.curentYearNumber);
-
-            super.onLongPress(e);
-        }
+//        @Override
+//        public void onLongPress(MotionEvent e) {
+//
+//            // Внимание! код дублируется в событии onDoubleTap()
+//            clockColor = Color.WHITE;
+//            MainActivity.winter.selectedDay = null;
+//            MainActivity.spring.selectedDay = null;
+//            MainActivity.summer.selectedDay = null;
+//            MainActivity.autumn.selectedDay = null;
+//
+//            MainActivity.numberYearPicker.setValue(MainActivity.curentYearNumber);
+//
+//            super.onLongPress(e);
+//        }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, final float velocityX, final float velocityY) {

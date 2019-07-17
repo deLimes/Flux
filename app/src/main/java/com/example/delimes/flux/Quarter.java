@@ -2148,9 +2148,13 @@ class Quarter extends View {
                         }
 
                         if (incrementYearWinter && incrementYearSpring && incrementYearSummer && incrementYearAutumn) {
+                            mainActivity.numberYearPicker.extendYear = true;
                             mainActivity.numberYearPicker.increment();
+                            mainActivity.numberYearPicker.extendYear = false;
                         }else if (decrementYearWinter && decrementYearSpring && decrementYearSummer && decrementYearAutumn) {
+                            mainActivity.numberYearPicker.extendYear = true;
                             mainActivity.numberYearPicker.decrement();
+                            mainActivity.numberYearPicker.extendYear = false;
                         }else {
                             mainActivity.winter.invalidate();
                             mainActivity.spring.invalidate();
@@ -2596,7 +2600,9 @@ class Quarter extends View {
                             incrementYearSpring = false;
                             incrementYearSummer = false;
                             incrementYearAutumn = false;
+                            mainActivity.numberYearPicker.extendYear = true;
                             mainActivity.numberYearPicker.increment();
+                            mainActivity.numberYearPicker.extendYear = false;
                         }else if (decrementYearWinter && decrementYearSpring && decrementYearSummer && decrementYearAutumn) {
                             //mainActivity.yearNumberChangedForFling = false;
                             decrementYearWinter = false;
