@@ -380,32 +380,6 @@ public class MainActivity extends AppCompatActivity {
                 //сonstraintLayoutForSchedule.setBackgroundColor(Color.CYAN);
                 сonstraintLayoutForSchedule.setLayoutParams(params);
 
-                //analogClock
-                SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-                boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
-
-                if (analogClockIsVisibile) {
-                    analogClock.setVisibility(View.VISIBLE);
-                    MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
-                    actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
-                }
-
-                analogClock.side = width/2;
-                analogClock.x = analogClock.side * 5;
-                analogClock.y = 0;
-
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.width = analogClock.side * 5;
-                params.height = params.width;
-                params.leftToLeft = R.id.constraintLayout;
-                //params.rightToRight = R.id.constraintLayout;
-                params.topToTop = R.id.constraintLayout;
-                //params.bottomToBottom = R.id.constraintLayout;
-
-                params.leftMargin = constraintLayout.getWidth() - analogClock.side * 5;
-                params.topMargin = constraintLayout.getHeight() - analogClock.side * 5;
-
-                analogClock.setLayoutParams(params);
 
                 //NumberYearPicker
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -591,6 +565,34 @@ public class MainActivity extends AppCompatActivity {
                         params.width = сonstraintLayoutForSchedule.getWidth();
                         params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
                         linearLayout.setLayoutParams(params);
+
+                        //analogClock
+                        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+                        boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
+
+                        if (analogClockIsVisibile) {
+                            analogClock.setVisibility(View.VISIBLE);
+                            MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
+                            actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
+                        }
+
+                        analogClock.side = width/2;
+                        analogClock.x = analogClock.side * 5;
+                        analogClock.y = 0;
+
+                        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.width = analogClock.side * 5;
+                        params.height = params.width;
+                        params.leftToLeft = R.id.constraintLayout;
+                        //params.rightToRight = R.id.constraintLayout;
+                        params.topToTop = R.id.constraintLayout;
+                        //params.bottomToBottom = R.id.constraintLayout;
+
+                        params.leftMargin = сonstraintLayoutForSchedule.getRight() - analogClock.side * 5;
+                        params.topMargin = сonstraintLayoutForSchedule.getBottom() - analogClock.side * 5;
+
+                        analogClock.setLayoutParams(params);
+
                     }
 
                 });

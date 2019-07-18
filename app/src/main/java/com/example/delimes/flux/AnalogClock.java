@@ -13,6 +13,9 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -2005,18 +2008,39 @@ public class AnalogClock extends View {
         bottom = upperRightCornerY;
 
         p.reset();
-        p.setColor(clockColor);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawRect(left, top, right, bottom, p);
+//        p.setColor(clockColor);
+//        p.setStyle(Paint.Style.FILL);
+//        canvas.drawRect(left, top, right, bottom, p);
 
-        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.FILL);
         p.setTextSize(fontHeight);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawText(text, left + side / 4f, bottom - side / 4f, p);
+        p.getTextBounds(text, 0, text.length(), textBounds);
+
+        int textHeight = textBounds.height();
+        int textWidth = textBounds.width();
+
+        p.setColor(clockColor);
+        canvas.drawRect(left + side * 0.50f - textWidth * 0.50f, top + side * 0.50f - textHeight * 0.50f,
+                right - side * 0.50f + textWidth * 0.50f , bottom - side * 0.50f + textHeight * 0.50f, p);
 
         p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(left, top, right, bottom, p);
+        canvas.drawText(text, left + side * 0.50f - textWidth * 0.50f, bottom - side * 0.50f + textHeight * 0.50f, p);
+
+        p.setColor(Color.BLACK);
+        //p.setStyle(Paint.Style.STROKE);
+        //canvas.drawRect(left, top, right, bottom, p);
+
+        canvas.drawLine(right, top, right - side * 0.50f, top, p);
+        canvas.drawLine(right - 1, top, right - 1, bottom, p);
+        canvas.drawLine(right, bottom, right - side * 0.50f, bottom, p);
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(left - side * 0.10f, bottom - side * 0.50f - side * 0.20f * 2, left + side * 0.10f, bottom - side * 0.50f - side * 0.20f * 2, p);
+        canvas.drawLine(left - side * 0.10f, bottom - side * 0.50f - side * 0.20f, left + side * 0.10f, bottom - side * 0.50f - side * 0.20f, p);
+        canvas.drawLine(left - side * 0.20f, bottom - side * 0.50f, left + side * 0.20f, bottom - side * 0.50f, p);
+        canvas.drawLine(left - side * 0.10f, bottom - side * 0.50f + side * 0.20f, left + side * 0.10f, bottom - side * 0.50f + side * 0.20f, p);
+        canvas.drawLine(left - side * 0.10f, bottom - side * 0.50f + side * 0.20f * 2, left + side * 0.10f, bottom - side * 0.50f + side * 0.20f * 2, p);;
+
 
 //        p.reset();
 //        p.setColor(Color.BLACK);
@@ -2739,18 +2763,40 @@ public class AnalogClock extends View {
         bottom = bottomLeftCornerY + side;
 
         p.reset();
-        p.setColor(clockColor);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawRect(left, top, right, bottom, p);
+//        p.setColor(clockColor);
+//        p.setStyle(Paint.Style.FILL);
+//        canvas.drawRect(left, top, right, bottom, p);
 
-        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.FILL);
         p.setTextSize(fontHeight);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawText(text, left + side / 4f, bottom - side / 4f, p);
+        p.getTextBounds(text, 0, text.length(), textBounds);
+
+        int textHeight = textBounds.height();
+        int textWidth = textBounds.width();
+
+        p.setColor(clockColor);
+        canvas.drawRect(left + side * 0.50f - textWidth * 0.50f, top + side * 0.50f - textHeight * 0.50f,
+                right - side * 0.50f + textWidth * 0.50f , bottom - side * 0.50f + textHeight * 0.50f, p);
 
         p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(left, top, right, bottom, p);
+        canvas.drawText(text, left + side * 0.50f - textWidth * 0.50f, bottom - side * 0.50f + textHeight * 0.50f, p);
+
+        p.setColor(Color.BLACK);
+        //p.setStyle(Paint.Style.STROKE);
+        //canvas.drawRect(left, top, right, bottom, p);
+
+
+        canvas.drawLine(left, bottom - side * 0.50f, left, bottom, p);
+        canvas.drawLine(left, bottom - 1, right, bottom - 1, p);
+        canvas.drawLine(right, bottom - side * 0.50f, right, bottom, p);
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(left + side * 0.50f - side * 0.20f * 2, top + side * 0.10f, left + side * 0.50f - side * 0.20f * 2, top - side * 0.10f, p);
+        canvas.drawLine(left + side * 0.50f - side * 0.20f, top + side * 0.10f, left + side * 0.50f - side * 0.20f, top - side * 0.10f, p);
+        canvas.drawLine(left + side * 0.50f, top + side * 0.20f, left + side * 0.50f, top - side * 0.20f, p);
+        canvas.drawLine(left + side * 0.50f + side * 0.20f, top + side * 0.10f, left + side * 0.50f + side * 0.20f, top - side * 0.10f, p);
+        canvas.drawLine(left + side * 0.50f + side * 0.20f * 2, top + side * 0.10f, left + side * 0.50f + side * 0.20f * 2, top - side * 0.10f, p);
+
 
 //        p.reset();
 //        p.setColor(Color.BLACK);
@@ -3433,18 +3479,39 @@ public class AnalogClock extends View {
         bottom = bottomLeftCornerY + side;
 
         p.reset();
-        p.setColor(clockColor);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawRect(left, top, right, bottom, p);
+//        p.setColor(clockColor);
+//        p.setStyle(Paint.Style.FILL);
+//        canvas.drawRect(left, top, right, bottom, p);
 
-        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.FILL);
         p.setTextSize(fontHeight);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawText(text, left + side / 4, bottom - side / 4, p);
+        p.getTextBounds(text, 0, text.length(), textBounds);
+
+        int textHeight = textBounds.height();
+        int textWidth = textBounds.width();
+
+        p.setColor(clockColor);
+        canvas.drawRect(left + side * 0.50f - textWidth * 0.50f, top + side * 0.50f - textHeight * 0.50f,
+                right - side * 0.50f + textWidth * 0.50f , bottom - side * 0.50f + textHeight * 0.50f, p);
 
         p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(left, top, right, bottom, p);
+        canvas.drawText(text, left + side * 0.50f - textWidth * 0.50f, bottom - side * 0.50f + textHeight * 0.50f, p);
+
+        p.setColor(Color.BLACK);
+        //p.setStyle(Paint.Style.STROKE);
+        //canvas.drawRect(left, top, right, bottom, p);
+
+        canvas.drawLine(left, top, right - side * 0.50f, top, p);
+        canvas.drawLine(left, top, left, bottom, p);
+        canvas.drawLine(left, bottom, right - side * 0.50f, bottom, p);
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(right - side * 0.10f, bottom - side * 0.50f - side * 0.20f * 2, right + side * 0.10f, bottom - side * 0.50f - side * 0.20f * 2, p);
+        canvas.drawLine(right - side * 0.10f, bottom - side * 0.50f - side * 0.20f, right + side * 0.10f, bottom - side * 0.50f - side * 0.20f, p);
+        canvas.drawLine(right - side * 0.20f, bottom - side * 0.50f, right + side * 0.20f, bottom - side * 0.50f, p);
+        canvas.drawLine(right - side * 0.10f, bottom - side * 0.50f + side * 0.20f, right + side * 0.10f, bottom - side * 0.50f + side * 0.20f, p);
+        canvas.drawLine(right - side * 0.10f, bottom - side * 0.50f + side * 0.20f * 2, right + side * 0.10f, bottom - side * 0.50f + side * 0.20f * 2, p);;
+
 
 //        p.reset();
 //        p.setColor(Color.BLACK);
@@ -4169,18 +4236,39 @@ public class AnalogClock extends View {
         bottom = y + side;
 
         p.reset();
-        p.setColor(clockColor);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawRect(left, top, right, bottom, p);
+//        p.setColor(clockColor);
+//        p.setStyle(Paint.Style.FILL);
+//        canvas.drawRect(left, top, right, bottom, p);
 
-        p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.FILL);
         p.setTextSize(fontHeight);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawText(text, left + side / 4f, bottom - side / 4f, p);
+        p.getTextBounds(text, 0, text.length(), textBounds);
+
+        int textHeight = textBounds.height();
+        int textWidth = textBounds.width();
+
+        p.setColor(clockColor);
+        canvas.drawRect(left + side * 0.50f - textWidth * 0.50f, top + side * 0.50f - textHeight * 0.50f,
+                right - side * 0.50f + textWidth * 0.50f , bottom - side * 0.50f + textHeight * 0.50f, p);
 
         p.setColor(Color.BLACK);
-        p.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(left, top, right, bottom, p);
+        canvas.drawText(text, left + side * 0.50f - textWidth * 0.50f, bottom - side * 0.50f + textHeight * 0.50f, p);
+
+        p.setColor(Color.BLACK);
+        //p.setStyle(Paint.Style.STROKE);
+        //canvas.drawRect(left, top, right, bottom, p);
+
+        canvas.drawLine(left, top, left, top + side * 0.50f, p);
+        canvas.drawLine(left, top, right, top, p);
+        canvas.drawLine(right, top, right, top + side * 0.50f, p);
+
+        p.setColor(Color.BLACK);
+        canvas.drawLine(left + side * 0.50f - side * 0.20f * 2, bottom + side * 0.10f, left + side * 0.50f - side * 0.20f * 2, bottom - side * 0.10f, p);
+        canvas.drawLine(left + side * 0.50f - side * 0.20f, bottom + side * 0.10f, left + side * 0.50f - side * 0.20f, bottom - side * 0.10f, p);
+        canvas.drawLine(left + side * 0.50f, bottom + side * 0.20f, left + side * 0.50f, bottom - side * 0.20f, p);
+        canvas.drawLine(left + side * 0.50f + side * 0.20f, bottom + side * 0.10f, left + side * 0.50f + side * 0.20f, bottom - side * 0.10f, p);
+        canvas.drawLine(left + side * 0.50f + side * 0.20f * 2, bottom + side * 0.10f, left + side * 0.50f + side * 0.20f * 2, bottom - side * 0.10f, p);
+
 
 //        p.reset();
 //        p.setColor(Color.BLACK);
@@ -4333,9 +4421,9 @@ public class AnalogClock extends View {
     protected void onDraw(Canvas canvas) {
 
         p.reset();
-        p.setColor(clockColor);
-        p.setStyle(Paint.Style.FILL);
-        canvas.drawRect(side, side, side * 4, side * 4, p);
+//        p.setColor(clockColor);
+//        p.setStyle(Paint.Style.FILL);
+//        canvas.drawRect(side, side, side * 4, side * 4, p);
 
         for (int j = 0; j < 4 ; j++) {
             int k = 0;
@@ -4428,20 +4516,26 @@ public class AnalogClock extends View {
             }
         }
 
-        int fontHeight = side / 2;
-
-        p.reset();
-        p.setColor(Color.BLACK);
-        p.setTextSize(fontHeight);
 
         text = "" + ( ("" + MainActivity.currHours).length() == 1 ? "0" + MainActivity.currHours : "" + MainActivity.currHours )
                 + ":" + ( ("" + MainActivity.currMinutes).length() == 1 ? "0" + MainActivity.currMinutes : "" + MainActivity.currMinutes )
                 + ":" + ( ("" + MainActivity.currSeconds).length() == 1 ? "0" + MainActivity.currSeconds : "" + MainActivity.currSeconds );
 
+        int fontHeight = side / 2;
+
+        p.reset();
+        p.setStyle(Paint.Style.FILL);
+        p.setTextSize(fontHeight);
         p.getTextBounds(text, 0, text.length(), textBounds);
+
         int textHeight = textBounds.height();
         int textWidth = textBounds.width();
 
+        p.setColor(clockColor);
+        canvas.drawRect(side * 2.5f - textWidth * 0.5f, side * 2.5f - textHeight * 0.5f,
+                side * 2.5f + textWidth * 0.5f, side * 2.5f + textHeight * 0.5f, p);
+
+        p.setColor(Color.BLACK);
         canvas.drawText(text, side * 2.5f - textWidth * 0.5f, side * 2.5f + textHeight * 0.5f, p);
 
 
