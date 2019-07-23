@@ -1440,11 +1440,11 @@ class Quarter extends View {
             }
 
             p.setColor(Color.RED);
-            canvas.drawPoint(upperLeftCornerX, y, p);
+            //canvas.drawPoint(upperLeftCornerX, y, p);
 
             p.setColor(Color.WHITE);
             p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
+            //canvas.drawPoint(doubleTapX, doubleTapY, p);
 
             if (currentDate != null) {
                 p.setColor(Color.WHITE);
@@ -1472,7 +1472,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
+                if ( !firstOccurrence && MainActivity.day != selectedDay ) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1515,20 +1515,20 @@ class Quarter extends View {
 
 
 
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(x, bottomLeftCornerY, p);
-//
-//
-//            p.setColor(Color.BLUE);
-//            p.setStrokeWidth(10);
-//            canvas.drawPoint(x, y, p);
+            p.setColor(Color.RED);
+            p.setStrokeWidth(side);
+            //canvas.drawPoint(x, bottomLeftCornerY, p);
+
+
+            p.setColor(Color.BLUE);
+            p.setStrokeWidth(10);
+            //canvas.drawPoint(x, y, p);
 
 
 
             p.setColor(Color.WHITE);
             p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
+            //canvas.drawPoint(doubleTapX, doubleTapY, p);
 
 
             //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
@@ -1558,7 +1558,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
+                if ( !firstOccurrence && MainActivity.day != selectedDay ) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1584,7 +1584,7 @@ class Quarter extends View {
 
             p.setColor(Color.WHITE);
             p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
+            //canvas.drawPoint(doubleTapX, doubleTapY, p);
 
             if (currentDate != null) {
                 p.setColor(Color.WHITE);
@@ -1612,7 +1612,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
+                if ( !firstOccurrence && MainActivity.day != selectedDay ) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1655,7 +1655,7 @@ class Quarter extends View {
 
             p.setColor(Color.WHITE);
             p.setStrokeWidth(strokeWidth);
-            canvas.drawPoint(doubleTapX, doubleTapY, p);
+            //canvas.drawPoint(doubleTapX, doubleTapY, p);
 
             if (currentDate != null) {
                 p.setColor(Color.WHITE);
@@ -1683,7 +1683,7 @@ class Quarter extends View {
                 canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
                 p.setStyle(Paint.Style.FILL);
 
-                if ( (!firstOccurrence || mainActivity.yearNumberChangedForDraw) && selectedDay != MainActivity.day) {
+                if ( !firstOccurrence && MainActivity.day != selectedDay ) {
                     MainActivity.day = selectedDay;
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
@@ -1704,9 +1704,9 @@ class Quarter extends View {
         if (firstOccurrence) {
             if (quarter == 1) {
                 if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null) {
-                        date = selectedDay;
+                    Day date = selectedDay;
+                    if (selectedDay == null) {
+                        date = currentDate;
                     }
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());
@@ -1732,9 +1732,9 @@ class Quarter extends View {
                 }
             }else if(quarter == 2) {
                 if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null){
-                        date = selectedDay;
+                    Day date = selectedDay;
+                    if (selectedDay == null){
+                        date = currentDate;
                     }
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());
@@ -1760,9 +1760,9 @@ class Quarter extends View {
                 }
             }else if(quarter == 3) {
                 if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null){
-                        date = selectedDay;
+                    Day date = selectedDay;
+                    if (selectedDay == null){
+                        date = currentDate;
                     }
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());
@@ -1788,9 +1788,9 @@ class Quarter extends View {
                 }
             }else if(quarter == 4) {
                 if (currentDate != null || selectedDay != null) {
-                    Day date = currentDate;
-                    if (currentDate == null){
-                        date = selectedDay;
+                    Day date = selectedDay;
+                    if (selectedDay == null){
+                        date = currentDate;
                     }
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());

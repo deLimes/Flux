@@ -237,6 +237,7 @@ public class NumberYearPicker extends LinearLayout {
                             mainActivity.yearNumberChangedForFling = true;
                         }
                         mainActivity.yearNumberChangedForDraw = true;
+                        MainActivity.dateMonth.setText("__.__.____");
                         if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
                             mainActivity.yearReducedForFling = true;
                         }

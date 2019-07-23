@@ -690,6 +690,7 @@ public class MainActivity extends AppCompatActivity {
 
         dateMonth = new TextView(this);
         dateMonth.setId(R.id.dateMonth);
+        dateMonth.getPaint().setUnderlineText(true);
         сonstraintLayoutForSchedule.addView(dateMonth);
 
         сonstraintLayoutTaskParameters  = new ConstraintLayout(this);
@@ -742,6 +743,15 @@ public class MainActivity extends AppCompatActivity {
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (day == null){
+                    Toast toast = Toast.makeText(MainActivity.this,
+                            "Сначала нужно выбрать день",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                    return;
+                }
                 final Calendar myCalender = Calendar.getInstance();
                 int hour = myCalender.get(Calendar.HOUR_OF_DAY);
                 int minute = myCalender.get(Calendar.MINUTE);
@@ -943,6 +953,15 @@ public class MainActivity extends AppCompatActivity {
         layoutDayOfWeek = ltInflater.inflate(R.layout.layout_day_of_week, сonstraintLayoutForSchedule, false);
         layoutDayOfWeek.setId(R.id.layoutDayOfWeek);
         сonstraintLayoutTaskParameters.addView(layoutDayOfWeek);
+
+        dateMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showDatePickerForDateMonth();
+
+            }
+        });
 
         monday = (TextView) layoutDayOfWeek.findViewById(R.id.monday);
         tuesday = (TextView) layoutDayOfWeek.findViewById(R.id.tuesday);
@@ -2900,6 +2919,46 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+
+    public void showDatePickerForDateMonth() {
+
+        final Calendar myCalender = Calendar.getInstance();
+        int year = myCalender.get(Calendar.YEAR);
+        int month = myCalender.get(Calendar.MONTH);
+        int dayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                myCalender.clear();
+                myCalender.set(year, month, dayOfMonth);
+
+                winter.selectedDay = null;
+                spring.selectedDay = null;
+                summer.selectedDay = null;
+                autumn.selectedDay = null;
+
+                Date date = new Date(myCalender.getTimeInMillis());
+                if (month >= 0 && month <= 2) {
+                    winter.selectedDay = new Day(date, 0, 0, 0, 0);
+                }else if(month >= 3 && month <= 5){
+                    spring.selectedDay = new Day(date, 0, 0, 0, 0);
+                }else if(month >= 6 && month <= 8){
+                    summer.selectedDay = new Day(date, 0, 0, 0, 0);
+                }else if(month >= 9 && month <= 11){
+                    autumn.selectedDay = new Day(date, 0, 0, 0, 0);
+                }
+                numberYearPicker.setValue(year);
+
+            }
+
+        };
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, year, month, dayOfMonth);
+
+        datePickerDialog.setTitle("Select the date");
+        //datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        datePickerDialog.show();
+    }
     public void showDatePickerForStartTime() {
 
         ////////////////////////////////////////////////////////////////////////////
@@ -3151,6 +3210,9 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
+            TextView tvTaskNumber = (TextView) item.findViewById(R.id.tvTaskNumber);
+            tvTaskNumber.setText(""+(i+1) + ")");
 
             TextView tvTaskTime = (TextView) item.findViewById(R.id.tvTaskTime);
             calendar.clear();

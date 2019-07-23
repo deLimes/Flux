@@ -31,12 +31,22 @@
          />
 
     <TextView
+        android:id="@+id/tvTaskNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tvTaskNumber"
+        android:layout_gravity="top|left"
+        app:layout_constraintLeft_toRightOf="@+id/checkBox"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tvTaskTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="tvTaskTime"
         android:layout_gravity="top|left"
-        app:layout_constraintLeft_toRightOf="@+id/checkBox"
+        app:layout_constraintLeft_toRightOf="@+id/tvTaskNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -45,7 +55,7 @@
         android:layout_height="wrap_content"
         android:text="tvTaskDuration"
         android:layout_gravity="top|left"
-        app:layout_constraintLeft_toRightOf="@+id/checkBox"
+        app:layout_constraintLeft_toRightOf="@+id/tvTaskNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvTaskTime"
          />
 
