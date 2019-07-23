@@ -2,6 +2,7 @@
 <resources>
 
     <item name="сonstraintLayoutForSchedule" type="id"/>
+    <item name="сonstraintLayoutTaskParameters" type="id"/>
     <item name="guideline" type="id"/>
 
     <item name="winter" type="id"/>

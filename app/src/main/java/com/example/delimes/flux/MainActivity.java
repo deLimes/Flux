@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
     boolean firstOccurrence = true;
     public ConstraintLayout constraintLayout;
     ConstraintLayout сonstraintLayoutForSchedule;
+    ConstraintLayout сonstraintLayoutTaskParameters;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
@@ -400,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
 
                 numberYearPicker.setLayoutParams(params);
 
+
                 //dateMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.rightToLeft = R.id.numberYearPicker;
@@ -416,10 +418,21 @@ public class MainActivity extends AppCompatActivity {
                 dateMonth.setTextColor(Color.BLACK);
                 dateMonth.setLayoutParams(params);
 
-                //taskTime
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                //сonstraintLayoutTaskParameters
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutForSchedule;
                 params.topToBottom = R.id.numberYearPicker;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                //params.bottomToTop = R.id.buttonAddTask;
+                //params.width = constraintLayout.getRight() - width * 2;
+                //сonstraintLayoutTaskParameters.setBackgroundColor(Color.RED);
+                сonstraintLayoutTaskParameters.setVisibility(View.GONE);
+                сonstraintLayoutTaskParameters.setLayoutParams(params);
+
+                //taskTime
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToTop = R.id.сonstraintLayoutTaskParameters;
                 //taskTime.setBackgroundColor(Color.GREEN);
 
                 //params.width = (int)(width * 0.75f);
@@ -428,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //taskDuration
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.taskTime;
                 //taskDuration.setBackgroundColor(Color.GREEN);
 
@@ -439,8 +452,10 @@ public class MainActivity extends AppCompatActivity {
                 //taskDescription
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.taskTime;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                params.topToBottom = R.id.numberYearPicker;
+                params.rightToRight = R.id.сonstraintLayoutTaskParameters;
+                params.topToTop = R.id.сonstraintLayoutTaskParameters;
+                params.bottomToBottom = R.id.taskTime;
+                params.leftMargin = 10;
                 //params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
 
                 //params.width = constraintLayout.getRight() - width * 2 - (int)(width * 0.75f);
@@ -471,68 +486,71 @@ public class MainActivity extends AppCompatActivity {
                 */
                 //layoutDayOfWeek
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.topToBottom = R.id.taskDescription;
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToBottom = R.id.taskDuration;
                 layoutDayOfWeek.setLayoutParams(params);
 
-                //labelStartOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.layoutDayOfWeek;
-                params.topToBottom = R.id.taskDescription;
-                params.leftMargin = 10;
-                //params.rightToLeft = R.id.startOfTask;
-                labelStartOfTask.setLayoutParams(params);
-
-                //startOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.labelStartOfTask;
-                params.topToBottom = R.id.taskDescription;
-                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                startOfTask.setLayoutParams(params);
-                //////startOfTask.setBackgroundColor(Color.BLUE);
-
-                //labelEndOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.endOfTask;
-                params.topToBottom = R.id.startOfTask;
-                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                labelEndOfTask.setLayoutParams(params);
-
-                //endOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.layoutDayOfWeek;
-                params.topToBottom = R.id.startOfTask;
-                params.leftMargin = 10;
-                //params.rightToLeft = R.id.labelEndOfTask;
-                endOfTask.setLayoutParams(params);
-                //////endOfTask.setBackgroundColor(Color.RED);
 
                 //everyYear
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.topToBottom = R.id.layoutDayOfWeek;
+                params.leftToRight = R.id.layoutDayOfWeek;
+                params.topToTop = R.id.layoutDayOfWeek;
                 everyYear.setTextSize(width/2/2/2);
                 everyYear.setLayoutParams(params);
 
                 //everyMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.everyYear;
-                params.topToBottom = R.id.layoutDayOfWeek;
+                params.topToTop = R.id.layoutDayOfWeek;
                 everyMonth.setTextSize(width/2/2/2);
                 everyMonth.setLayoutParams(params);
 
                 //inDays
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.everyMonth;
                 inDays.setTextSize(width/2/2/2);
                 inDays.setLayoutParams(params);
+
+                //labelStartOfTask
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToBottom = R.id.inDays;
+                //params.leftMargin = 10;
+                //params.rightToLeft = R.id.startOfTask;
+                labelStartOfTask.setLayoutParams(params);
+
+                //startOfTask
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToRight = R.id.labelStartOfTask;
+                params.topToBottom = R.id.inDays;
+                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                params.leftMargin = 10;
+                startOfTask.setLayoutParams(params);
+                //////startOfTask.setBackgroundColor(Color.BLUE);
+
+                //labelEndOfTask
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToBottom = R.id.startOfTask;
+                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                labelEndOfTask.setLayoutParams(params);
+
+                //endOfTask
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToRight = R.id.labelEndOfTask;
+                params.topToBottom = R.id.startOfTask;
+                params.leftMargin = 10;
+                //params.rightToLeft = R.id.labelEndOfTask;
+                endOfTask.setLayoutParams(params);
+                //////endOfTask.setBackgroundColor(Color.RED);
+
 
 
                 //buttonAddTask
                 params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                params.topToTop= R.id.inDays;
+                params.topToBottom= R.id.сonstraintLayoutTaskParameters;
 
                 buttonAddTask.setTextSize(width/2/2/2);
                 buttonAddTask.setLayoutParams(params);
@@ -540,7 +558,7 @@ public class MainActivity extends AppCompatActivity {
                 //buttonDeleteTask
                 params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
                 params.rightToLeft = R.id.buttonAddTask;
-                params.topToTop = R.id.inDays;
+                params.topToBottom = R.id.сonstraintLayoutTaskParameters;
 
                 buttonDeleteTask.setTextSize(width/2/2/2);
                 buttonDeleteTask.setLayoutParams(params);
@@ -674,39 +692,45 @@ public class MainActivity extends AppCompatActivity {
         dateMonth.setId(R.id.dateMonth);
         сonstraintLayoutForSchedule.addView(dateMonth);
 
+        сonstraintLayoutTaskParameters  = new ConstraintLayout(this);
+        сonstraintLayoutTaskParameters.setId(R.id.сonstraintLayoutTaskParameters);
+        сonstraintLayoutForSchedule.addView(сonstraintLayoutTaskParameters);
+
         taskTime = new TextView(this);
         taskTime.setId(R.id.taskTime);
-        сonstraintLayoutForSchedule.addView(taskTime);
+        сonstraintLayoutTaskParameters.addView(taskTime);
 
         taskDuration = new TextView(this);
         taskDuration.setId(R.id.taskDuration);
-        сonstraintLayoutForSchedule.addView(taskDuration);
+        сonstraintLayoutTaskParameters.addView(taskDuration);
 
         taskDescription = new EditText(this);
         taskDescription.setId(R.id.taskDescription);
         taskDescription.setImeOptions(EditorInfo.IME_ACTION_DONE);
         taskDescription.setSingleLine();
         taskDescription.setEnabled(false);
-        сonstraintLayoutForSchedule.addView(taskDescription);
+        сonstraintLayoutTaskParameters.addView(taskDescription);
 
 
         labelStartOfTask = new TextView(this);
         labelStartOfTask.setId(R.id.labelStartOfTask);
-        labelStartOfTask.setText("начало->");
-        сonstraintLayoutForSchedule.addView(labelStartOfTask);
+        labelStartOfTask.setText("Дата начала:");
+        сonstraintLayoutTaskParameters.addView(labelStartOfTask);
 
         startOfTask = new TextView(this);
         startOfTask.setId(R.id.startOfTask);
-        сonstraintLayoutForSchedule.addView(startOfTask);
+        startOfTask.getPaint().setUnderlineText(true);
+        сonstraintLayoutTaskParameters.addView(startOfTask);
 
         labelEndOfTask = new TextView(this);
         labelEndOfTask.setId(R.id.labelEndOfTask);
-        labelEndOfTask.setText("<-конец");
-        сonstraintLayoutForSchedule.addView(labelEndOfTask);
+        labelEndOfTask.setText("Дата окончания:");
+        сonstraintLayoutTaskParameters.addView(labelEndOfTask);
 
         endOfTask = new TextView(this);
         endOfTask.setId(R.id.endOfTask);
-        сonstraintLayoutForSchedule.addView(endOfTask);
+        endOfTask.getPaint().setUnderlineText(true);
+        сonstraintLayoutTaskParameters.addView(endOfTask);
 
 
 
@@ -730,6 +754,19 @@ public class MainActivity extends AppCompatActivity {
                 addedTasksOfYear.add(newTask);
 
                 MainActivity.task = newTask;
+
+                сonstraintLayoutTaskParameters.setVisibility(View.VISIBLE);
+                view.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) linearLayout.getLayoutParams();
+                        params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
+                        linearLayout.setLayoutParams(params);
+
+                    }
+
+                });
 
                /* calendar.clear();
                 calendar.setTimeInMillis(task.startTime);
@@ -857,7 +894,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
+                    MainActivity.task = null;
                     updateSchedule(day);
+                    сonstraintLayoutTaskParameters.setVisibility(View.GONE);
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) linearLayout.getLayoutParams();
+                            params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
+                            linearLayout.setLayoutParams(params);
+
+                        }
+
+                    });
 
                     winter.invalidate();
                     spring.invalidate();
@@ -892,7 +942,7 @@ public class MainActivity extends AppCompatActivity {
 
         layoutDayOfWeek = ltInflater.inflate(R.layout.layout_day_of_week, сonstraintLayoutForSchedule, false);
         layoutDayOfWeek.setId(R.id.layoutDayOfWeek);
-        сonstraintLayoutForSchedule.addView(layoutDayOfWeek);
+        сonstraintLayoutTaskParameters.addView(layoutDayOfWeek);
 
         monday = (TextView) layoutDayOfWeek.findViewById(R.id.monday);
         tuesday = (TextView) layoutDayOfWeek.findViewById(R.id.tuesday);
@@ -1470,7 +1520,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        сonstraintLayoutForSchedule.addView(everyYear);
+        сonstraintLayoutTaskParameters.addView(everyYear);
 
         everyMonth = new CheckBox(this);
         everyMonth.setId(R.id.everyMonth);
@@ -1524,7 +1574,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        сonstraintLayoutForSchedule.addView(everyMonth);
+        сonstraintLayoutTaskParameters.addView(everyMonth);
 
         inDays = new EditText(this);
         inDays.setId(R.id.inDays);
@@ -1590,7 +1640,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        сonstraintLayoutForSchedule.addView(inDays);
+        сonstraintLayoutTaskParameters.addView(inDays);
 
 
         analogClock = new AnalogClock(this);
@@ -2791,7 +2841,7 @@ public class MainActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, duration? 0:hour, duration? 0:minute, true);
 
         timePickerDialog.setTitle(title);
-        timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        //timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         timePickerDialog.show();
     }
 
@@ -2846,7 +2896,7 @@ public class MainActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, year, month, dayOfMonth);
 
         datePickerDialog.setTitle("Select the end date for the task");
-        datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        //datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         datePickerDialog.show();
     }
 
@@ -2952,8 +3002,8 @@ public class MainActivity extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, year, month, dayOfMonth);
 
-        datePickerDialog.setTitle("Select the end date for the task");
-        datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        datePickerDialog.setTitle("Select the start date for the task");
+        //datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         datePickerDialog.show();
     }
 
@@ -2980,7 +3030,10 @@ public class MainActivity extends AppCompatActivity {
                     (("" + task.durationHours).length() == 1 ? "0" + task.durationHours : "" + task.durationHours) +
                             ":" + (("" + task.durationMinutes).length() == 1 ? "0" + task.durationMinutes : "" + task.durationMinutes));
 
-            taskDescription.setText(task.content);
+            //taskDescription.setText(task.content);
+            taskDescription.setText("");
+            taskDescription.append(task.content);
+
 
             startOfTask.setText(new SimpleDateFormat("dd.MM.yyyy").format(task.startTime));
             endOfTask.setText(new SimpleDateFormat("dd.MM.yyyy").format(task.finishTime));
@@ -3161,9 +3214,53 @@ public class MainActivity extends AppCompatActivity {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MainActivity.task = task;
-                    updateSchedule(day);
+
                     taskDescription.setEnabled(true);
+                    taskDescription.requestFocus();
+
+                    if (MainActivity.task == task){
+                        MainActivity.task = null;
+                        //params.height = 0;
+                        сonstraintLayoutTaskParameters.setVisibility(View.GONE);
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) linearLayout.getLayoutParams();
+                                params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
+                                linearLayout.setLayoutParams(params);
+
+                            }
+
+                        });
+
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(taskDescription.getWindowToken(), 0);
+
+                    }else {
+                        MainActivity.task = task;
+                        //params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        сonstraintLayoutTaskParameters.setVisibility(View.VISIBLE);
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) linearLayout.getLayoutParams();
+                                params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
+                                linearLayout.setLayoutParams(params);
+
+                            }
+
+                        });
+
+                        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        //imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
+
+                    }
+
+
+                    updateSchedule(day);
+
 
 //                    taskIndex = selectedDay.tasks.indexOf(task);
 //                    calendar.clear();
