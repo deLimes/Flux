@@ -22,13 +22,11 @@
         android:id="@+id/tvTaskName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:text="tvTaskName"
         app:layout_constraintLeft_toRightOf="@+id/tvTaskTime"
         app:layout_constraintRight_toLeftOf="@+id/checkBoxDone"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTaskDuration"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTaskNumber"
@@ -46,6 +44,7 @@
         android:layout_height="wrap_content"
         android:text="tvTaskTime"
         android:layout_gravity="top|left"
+        android:layout_marginLeft="5dp"
         app:layout_constraintLeft_toRightOf="@+id/tvTaskNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,6 +54,7 @@
         android:layout_height="wrap_content"
         android:text="tvTaskDuration"
         android:layout_gravity="top|left"
+        android:layout_marginLeft="5dp"
         app:layout_constraintLeft_toRightOf="@+id/tvTaskNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvTaskTime"
          />

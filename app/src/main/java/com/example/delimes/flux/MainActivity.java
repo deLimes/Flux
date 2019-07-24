@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.topToTop = R.id.сonstraintLayoutForSchedule;
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                //params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
                 //valueText.setGravity( Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL );
                 //numberYearPicker.setGravity( Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
@@ -404,9 +404,10 @@ public class MainActivity extends AppCompatActivity {
 
                 //dateMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.rightToLeft = R.id.numberYearPicker;
-                params.topToTop = R.id.numberYearPicker;
-                params.bottomToBottom = R.id.numberYearPicker;
+                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                params.topToBottom = R.id.numberYearPicker;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                //params.bottomToBottom = R.id.numberYearPicker;
                 //params.leftToLeft = R.id.сonstraintLayoutForSchedule;
 
                 params.height = numberYearPicker.getHeight();
@@ -421,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
                 //сonstraintLayoutTaskParameters
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.topToBottom = R.id.numberYearPicker;
+                params.topToBottom = R.id.dateMonth;
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 //params.bottomToTop = R.id.buttonAddTask;
                 //params.width = constraintLayout.getRight() - width * 2;
@@ -493,15 +494,15 @@ public class MainActivity extends AppCompatActivity {
 
                 //everyYear
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.layoutDayOfWeek;
-                params.topToTop = R.id.layoutDayOfWeek;
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToBottom = R.id.layoutDayOfWeek;
                 everyYear.setTextSize(width/2/2/2);
                 everyYear.setLayoutParams(params);
 
                 //everyMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.everyYear;
-                params.topToTop = R.id.layoutDayOfWeek;
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToBottom = R.id.everyYear;
                 everyMonth.setTextSize(width/2/2/2);
                 everyMonth.setLayoutParams(params);
 
@@ -695,6 +696,7 @@ public class MainActivity extends AppCompatActivity {
 
         сonstraintLayoutTaskParameters  = new ConstraintLayout(this);
         сonstraintLayoutTaskParameters.setId(R.id.сonstraintLayoutTaskParameters);
+        //сonstraintLayoutTaskParameters.setBackgroundResource(R.drawable.layout_border);
         сonstraintLayoutForSchedule.addView(сonstraintLayoutTaskParameters);
 
         taskTime = new TextView(this);
@@ -2941,12 +2943,28 @@ public class MainActivity extends AppCompatActivity {
                 Date date = new Date(myCalender.getTimeInMillis());
                 if (month >= 0 && month <= 2) {
                     winter.selectedDay = new Day(date, 0, 0, 0, 0);
+                    analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+                    if (month == 2){
+                        analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+                    }
                 }else if(month >= 3 && month <= 5){
                     spring.selectedDay = new Day(date, 0, 0, 0, 0);
+                    analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+                    if (month == 5){
+                        analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+                    }
                 }else if(month >= 6 && month <= 8){
                     summer.selectedDay = new Day(date, 0, 0, 0, 0);
+                    analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+                    if (month == 8){
+                        analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+                    }
                 }else if(month >= 9 && month <= 11){
                     autumn.selectedDay = new Day(date, 0, 0, 0, 0);
+                    analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+                    if (month == 11){
+                        analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+                    }
                 }
                 numberYearPicker.setValue(year);
 
@@ -3269,7 +3287,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            if(task == MainActivity.task){
+            if( task.equals(MainActivity.task) ){
                 item.setBackgroundResource(R.drawable.layout_border);//
             }
 
