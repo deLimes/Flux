@@ -14,6 +14,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
+import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -395,7 +397,9 @@ public class MainActivity extends AppCompatActivity {
 
                 numberYearPicker.setElementHeight((int)(width/1.5f));
                 numberYearPicker.setElementWidth((int)(width/1.5f));
-                numberYearPicker.setTextSize(width/2/2/2);
+                numberYearPicker.setElementHeight(width/2);
+                numberYearPicker.setElementWidth(width/2);
+                numberYearPicker.setTextSize(width/2/5);
                 numberYearPicker.rebuild(getBaseContext());
                 numberYearPicker.setValue(calendar.get(Calendar.YEAR));
 
@@ -415,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //dateMonth.setBackgroundColor(Color.RED);
 
-                dateMonth.setTextSize(width/10);
+                dateMonth.setTextSize(width/2/5);
                 dateMonth.setTextColor(Color.BLACK);
                 dateMonth.setLayoutParams(params);
 
@@ -496,21 +500,21 @@ public class MainActivity extends AppCompatActivity {
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.layoutDayOfWeek;
-                everyYear.setTextSize(width/2/2/2);
+                everyYear.setTextSize(width/2/5);
                 everyYear.setLayoutParams(params);
 
                 //everyMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.everyYear;
-                everyMonth.setTextSize(width/2/2/2);
+                everyMonth.setTextSize(width/2/5);
                 everyMonth.setLayoutParams(params);
 
                 //inDays
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.everyMonth;
-                inDays.setTextSize(width/2/2/2);
+                inDays.setTextSize(width/2/5);
                 inDays.setLayoutParams(params);
 
                 //labelStartOfTask
@@ -553,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 params.topToBottom= R.id.сonstraintLayoutTaskParameters;
 
-                buttonAddTask.setTextSize(width/2/2/2);
+                buttonAddTask.setTextSize(width/2/5);
                 buttonAddTask.setLayoutParams(params);
 
                 //buttonDeleteTask
@@ -561,7 +565,7 @@ public class MainActivity extends AppCompatActivity {
                 params.rightToLeft = R.id.buttonAddTask;
                 params.topToBottom = R.id.сonstraintLayoutTaskParameters;
 
-                buttonDeleteTask.setTextSize(width/2/2/2);
+                buttonDeleteTask.setTextSize(width/2/5);
                 buttonDeleteTask.setLayoutParams(params);
                 ////////////
 
@@ -1821,7 +1825,11 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
         Resources res = context.getResources();
-        Notification.Builder builder = new Notification.Builder(context);
+        //Notification.Builder builder = new Notification.Builder(context);
+
+        Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.next_point);
+        String channelId = "1234";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId);
 
         //%%C - del builder.setContentIntent(contentIntent)
         builder.setContentIntent(pIntent)
@@ -1835,7 +1843,8 @@ public class MainActivity extends AppCompatActivity {
                 .setOngoing(true)
                 //.setDefaults(Notification.DEFAULT_SOUND)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
-                .setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
+                //.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
+                .setSound(soundUri)
                 //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
                 .setContentTitle("Напоминание")
                 //.setContentText(res.getString(R.string.notifytext))
@@ -1844,31 +1853,34 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Notification notification = builder.getNotification(); // до API 16
-        Notification notification = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            notification = builder.build();
-        }
-
+        Notification notification = builder.build();
 
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
 
         //////////////////////////////
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //String channelId = "default_channel_id";
-            String channelId = "channel_id";
+
             //String channelDescription = "Default Channel";
             String channelDescription = "Channel";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
             if (notificationChannel  == null) {
-                notificationChannel  = new NotificationChannel(channelId, channelDescription, importance);
+                notificationChannel  = new NotificationChannel(channelId, channelDescription, NotificationManager.IMPORTANCE_HIGH);
                 notificationChannel.enableLights(true);//doesn't work
                 notificationChannel.setLightColor(Color.BLUE);//doesn't work
                 notificationChannel.enableVibration(true);//doesn't work
                 notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});//doesn't work
-                notificationManager.createNotificationChannel(notificationChannel );
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build();
+                notificationChannel.setSound(soundUri, audioAttributes);
+
+
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel( notificationChannel );
+                }
             }
             NotificationCompat.Builder builderCompat = new NotificationCompat.Builder(context, channelId);
             builderCompat.setContentTitle("Напоминание");                            // required
@@ -1882,14 +1894,17 @@ public class MainActivity extends AppCompatActivity {
             builderCompat.setTicker("Пора!");
             builderCompat.setWhen(System.currentTimeMillis());
             builderCompat.setAutoCancel(true);
-            builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
+            //builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
+            builderCompat.setPriority(NotificationCompat.PRIORITY_HIGH);
             builderCompat.setLights(0xff0000ff, 300, 1000);// blue color//doesn't work
             builderCompat.setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});//doesn't work
+            builderCompat.setSound(soundUri);
 
             notification = builderCompat.build();
         }
         //////////////////////////////
 
+        notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
         //notification.defaults |= Notification.DEFAULT_VIBRATE;//doesn't work
         notificationManager.notify(notifyId, notification);
 

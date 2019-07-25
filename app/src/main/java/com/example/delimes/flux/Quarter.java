@@ -2108,7 +2108,32 @@ class Quarter extends View {
                         }
                         if (mainActivity.yearNumberChangedForMove){
                             if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                mainActivity.winter.x = mainActivity.winter.length;
+                                if (mainActivity.winter.currentDate != null || mainActivity.winter.selectedDay != null) {
+                                    Day date = mainActivity.winter.selectedDay;
+                                    if (mainActivity.winter.selectedDay == null) {
+                                        date = mainActivity.winter.currentDate;
+                                    }
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(date.date.getTime());
+
+                                    if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
+                                        mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2 + mainActivity.winter.getWidth() / 4;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                                        mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.MARCH) {
+                                        mainActivity.winter.x = mainActivity.winter.x - date.left + mainActivity.winter.getWidth() / 2 - mainActivity.winter.getWidth() / 4;
+                                    }
+                                    //проверить край
+                                    if (mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+                                        mainActivity.winter.x = mainActivity.winter.getWidth();
+                                    }
+                                    if (mainActivity.winter.x >= mainActivity.winter.length) {
+                                        mainActivity.winter.x = mainActivity.winter.length;
+                                    }
+                                }else {
+                                    mainActivity.winter.x = mainActivity.winter.length;
+                                }
+
                             }
                         }
 
@@ -2124,7 +2149,32 @@ class Quarter extends View {
                         }
                         if (mainActivity.yearNumberChangedForMove){
                             if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+
+                                if (mainActivity.spring.currentDate != null || mainActivity.spring.selectedDay != null) {
+                                    Day date = mainActivity.spring.selectedDay;
+                                    if (mainActivity.spring.selectedDay == null) {
+                                        date = mainActivity.spring.currentDate;
+                                    }
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(date.date.getTime());
+
+                                    if (calendar.get(Calendar.MONTH) == Calendar.APRIL) {
+                                        mainActivity.spring.y = mainActivity.spring.y - date.bottom + mainActivity.spring.getHeight() / 2 - mainActivity.spring.getHeight() / 4;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.MAY) {
+                                        mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.JUNE) {
+                                        mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2 + mainActivity.spring.getHeight() / 4;
+                                    }
+                                    if (mainActivity.spring.y >= 0) {
+                                        mainActivity.spring.y = 0;
+                                    }
+                                    if (mainActivity.spring.y <= -(mainActivity.spring.length - mainActivity.spring.getHeight())) {
+                                        mainActivity.spring.y = -(mainActivity.spring.length - mainActivity.spring.getHeight());
+                                    }
+                                }else {
+                                    mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                                }
+
                             }
                         }
                         //summer//
@@ -2139,7 +2189,33 @@ class Quarter extends View {
                         }
                         if (mainActivity.yearNumberChangedForMove){
                             if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+
+                                if (mainActivity.summer.currentDate != null || mainActivity.summer.selectedDay != null) {
+                                    Day date = mainActivity.summer.selectedDay;
+                                    if (mainActivity.summer.selectedDay == null){
+                                        date = mainActivity.summer.currentDate;
+                                    }
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(date.date.getTime());
+
+                                    if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
+                                        mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2 - mainActivity.summer.getWidth() / 4;
+                                    }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
+                                        mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2;
+                                    }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
+                                        mainActivity.summer.x = mainActivity.summer.x - date.left + mainActivity.summer.getWidth() / 2 + mainActivity.summer.getWidth() / 4;
+                                    }
+                                    //проверить край
+                                    if(mainActivity.summer.x >= 0) {
+                                        mainActivity.summer.x = 0;
+                                    }
+                                    if( mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth()) ){
+                                        mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                                    }
+                                }else{
+                                    mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                                }
+
                             }
                         }
 
@@ -2160,6 +2236,9 @@ class Quarter extends View {
                             mainActivity.spring.invalidate();
                             mainActivity.summer.invalidate();
                         }
+//                        mainActivity.winter.invalidate();
+//                        mainActivity.spring.invalidate();
+//                        mainActivity.summer.invalidate();
                     }
                     invalidate();
                 }
@@ -2466,6 +2545,7 @@ class Quarter extends View {
                         }
                         // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
 
+
                         //проверить край
                         if(y >= 0) {
                             y = 0;
@@ -2546,7 +2626,33 @@ class Quarter extends View {
                         }
                         if (mainActivity.yearNumberChangedForFling){
                             if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                mainActivity.winter.x = mainActivity.winter.length;
+                                //mainActivity.winter.x = mainActivity.winter.length;
+
+                                if (mainActivity.winter.currentDate != null || mainActivity.winter.selectedDay != null) {
+                                    Day date = mainActivity.winter.selectedDay;
+                                    if (mainActivity.winter.selectedDay == null) {
+                                        date = mainActivity.winter.currentDate;
+                                    }
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(date.date.getTime());
+
+                                    if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
+                                        mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2 + mainActivity.winter.getWidth() / 4;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                                        mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.MARCH) {
+                                        mainActivity.winter.x = mainActivity.winter.x - date.left + mainActivity.winter.getWidth() / 2 - mainActivity.winter.getWidth() / 4;
+                                    }
+                                    //проверить край
+                                    if (mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+                                        mainActivity.winter.x = mainActivity.winter.getWidth();
+                                    }
+                                    if (mainActivity.winter.x >= mainActivity.winter.length) {
+                                        mainActivity.winter.x = mainActivity.winter.length;
+                                    }
+                                }else {
+                                    mainActivity.winter.x = mainActivity.winter.length;
+                                }
                             }
                         }
 
@@ -2561,9 +2667,34 @@ class Quarter extends View {
                             mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
                             incrementYearSpring = true;
                         }
-                        if (mainActivity.yearNumberChangedForFling){
-                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                        if (mainActivity.yearNumberChangedForFling) {
+                            if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+                                //mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+
+                                if (mainActivity.spring.currentDate != null || mainActivity.spring.selectedDay != null) {
+                                    Day date = mainActivity.spring.selectedDay;
+                                    if (mainActivity.spring.selectedDay == null) {
+                                        date = mainActivity.spring.currentDate;
+                                    }
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(date.date.getTime());
+
+                                    if (calendar.get(Calendar.MONTH) == Calendar.APRIL) {
+                                        mainActivity.spring.y = mainActivity.spring.y - date.bottom + mainActivity.spring.getHeight() / 2 - mainActivity.spring.getHeight() / 4;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.MAY) {
+                                        mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2;
+                                    } else if (calendar.get(Calendar.MONTH) == Calendar.JUNE) {
+                                        mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2 + mainActivity.spring.getHeight() / 4;
+                                    }
+                                    if (mainActivity.spring.y >= 0) {
+                                        mainActivity.spring.y = 0;
+                                    }
+                                    if (mainActivity.spring.y <= -(mainActivity.spring.length - mainActivity.spring.getHeight())) {
+                                        mainActivity.spring.y = -(mainActivity.spring.length - mainActivity.spring.getHeight());
+                                    }
+                                }else {
+                                    mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                                }
                             }
                         }
 
@@ -2580,7 +2711,33 @@ class Quarter extends View {
                         }
                         if (mainActivity.yearNumberChangedForFling){
                             if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+
+                                if (mainActivity.summer.currentDate != null || mainActivity.summer.selectedDay != null) {
+                                    Day date = mainActivity.summer.selectedDay;
+                                    if (mainActivity.summer.selectedDay == null){
+                                        date = mainActivity.summer.currentDate;
+                                    }
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(date.date.getTime());
+
+                                    if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
+                                        mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2 - mainActivity.summer.getWidth() / 4;
+                                    }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
+                                        mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2;
+                                    }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
+                                        mainActivity.summer.x = mainActivity.summer.x - date.left + mainActivity.summer.getWidth() / 2 + mainActivity.summer.getWidth() / 4;
+                                    }
+                                    //проверить край
+                                    if(mainActivity.summer.x >= 0) {
+                                        mainActivity.summer.x = 0;
+                                    }
+                                    if( mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth()) ){
+                                        mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                                    }
+                                }else{
+                                    mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                                }
+
                             }
                         }
 

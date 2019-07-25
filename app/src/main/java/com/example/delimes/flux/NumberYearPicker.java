@@ -370,6 +370,11 @@ public class NumberYearPicker extends LinearLayout {
 
                 mainActivity.restoreYear(editable.toString());
 
+//                mainActivity.winter.firstOccurrence = true;
+//                mainActivity.spring.firstOccurrence = true;
+//                mainActivity.summer.firstOccurrence = true;
+//                mainActivity.autumn.firstOccurrence = true;
+
                 mainActivity.winter.invalidate();
                 mainActivity.spring.invalidate();
                 mainActivity.summer.invalidate();
