@@ -1,85 +1,53 @@
 package com.example.delimes.flux;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.Instrumentation;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
-import android.support.v4.app.ActivityManagerCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
-import android.text.style.LineHeightSpan;
-import android.util.AttributeSet;
-import android.util.LayoutDirection;
 import android.util.Log;
-import android.util.Printer;
-import android.view.ContextThemeWrapper;
-import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -95,25 +63,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import android.os.Process;
 
 import static android.os.Environment.MEDIA_MOUNTED;
 import static android.os.Environment.getExternalStorageDirectory;
@@ -1894,6 +1853,7 @@ public class MainActivity extends AppCompatActivity {
             builderCompat.setTicker("Пора!");
             builderCompat.setWhen(System.currentTimeMillis());
             builderCompat.setAutoCancel(true);
+            builderCompat.setOngoing(true);
             //builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
             builderCompat.setPriority(NotificationCompat.PRIORITY_HIGH);
             builderCompat.setLights(0xff0000ff, 300, 1000);// blue color//doesn't work
@@ -3100,6 +3060,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateSchedule(final Day selectedDay){
+
+        if(selectedDay == null) {
+            return;
+        }
 
         processUpdateSchedule = true;
 

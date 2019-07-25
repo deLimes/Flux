@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Display;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

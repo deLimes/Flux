@@ -2,19 +2,11 @@ package com.example.delimes.flux;
 
 import android.app.AlarmManager;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Shader;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.PaintDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -37,7 +29,6 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
-import static com.example.delimes.flux.MainActivity.chosenYearNumber;
 import static com.example.delimes.flux.MainActivity.numberYearPicker;
 import static com.example.delimes.flux.MainActivity.taskExtra;
 
@@ -1829,6 +1820,7 @@ class Quarter extends View {
         if (restore) {
             restore = false;
             restore();
+            ((MainActivity) context).updateSchedule(MainActivity.day);
         }
         if (addCyclicTasks && quarter == 4) {
             addCyclicTasks = false;
@@ -1848,7 +1840,11 @@ class Quarter extends View {
 
                 for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
+                        taskExtra = 0;
                         task.shown = true;
+                        MainActivity.task = task;
+                        mainActivity.winter.selectedDay = mainActivity.winter.days.get(i);
+                        mainActivity.day = mainActivity.winter.selectedDay;
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
@@ -1865,7 +1861,11 @@ class Quarter extends View {
 
                 for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
+                        taskExtra = 0;
                         task.shown = true;
+                        MainActivity.task = task;
+                        mainActivity.spring.selectedDay = mainActivity.spring.days.get(i);
+                        mainActivity.day = mainActivity.spring.selectedDay;
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
@@ -1883,7 +1883,11 @@ class Quarter extends View {
 
                 for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
+                        taskExtra = 0;
                         task.shown = true;
+                        MainActivity.task = task;
+                        mainActivity.summer.selectedDay = mainActivity.summer.days.get(i);
+                        mainActivity.day = mainActivity.summer.selectedDay;
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
@@ -1901,7 +1905,11 @@ class Quarter extends View {
 
                 for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){
+                        taskExtra = 0;
                         task.shown = true;
+                        MainActivity.task = task;
+                        mainActivity.autumn.selectedDay = mainActivity.autumn.days.get(i);
+                        mainActivity.day = mainActivity.autumn.selectedDay;
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);

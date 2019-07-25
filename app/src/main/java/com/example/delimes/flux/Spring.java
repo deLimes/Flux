@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
-import static com.example.delimes.flux.MainActivity.day;
 import static com.example.delimes.flux.MainActivity.taskExtra;
 
 class Spring extends View {
