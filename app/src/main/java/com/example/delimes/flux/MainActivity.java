@@ -186,6 +186,35 @@ public class MainActivity extends AppCompatActivity {
         //this.finish();
         //////////////////////////////////////////////
 
+        //////////////////////////////////////////////
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Here, thisActivity is the current activity
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.RECEIVE_BOOT_COMPLETED)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                            MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
+        }
+        //////////////////////////////////////////////
+
+
         restoreCyclicTasks();
 
 
@@ -239,32 +268,7 @@ public class MainActivity extends AppCompatActivity {
 //            this.finish();
 //            return;
 //        }
-        //////////////////////////////////////////////
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-            // Here, thisActivity is the current activity
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                // Permission is not granted
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.RECEIVE_BOOT_COMPLETED)) {
-                    // Show an explanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-                } else {
-                    // No explanation needed; request the permission
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
-                            MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED);
-
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
-                }
-            }
-        }
 
 
         context = this;
@@ -3564,7 +3568,7 @@ public class MainActivity extends AppCompatActivity {
             }
             // получаем путь к SD
             //File sdPath = getExternalStorageDirectory();
-            File sdPath = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+            File sdPath = getExternalCacheDir();
             // добавляем свой каталог к пути
             sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
             // создаем каталог
@@ -3619,7 +3623,7 @@ public class MainActivity extends AppCompatActivity {
 
         // получаем путь к SD
         //File sdPath = getExternalStorageDirectory();
-        File sdPath = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File sdPath = getExternalCacheDir();
         // добавляем свой каталог к пути
         sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
         // формируем объект File, который содержит путь к файлу
