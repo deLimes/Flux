@@ -1,5 +1,6 @@
 package com.example.delimes.flux;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -15,16 +16,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.location.LocationManager;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -34,10 +42,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -74,9 +84,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Random;
 
-import static android.os.Environment.MEDIA_MOUNTED;
-import static android.os.Environment.getExternalStorageDirectory;
-import static android.os.Environment.getExternalStorageState;
 
 public class MainActivity extends AppCompatActivity {
     static Context context;
@@ -97,6 +104,30 @@ public class MainActivity extends AppCompatActivity {
     static TextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
     TextView labelStartOfTask, labelEndOfTask;
     TextView startOfTask, endOfTask;
     EditText taskDescription, inDays;
@@ -139,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
     public static Handler tickHandler;
     private Menu menu_main;
 
+    private final int MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED = 101;
+    private AlphaAnimation alphaAnimationClick = new AlphaAnimation(1f, 0.2f);
+
     public MainActivity() {
         this.context = this;
     }
@@ -167,7 +201,8 @@ public class MainActivity extends AppCompatActivity {
         saveCyclicTasks();
         if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
             //Log.d("Year", "Year was saved");
-            saveYear();
+            //saveYear();
+            saveYearToFile();
         }
 
         SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
@@ -205,6 +240,32 @@ public class MainActivity extends AppCompatActivity {
 //            return;
 //        }
         //////////////////////////////////////////////
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Here, thisActivity is the current activity
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.RECEIVE_BOOT_COMPLETED)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                            MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
+        }
+
 
         context = this;
 
@@ -356,9 +417,9 @@ public class MainActivity extends AppCompatActivity {
 
                 numberYearPicker.setElementHeight((int)(width/1.5f));
                 numberYearPicker.setElementWidth((int)(width/1.5f));
-                numberYearPicker.setElementHeight(width/2);
-                numberYearPicker.setElementWidth(width/2);
-                numberYearPicker.setTextSize(width/2/5);
+//                numberYearPicker.setElementHeight(width/2);
+//                numberYearPicker.setElementWidth(width/2);
+                numberYearPicker.setTextSize( (int)(width/1.5f/5f) );
                 numberYearPicker.rebuild(getBaseContext());
                 numberYearPicker.setValue(calendar.get(Calendar.YEAR));
 
@@ -378,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //dateMonth.setBackgroundColor(Color.RED);
 
-                dateMonth.setTextSize(width/2/5);
+                dateMonth.setTextSize( (int)(width/1.5f/5f) );
                 dateMonth.setTextColor(Color.BLACK);
                 dateMonth.setLayoutParams(params);
 
@@ -459,21 +520,21 @@ public class MainActivity extends AppCompatActivity {
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.layoutDayOfWeek;
-                everyYear.setTextSize(width/2/5);
+                everyYear.setTextSize( (int)(width/1.5f/5f) );
                 everyYear.setLayoutParams(params);
 
                 //everyMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.everyYear;
-                everyMonth.setTextSize(width/2/5);
+                everyMonth.setTextSize( (int)(width/1.5f/5f) );
                 everyMonth.setLayoutParams(params);
 
                 //inDays
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.everyMonth;
-                inDays.setTextSize(width/2/5);
+                inDays.setTextSize( (int)(width/1.5f/5f) );
                 inDays.setLayoutParams(params);
 
                 //labelStartOfTask
@@ -516,7 +577,7 @@ public class MainActivity extends AppCompatActivity {
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 params.topToBottom= R.id.сonstraintLayoutTaskParameters;
 
-                buttonAddTask.setTextSize(width/2/5);
+                buttonAddTask.setTextSize( (int)(width/1.5f/5f) );
                 buttonAddTask.setLayoutParams(params);
 
                 //buttonDeleteTask
@@ -524,7 +585,7 @@ public class MainActivity extends AppCompatActivity {
                 params.rightToLeft = R.id.buttonAddTask;
                 params.topToBottom = R.id.сonstraintLayoutTaskParameters;
 
-                buttonDeleteTask.setTextSize(width/2/5);
+                buttonDeleteTask.setTextSize( (int)(width/1.5f/5f) );
                 buttonDeleteTask.setLayoutParams(params);
                 ////////////
 
@@ -923,6 +984,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                view.startAnimation(alphaAnimationClick);
                 showDatePickerForDateMonth();
 
             }
@@ -1417,6 +1479,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(task != null) {
+                    view.startAnimation(alphaAnimationClick);
                     showDatePickerForStartTime();
                 }
             }
@@ -1426,6 +1489,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(task != null) {
+                    view.startAnimation(alphaAnimationClick);
                     showDatePickerForFinishTime();
                 }
             }
@@ -1804,6 +1868,7 @@ public class MainActivity extends AppCompatActivity {
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 //.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
                 .setSound(soundUri)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
                 .setContentTitle("Напоминание")
                 //.setContentText(res.getString(R.string.notifytext))
@@ -1825,7 +1890,7 @@ public class MainActivity extends AppCompatActivity {
             String channelDescription = "Channel";
             NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
             if (notificationChannel  == null) {
-                notificationChannel  = new NotificationChannel(channelId, channelDescription, NotificationManager.IMPORTANCE_HIGH);
+                notificationChannel  = new NotificationChannel(channelId, channelDescription, NotificationManager.IMPORTANCE_MAX);
                 notificationChannel.enableLights(true);//doesn't work
                 notificationChannel.setLightColor(Color.BLUE);//doesn't work
                 notificationChannel.enableVibration(true);//doesn't work
@@ -1854,6 +1919,7 @@ public class MainActivity extends AppCompatActivity {
             builderCompat.setWhen(System.currentTimeMillis());
             builderCompat.setAutoCancel(true);
             builderCompat.setOngoing(true);
+            builderCompat.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
             //builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
             builderCompat.setPriority(NotificationCompat.PRIORITY_HIGH);
             builderCompat.setLights(0xff0000ff, 300, 1000);// blue color//doesn't work
@@ -3145,6 +3211,8 @@ public class MainActivity extends AppCompatActivity {
             if(task.inDays > 0) {
                 inDays.setText(String.valueOf(task.inDays));
             }
+
+
         }
 
 
@@ -3277,7 +3345,25 @@ public class MainActivity extends AppCompatActivity {
                     taskDescription.setEnabled(true);
                     taskDescription.requestFocus();
 
-                    if (MainActivity.task == task){
+                    if (task.equals(MainActivity.task) && сonstraintLayoutTaskParameters.getVisibility() == View.GONE){
+
+                        сonstraintLayoutTaskParameters.setVisibility(View.VISIBLE);
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) linearLayout.getLayoutParams();
+                                params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
+                                linearLayout.setLayoutParams(params);
+
+                            }
+
+                        });
+
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
+
+                    }else if (task.equals(MainActivity.task) && сonstraintLayoutTaskParameters.getVisibility() == View.VISIBLE){
                         MainActivity.task = null;
                         //params.height = 0;
                         сonstraintLayoutTaskParameters.setVisibility(View.GONE);
@@ -3368,51 +3454,51 @@ public class MainActivity extends AppCompatActivity {
 
         // Операции для выбранного пункта меню
         switch (id) {
-            case R.id.action_save:
-
-                saveYearToFile();
-                return true;
-
-            case R.id.action_restore:
-
-                restoreYearFromFile();
-                return true;
-
-            case R.id.action_reset:
-
-                //Dialog
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setTitle("Сброс задач за все годы");  // заголовок
-                alertDialog.setMessage("Очистить задачи?"); // сообщение
-                alertDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-                    }
-                });
-                alertDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        Toast toast = Toast.makeText(MainActivity.this,
-                                "Задачи сбрасываются",
-                                Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
-
-                        cyclicTasks.clear();
-                        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-                        preference.edit().clear().commit();
-
-                        toast = Toast.makeText(MainActivity.this,
-                                "Готово",
-                                Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
-
-                    }
-                });
-                alertDialog.setCancelable(true);
-                alertDialog.show();
-
-
-                return true;
+//            case R.id.action_save:
+//
+//                saveYearToFile();
+//                return true;
+//
+//            case R.id.action_restore:
+//
+//                restoreYearFromFile();
+//                return true;
+//
+//            case R.id.action_reset:
+//
+//                //Dialog
+//                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+//                alertDialog.setTitle("Сброс задач за все годы");  // заголовок
+//                alertDialog.setMessage("Очистить задачи?"); // сообщение
+//                alertDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int arg1) {
+//                    }
+//                });
+//                alertDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int arg1) {
+//                        Toast toast = Toast.makeText(MainActivity.this,
+//                                "Задачи сбрасываются",
+//                                Toast.LENGTH_LONG);
+//                        toast.setGravity(Gravity.TOP, 0, 0);
+//                        toast.show();
+//
+//                        cyclicTasks.clear();
+//                        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+//                        preference.edit().clear().commit();
+//
+//                        toast = Toast.makeText(MainActivity.this,
+//                                "Готово",
+//                                Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.TOP, 0, 0);
+//                        toast.show();
+//
+//                    }
+//                });
+//                alertDialog.setCancelable(true);
+//                alertDialog.show();
+//
+//
+//                return true;
 
             case R.id.action_clock:
 
@@ -3471,19 +3557,28 @@ public class MainActivity extends AppCompatActivity {
 
         try {
 
-            if (!getExternalStorageState().equals(
-                    MEDIA_MOUNTED)) {
-                Toast.makeText(this, "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
+            if (!Environment.getExternalStorageState().equals(
+                    Environment.MEDIA_MOUNTED)) {
+                Toast.makeText(this, "SD-карта не доступна: " + Environment.getExternalStorageState(), Toast.LENGTH_SHORT).show();
                 return;
             }
             // получаем путь к SD
-            File sdPath = getExternalStorageDirectory();
+            //File sdPath = getExternalStorageDirectory();
+            File sdPath = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
             // добавляем свой каталог к пути
             sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
             // создаем каталог
             sdPath.mkdirs();
             // формируем объект File, который содержит путь к файлу
-            File sdFile = new File(sdPath, "savedTasks");
+            File sdFile = new File(sdPath, "savedTasks"+numberYearPicker.valueText.getText().toString());
+            if (!sdFile.exists()) {
+                try {
+                    sdFile.createNewFile();
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
 
             try {
                 // открываем поток для записи
@@ -3493,48 +3588,52 @@ public class MainActivity extends AppCompatActivity {
                 // закрываем поток
                 bw.flush();
                 bw.close();
-                Toast.makeText(this, "File saved: " + sdFile.getAbsolutePath(),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "File saved: " + sdFile.getAbsolutePath(),
+//                        Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
             //e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
 
     }
 
-    private void restoreYearFromFile(){
+    public void restoreYearFromFile(){
 
+        if(numberYearPicker == null){
+            return;
+        }
         Calendar calendar = GregorianCalendar.getInstance();
-
         calendar.setTimeInMillis(System.currentTimeMillis());
-        int year = Integer.valueOf(numberYearPicker.valueText.getText().toString());
-
 
         // проверяем доступность SD
-        if (!getExternalStorageState().equals(
-                MEDIA_MOUNTED)) {
-            Toast.makeText(this, "SD-карта не доступна: " + getExternalStorageState(), Toast.LENGTH_SHORT).show();
+        if (!Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            Toast.makeText(this, "SD-карта не доступна: " + Environment.getExternalStorageState(), Toast.LENGTH_LONG).show();
             return;
         }
 
         // получаем путь к SD
-        File sdPath = getExternalStorageDirectory();
+        //File sdPath = getExternalStorageDirectory();
+        File sdPath = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
         // добавляем свой каталог к пути
         sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
         // формируем объект File, который содержит путь к файлу
-        File sdFile = new File(sdPath, "savedTasks");
+        File sdFile = new File(sdPath, "savedTasks"+numberYearPicker.valueText.getText().toString());
         if (!sdFile.exists()){
-            try {
-                sdFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return;
+//            try {
+//                sdFile.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
+
+        int year = Integer.valueOf(numberYearPicker.valueText.getText().toString());
 
         try {
 
@@ -3550,23 +3649,10 @@ public class MainActivity extends AppCompatActivity {
                     spring.restore = true;
                     summer.restore = true;
                     autumn.restore = true;
-
-                    //не пашит
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                }else{
-                    Toast toast = Toast.makeText(this,
-                            "Выберете год: " + yearStr.year,
-                            Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
-                    return;
                 }
             }
             //}
-            Toast.makeText(this, "File restore successfully!",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "File restore successfully!",Toast.LENGTH_SHORT).show();
             Log.d("jkl", "restoreListDictionary: File restore successfully!");
         } catch (FileNotFoundException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

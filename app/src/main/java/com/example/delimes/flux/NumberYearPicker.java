@@ -3,6 +3,7 @@ package com.example.delimes.flux;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -210,7 +212,8 @@ public class NumberYearPicker extends LinearLayout {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if((mainActivity.changedeTasksOfYear || mainActivity.addedTasksOfYear.size() > 0 || mainActivity.destroyedTasksOfYear.size() > 0) && mainActivity.autumn.days.size() > 0 ){
                     //Log.d("Year", "Year was saved");
-                    mainActivity.saveYear();
+                    //mainActivity.saveYear();
+                    mainActivity.saveYearToFile();
                 }
 
 
@@ -265,6 +268,8 @@ public class NumberYearPicker extends LinearLayout {
                 mainActivity.addedTasksOfYear.clear();
                 mainActivity.destroyedTasksOfYear.clear();
                 mainActivity.changedeTasksOfYear = false;
+
+                mainActivity.restoreYearFromFile();
 
                 int width = mainActivity.constraintLayout.getRight() + mainActivity.guideline.getLeft();
                 Log.d("123", "width: "+width);
@@ -368,12 +373,41 @@ public class NumberYearPicker extends LinearLayout {
 //                }
                 //mainActivity.autumn.invalidate();
 
-                mainActivity.restoreYear(editable.toString());
+                //mainActivity.restoreYear(editable.toString());
+
 
 //                mainActivity.winter.firstOccurrence = true;
 //                mainActivity.spring.firstOccurrence = true;
 //                mainActivity.summer.firstOccurrence = true;
 //                mainActivity.autumn.firstOccurrence = true;
+
+                //не пашит
+//                if (mainActivity.buttonDeleteTask !=  null) {
+//                    if (mainActivity.day != null && mainActivity.day.date.getYear() != mainActivity.chosenYearNumber) {
+//                        mainActivity.buttonDeleteTask.setEnabled(false);
+//                    } else {
+//                        mainActivity.buttonDeleteTask.setEnabled(true);
+//                    }
+//                }
+                /////////////////////////////////////////////
+                if (mainActivity.сonstraintLayoutTaskParameters !=  null) {
+                    mainActivity.сonstraintLayoutTaskParameters.setVisibility(View.GONE);
+                    post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mainActivity.linearLayout.getLayoutParams();
+                            params.height = mainActivity.сonstraintLayoutForSchedule.getHeight() - mainActivity.buttonAddTask.getBottom();
+                            mainActivity.linearLayout.setLayoutParams(params);
+
+                        }
+
+                    });
+
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mainActivity.taskDescription.getWindowToken(), 0);
+                }
+                /////////////////////////////////////////////
 
                 mainActivity.winter.invalidate();
                 mainActivity.spring.invalidate();
