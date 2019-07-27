@@ -5,11 +5,13 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +19,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -82,6 +85,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 
@@ -90,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     int tucherWidth = 100;
     int[] colors = new int[2];
     int[] colors2 = new int[2];
+    boolean veryFirstLaunch = true;
     boolean firstOccurrence = true;
     public ConstraintLayout constraintLayout;
     ConstraintLayout сonstraintLayoutForSchedule;
@@ -186,6 +191,61 @@ public class MainActivity extends AppCompatActivity {
         //this.finish();
         //////////////////////////////////////////////
 
+        //////////////////////////////////////////////
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Here, thisActivity is the current activity
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.RECEIVE_BOOT_COMPLETED)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                            MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
+        }
+        //////////////////////////////////////////////
+
+        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+        veryFirstLaunch = preference.getBoolean("veryFirstLaunch", true);
+
+//        if (veryFirstLaunch) {
+//            try {
+//                final Intent intent = new Intent();
+//                String manufacturer = android.os.Build.MANUFACTURER;
+//                if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+//                    intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+//                } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+//                    intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+//                } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+//                    intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+//                } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+//                    intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+//                } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+//                    intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+//                }
+//
+//                List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+//                if (list.size() > 0) {
+//                    startActivity(intent);
+//                }
+//            } catch (Exception e) {
+//                Log.e("exc", String.valueOf(e));
+//            }
+//        }
 
 
         restoreCyclicTasks();
@@ -210,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preference.edit();
         editor.putBoolean("analogClockIsVisibile", analogClock.getVisibility() == View.VISIBLE);
+        editor.putBoolean("veryFirstLaunch", false);
+
         editor.commit();
     }
 
@@ -241,36 +303,6 @@ public class MainActivity extends AppCompatActivity {
 //            this.finish();
 //            return;
 //        }
-
-        //////////////////////////////////////////////
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            // Here, thisActivity is the current activity
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                // Permission is not granted
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.RECEIVE_BOOT_COMPLETED)) {
-                    // Show an explanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-                } else {
-                    // No explanation needed; request the permission
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
-                            MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED);
-
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
-                }
-            }
-        }
-        //////////////////////////////////////////////
-
-
 
         context = this;
 
@@ -3339,7 +3371,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            if( task.equals(MainActivity.task) ){
+            if( task == MainActivity.task ){
                 item.setBackgroundResource(R.drawable.layout_border);//
             }
 
@@ -3350,7 +3382,7 @@ public class MainActivity extends AppCompatActivity {
                     taskDescription.setEnabled(true);
                     taskDescription.requestFocus();
 
-                    if (task.equals(MainActivity.task) && сonstraintLayoutTaskParameters.getVisibility() == View.GONE){
+                    if (task == MainActivity.task && сonstraintLayoutTaskParameters.getVisibility() == View.GONE){
 
                         сonstraintLayoutTaskParameters.setVisibility(View.VISIBLE);
                         view.post(new Runnable() {
@@ -3368,7 +3400,7 @@ public class MainActivity extends AppCompatActivity {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
 
-                    }else if (task.equals(MainActivity.task) && сonstraintLayoutTaskParameters.getVisibility() == View.VISIBLE){
+                    }else if (task == MainActivity.task && сonstraintLayoutTaskParameters.getVisibility() == View.VISIBLE){
                         MainActivity.task = null;
                         //params.height = 0;
                         сonstraintLayoutTaskParameters.setVisibility(View.GONE);
@@ -3671,28 +3703,120 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveCyclicTasks() {
 
-        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preference.edit();
+//        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preference.edit();
+//
+//        String jsonStr = new Gson().toJson(cyclicTasks);
+//        editor.putString("cyclicTasks", jsonStr);
+//        editor.commit();
 
         String jsonStr = new Gson().toJson(cyclicTasks);
-        editor.putString("cyclicTasks", jsonStr);
-        editor.commit();
+
+        try {
+
+            if (!Environment.getExternalStorageState().equals(
+                    Environment.MEDIA_MOUNTED)) {
+                Toast.makeText(this, "SD-карта не доступна: " + Environment.getExternalStorageState(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // получаем путь к SD
+            //File sdPath = getExternalStorageDirectory();
+            File sdPath = getExternalCacheDir();
+            // добавляем свой каталог к пути
+            sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
+            // создаем каталог
+            sdPath.mkdirs();
+            // формируем объект File, который содержит путь к файлу
+            File sdFile = new File(sdPath, "cyclicTasks");
+            if (!sdFile.exists()) {
+                try {
+                    sdFile.createNewFile();
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            try {
+                // открываем поток для записи
+                BufferedWriter bw = new BufferedWriter(new FileWriter(sdFile, false));
+                // пишем данные
+                bw.write(jsonStr);//
+                // закрываем поток
+                bw.flush();
+                bw.close();
+//                Toast.makeText(this, "File saved: " + sdFile.getAbsolutePath(),
+//                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
     }
 
     public void restoreCyclicTasks() {
 
-        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-        //preference.edit().clear().commit();
+
+//        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+//        //preference.edit().clear().commit();
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
-        String json = preference.getString("cyclicTasks", "");
+//        String json = preference.getString("cyclicTasks", "");
+
+        // проверяем доступность SD
+        if (!Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            Toast.makeText(this, "SD-карта не доступна: " + Environment.getExternalStorageState(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // получаем путь к SD
+        //File sdPath = getExternalStorageDirectory();
+        File sdPath = getExternalCacheDir();
+        // добавляем свой каталог к пути
+        sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
+        // формируем объект File, который содержит путь к файлу
+        File sdFile = new File(sdPath, "cyclicTasks");
+        if (!sdFile.exists()){
+            return;
+        }
+
+        String json = "";
+
+        try {
+
+            // открываем поток для чтения
+            BufferedReader br = new BufferedReader(new FileReader(sdFile));
+            // читаем содержимое
+            //while ((str = br.readLine()) != null) {
+            json =  br.readLine();
+            //}
+            //Toast.makeText(this, "File restore successfully!",Toast.LENGTH_SHORT).show();
+            Log.d("123", "restoreListDictionary: File restore successfully!");
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("123", "restoreListDictionary: "+e.getMessage());
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("123", "restoreListDictionary: "+e.getMessage());
+        }
+
+        Calendar calendar = GregorianCalendar.getInstance();
 
         if (!json.isEmpty()) {
             JsonArray array = parser.parse(json).getAsJsonArray();
             cyclicTasks.clear();
             for (int i = 0; i < array.size(); i++) {
-                cyclicTasks.add(gson.fromJson(array.get(i), Task.class));
+                Task cyclicTask = gson.fromJson(array.get(i), Task.class);
+                calendar.setTimeInMillis(cyclicTask.finishTime);
+
+                if (calendar.get(Calendar.YEAR) >= curentYearNumber) {
+                    cyclicTasks.add(cyclicTask);
+                }
             }
         }
 

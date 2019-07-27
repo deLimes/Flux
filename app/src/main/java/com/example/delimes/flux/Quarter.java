@@ -2382,6 +2382,7 @@ class Quarter extends View {
                     MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
                             + calendar.get(Calendar.DAY_OF_MONTH) + " "
                             + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+                    //MainActivity.day = selectedDay;
                 }
             }
 
@@ -2506,6 +2507,7 @@ class Quarter extends View {
                     MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
                             + calendar.get(Calendar.DAY_OF_MONTH) + " "
                             + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+                    //MainActivity.day = selectedDay;
                 }
             }
             super.onLongPress(e);

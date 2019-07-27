@@ -257,12 +257,13 @@ public class NumberYearPicker extends LinearLayout {
                 //Log.d("vsm", "mainActivity.winter.length: "+ mainActivity.winter.length);
 
                 //%%C del -
-                if( mainActivity.curentYearNumber < mainActivity.chosenYearNumber) {
+                //if( mainActivity.curentYearNumber < mainActivity.chosenYearNumber) {
                     mainActivity.autumn.addCyclicTasks = true;
-                }
+                //}
 
                 if(mainActivity.linLayout != null) {
                     mainActivity.day = null;
+                    //mainActivity.task = null;
                     mainActivity.linLayout.removeAllViews();
                 }
                 mainActivity.addedTasksOfYear.clear();
@@ -391,6 +392,7 @@ public class NumberYearPicker extends LinearLayout {
 //                }
                 /////////////////////////////////////////////
                 if (mainActivity.сonstraintLayoutTaskParameters !=  null) {
+
                     mainActivity.сonstraintLayoutTaskParameters.setVisibility(View.GONE);
                     post(new Runnable() {
                         @Override

@@ -5,13 +5,19 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -45,14 +51,53 @@ public class UpdateReminders extends Service {
 
     public void updateReminders(){
 
-        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+//        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
         Calendar calendar = GregorianCalendar.getInstance();
 
         calendar.setTimeInMillis(System.currentTimeMillis());
         String year = String.valueOf(calendar.get(Calendar.YEAR));
         Log.d("myLogs", "updateReminders: year"+year);
 
-        String json = preference.getString(year, "");
+        ///////////////////////////////////////
+        // проверяем доступность SD
+        if (!Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            Toast.makeText(this, "SD-карта не доступна: " + Environment.getExternalStorageState(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // получаем путь к SD
+        //File sdPath = getExternalStorageDirectory();
+        File sdPath = getExternalCacheDir();
+        // добавляем свой каталог к пути
+        sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
+        // формируем объект File, который содержит путь к файлу
+        File sdFile = new File(sdPath, "savedTasks"+year);
+        if (!sdFile.exists()){
+            return;
+        }
+
+        String json = "";
+
+        try {
+
+            // открываем поток для чтения
+            BufferedReader br = new BufferedReader(new FileReader(sdFile));
+            // читаем содержимое
+            //while ((str = br.readLine()) != null) {
+            json =  br.readLine();
+            //}
+            //Toast.makeText(this, "File restore successfully!",Toast.LENGTH_SHORT).show();
+            Log.d("123", "restoreListDictionary: File restore successfully!");
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("123", "restoreListDictionary: "+e.getMessage());
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("123", "restoreListDictionary: "+e.getMessage());
+        }
+        /////////////////////////////////////////
+
         if (json.isEmpty()) {
             return;
         }
