@@ -701,7 +701,7 @@ class Quarter extends View {
             textWidth = textBounds.width();
 
             if (quarter == 1) {
-                canvas.drawText(text,  left + side * 0.10f, bottom - textHeight - side * 0.10f, p);
+                canvas.drawText(text,  left + side * 0.10f, bottom - side * 0.10f, p);
             }else if (quarter == 2){
                 canvas.drawText(text,  right - side * 0.10f  - textWidth, top + textHeight + side * 0.10f, p);
             }else if (quarter == 3){
@@ -717,7 +717,7 @@ class Quarter extends View {
             textWidth = textBounds.width();
 
             if (quarter == 1) {
-                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
+                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - side * 0.10f, p);
             }else if (quarter == 2){
                 canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
             }else if (quarter == 3){
@@ -726,43 +726,43 @@ class Quarter extends View {
                 canvas.drawText(text, left + side * 0.10f, bottom - textHeight, p);
             }
 
-            text = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault());
-            p.setColor(Color.BLACK);
-            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
-                p.setColor(Color.RED);
-            }
-            p.setTextSize(fontHeight*0.75f);
-            p.setStyle(Paint.Style.FILL);
-            p.getTextBounds(text, 0, text.length(), textBounds);
-
-            textHeight = textBounds.height();
-            textWidth = textBounds.width();
-
-            if (quarter == 1) {
-                canvas.drawText(text,  left + side * 0.10f, bottom - textHeight - side * 0.10f, p);
-            }else if (quarter == 2){
-                canvas.drawText(text,  right - side * 0.10f  - textWidth, top + textHeight + side * 0.10f, p);
-            }else if (quarter == 3){
-                canvas.drawText(text,  left + side * 0.10f, top + textHeight + side * 0.10f, p);
-            }else if (quarter == 4){
-                canvas.drawText(text,  left + side * 0.10f, top + textHeight + side * 0.10f, p);
-            }
-
-            text = String.valueOf(numberOfTasksPerDay);
-            p.getTextBounds(text, 0, text.length(), textBounds);
-
-            textHeight = textBounds.height();
-            textWidth = textBounds.width();
-
-            if (quarter == 1) {
-                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
-            }else if (quarter == 2){
-                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
-            }else if (quarter == 3){
-                canvas.drawText(text, right  - side * 0.10f - textWidth, top + side * 0.10f + textHeight, p);
-            }else if (quarter == 4){
-                canvas.drawText(text, left + side * 0.10f, bottom - textHeight, p);
-            }
+//            text = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault());
+//            p.setColor(Color.BLACK);
+//            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
+//                p.setColor(Color.RED);
+//            }
+//            p.setTextSize(fontHeight*0.75f);
+//            p.setStyle(Paint.Style.FILL);
+//            p.getTextBounds(text, 0, text.length(), textBounds);
+//
+//            textHeight = textBounds.height();
+//            textWidth = textBounds.width();
+//
+//            if (quarter == 1) {
+//                canvas.drawText(text,  left + side * 0.10f, bottom - side * 0.10f, p);
+//            }else if (quarter == 2){
+//                canvas.drawText(text,  right - side * 0.10f  - textWidth, top + textHeight + side * 0.10f, p);
+//            }else if (quarter == 3){
+//                canvas.drawText(text,  left + side * 0.10f, top + textHeight + side * 0.10f, p);
+//            }else if (quarter == 4){
+//                canvas.drawText(text,  left + side * 0.10f, top + textHeight + side * 0.10f, p);
+//            }
+//
+//            text = String.valueOf(numberOfTasksPerDay);
+//            p.getTextBounds(text, 0, text.length(), textBounds);
+//
+//            textHeight = textBounds.height();
+//            textWidth = textBounds.width();
+//
+//            if (quarter == 1) {
+//                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - side * 0.10f, p);
+//            }else if (quarter == 2){
+//                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
+//            }else if (quarter == 3){
+//                canvas.drawText(text, right  - side * 0.10f - textWidth, top + side * 0.10f + textHeight, p);
+//            }else if (quarter == 4){
+//                canvas.drawText(text, left + side * 0.10f, bottom - textHeight, p);
+//            }
 
 
 
@@ -953,7 +953,7 @@ class Quarter extends View {
 
             p.setStyle(Paint.Style.FILL);
             if (quarter == 1) {
-                canvas.drawLine(left, bottom - side * 0.25f,  right, bottom - side * 0.25f, p);
+                canvas.drawLine(left, top + side * 0.75f,  right, top + side * 0.75f, p);
             }else if (quarter == 2){
                 canvas.drawLine(left + side * 0.75f,  top, left + side * 0.75f, bottom, p);
             }else if (quarter == 3){
@@ -1029,7 +1029,7 @@ class Quarter extends View {
             textWidth = textBounds.width();
 
             if (quarter == 1) {
-                canvas.drawText(text,  left + side * 0.10f, bottom - textHeight - side * 0.10f, p);
+                canvas.drawText(text,  left + side * 0.10f, bottom - side * 0.10f, p);
             }else if (quarter == 2){
                 canvas.drawText(text,  right - side * 0.10f  - textWidth, top + textHeight + side * 0.10f, p);
             }else if (quarter == 3){
@@ -1045,7 +1045,7 @@ class Quarter extends View {
             textWidth = textBounds.width();
 
             if (quarter == 1) {
-                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
+                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - side * 0.10f, p);
             }else if (quarter == 2){
                 canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
             }else if (quarter == 3){
@@ -1266,7 +1266,7 @@ class Quarter extends View {
 
             p.setStyle(Paint.Style.FILL);
             if (quarter == 1) {
-                canvas.drawLine(left, bottom - side * 0.25f,  right, bottom - side * 0.25f, p);
+                canvas.drawLine(left, top + side * 0.75f,  right, top + side * 0.75f, p);
             }else if (quarter == 2){
                 canvas.drawLine(left + side * 0.75f,  top, left + side * 0.75f, bottom, p);
             }else if (quarter == 3){
@@ -1344,7 +1344,7 @@ class Quarter extends View {
             textWidth = textBounds.width();
 
             if (quarter == 1) {
-                canvas.drawText(text,  left + side * 0.10f, bottom - textHeight - side * 0.10f, p);
+                canvas.drawText(text,  left + side * 0.10f, bottom - side * 0.10f, p);
             }else if (quarter == 2){
                 canvas.drawText(text,  right - side * 0.10f  - textWidth, top + textHeight + side * 0.10f, p);
             }else if (quarter == 3){
@@ -1360,7 +1360,7 @@ class Quarter extends View {
             textWidth = textBounds.width();
 
             if (quarter == 1) {
-                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
+                canvas.drawText(text, right - side * 0.10f - textWidth, bottom - side * 0.10f, p);
             }else if (quarter == 2){
                 canvas.drawText(text, right - side * 0.10f - textWidth, bottom - textHeight, p);
             }else if (quarter == 3){
