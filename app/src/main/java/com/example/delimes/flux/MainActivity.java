@@ -28,6 +28,7 @@ import android.location.LocationManager;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -263,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
         saveCyclicTasks();
         if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
-            //Log.d("Year", "Year was saved");
+            Log.d("Year", "Year was saved");
             //saveYear();
             saveYearToFile();
         }
@@ -274,11 +275,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("veryFirstLaunch", false);
 
         editor.commit();
-
-        /////////////////////////////////////////////
-        // Завершить работу данного окна
-        this.finish();
-        //////////////////////////////////////////////
 
     }
 
@@ -3704,9 +3700,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void restoreYearFromFile(){
 
+        Log.d("Year", "restoreListDictionary:1");
         if(numberYearPicker == null){
             return;
         }
+        Log.d("Year", "restoreListDictionary:2");
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
