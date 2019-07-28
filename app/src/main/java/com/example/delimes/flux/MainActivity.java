@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED = 101;
     private AlphaAnimation alphaAnimationClick = new AlphaAnimation(1f, 0.2f);
+    private long dateDoomsday;
 
     public MainActivity() {
         this.context = this;
@@ -273,6 +274,12 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("veryFirstLaunch", false);
 
         editor.commit();
+
+        /////////////////////////////////////////////
+        // Завершить работу данного окна
+        this.finish();
+        //////////////////////////////////////////////
+
     }
 
     @Override
@@ -308,6 +315,9 @@ public class MainActivity extends AppCompatActivity {
 
         calendar.setTimeInMillis(System.currentTimeMillis());
         curentYearNumber = calendar.get(Calendar.YEAR);
+        calendar.clear();
+        calendar.set(4999, 11, 31);
+        dateDoomsday = calendar.getTimeInMillis();
 
         colors[0] = Color.parseColor("#559966CC");
         colors[1] = Color.parseColor("#55336699");
@@ -1070,11 +1080,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1125,11 +1139,15 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1180,11 +1198,15 @@ public class MainActivity extends AppCompatActivity {
                             task.inDays > 0) {
 
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1234,11 +1256,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1288,11 +1314,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1344,11 +1374,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1400,11 +1434,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1472,17 +1510,19 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
                         Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
+                    }
 
-                        //refreshCyclicTasks(task);
-                    }
-                    if (day != null) {
-                        updateSchedule(day);
-                    }
+                    updateSchedule(day);
+
 
                     return false;
                 }
@@ -1586,11 +1626,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"",0,0,0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1639,11 +1683,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"",0,0,0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -1701,11 +1749,15 @@ public class MainActivity extends AppCompatActivity {
                             task.everyMonth ||
                             task.inDays > 0) {
 
-                        //cyclicTasks.add(task);
+                        if (task.finishTime == task.startTime){
+                            task.finishTime = dateDoomsday;
+                        }
                         task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"",0,0,0);
+                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
+                    }else if (task.finishTime == dateDoomsday){
+                        task.finishTime = task.startTime;
                     }
 
                     changedeTasksOfYear = true;
@@ -2840,13 +2892,15 @@ public class MainActivity extends AppCompatActivity {
                                 task.everyMonth ||
                                 task.inDays > 0) {
 
-                            //cyclicTasks.add(task);
+                            if (task.finishTime == task.startTime){
+                                task.finishTime = dateDoomsday;
+                            }
                             task.isCyclic = true;
-                            Task taskCopy = new Task(true, false,"",0,0,0);
+                            Task taskCopy = new Task(true, false,"", 0, 0, 0);
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
-
-                            //refreshCyclicTasks(task);
+                        }else if (task.finishTime == dateDoomsday){
+                            task.finishTime = task.startTime;
                         }
 
                        /* calendar.clear();
@@ -2908,16 +2962,20 @@ public class MainActivity extends AppCompatActivity {
                                 task.everyMonth ||
                                 task.inDays > 0) {
 
-                            //cyclicTasks.add(task);
+                            if (task.finishTime == task.startTime) {
+                                task.finishTime = dateDoomsday;
+                            }
                             task.isCyclic = true;
-                            Task taskCopy = new Task(true, false,"",0,0,0);
+                            Task taskCopy = new Task(true, false, "", 0, 0, 0);
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
 
                             //refreshCyclicTasks(task);
-                            if(dateTaskStartTime == day.date.getTime()) {
+                            if (dateTaskStartTime == day.date.getTime()) {
                                 refreshCyclicTasks(task);
                             }
+                        } else if (task.finishTime == dateDoomsday) {
+                            task.finishTime = task.startTime;
                         }
 
                         //%%C - del

@@ -189,6 +189,7 @@ public class NumberYearPicker extends LinearLayout {
         valueText = new EditText( context );
         valueText.setTextSize( textSize );
         valueText.setTextColor(textColor);
+        valueText.setEnabled(false);
 
         valueText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int arg1, KeyEvent event) {
