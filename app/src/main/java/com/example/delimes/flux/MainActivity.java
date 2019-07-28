@@ -825,6 +825,14 @@ public class MainActivity extends AppCompatActivity {
                     toast.show();
                     return;
                 }
+                if (day.numberOfTasksPerDay() >= 99){
+                    Toast toast = Toast.makeText(MainActivity.this,
+                            "Достигнут предел - 99 задач в день",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                    return;
+                }
                 final Calendar myCalender = Calendar.getInstance();
                 int hour = myCalender.get(Calendar.HOUR_OF_DAY);
                 int minute = myCalender.get(Calendar.MINUTE);
@@ -3310,10 +3318,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
-
         Collections.sort(selectedDay.tasks,  new TaskComparator());
-
 
         linLayout.removeAllViews();
         for (int i = 0; i < selectedDay.tasks.size(); i++) {
@@ -7115,7 +7120,7 @@ public class MainActivity extends AppCompatActivity {
     public class TaskComparator implements Comparator<Task>
     {
         public int compare(Task left, Task right) {
-            return left.clockStartTime.toString().compareTo(right.clockStartTime.toString());
+            return left.clockStartTime.compareTo(right.clockStartTime);
         }
     }
 

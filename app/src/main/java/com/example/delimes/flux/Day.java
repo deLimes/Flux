@@ -48,5 +48,14 @@ public class Day
 */
 
     }
+
+    public int numberOfTasksPerDay(){
+        int numberOfTasksPerDay = 0;
+
+        for (MainActivity.Task task : tasks) {
+            numberOfTasksPerDay++;
+        }
+        return numberOfTasksPerDay;
+    };
 }
 
