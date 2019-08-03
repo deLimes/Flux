@@ -31,7 +31,7 @@ public class BootReceiver extends BroadcastReceiver {
         */
         Log.d("myLogs", "onReceive: " + action);
         if (action.equalsIgnoreCase(BOOT_ACTION)) {
-            Log.d("myLogs", "onReceive:  context.startService(new Intent(context, UpdateReminders.cla");
+            Log.d("myLogs", "onReceive:  context.startService(new Intent(context, UpdateReminders.class");
             context.startService(new Intent(context, UpdateReminders.class));
         }
     }

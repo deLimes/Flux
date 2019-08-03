@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     Guideline guideline;
     static Quarter winter, spring, summer, autumn;
     static YearStr yearStr;
+    static boolean yearRestored;
 
     static NumberYearPicker numberYearPicker;
     static TextView dateMonth;
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
         //this.finish();
         //////////////////////////////////////////////
 
+        yearRestored = false;
         //////////////////////////////////////////////
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -252,6 +254,10 @@ public class MainActivity extends AppCompatActivity {
 
         restoreCyclicTasks();
 
+        numberYearPicker.setValue(curentYearNumber);
+
+
+
 
 
         //task = (Task) getIntent().getSerializableExtra("task");
@@ -263,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         Log.v("123", "onStop: ");
 
         saveCyclicTasks();
-        if((changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
+        if(MainActivity.yearRestored && (changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
             Log.d("Year", "Year was saved");
             //saveYear();
             saveYearToFile();
@@ -2161,7 +2167,8 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         Date datTaskStartTime = new Date(dateTaskStartTime);
-                        if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        //if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        if (task.everyYear &&
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
@@ -2360,7 +2367,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         Date datTaskStartTime = new Date(dateTaskStartTime);
-                        if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        //if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        if (task.everyYear &&
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
@@ -2557,7 +2565,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         Date datTaskStartTime = new Date(dateTaskStartTime);
-                        if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        //if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        if (task.everyYear &&
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
@@ -2753,7 +2762,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         Date datTaskStartTime = new Date(dateTaskStartTime);
-                        if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        //if (task.everyYear &&  chosenYearNumber > curentYearNumber &&
+                        if (task.everyYear &&
                                 d.date.getMonth() ==  datTaskStartTime.getMonth() &&
                                 d.date.getDate() ==  datTaskStartTime.getDate() ){
 
@@ -3704,6 +3714,8 @@ public class MainActivity extends AppCompatActivity {
         if(numberYearPicker == null){
             return;
         }
+
+        yearRestored = true;
         Log.d("Year", "restoreListDictionary:2");
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());

@@ -31,8 +31,8 @@ public class DateChangedReceiver extends BroadcastReceiver {
         MainActivity.calendar.set(year, month, day);
         MainActivity.currDate = new Date(MainActivity.calendar.getTimeInMillis());
 
-        if (mainActivity.numberYearPicker != null) {
-            mainActivity.numberYearPicker.setValue(year);
+        if (MainActivity.numberYearPicker != null) {
+            MainActivity.numberYearPicker.setValue(year);
         }
     }
 

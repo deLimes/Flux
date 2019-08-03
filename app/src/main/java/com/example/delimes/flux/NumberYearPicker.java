@@ -211,7 +211,7 @@ public class NumberYearPicker extends LinearLayout {
         valueText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if((mainActivity.changedeTasksOfYear || mainActivity.addedTasksOfYear.size() > 0 || mainActivity.destroyedTasksOfYear.size() > 0) && mainActivity.autumn.days.size() > 0 ){
+                if(MainActivity.yearRestored && (MainActivity.changedeTasksOfYear || mainActivity.addedTasksOfYear.size() > 0 || mainActivity.destroyedTasksOfYear.size() > 0) && MainActivity.autumn.days.size() > 0 ){
                     //Log.d("Year", "Year was saved");
                     //mainActivity.saveYear();
                     mainActivity.saveYearToFile();
@@ -233,22 +233,22 @@ public class NumberYearPicker extends LinearLayout {
             public void afterTextChanged(Editable editable) {
 
                 if(!editable.toString().isEmpty()) {
-                    mainActivity.previousChosenYearNumber = mainActivity.chosenYearNumber;
-                    mainActivity.chosenYearNumber = Integer.valueOf(editable.toString());
-                    if (mainActivity.previousChosenYearNumber != mainActivity.chosenYearNumber) {
+                    MainActivity.previousChosenYearNumber = MainActivity.chosenYearNumber;
+                    MainActivity.chosenYearNumber = Integer.valueOf(editable.toString());
+                    if (MainActivity.previousChosenYearNumber != MainActivity.chosenYearNumber) {
                         if (extendYear) {
-                            mainActivity.yearNumberChangedForMove = true;
-                            mainActivity.yearNumberChangedForFling = true;
+                            MainActivity.yearNumberChangedForMove = true;
+                            MainActivity.yearNumberChangedForFling = true;
                         }
-                        mainActivity.yearNumberChangedForDraw = true;
+                        MainActivity.yearNumberChangedForDraw = true;
                         MainActivity.dateMonth.setText("__.__.____");
-                        if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
+                        if (MainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
                             mainActivity.yearReducedForFling = true;
                         }
                     }else {
-                        mainActivity.yearNumberChangedForMove = false;
-                        mainActivity.yearNumberChangedForFling = false;
-                        mainActivity.yearNumberChangedForDraw = false;
+                        MainActivity.yearNumberChangedForMove = false;
+                        MainActivity.yearNumberChangedForFling = false;
+                        MainActivity.yearNumberChangedForDraw = false;
                     }
 
                 }
@@ -259,17 +259,17 @@ public class NumberYearPicker extends LinearLayout {
 
                 //%%C del -
                 //if( mainActivity.curentYearNumber < mainActivity.chosenYearNumber) {
-                    mainActivity.autumn.addCyclicTasks = true;
+                MainActivity.autumn.addCyclicTasks = true;
                 //}
 
                 if(mainActivity.linLayout != null) {
-                    mainActivity.day = null;
+                    MainActivity.day = null;
                     //mainActivity.task = null;
                     mainActivity.linLayout.removeAllViews();
                 }
                 mainActivity.addedTasksOfYear.clear();
                 mainActivity.destroyedTasksOfYear.clear();
-                mainActivity.changedeTasksOfYear = false;
+                MainActivity.changedeTasksOfYear = false;
 
                 mainActivity.restoreYearFromFile();
 
@@ -288,11 +288,11 @@ public class NumberYearPicker extends LinearLayout {
                 ////////mainActivity.winter.y = tucherHeight;
 
 
-                mainActivity.winter.currentDate = null;
-                mainActivity.winter.firstOccurrence = true;
-                mainActivity.winter.days.clear();
-                mainActivity.winter.fillInDays(mainActivity.chosenYearNumber);
-                mainActivity.winter.x = tucherWidth;
+                MainActivity.winter.currentDate = null;
+                MainActivity.winter.firstOccurrence = true;
+                MainActivity.winter.days.clear();
+                MainActivity.winter.fillInDays(mainActivity.chosenYearNumber);
+                MainActivity.winter.x = tucherWidth;
 //                if (!mainActivity.decrementYear) {
 //                    mainActivity.winter.x = tucherWidth;
 //                }
@@ -311,11 +311,11 @@ public class NumberYearPicker extends LinearLayout {
 
 
 
-                mainActivity.spring.currentDate = null;
-                mainActivity.spring.firstOccurrence = true;
-                mainActivity.spring.days.clear();
-                mainActivity.spring.fillInDays(mainActivity.chosenYearNumber);
-                mainActivity.spring.y = 0;
+                MainActivity.spring.currentDate = null;
+                MainActivity.spring.firstOccurrence = true;
+                MainActivity.spring.days.clear();
+                MainActivity.spring.fillInDays(mainActivity.chosenYearNumber);
+                MainActivity.spring.y = 0;
 //                if (!mainActivity.decrementYear) {
 //                    mainActivity.spring.y = 0;
 //                }
@@ -334,11 +334,11 @@ public class NumberYearPicker extends LinearLayout {
 
 
 
-                mainActivity.summer.currentDate = null;
-                mainActivity.summer.firstOccurrence = true;
-                mainActivity.summer.days.clear();
-                mainActivity.summer.fillInDays(mainActivity.chosenYearNumber);
-                mainActivity.summer.x = 0;
+                MainActivity.summer.currentDate = null;
+                MainActivity.summer.firstOccurrence = true;
+                MainActivity.summer.days.clear();
+                MainActivity.summer.fillInDays(MainActivity.chosenYearNumber);
+                MainActivity.summer.x = 0;
 //                if (!mainActivity.decrementYear) {
 //                    mainActivity.summer.x = 0;
 //                }
@@ -358,11 +358,11 @@ public class NumberYearPicker extends LinearLayout {
 
 
 
-                mainActivity.autumn.currentDate = null;
-                mainActivity.autumn.firstOccurrence = true;
-                mainActivity.autumn.days.clear();
-                mainActivity.autumn.fillInDays(mainActivity.chosenYearNumber);
-                mainActivity.autumn.y = tucherHeight;
+                MainActivity.autumn.currentDate = null;
+                MainActivity.autumn.firstOccurrence = true;
+                MainActivity.autumn.days.clear();
+                MainActivity.autumn.fillInDays(MainActivity.chosenYearNumber);
+                MainActivity.autumn.y = tucherHeight;
 //                if (!mainActivity.decrementYear) {
 //                    mainActivity.autumn.y = tucherHeight;
 //                }
@@ -412,10 +412,10 @@ public class NumberYearPicker extends LinearLayout {
                 }
                 /////////////////////////////////////////////
 
-                mainActivity.winter.invalidate();
-                mainActivity.spring.invalidate();
-                mainActivity.summer.invalidate();
-                mainActivity.autumn.invalidate();
+                MainActivity.winter.invalidate();
+                MainActivity.spring.invalidate();
+                MainActivity.summer.invalidate();
+                MainActivity.autumn.invalidate();
 
                 //////////////////////////////////////////////////////////////////////////
             }
