@@ -711,6 +711,9 @@ class Quarter extends View {
             }
 
             text = String.valueOf(numberOfTasksPerDay);
+            if (numberOfTasksPerDay > 0){
+                p.setColor(Color.rgb(139, 0, 139));
+            }
             p.getTextBounds(text, 0, text.length(), textBounds);
 
             textHeight = textBounds.height();
@@ -1039,6 +1042,12 @@ class Quarter extends View {
             }
 
             text = String.valueOf(numberOfTasksPerDay);
+            if (numberOfTasksPerDay > 0){
+                /*
+                Color.parseColor("#B4EEB4");
+                */
+                p.setColor(Color.rgb(139, 0, 139));
+            }
             p.getTextBounds(text, 0, text.length(), textBounds);
 
             textHeight = textBounds.height();
@@ -1354,6 +1363,12 @@ class Quarter extends View {
             }
 
             text = String.valueOf(numberOfTasksPerDay);
+            if (numberOfTasksPerDay > 0){
+                /*
+                Color.parseColor("#B4EEB4");
+                */
+                p.setColor(Color.rgb(139, 0, 139));
+            }
             p.getTextBounds(text, 0, text.length(), textBounds);
 
             textHeight = textBounds.height();

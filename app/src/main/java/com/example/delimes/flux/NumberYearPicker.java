@@ -429,8 +429,8 @@ public class NumberYearPicker extends LinearLayout {
             }
         });
         valueText.setGravity( Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL );
-        valueText.setText( value.toString() );
-        valueText.setInputType( InputType.TYPE_CLASS_NUMBER );
+        //valueText.setText( value.toString() );
+        //valueText.setInputType( InputType.TYPE_CLASS_NUMBER );
     }
 
     private void initDecrementButton( Context context){

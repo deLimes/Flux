@@ -31,6 +31,7 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
@@ -60,6 +61,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -98,15 +100,16 @@ public class MainActivity extends AppCompatActivity {
     boolean veryFirstLaunch = true;
     boolean firstOccurrence = true;
     public ConstraintLayout constraintLayout;
-    ConstraintLayout сonstraintLayoutForSchedule;
+    static ConstraintLayout сonstraintLayoutForSchedule;
     ConstraintLayout сonstraintLayoutTaskParameters;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
     static Quarter winter, spring, summer, autumn;
     static YearStr yearStr;
-    static boolean yearRestored;
+    static boolean yearRestored = false;
 
+    static ImageView ivLargerImage;
     static NumberYearPicker numberYearPicker;
     static TextView dateMonth;
     TextView taskTime;
@@ -194,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         //this.finish();
         //////////////////////////////////////////////
 
-        yearRestored = false;
+
         //////////////////////////////////////////////
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -253,14 +256,52 @@ public class MainActivity extends AppCompatActivity {
 
 
         restoreCyclicTasks();
+        //numberYearPicker.setValue(curentYearNumber);
 
-        numberYearPicker.setValue(curentYearNumber);
+
 
 
 
 
 
         //task = (Task) getIntent().getSerializableExtra("task");
+
+
+        calendar.clear();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.clear();
+        calendar.set(year, month, day);
+        currDate = new Date(MainActivity.calendar.getTimeInMillis());
+
+        numberYearPicker.setValue(year);
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
     }
 
     @Override
@@ -281,6 +322,8 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("veryFirstLaunch", false);
 
         editor.commit();
+
+        //finish();
 
     }
 
@@ -363,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO AddView
 
+
         constraintLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -428,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("WH", "tucherHeight:" +tucherHeight);
 
                 autumn.side = width/2;
-                autumn.x = tucherWidth - tucherWidth / 2;
+                autumn.x = tucherWidth - tucherWidth / 2f;
                 autumn.y = tucherHeight;
 
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -461,8 +505,8 @@ public class MainActivity extends AppCompatActivity {
                 //valueText.setGravity( Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL );
                 //numberYearPicker.setGravity( Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
-                calendar.clear();
-                calendar.setTimeInMillis(System.currentTimeMillis());
+//                calendar.clear();
+//                calendar.setTimeInMillis(System.currentTimeMillis());
 
                 numberYearPicker.setElementHeight((int)(width/1.5f));
                 numberYearPicker.setElementWidth((int)(width/1.5f));
@@ -470,10 +514,23 @@ public class MainActivity extends AppCompatActivity {
 //                numberYearPicker.setElementWidth(width/2);
                 numberYearPicker.setTextSize( (int)(width/1.5f/5f) );
                 numberYearPicker.rebuild(getBaseContext());
-                numberYearPicker.setValue(calendar.get(Calendar.YEAR));
+                //numberYearPicker.setValue(calendar.get(Calendar.YEAR));
+                numberYearPicker.setValue(curentYearNumber);
 
                 numberYearPicker.setLayoutParams(params);
 
+                //ivLargerImage
+                params = new ConstraintLayout.LayoutParams(numberYearPicker.getWidth(), numberYearPicker.getHeight());
+                params.topToTop = R.id.сonstraintLayoutForSchedule;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+//                params.topToTop = R.id.numberYearPicker;
+//                params.rightToRight = R.id.numberYearPicker;
+//                params.leftToLeft = R.id.numberYearPicker;
+//                params.bottomToBottom = R.id.numberYearPicker;
+
+                ivLargerImage.setVisibility(View.GONE);
+                ivLargerImage.setLayoutParams(params);
 
                 //dateMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -537,27 +594,7 @@ public class MainActivity extends AppCompatActivity {
                 params.height = width;
                 taskDescription.setLayoutParams(params);
 
-                /*
-                //scheduleScroll
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                params.topToBottom = R.id.taskDescription;
-                params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
-                scheduleScroll.setBackgroundColor(Color.RED);
 
-                params.width = constraintLayout.getRight() - width * 2;
-                params.height = constraintLayout.getBottom() - width * 3;
-                scheduleScroll.setLayoutParams(params);
-
-                //constraintLayoutOfScroll
-                FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                frameLayoutParams.width = constraintLayout.getRight() - width * 2;
-                frameLayoutParams.height = 1;
-                frameLayoutOfScroll.setBackgroundColor(Color.GREEN);
-                frameLayoutOfScroll.setLayoutParams(frameLayoutParams);
-                int j=9;
-                */
                 //layoutDayOfWeek
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
@@ -689,36 +726,11 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-                /*
-                //analogClock
-                сonstraintLayoutForSchedule.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        //analogClock
-                        constraintLayout.getRight();
-                        analogClock.side = width/2;
-                        analogClock.x = сonstraintLayoutForSchedule.getRight() - analogClock.side;
-                        analogClock.y = сonstraintLayoutForSchedule.getBottom() - analogClock.side;
-
-                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                        params.width = analogClock.side * 5;
-                        params.height = params.width;
-                        //params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                        params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                        //params.topToBottom = R.id.buttonAddTask;
-                        params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
-
-                        analogClock.setLayoutParams(params);
-                    }
-
-                });
-                */
 
             }
 
         });
+
 
         ViewTreeObserver vto = constraintLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -758,6 +770,11 @@ public class MainActivity extends AppCompatActivity {
         сonstraintLayoutForSchedule.setId(R.id.сonstraintLayoutForSchedule);
         constraintLayout.addView(сonstraintLayoutForSchedule);
 
+        ivLargerImage = new ImageView(this);
+        ivLargerImage.setId(R.id.ivLargerImage);
+        сonstraintLayoutForSchedule.addView(ivLargerImage, 0);
+
+
         numberYearPicker = new NumberYearPicker(this, 0);
         numberYearPicker.setId(R.id.numberYearPicker);
         сonstraintLayoutForSchedule.addView(numberYearPicker);
@@ -780,10 +797,12 @@ public class MainActivity extends AppCompatActivity {
         taskDuration.setId(R.id.taskDuration);
         сonstraintLayoutTaskParameters.addView(taskDuration);
 
-        taskDescription = new EditText(this);
+        taskDescription = new EditText(this);//ExtensibleEditText(this);
         taskDescription.setId(R.id.taskDescription);
         taskDescription.setImeOptions(EditorInfo.IME_ACTION_DONE);
         taskDescription.setSingleLine();
+//        taskDescription.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
+//        taskDescription.setMaxLines(5);
         taskDescription.setEnabled(false);
         сonstraintLayoutTaskParameters.addView(taskDescription);
 
@@ -1837,7 +1856,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Сохраним текущий изменения
-        saveYear();
+        //saveYear();
 
         // Для того, чтобы таску поставить признак shown=true
         winter.restore = true;
@@ -3710,13 +3729,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void restoreYearFromFile(){
 
-        Log.d("Year", "restoreListDictionary:1");
+        Log.d("Year", "restoreYearFromFile:1");
         if(numberYearPicker == null){
+            yearRestored = false;
             return;
         }
 
         yearRestored = true;
-        Log.d("Year", "restoreListDictionary:2");
+        Log.d("Year", "restoreYearFromFile:2");
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
@@ -3763,13 +3783,13 @@ public class MainActivity extends AppCompatActivity {
             }
             //}
             //Toast.makeText(this, "File restore successfully!",Toast.LENGTH_SHORT).show();
-            Log.d("jkl", "restoreListDictionary: File restore successfully!");
+            Log.d("Year", "restoreYearFromFile: File restore successfully!");
         } catch (FileNotFoundException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d("jkl", "restoreListDictionary: "+e.getMessage());
+            Log.d("Year", "restoreYearFromFile: "+e.getMessage());
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d("jkl", "restoreListDictionary: "+e.getMessage());
+            Log.d("Year", "restoreYearFromFile: "+e.getMessage());
         }
 
     }

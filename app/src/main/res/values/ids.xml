@@ -10,6 +10,7 @@
     <item name="summer" type="id"/>
     <item name="autumn" type="id"/>
 
+    <item name="ivLargerImage" type="id"/>
     <item name="numberYearPicker" type="id"/>
     <item name="dateMonth" type="id"/>
 
