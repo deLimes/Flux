@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
+import android.text.Layout;
 import android.text.method.MovementMethod;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 
 public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditText {
 
+    CountDownTimer countDownTimer;
     public Bitmap drawingCache;
     private boolean dragCursor;
     int xCoord = 0;
@@ -25,7 +28,8 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
     float dragX = 0;
     float dragY = 0;
 
-    private int side = 50;
+    public int widht;
+    public int height;
 
     public ExtensibleEditText(Context context) {
         super(context);
@@ -53,11 +57,69 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         Log.d("myLogs2", "onSelectionChanged: " + "selStart "+ selStart+ " selEnd "+ selEnd);
+
+        Layout layout = getLayout();
+        if (layout == null) {
+            return;
+        }
+        invalidate();
+
+        int pos = getSelectionEnd();
+        int line = layout.getLineForOffset(pos);
+        int baseline = layout.getLineBaseline(line);
+        int ascent = layout.getLineAscent(line);
+        xCoord = ((int) layout.getPrimaryHorizontal(pos) - widht/2 < 0 ? 0 :(int) layout.getPrimaryHorizontal(pos) - widht/2);
+        //yCoord = (int)(baseline + ascent - side < 0 ? 0 : baseline + ascent - side);
+        //yCoord = 0;
+
+        //xCoord = (int) layout.getPrimaryHorizontal(pos) - side;
+        //yCoord = baseline + ascent - side;
+
+        //xCoord = ( xCoord + (int)(widht*1.5) > widht ? widht: xCoord + (int)(widht*1.5));
+
+        adapt();
+        MainActivity.ivLargerImage.animate().scaleX(5.0f).scaleY(5.0f).setDuration(0);
+        MainActivity.dateMonth.setVisibility(GONE);
+        MainActivity.ivLargerImage.setVisibility(VISIBLE);
+
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) MainActivity.сonstraintLayoutTaskParameters.getLayoutParams();
+        params.topToBottom = R.id.ivLargerImage;
+        MainActivity.сonstraintLayoutTaskParameters.setLayoutParams(params);
+
+        //destroyDrawingCache();
+
+        if (countDownTimer != null){
+            countDownTimer.cancel();
+        }
+        countDownTimer = new CountDownTimer(5000, 5000) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                MainActivity.dateMonth.setVisibility(VISIBLE);
+                MainActivity.ivLargerImage.setVisibility(GONE);
+
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) MainActivity.сonstraintLayoutTaskParameters.getLayoutParams();
+                params.topToBottom = R.id.dateMonth;
+                MainActivity.сonstraintLayoutTaskParameters.setLayoutParams(params);
+
+
+            }
+        };
+        countDownTimer.start();
+
     }
 
+/*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.performClick();
+
+        invalidate();
 
 
         // координаты Touch-события
@@ -69,6 +131,26 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
         switch (event.getAction()) {
             // касание началось
             case MotionEvent.ACTION_DOWN:
+
+                countDownTimer = new CountDownTimer(5000, 5000) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        MainActivity.numberYearPicker.setVisibility(VISIBLE);
+                        MainActivity.ivLargerImage.setVisibility(GONE);
+
+                        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) MainActivity.dateMonth.getLayoutParams();
+                        params.topToBottom = R.id.numberYearPicker;
+                        MainActivity.dateMonth.setLayoutParams(params);
+
+
+                    }
+                };
                 //positionOfTouchX = evX;
                 //positionOfTouchY = evY;
 
@@ -125,12 +207,6 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
 
 //                MainActivity.сonstraintLayoutForSchedule.removeView(MainActivity.ivLargerImage);
 //                MainActivity.сonstraintLayoutForSchedule.addView(MainActivity.ivLargerImage, 0);
-                MainActivity.numberYearPicker.setVisibility(VISIBLE);
-                MainActivity.ivLargerImage.setVisibility(GONE);
-
-                params = (ConstraintLayout.LayoutParams) MainActivity.dateMonth.getLayoutParams();
-                params.topToBottom = R.id.numberYearPicker;
-                MainActivity.dateMonth.setLayoutParams(params);
 
 
 
@@ -138,19 +214,17 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
 
         }
 
-                return super.onTouchEvent(event);
+                //return super.onTouchEvent(event);
+
 
     }
+*/
 
     @Override
     public void setSelection(int index) {
         super.setSelection(index);
     }
 
-    @Override
-    protected MovementMethod getDefaultMovementMethod() {
-        return super.getDefaultMovementMethod();
-    }
 
     public void adapt(){
 
@@ -191,8 +265,12 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
 
         Bitmap bitmap = getDrawingCache();
 
+        if (bitmap == null){
+            return;
+        }
+
         Bitmap croppedBitmap = Bitmap.createBitmap(
-                bitmap, xCoord, yCoord, side*2, side*2);
+                bitmap, xCoord, 0, widht, height);
 
 //        Bitmap croppedBitmap2 = Bitmap.createBitmap(
 //                drawingCache, xCoord, yCoord, doubleSide, doubleSide);

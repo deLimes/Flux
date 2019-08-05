@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     boolean firstOccurrence = true;
     public ConstraintLayout constraintLayout;
     static ConstraintLayout сonstraintLayoutForSchedule;
-    ConstraintLayout сonstraintLayoutTaskParameters;
+    static ConstraintLayout сonstraintLayoutTaskParameters;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
     Guideline guideline;
@@ -140,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
     TextView labelStartOfTask, labelEndOfTask;
     TextView startOfTask, endOfTask;
-    EditText taskDescription, inDays;
+    EditText inDays;
+    ExtensibleEditText taskDescription;
     Button buttonAddTask, buttonDeleteTask;
     CheckBox everyYear, everyMonth;
     ScrollView scheduleScroll;
@@ -519,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
 
                 numberYearPicker.setLayoutParams(params);
 
-                //ivLargerImage
+                /*//ivLargerImage
                 params = new ConstraintLayout.LayoutParams(numberYearPicker.getWidth(), numberYearPicker.getHeight());
                 params.topToTop = R.id.сonstraintLayoutForSchedule;
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
@@ -530,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
 //                params.bottomToBottom = R.id.numberYearPicker;
 
                 ivLargerImage.setVisibility(View.GONE);
-                ivLargerImage.setLayoutParams(params);
+                ivLargerImage.setLayoutParams(params);*/
 
                 //dateMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -722,6 +723,17 @@ public class MainActivity extends AppCompatActivity {
 
                         analogClock.setLayoutParams(params);
 
+                        //ivLargerImage
+                        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                        params.topToBottom = R.id.numberYearPicker;
+                        params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                        taskDescription.widht = dateMonth.getWidth();
+                        taskDescription.height = dateMonth.getHeight();
+                        ivLargerImage.setVisibility(View.GONE);
+                        //ivLargerImage.setBackgroundColor(Color.RED);
+                        ivLargerImage.setLayoutParams(params);
+
                     }
 
                 });
@@ -797,7 +809,7 @@ public class MainActivity extends AppCompatActivity {
         taskDuration.setId(R.id.taskDuration);
         сonstraintLayoutTaskParameters.addView(taskDuration);
 
-        taskDescription = new EditText(this);//ExtensibleEditText(this);
+        taskDescription = new ExtensibleEditText(this);//Extensible
         taskDescription.setId(R.id.taskDescription);
         taskDescription.setImeOptions(EditorInfo.IME_ACTION_DONE);
         taskDescription.setSingleLine();
