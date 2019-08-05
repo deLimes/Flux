@@ -43,6 +43,11 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
         setDrawingCacheEnabled(true);
     }
 
+    @Override
+    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
+        super.onTextChanged(text, start, lengthBefore, lengthAfter);
+        showIvLargerImage = false;
+    }
 
     private void showIvLargerImage() {
 
