@@ -24,6 +24,7 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.media.AudioAttributes;
 import android.net.Uri;
@@ -42,6 +43,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -726,12 +728,16 @@ public class MainActivity extends AppCompatActivity {
                         //ivLargerImage
                         params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                        params.topToBottom = R.id.numberYearPicker;
+                        params.topToTop = R.id.сonstraintLayoutForSchedule;
                         params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                        taskDescription.widht = dateMonth.getWidth();
-                        taskDescription.height = dateMonth.getHeight();
+                        params.bottomToTop = R.id.сonstraintLayoutTaskParameters;
+                        //ivLargerImage.setBackgroundColor(R.color.ivLargerImageColor);	android.R.attr
+                        //ivLargerImage.setBackgroundColor(((ColorDrawable)constraintLayout.getBackground()).getColor());
+                        TypedValue typedValue = new TypedValue();
+                        Resources.Theme theme = getTheme();
+                        theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true);
+                        ivLargerImage.setBackgroundColor(typedValue.data);
                         ivLargerImage.setVisibility(View.GONE);
-                        //ivLargerImage.setBackgroundColor(Color.RED);
                         ivLargerImage.setLayoutParams(params);
 
                     }
@@ -781,11 +787,6 @@ public class MainActivity extends AppCompatActivity {
         сonstraintLayoutForSchedule  = new ConstraintLayout(this);
         сonstraintLayoutForSchedule.setId(R.id.сonstraintLayoutForSchedule);
         constraintLayout.addView(сonstraintLayoutForSchedule);
-
-        ivLargerImage = new ImageView(this);
-        ivLargerImage.setId(R.id.ivLargerImage);
-        сonstraintLayoutForSchedule.addView(ivLargerImage, 0);
-
 
         numberYearPicker = new NumberYearPicker(this, 0);
         numberYearPicker.setId(R.id.numberYearPicker);
@@ -1062,6 +1063,11 @@ public class MainActivity extends AppCompatActivity {
         linearLayout = ltInflater.inflate(R.layout.layout, сonstraintLayoutForSchedule, false);
         сonstraintLayoutForSchedule.addView(linearLayout);
         linLayout = (LinearLayout) findViewById(R.id.linLayout);
+
+        ivLargerImage = new ImageView(this);
+        ivLargerImage.setId(R.id.ivLargerImage);
+        сonstraintLayoutForSchedule.addView(ivLargerImage, сonstraintLayoutForSchedule.getChildCount());
+
 
 
         layoutDayOfWeek = ltInflater.inflate(R.layout.layout_day_of_week, сonstraintLayoutForSchedule, false);
@@ -1819,6 +1825,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
         сonstraintLayoutTaskParameters.addView(inDays);
+
+
 
 
         analogClock = new AnalogClock(this);
@@ -3275,6 +3283,7 @@ public class MainActivity extends AppCompatActivity {
 
         taskTime.setText("__:__");
         taskDuration.setText("__:__");
+        taskDescription.showIvLargerImage = false;
         taskDescription.setText("");
         startOfTask.setText("__.__.____");
         endOfTask.setText("__.__.____");
@@ -3293,7 +3302,9 @@ public class MainActivity extends AppCompatActivity {
                             ":" + (("" + task.durationMinutes).length() == 1 ? "0" + task.durationMinutes : "" + task.durationMinutes));
 
             //taskDescription.setText(task.content);
+            taskDescription.showIvLargerImage = false;
             taskDescription.setText("");
+            taskDescription.showIvLargerImage = false;
             taskDescription.append(task.content);
 
 

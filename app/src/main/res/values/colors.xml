@@ -17,4 +17,6 @@
     <color name="colorHourdHand">#FF0000</color>
     <color name="colorSecondHand">#00FF00</color>
     <color name="colorMinuteHand">#0000FF</color>
+
+    <color name="ivLargerImageColor">?android:colorError</color>
 </resources>

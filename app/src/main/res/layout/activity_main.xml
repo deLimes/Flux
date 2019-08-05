@@ -143,6 +143,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
+        android:background="?android:colorBackground"
         tools:layout_editor_absoluteX="137dp"
         tools:layout_editor_absoluteY="347dp" />
 </android.support.constraint.ConstraintLayout>
