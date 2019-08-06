@@ -2,20 +2,10 @@ package com.example.delimes.flux;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.os.Build;
 import android.os.CountDownTimer;
-import android.support.constraint.ConstraintLayout;
-import android.text.Layout;
-import android.text.method.MovementMethod;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
+
 
 public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditText {
 
@@ -55,6 +45,7 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
             showIvLargerImage = true;
             return;
         }
+        invalidate();
         Bitmap bitmap = getDrawingCache();
 
         if (bitmap == null){

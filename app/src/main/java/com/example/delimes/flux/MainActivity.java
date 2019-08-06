@@ -41,6 +41,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
 import android.util.Log;
 import android.util.TypedValue;
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     static ImageView ivLargerImage;
     static NumberYearPicker numberYearPicker;
-    static TextView dateMonth;
+    static ExtensibleTextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
 
@@ -375,6 +376,8 @@ public class MainActivity extends AppCompatActivity {
 
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
+
+
 
 //        MyCalendar myCalendar = (MyCalendar) findViewById(R.id.myCalendar);
 //
@@ -792,9 +795,10 @@ public class MainActivity extends AppCompatActivity {
         numberYearPicker.setId(R.id.numberYearPicker);
         сonstraintLayoutForSchedule.addView(numberYearPicker);
 
-        dateMonth = new TextView(this);
+        dateMonth = new ExtensibleTextView(this);
         dateMonth.setId(R.id.dateMonth);
         dateMonth.getPaint().setUnderlineText(true);
+
         сonstraintLayoutForSchedule.addView(dateMonth);
 
         сonstraintLayoutTaskParameters  = new ConstraintLayout(this);

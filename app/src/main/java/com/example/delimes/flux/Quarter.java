@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -1431,6 +1432,7 @@ class Quarter extends View {
                     MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
                             + calendar.get(Calendar.DAY_OF_MONTH) + " "
                             + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
                     MainActivity.day = currentDate;
@@ -2371,6 +2373,8 @@ class Quarter extends View {
                 }
             }
 
+
+
             return super.onDoubleTap(e);
         }
 
@@ -2495,6 +2499,8 @@ class Quarter extends View {
                     //MainActivity.day = selectedDay;
                 }
             }
+
+
             super.onLongPress(e);
         }
 
