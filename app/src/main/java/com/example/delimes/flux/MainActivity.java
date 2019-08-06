@@ -2005,6 +2005,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTicker("Пора!")
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
+                .setTimeoutAfter(-1)
                 .setOngoing(true)
                 //.setDefaults(Notification.DEFAULT_SOUND)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
@@ -2032,7 +2033,7 @@ public class MainActivity extends AppCompatActivity {
             String channelDescription = "Channel";
             NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
             if (notificationChannel  == null) {
-                notificationChannel  = new NotificationChannel(channelId, channelDescription, NotificationManager.IMPORTANCE_MAX);
+                notificationChannel  = new NotificationChannel(channelId, channelDescription, NotificationManager.IMPORTANCE_HIGH);
                 notificationChannel.enableLights(true);//doesn't work
                 notificationChannel.setLightColor(Color.BLUE);//doesn't work
                 notificationChannel.enableVibration(true);//doesn't work
@@ -2056,10 +2057,10 @@ public class MainActivity extends AppCompatActivity {
             builderCompat.setContentText(intent.getStringExtra("content")); // required
             builderCompat.setDefaults(Notification.DEFAULT_ALL);
             builderCompat.setAutoCancel(true);
+            builderCompat.setTimeoutAfter(-1);
             builderCompat.setContentIntent(pIntent);
             builderCompat.setTicker("Пора!");
             builderCompat.setWhen(System.currentTimeMillis());
-            builderCompat.setAutoCancel(true);
             builderCompat.setOngoing(true);
             builderCompat.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
             //builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
