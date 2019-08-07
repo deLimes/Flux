@@ -1429,9 +1429,9 @@ class Quarter extends View {
                 if (firstOccurrence) {
                     calendar.clear();
                     calendar.setTimeInMillis(currentDate.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
@@ -1454,9 +1454,9 @@ class Quarter extends View {
 
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
 
             }
@@ -1517,9 +1517,9 @@ class Quarter extends View {
                 if (firstOccurrence) {
                     calendar.clear();
                     calendar.setTimeInMillis(currentDate.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
                     MainActivity.day = currentDate;
@@ -1541,9 +1541,9 @@ class Quarter extends View {
 
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
             }
         }else if (quarter == 3){
@@ -1572,9 +1572,9 @@ class Quarter extends View {
                 if (firstOccurrence) {
                     calendar.clear();
                     calendar.setTimeInMillis(currentDate.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
                     MainActivity.day = currentDate;
@@ -1596,9 +1596,9 @@ class Quarter extends View {
 
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
             }
 
@@ -1644,9 +1644,9 @@ class Quarter extends View {
                 if (firstOccurrence) {
                     calendar.clear();
                     calendar.setTimeInMillis(currentDate.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
                     MainActivity.day = currentDate;
@@ -1668,9 +1668,9 @@ class Quarter extends View {
 
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
             }
 
@@ -1689,9 +1689,9 @@ class Quarter extends View {
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());
 
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
 
                     if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
@@ -1717,9 +1717,9 @@ class Quarter extends View {
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());
 
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
                     if(calendar.get(Calendar.MONTH) == Calendar.APRIL) {
                         y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
@@ -1745,9 +1745,9 @@ class Quarter extends View {
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());
 
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
                     if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
                         x = x - date.right + getWidth() / 2 - getWidth() / 4;
@@ -1773,9 +1773,9 @@ class Quarter extends View {
                     calendar.clear();
                     calendar.setTimeInMillis(date.date.getTime());
 
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
-                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+//                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
                     if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER) {
                         y = y - date.top + getHeight() / 2 + getHeight() / 4;
@@ -2366,9 +2366,9 @@ class Quarter extends View {
                 if (selectedDay != null) {
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                     //MainActivity.day = selectedDay;
                 }
             }
@@ -2493,9 +2493,9 @@ class Quarter extends View {
                 if (selectedDay != null) {
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
-                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                     //MainActivity.day = selectedDay;
                 }
             }

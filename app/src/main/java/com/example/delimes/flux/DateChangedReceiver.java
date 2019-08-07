@@ -33,6 +33,8 @@ public class DateChangedReceiver extends BroadcastReceiver {
 
         if (MainActivity.numberYearPicker != null) {
             MainActivity.numberYearPicker.setValue(year);
+        }else{
+            context.startService(new Intent(context, UpdateReminders.class));
         }
     }
 

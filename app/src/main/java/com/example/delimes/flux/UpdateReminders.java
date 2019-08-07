@@ -38,6 +38,7 @@ public class UpdateReminders extends Service {
 
         updateReminders();
 
+        //если остановить службу. пропадут выведеные сообщения
         //stopService(new Intent(this, UpdateReminders.class));
 
         return super.onStartCommand(intent, flags, startId);
@@ -55,8 +56,8 @@ public class UpdateReminders extends Service {
         Calendar calendar = GregorianCalendar.getInstance();
 
         calendar.setTimeInMillis(System.currentTimeMillis());
-        String year = String.valueOf(calendar.get(Calendar.YEAR));
-        Log.d("myLogs", "updateReminders: year"+year);
+        String strYear = String.valueOf(calendar.get(Calendar.YEAR));
+        Log.d("myLogs", "updateReminders: year"+strYear);
 
         ///////////////////////////////////////
         // проверяем доступность SD
@@ -72,7 +73,7 @@ public class UpdateReminders extends Service {
         // добавляем свой каталог к пути
         sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
         // формируем объект File, который содержит путь к файлу
-        File sdFile = new File(sdPath, "savedTasks"+year);
+        File sdFile = new File(sdPath, "savedTasks"+strYear);
         if (!sdFile.exists()){
             return;
         }

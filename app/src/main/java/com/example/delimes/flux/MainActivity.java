@@ -92,6 +92,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static int notifyId = 101;
     static int taskExtra = 0;
+    static int yearFromIntent = 0;
     ///////////////////////////////////////////////////////////////////////////
 
     boolean yearReducedForFling = false;
@@ -186,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED = 101;
     private AlphaAnimation alphaAnimationClick = new AlphaAnimation(1f, 0.2f);
-    private long dateDoomsday;
+    private static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
 
     public MainActivity() {
         this.context = this;
@@ -280,7 +282,11 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(year, month, day);
         currDate = new Date(MainActivity.calendar.getTimeInMillis());
 
-        numberYearPicker.setValue(year);
+        if (yearFromIntent != 0){
+            numberYearPicker.setValue(yearFromIntent);
+        }else {
+            numberYearPicker.setValue(year);
+        }
 
     }
 
@@ -1848,6 +1854,11 @@ public class MainActivity extends AppCompatActivity {
         if (strTaskExtra != null) {
             taskExtra = Integer.valueOf(strTaskExtra);
         }
+
+        String strYear = getIntent().getStringExtra("year");
+        if (strYear != null) {
+            yearFromIntent = Integer.valueOf(strYear);
+        }
         //Log.d("myLogs", "taskRxtra onCreate " + taskExtra);
 
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -1879,6 +1890,11 @@ public class MainActivity extends AppCompatActivity {
             taskExtra = Integer.valueOf(strTaskExtra);
         }
 
+        String strYear = intent.getStringExtra("year");
+        if (strYear != null) {
+            yearFromIntent = Integer.valueOf(strYear);
+        }
+
         //Сохраним текущий изменения
         //saveYear();
 
@@ -1904,10 +1920,14 @@ public class MainActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 
+        calendar.clear();
+        calendar.setTimeInMillis(date.getTime());
+
         Log.d("myLogs", "setReminder1: .context " +context);
         Intent notificationIntent = new Intent(context, Receiver.class);
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
         notificationIntent.putExtra("content", task.content);
+        notificationIntent.putExtra("year", Integer.toString(calendar.get(Calendar.YEAR)));
         //notificationIntent.putExtra("task", task);
 
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
@@ -1964,6 +1984,7 @@ public class MainActivity extends AppCompatActivity {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
         notificationIntent.putExtra("content", intent.getStringExtra("content"));
+        notificationIntent.putExtra("year", intent.getStringExtra("year"));
 
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
@@ -2005,7 +2026,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTicker("Пора!")
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setTimeoutAfter(-1)
+                .setTimeoutAfter(dateDoomsday)
                 .setOngoing(true)
                 //.setDefaults(Notification.DEFAULT_SOUND)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
@@ -2055,9 +2076,9 @@ public class MainActivity extends AppCompatActivity {
             builderCompat.setSmallIcon(android.R.drawable.ic_popup_reminder);   // required
             builderCompat.setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher));
             builderCompat.setContentText(intent.getStringExtra("content")); // required
-            builderCompat.setDefaults(Notification.DEFAULT_ALL);
+            //builderCompat.setDefaults(Notification.DEFAULT_ALL);
             builderCompat.setAutoCancel(true);
-            builderCompat.setTimeoutAfter(-1);
+            builderCompat.setTimeoutAfter(dateDoomsday);
             builderCompat.setContentIntent(pIntent);
             builderCompat.setTicker("Пора!");
             builderCompat.setWhen(System.currentTimeMillis());
@@ -3296,6 +3317,20 @@ public class MainActivity extends AppCompatActivity {
         everyMonth.setChecked(false);
         inDays.setText("");
 
+        calendar.clear();
+        calendar.setTimeInMillis(selectedDay.date.getTime());
+
+//        if ( calendar.get(Calendar.YEAR) != numberYearPicker.getValue() ){
+//            numberYearPicker.setValue(calendar.get(Calendar.YEAR));
+//        }
+
+        String strDateMonth = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
+                +calendar.get(Calendar.DAY_OF_MONTH) + " "
+                +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+
+        MainActivity.dateMonth.setText(strDateMonth);
+
+
         if(task != null) {
             calendar.clear();
             calendar.setTimeInMillis(task.startTime);
@@ -3705,7 +3740,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveYearToFile() {
 
-        yearStr = new YearStr(Integer.valueOf(numberYearPicker.valueText.getText().toString()), winter.days, spring.days, summer.days, autumn.days, cyclicTasks);
+        String strYear = numberYearPicker.valueText.getText().toString();
+        if (strYear.isEmpty()){
+            Toast.makeText(this, "Year not saved!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        yearStr = new YearStr(Integer.valueOf(strYear), winter.days, spring.days, summer.days, autumn.days, cyclicTasks);
         String jsonStr = new Gson().toJson(yearStr, YearStr.class);
 
         try {
