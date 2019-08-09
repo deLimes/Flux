@@ -2295,7 +2295,8 @@ class Quarter extends View {
                 Day b = j.next();
                 if (quarter == 1) {
                     if (b.left <= doubleTapX && b.right >= doubleTapX) {
-                        selectedDay = b;
+                        //selectedDay = b;
+                        selectedDay = mainActivity.winter.days.get(days.indexOf(b));
                         invalidate();
                         mainActivity.spring.selectedDay = null;
                         mainActivity.spring.invalidate();
@@ -2312,7 +2313,8 @@ class Quarter extends View {
                     }
                 }else if (quarter == 2) {
                     if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        selectedDay = b;
+                        //selectedDay = b;
+                        selectedDay = mainActivity.spring.days.get(days.indexOf(b));
                         invalidate();
                         mainActivity.winter.selectedDay = null;
                         mainActivity.winter.invalidate();
@@ -2329,7 +2331,8 @@ class Quarter extends View {
                     }
                 }else if (quarter == 3) {
                     if(b.left <= doubleTapX && b.right >= doubleTapX) {
-                        selectedDay = b;
+                        //selectedDay = b;
+                        selectedDay = mainActivity.summer.days.get(days.indexOf(b));
                         invalidate();
                         mainActivity.winter.selectedDay = null;
                         mainActivity.winter.invalidate();
@@ -2346,7 +2349,8 @@ class Quarter extends View {
                     }
                 }else if (quarter == 4) {
                     if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        selectedDay = b;
+                        //selectedDay = b;
+                        selectedDay = mainActivity.autumn.days.get(days.indexOf(b));
                         invalidate();
                         mainActivity.winter.selectedDay = null;
                         mainActivity.winter.invalidate();

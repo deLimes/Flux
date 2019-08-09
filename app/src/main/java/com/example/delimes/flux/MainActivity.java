@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     ScrollView scheduleScroll;
     LayoutInflater ltInflater;
     LinearLayout linLayout;
-    static Day day;
+    static Day day, previousDay;
     static Task task;
     ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
     ArrayList<Task> destroyedTasksOfYear = new ArrayList<Task>();
@@ -970,6 +970,9 @@ public class MainActivity extends AppCompatActivity {
                 if(task != null) {
 
                     day.tasks.remove(task);
+                    if (previousDay != null){
+                        previousDay.tasks.remove(task);
+                    }
                     if (!addedTasksOfYear.remove(task)) {
                         destroyedTasksOfYear.add(task);
                     }
@@ -3214,65 +3217,21 @@ public class MainActivity extends AppCompatActivity {
                 if(task.startTime != calendar.getTimeInMillis()){
                     changedeTasksOfYear = true;
                     day.tasks.remove(task);
+                    if (previousDay != null){
+                        previousDay.tasks.remove(task);
+                        previousDay.dayClosed = true;
+                        for (Task task : previousDay.tasks) {
+                            if(!task.isDone && task.isValid){
+                                previousDay.dayClosed = false;
+                            }
+                        }
+                    }
+                    if(task.startTime == task.finishTime){
+                        task.finishTime = calendar.getTimeInMillis();
+                    }
                     task.startTime = calendar.getTimeInMillis();
                 }else{
                     return;
-                }
-
-                if(task.finishTime < task.startTime){
-                    task.finishTime = task.startTime;
-                }
-
-                Iterator<Task> iter = cyclicTasks.iterator();
-                while (iter.hasNext()) {
-                    Task t = iter.next();
-
-                    if (t.equals(task)) {
-                        task.duplicate(t);
-                        refreshCyclicTasks(t);
-                    }
-                }
-
-                //reschedule task
-                Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
-                int numberDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
-                if (winter.days.size() > numberDayOfYear){
-
-                    dayOfYear = winter.days.get(numberDayOfYear);
-                    dayOfYear.tasks.add(task);
-
-                }else if(winter.days.size()
-                        + spring.days.size() > numberDayOfYear){
-
-                    dayOfYear = spring.days.get(numberDayOfYear - winter.days.size() - 1);
-                    dayOfYear.tasks.add(task);
-
-                }else if(winter.days.size()
-                        + spring.days.size()
-                        + summer.days.size() > numberDayOfYear){
-
-                    dayOfYear = summer.days.get(numberDayOfYear
-                            - winter.days.size()
-                            - spring.days.size() - 1);
-                    dayOfYear.tasks.add(task);
-
-                }else if(winter.days.size()
-                        + spring.days.size()
-                        + summer.days.size()
-                        + autumn.days.size() > numberDayOfYear){
-
-                    dayOfYear = autumn.days.get(numberDayOfYear
-                            - winter.days.size()
-                            - spring.days.size()
-                            - summer.days.size() - 1);
-                    dayOfYear.tasks.add(task);
-                }
-// Доработать не подсвечиваются дни перенесенных незавершенныз задач
-                dayOfYear.dayClosed = true;
-                for (Task task : dayOfYear.tasks) {
-                    if(!task.isDone && task.isValid){
-                        dayOfYear.dayClosed = false;
-                    }
                 }
 
                 day.dayClosed = true;
@@ -3282,7 +3241,73 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                if(task.finishTime < task.startTime){
+                    task.finishTime = task.startTime;
+                }
+
                 updateSchedule(day);
+
+                /*
+                Iterator<Task> iter = cyclicTasks.iterator();
+                while (iter.hasNext()) {
+                    Task t = iter.next();
+
+                    if (t.equals(task)) {
+                        task.duplicate(t);
+                        refreshCyclicTasks(t);
+                    }
+                }
+                */
+
+
+                //numberYearPicker.setValue(year);
+
+
+                //reschedule task
+                Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
+                int numberDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+                if (winter.days.size() >= numberDayOfYear){
+
+                    dayOfYear = winter.days.get(numberDayOfYear - 1);
+                    dayOfYear.tasks.add(task);
+
+                }else if(winter.days.size()
+                        + spring.days.size() >= numberDayOfYear){
+
+                    dayOfYear = spring.days.get(numberDayOfYear - 1 - winter.days.size());
+                    dayOfYear.tasks.add(task);
+
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size() >= numberDayOfYear){
+
+                    dayOfYear = summer.days.get(numberDayOfYear - 1
+                            - winter.days.size()
+                            - spring.days.size());
+                    dayOfYear.tasks.add(task);
+
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size()
+                        + autumn.days.size() >= numberDayOfYear){
+
+                    dayOfYear = autumn.days.get(numberDayOfYear - 1
+                            - winter.days.size()
+                            - spring.days.size()
+                            - summer.days.size());
+                    dayOfYear.tasks.add(task);
+                }
+
+                // Доработать не подсвечиваются дни перенесенных незавершенныз задач
+                dayOfYear.dayClosed = true;
+                for (Task task : dayOfYear.tasks) {
+                    if(!task.isDone && task.isValid){
+                        dayOfYear.dayClosed = false;
+                    }
+                }
+                previousDay = dayOfYear;
+
+                changedeTasksOfYear = true;
 
                 winter.invalidate();
                 spring.invalidate();
