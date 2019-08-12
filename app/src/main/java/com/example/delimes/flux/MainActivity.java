@@ -3247,20 +3247,29 @@ public class MainActivity extends AppCompatActivity {
 
                 updateSchedule(day);
 
-                /*
+
                 Iterator<Task> iter = cyclicTasks.iterator();
                 while (iter.hasNext()) {
                     Task t = iter.next();
 
                     if (t.equals(task)) {
                         task.duplicate(t);
+
                         refreshCyclicTasks(t);
+
                     }
                 }
-                */
 
 
-                //numberYearPicker.setValue(year);
+
+                calendar.clear();
+//                calendar.set(Calendar.YEAR, year);
+//                calendar.set(Calendar.MONTH, month);
+//                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(year, month, dayOfMonth);
+                task.taskTransferDate = new Date(calendar.getTimeInMillis());
+                //чтоб задача переместилась после рестора
+                numberYearPicker.setValue(year);
 
 
                 //reschedule task
@@ -3308,11 +3317,14 @@ public class MainActivity extends AppCompatActivity {
                 previousDay = dayOfYear;
 
                 changedeTasksOfYear = true;
+                //saveYearToFile();
+
 
                 winter.invalidate();
                 spring.invalidate();
                 summer.invalidate();
                 autumn.invalidate();
+
             }
         };
 
@@ -3767,7 +3779,7 @@ public class MainActivity extends AppCompatActivity {
 
         String strYear = numberYearPicker.valueText.getText().toString();
         if (strYear.isEmpty()){
-            Toast.makeText(this, "Year not saved!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Year not saved!", Toast.LENGTH_LONG).show();
             return;
         }
         yearStr = new YearStr(Integer.valueOf(strYear), winter.days, spring.days, summer.days, autumn.days, cyclicTasks);
@@ -7167,6 +7179,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean removeFromAM;
         public boolean shown;
 
+        public Date taskTransferDate;
+
         public Task(boolean isValid, boolean isCyclic, String content, long startTime, int durationHours, int durationMinutes){
 
             this.id = new Random(System.nanoTime()).nextLong();
@@ -7190,6 +7204,7 @@ public class MainActivity extends AppCompatActivity {
             myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
             myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
             this.clockStartTime = myCalender.getTimeInMillis();
+            this.taskTransferDate = null;
 
 
         }

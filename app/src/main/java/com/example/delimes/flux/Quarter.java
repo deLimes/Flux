@@ -1825,6 +1825,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                    days.get(i).tasks.add(MainActivity.task);
+                    MainActivity.task.taskTransferDate = null;
+                }
                 for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
                         taskExtra = 0;
@@ -1846,6 +1850,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                    days.get(i).tasks.add(MainActivity.task);
+                    MainActivity.task.taskTransferDate = null;
+                }
                 for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
@@ -1868,6 +1876,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                    days.get(i).tasks.add(MainActivity.task);
+                    MainActivity.task.taskTransferDate = null;
+                }
                 for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
@@ -1890,6 +1902,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                    days.get(i).tasks.add(MainActivity.task);
+                    MainActivity.task.taskTransferDate = null;
+                }
                 for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){
                         taskExtra = 0;
