@@ -814,10 +814,12 @@ public class MainActivity extends AppCompatActivity {
 
         taskTime = new TextView(this);
         taskTime.setId(R.id.taskTime);
+        taskTime.getPaint().setUnderlineText(true);
         сonstraintLayoutTaskParameters.addView(taskTime);
 
         taskDuration = new TextView(this);
         taskDuration.setId(R.id.taskDuration);
+        taskDuration.getPaint().setUnderlineText(true);
         сonstraintLayoutTaskParameters.addView(taskDuration);
 
         taskDescription = new ExtensibleEditText(this);//Extensible
@@ -1597,6 +1599,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         if(task != null) {
+                            view.startAnimation(alphaAnimationClick);
                             showTimePicker("Choose start time:", false);
                         }
 
@@ -1607,6 +1610,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(task != null) {
+                    view.startAnimation(alphaAnimationClick);
                     showTimePicker("Choose task duration:", true);
                 }
             }
@@ -3214,10 +3218,14 @@ public class MainActivity extends AppCompatActivity {
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                if(task.startTime != calendar.getTimeInMillis()){
+                myCalender.setTimeInMillis(calendar.getTimeInMillis());
+
+                if(task.startTime != myCalender.getTimeInMillis()){
                     changedeTasksOfYear = true;
                     day.tasks.remove(task);
                     if (previousDay != null){
+                        task.removeFromAM = true;
+                        setReminder(context, task, previousDay.date);
                         previousDay.tasks.remove(task);
                         previousDay.dayClosed = true;
                         for (Task task : previousDay.tasks) {
@@ -3227,12 +3235,15 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if(task.startTime == task.finishTime){
-                        task.finishTime = calendar.getTimeInMillis();
+                        task.finishTime = myCalender.getTimeInMillis();
                     }
-                    task.startTime = calendar.getTimeInMillis();
+                    task.startTime = myCalender.getTimeInMillis();
                 }else{
                     return;
                 }
+
+                task.removeFromAM = true;
+                setReminder(context, task, day.date);
 
                 day.dayClosed = true;
                 for (Task task : day.tasks) {
@@ -3263,9 +3274,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                 calendar.clear();
-//                calendar.set(Calendar.YEAR, year);
-//                calendar.set(Calendar.MONTH, month);
-//                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 calendar.set(year, month, dayOfMonth);
                 task.taskTransferDate = new Date(calendar.getTimeInMillis());
                 //чтоб задача переместилась после рестора
@@ -3306,6 +3314,9 @@ public class MainActivity extends AppCompatActivity {
                             - summer.days.size());
                     dayOfYear.tasks.add(task);
                 }
+
+                task.shown = false;
+                setReminder(context, task, dayOfYear.date);
 
                 // Доработать не подсвечиваются дни перенесенных незавершенныз задач
                 dayOfYear.dayClosed = true;

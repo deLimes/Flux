@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
 import static com.example.delimes.flux.MainActivity.numberYearPicker;
+import static com.example.delimes.flux.MainActivity.setReminder;
 import static com.example.delimes.flux.MainActivity.taskExtra;
 
 /**
@@ -1828,6 +1829,8 @@ class Quarter extends View {
                 if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.shown = false;
+                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                 }
                 for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
@@ -1853,6 +1856,8 @@ class Quarter extends View {
                 if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.shown = false;
+                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                 }
                 for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
@@ -1879,6 +1884,8 @@ class Quarter extends View {
                 if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.shown = false;
+                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                 }
                 for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
@@ -1905,6 +1912,8 @@ class Quarter extends View {
                 if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.shown = false;
+                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                 }
                 for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){
