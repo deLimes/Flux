@@ -29,6 +29,7 @@
     <item name="everyYear" type="id"/>
     <item name="everyMonth" type="id"/>
     <item name="inDays" type="id"/>
+    <item name="taskCopyTo" type="id"/>
 
     <item name="analogClock" type="id"/>
 

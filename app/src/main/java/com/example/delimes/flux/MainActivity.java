@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView labelStartOfTask, labelEndOfTask;
     TextView startOfTask, endOfTask;
+    TextView taskCopyTo;
     EditText inDays;
     ExtensibleEditText taskDescription;
     Button buttonAddTask, buttonDeleteTask;
@@ -669,6 +670,12 @@ public class MainActivity extends AppCompatActivity {
                 //////endOfTask.setBackgroundColor(Color.RED);
 
 
+                //taskCopyTo
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToBottom = R.id.labelEndOfTask;
+                taskCopyTo.setLayoutParams(params);
+
 
                 //buttonAddTask
                 params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
@@ -853,6 +860,11 @@ public class MainActivity extends AppCompatActivity {
         сonstraintLayoutTaskParameters.addView(endOfTask);
 
 
+        taskCopyTo = new TextView(this);
+        taskCopyTo.setId(R.id.taskCopyTo);
+        taskCopyTo.setText("Копировать в дату...");
+        taskCopyTo.getPaint().setUnderlineText(true);
+        сonstraintLayoutTaskParameters.addView(taskCopyTo);
 
         buttonAddTask = new Button(this);
         buttonAddTask.setId(R.id.buttonAddTask);
@@ -1635,6 +1647,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        endOfTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(task != null) {
+                    view.startAnimation(alphaAnimationClick);
+                    showDatePickerForFinishTime();
+                }
+            }
+        });
+
+        taskCopyTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(task != null) {
+                    view.startAnimation(alphaAnimationClick);
+                    showDatePickerForCopyTo();
+                }
+            }
+        });
+
         //dictionary.clear();
                 //dictionary.addAll(new ArrayList<String>(Arrays.asList(array)));
                 //tasks
@@ -3014,6 +3047,9 @@ public class MainActivity extends AppCompatActivity {
                         if(task.startTime != calendar.getTimeInMillis()){
                             changedeTasksOfYear = true;
                         }
+                        if(task.startTime == task.finishTime){
+                            task.finishTime = calendar.getTimeInMillis();
+                        }
                         task.startTime = calendar.getTimeInMillis();
 
 
@@ -3259,6 +3295,7 @@ public class MainActivity extends AppCompatActivity {
                 updateSchedule(day);
 
 
+                /*
                 Iterator<Task> iter = cyclicTasks.iterator();
                 while (iter.hasNext()) {
                     Task t = iter.next();
@@ -3270,6 +3307,27 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }
+                */
+                ////////////////////////////
+                myCalender.clear();
+                myCalender.set(year, month, dayOfMonth);
+
+                long dateTaskStartTime = myCalender.getTimeInMillis();
+
+                if (task.isCyclic
+                        && ( dateTaskStartTime == day.date.getTime()
+                        || (previousDay != null && dateTaskStartTime == previousDay.date.getTime()) )
+                ) {
+                    refreshCyclicTasks(task);
+                }
+                /*
+                else if (task.isCyclic ){
+                    Task taskCopy = new Task(true, false, "", 0, 0, 0);
+                    task.duplicateWithoutCyclicParameters(taskCopy);
+                    task = taskCopy;
+                }
+                */
+                /////////////////////////////
 
 
 
@@ -3346,6 +3404,102 @@ public class MainActivity extends AppCompatActivity {
         //datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         datePickerDialog.show();
     }
+
+    public void showDatePickerForCopyTo() {
+
+        ////////////////////////////////////////////////////////////////////////////
+        final Calendar myCalender = Calendar.getInstance();
+        myCalender.setTimeInMillis(task.startTime);
+        int year = myCalender.get(Calendar.YEAR);
+        int month = myCalender.get(Calendar.MONTH);
+        int dayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+
+                calendar.clear();
+                calendar.setTimeInMillis(task.startTime);
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                Task taskCopy = new Task(true, false, task.content, calendar.getTimeInMillis(), task.durationHours, task.durationMinutes);
+                task = taskCopy;
+
+                calendar.clear();
+                calendar.set(year, month, dayOfMonth);
+                task.taskTransferDate = new Date(calendar.getTimeInMillis());
+                //чтоб задача переместилась после рестора
+                numberYearPicker.setValue(year);
+
+
+                //reschedule task
+                Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
+                int numberDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+                if (winter.days.size() >= numberDayOfYear){
+
+                    dayOfYear = winter.days.get(numberDayOfYear - 1);
+                    dayOfYear.tasks.add(task);
+
+                }else if(winter.days.size()
+                        + spring.days.size() >= numberDayOfYear){
+
+                    dayOfYear = spring.days.get(numberDayOfYear - 1 - winter.days.size());
+                    dayOfYear.tasks.add(task);
+
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size() >= numberDayOfYear){
+
+                    dayOfYear = summer.days.get(numberDayOfYear - 1
+                            - winter.days.size()
+                            - spring.days.size());
+                    dayOfYear.tasks.add(task);
+
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size()
+                        + autumn.days.size() >= numberDayOfYear){
+
+                    dayOfYear = autumn.days.get(numberDayOfYear - 1
+                            - winter.days.size()
+                            - spring.days.size()
+                            - summer.days.size());
+                    dayOfYear.tasks.add(task);
+                }
+
+                setReminder(context, task, dayOfYear.date);
+
+                // Доработать не подсвечиваются дни перенесенных незавершенныз задач
+                dayOfYear.dayClosed = true;
+                for (Task task : dayOfYear.tasks) {
+                    if(!task.isDone && task.isValid){
+                        dayOfYear.dayClosed = false;
+                    }
+                }
+                previousDay = dayOfYear;
+
+                changedeTasksOfYear = true;
+                //saveYearToFile();
+
+
+                winter.invalidate();
+                spring.invalidate();
+                summer.invalidate();
+                autumn.invalidate();
+
+            }
+        };
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, year, month, dayOfMonth);
+
+        datePickerDialog.setTitle("Select the date on which you want to copy the task");
+        //datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        datePickerDialog.show();
+    }
+
 
     public void updateSchedule(final Day selectedDay){
 
