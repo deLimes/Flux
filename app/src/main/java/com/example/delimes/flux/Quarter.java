@@ -684,12 +684,10 @@ class Quarter extends View {
                     p.setStyle(Paint.Style.FILL);
                 }
 
-                if (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))) {
-                    if (days.get(l).dayClosed) {
-                        p.setStrokeWidth(new Paint().getStrokeWidth());
-                    }
+                if (task.isCyclic && sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))) {
                     p.setColor(Color.rgb(139, 0, 139));
                     p.setStyle(Paint.Style.STROKE);
+                    p.setStrokeWidth(strokeWidth / 2);
                     canvas.drawRect(left, top, right, bottom, p);
                     p.setStyle(Paint.Style.FILL);
                 }
@@ -1019,12 +1017,10 @@ class Quarter extends View {
                     p.setStyle(Paint.Style.FILL);
                 }
 
-                if (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))) {
-                    if (days.get(l).dayClosed) {
-                        p.setStrokeWidth(new Paint().getStrokeWidth());
-                    }
+                if (task.isCyclic && sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))) {
                     p.setColor(Color.rgb(139, 0, 139));
                     p.setStyle(Paint.Style.STROKE);
+                    p.setStrokeWidth(strokeWidth / 2);
                     canvas.drawRect(left, top, right, bottom, p);
                     p.setStyle(Paint.Style.FILL);
                 }
@@ -1344,12 +1340,10 @@ class Quarter extends View {
                     p.setStyle(Paint.Style.FILL);
                 }
 
-                if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
-                    if (days.get(l).dayClosed) {
-                        p.setStrokeWidth(new Paint().getStrokeWidth());
-                    }
+                if(task.isCyclic && sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
                     p.setColor(Color.rgb(139, 0, 139));
                     p.setStyle(Paint.Style.STROKE);
+                    p.setStrokeWidth(strokeWidth / 2);
                     canvas.drawRect(left, top, right, bottom, p);
                     p.setStyle(Paint.Style.FILL);
                 }

@@ -3344,45 +3344,20 @@ public class MainActivity extends AppCompatActivity {
                 updateSchedule(day);
 
 
-                /*
-                Iterator<Task> iter = cyclicTasks.iterator();
-                while (iter.hasNext()) {
-                    Task t = iter.next();
+                if (task.isCyclic) {
+                    Iterator<Task> iter = cyclicTasks.iterator();
+                    while (iter.hasNext()) {
+                        Task t = iter.next();
 
-                    if (t.equals(task)) {
-                        task.duplicate(t);
-
-                        refreshCyclicTasks(t);
-
+                        if (t.equals(task)) {
+                            task.duplicate(t);
+                        }
                     }
+                }else {
+                    calendar.clear();
+                    calendar.set(year, month, dayOfMonth);
+                    task.taskTransferDate = new Date(calendar.getTimeInMillis());
                 }
-                */
-                ////////////////////////////
-                myCalender.clear();
-                myCalender.set(year, month, dayOfMonth);
-
-                long dateTaskStartTime = myCalender.getTimeInMillis();
-
-                if (task.isCyclic
-                        && ( dateTaskStartTime == day.date.getTime()
-                        || (previousDay != null && dateTaskStartTime == previousDay.date.getTime()) )
-                ) {
-                    refreshCyclicTasks(task);
-                }
-                /*
-                else if (task.isCyclic ){
-                    Task taskCopy = new Task(true, false, "", 0, 0, 0);
-                    task.duplicateWithoutCyclicParameters(taskCopy);
-                    task = taskCopy;
-                }
-                */
-                /////////////////////////////
-
-
-
-                calendar.clear();
-                calendar.set(year, month, dayOfMonth);
-                task.taskTransferDate = new Date(calendar.getTimeInMillis());
                 //чтоб задача переместилась после рестора
                 numberYearPicker.setValue(year);
 
