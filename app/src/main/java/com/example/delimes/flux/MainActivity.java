@@ -2147,6 +2147,7 @@ public class MainActivity extends AppCompatActivity {
     public void refreshCyclicTasks(Task task) {
 
         long millis;
+        boolean needToReturn = false;
         Calendar myCalender = Calendar.getInstance();
 
         myCalender.clear();
@@ -2226,7 +2227,12 @@ public class MainActivity extends AppCompatActivity {
                             Task t = iter.next();
 
                             if (task.equals(t)) {
+                                 boolean taskIsDone = t.isDone;
                                 task.duplicate(t);
+                                t.isDone = taskIsDone;
+                                if (!task.alreadyReturned && task.finishTime != dateDoomsday) {
+                                    needToReturn = true;
+                                }
                             }
                         }
 
@@ -2430,7 +2436,12 @@ public class MainActivity extends AppCompatActivity {
                             Task t = iter.next();
 
                             if (task.equals(t)) {
+                                boolean taskIsDone = t.isDone;
                                 task.duplicate(t);
+                                t.isDone = taskIsDone;
+                                if (!task.alreadyReturned && task.finishTime != dateDoomsday) {
+                                    needToReturn = true;
+                                }
                             }
 
                         }
@@ -2628,7 +2639,12 @@ public class MainActivity extends AppCompatActivity {
                             Task t = iter.next();
 
                             if (task.equals(t)) {
+                                boolean taskIsDone = t.isDone;
                                 task.duplicate(t);
+                                t.isDone = taskIsDone;
+                                if (!task.alreadyReturned && task.finishTime != dateDoomsday) {
+                                    needToReturn = true;
+                                }
                             }
                         }
 
@@ -2825,7 +2841,12 @@ public class MainActivity extends AppCompatActivity {
                             Task t = iter.next();
 
                             if (task.equals(t)) {
+                                boolean taskIsDone = t.isDone;
                                 task.duplicate(t);
+                                t.isDone = taskIsDone;
+                                if (!task.alreadyReturned && task.finishTime != dateDoomsday) {
+                                    needToReturn = true;
+                                }
                             }
                         }
 
@@ -2974,6 +2995,14 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+
+        if (needToReturn){
+            task.alreadyReturned = true;
+            calendar.clear();
+            calendar.setTimeInMillis(task.finishTime);
+            changedeTasksOfYear = true;
+            numberYearPicker.setValue(calendar.get(Calendar.YEAR));
+        }
 
            // }
 
@@ -3126,7 +3155,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showDatePickerForFinishTime() {
         final Calendar myCalender = Calendar.getInstance();
-        myCalender.setTimeInMillis(task.startTime);
+        myCalender.setTimeInMillis(day.date.getTime());
         int year = myCalender.get(Calendar.YEAR);
         int month = myCalender.get(Calendar.MONTH);
         int dayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
@@ -3136,16 +3165,36 @@ public class MainActivity extends AppCompatActivity {
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
 
                 calendar.clear();
-                calendar.setTimeInMillis(task.startTime);
+                calendar.setTimeInMillis(task.finishTime);
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
+                /*
+                    task.finishTime = calendar.getTimeInMillis();
+                    changedeTasksOfYear = true;
+                }
+                */
                 if(task.finishTime != calendar.getTimeInMillis()){
                     changedeTasksOfYear = true;
                 }
                 if(calendar.getTimeInMillis() < task.startTime){
                     task.finishTime = task.startTime;
+                }else if(task.isCyclic){
+                    task.finishTime = calendar.getTimeInMillis();
+                    myCalender.setTimeInMillis(task.startTime);
+                    Iterator<Task> iter = cyclicTasks.iterator();
+                    while (iter.hasNext()) {
+                        Task t = iter.next();
+
+                        if (t.equals(task)) {
+                            task.duplicate(t);
+                            refreshCyclicTasks(t);
+                            t.alreadyReturned = false;
+                        }
+                    }
+                    numberYearPicker.setValue(myCalender.get(Calendar.YEAR));
+                    return;
                 }else {
                     task.finishTime = calendar.getTimeInMillis();
                 }
@@ -3750,8 +3799,8 @@ public class MainActivity extends AppCompatActivity {
 
                         });
 
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
+//                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
 
                     }else if (task == MainActivity.task && сonstraintLayoutTaskParameters.getVisibility() == View.VISIBLE){
                         MainActivity.task = null;
@@ -7345,6 +7394,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean shown;
 
         public Date taskTransferDate;
+        public boolean alreadyReturned;
 
         public Task(boolean isValid, boolean isCyclic, String content, long startTime, int durationHours, int durationMinutes){
 
@@ -7370,8 +7420,7 @@ public class MainActivity extends AppCompatActivity {
             myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
             this.clockStartTime = myCalender.getTimeInMillis();
             this.taskTransferDate = null;
-
-
+            this.alreadyReturned = true;
         }
 
         public void duplicate(Task obj){
@@ -7388,6 +7437,7 @@ public class MainActivity extends AppCompatActivity {
             obj.extra = new Random(System.nanoTime()).nextInt();
             obj.shown = false;
             obj.isDone = false;
+            obj.alreadyReturned = true;
             //Log.d("myLogs", "obj.extra:" + obj.extra);
 
         }
