@@ -1950,7 +1950,7 @@ public class MainActivity extends AppCompatActivity {
         autumn.invalidate();
     }
 
-    public static void setReminder(Context context,Task task, Date date) {
+    public static void setReminder(Context context, Task task, Date date) {
 
         Log.d("myLogs", "setReminder: 0");
 //        try {
@@ -2210,13 +2210,31 @@ public class MainActivity extends AppCompatActivity {
 //                                iter.remove();
 //                            }
 
+                            boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(!t.isDone) {
-                                    iter.remove();
-                                }
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                }
+                                if(!t.isDone) {
+                                    iter.remove();
+                                    alreadyRemoved = true;
+                                }
+                            }
+                            if (!alreadyRemoved && !t.isDone && t.isCyclic){
+                                boolean remove = true;
+                                Iterator<Task> iterCyclicTasks = cyclicTasks.iterator();
+                                while (iterCyclicTasks.hasNext()) {
+                                    Task cyclicTask = iterCyclicTasks.next();
+
+                                    if (t.equals(cyclicTask)) {
+                                        remove = false;
+                                    }
+                                }
+                                if (remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                    iter.remove();
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
@@ -2418,13 +2436,31 @@ public class MainActivity extends AppCompatActivity {
 //                                iter.remove();
 //                            }
 
+                            boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(!t.isDone) {
-                                    iter.remove();
-                                }
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                }
+                                if(!t.isDone) {
+                                    iter.remove();
+                                    alreadyRemoved = true;
+                                }
+                            }
+                            if (!alreadyRemoved && !t.isDone && t.isCyclic){
+                                boolean remove = true;
+                                Iterator<Task> iterCyclicTasks = cyclicTasks.iterator();
+                                while (iterCyclicTasks.hasNext()) {
+                                    Task cyclicTask = iterCyclicTasks.next();
+
+                                    if (t.equals(cyclicTask)) {
+                                        remove = false;
+                                    }
+                                }
+                                if (remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                    iter.remove();
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
@@ -2622,13 +2658,31 @@ public class MainActivity extends AppCompatActivity {
 //                                iter.remove();
 //                            }
 
+                            boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(!t.isDone) {
-                                    iter.remove();
-                                }
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                }
+                                if(!t.isDone) {
+                                    iter.remove();
+                                    alreadyRemoved = true;
+                                }
+                            }
+                            if (!alreadyRemoved && !t.isDone && t.isCyclic){
+                                boolean remove = true;
+                                Iterator<Task> iterCyclicTasks = cyclicTasks.iterator();
+                                while (iterCyclicTasks.hasNext()) {
+                                    Task cyclicTask = iterCyclicTasks.next();
+
+                                    if (t.equals(cyclicTask)) {
+                                        remove = false;
+                                    }
+                                }
+                                if (remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                    iter.remove();
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
@@ -2824,13 +2878,31 @@ public class MainActivity extends AppCompatActivity {
 //                                iter.remove();
 //                            }
 
+                            boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(!t.isDone) {
-                                    iter.remove();
-                                }
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                }
+                                if(!t.isDone) {
+                                    iter.remove();
+                                    alreadyRemoved = true;
+                                }
+                            }
+                            if (!alreadyRemoved && !t.isDone && t.isCyclic){
+                                boolean remove = true;
+                                Iterator<Task> iterCyclicTasks = cyclicTasks.iterator();
+                                while (iterCyclicTasks.hasNext()) {
+                                    Task cyclicTask = iterCyclicTasks.next();
+
+                                    if (t.equals(cyclicTask)) {
+                                        remove = false;
+                                    }
+                                }
+                                if (remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                    iter.remove();
                                 }
                             }
                             //%%C }Проверка в ходе эксплуатации
