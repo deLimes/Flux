@@ -312,14 +312,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.v("123", "onStop: ");
-
         saveCyclicTasks();
         if(MainActivity.yearRestored && (changedeTasksOfYear || addedTasksOfYear.size() > 0 || destroyedTasksOfYear.size() > 0) && autumn.days.size() > 0 ){
             Log.d("Year", "Year was saved");
@@ -333,9 +325,14 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("veryFirstLaunch", false);
 
         editor.commit();
+    }
 
-        //finish();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v("123", "onStop: ");
 
+        finish();
     }
 
     @Override
