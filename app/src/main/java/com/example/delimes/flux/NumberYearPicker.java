@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -34,7 +35,7 @@ public class NumberYearPicker extends LinearLayout {
     private int minimum = 0;
     private int maximum = 4999;
 
-    private int textSize = 10;
+    private float textSize = 10;
 
     public Integer value;
 
@@ -151,7 +152,7 @@ public class NumberYearPicker extends LinearLayout {
 
     private void initIncrementButton(Context context){
         increment = new Button( context );
-        increment.setTextSize( textSize );
+        increment.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         increment.setText( "+" );
         increment.setTextColor(textColor);
 
@@ -187,7 +188,7 @@ public class NumberYearPicker extends LinearLayout {
         value = new Integer( 0 );
 
         valueText = new EditText( context );
-        valueText.setTextSize( textSize );
+        valueText.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         valueText.setTextColor(textColor);
         valueText.setEnabled(false);
 
@@ -435,7 +436,7 @@ public class NumberYearPicker extends LinearLayout {
 
     private void initDecrementButton( Context context){
         decrement = new Button( context );
-        decrement.setTextSize( textSize );
+        decrement.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         decrement.setText( "-" );
         decrement.setTextColor(textColor);
 
@@ -548,7 +549,7 @@ public class NumberYearPicker extends LinearLayout {
         return maximum;
     }
 
-    public int getTextSize() {
+    public float getTextSize() {
         return textSize;
     }
 
@@ -572,7 +573,7 @@ public class NumberYearPicker extends LinearLayout {
         this.maximum = maximum;
     }
 
-    public void setTextSize(int textSize) {
+    public void setTextSize(float textSize) {
         this.textSize = textSize;
     }
 

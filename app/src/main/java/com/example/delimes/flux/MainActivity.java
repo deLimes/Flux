@@ -33,6 +33,7 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.service.notification.StatusBarNotification;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    TextView labelStartOfTask, labelEndOfTask;
+    TextView labelStartOfTask, labelEndOfTask, labelRepeatThrough;
     TextView startOfTask, endOfTask;
     TextView taskCopyTo;
     EditText inDays;
@@ -190,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
     private final int MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED = 101;
     private AlphaAnimation alphaAnimationClick = new AlphaAnimation(1f, 0.2f);
     private static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
+
+    private float fontHeight;
 
     public MainActivity() {
         this.context = this;
@@ -522,7 +525,7 @@ public class MainActivity extends AppCompatActivity {
                 numberYearPicker.setElementWidth((int)(width/1.5f));
 //                numberYearPicker.setElementHeight(width/2);
 //                numberYearPicker.setElementWidth(width/2);
-                numberYearPicker.setTextSize( (int)(width/1.5f/5f) );
+                numberYearPicker.setTextSize( fontHeight );
                 numberYearPicker.rebuild(getBaseContext());
                 //numberYearPicker.setValue(calendar.get(Calendar.YEAR));
                 numberYearPicker.setValue(curentYearNumber);
@@ -555,7 +558,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //dateMonth.setBackgroundColor(Color.RED);
 
-                dateMonth.setTextSize( (int)(width/1.5f/5f) );
+                dateMonth.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
                 dateMonth.setTextColor(Color.BLACK);
                 dateMonth.setLayoutParams(params);
 
@@ -605,47 +608,54 @@ public class MainActivity extends AppCompatActivity {
                 taskDescription.setLayoutParams(params);
 
 
-                //layoutDayOfWeek
+                //labelRepeatThrough
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.taskDuration;
-                layoutDayOfWeek.setLayoutParams(params);
-
+                labelRepeatThrough.setLayoutParams(params);
 
                 //everyYear
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.layoutDayOfWeek;
-                everyYear.setTextSize( (int)(width/1.5f/5f) );
+                params.topToBottom = R.id.labelRepeatThrough;
+                everyYear.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
                 everyYear.setLayoutParams(params);
 
                 //everyMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.everyYear;
-                everyMonth.setTextSize( (int)(width/1.5f/5f) );
+                params.leftToRight = R.id.everyYear;
+                params.topToBottom = R.id.labelRepeatThrough;
+                everyMonth.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
                 everyMonth.setLayoutParams(params);
 
                 //inDays
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.everyMonth;
-                inDays.setTextSize( (int)(width/1.5f/5f) );
+                inDays.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
                 inDays.setLayoutParams(params);
+
+                //layoutDayOfWeek
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+                params.topToBottom = R.id.inDays;
+                layoutDayOfWeek.setLayoutParams(params);
+
 
                 //labelStartOfTask
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.inDays;
-                //params.leftMargin = 10;
+                params.topToBottom = R.id.layoutDayOfWeek;
+                params.topMargin = 10;
                 //params.rightToLeft = R.id.startOfTask;
                 labelStartOfTask.setLayoutParams(params);
 
                 //startOfTask
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToRight = R.id.labelStartOfTask;
-                params.topToBottom = R.id.inDays;
+                params.topToBottom = R.id.layoutDayOfWeek;
                 //params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                params.topMargin = 10;
                 params.leftMargin = 10;
                 startOfTask.setLayoutParams(params);
                 //////startOfTask.setBackgroundColor(Color.BLUE);
@@ -671,6 +681,7 @@ public class MainActivity extends AppCompatActivity {
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
                 params.topToBottom = R.id.labelEndOfTask;
+                params.topMargin = 10;
                 taskCopyTo.setLayoutParams(params);
 
 
@@ -679,7 +690,7 @@ public class MainActivity extends AppCompatActivity {
                 params.rightToRight = R.id.сonstraintLayoutForSchedule;
                 params.topToBottom= R.id.сonstraintLayoutTaskParameters;
 
-                buttonAddTask.setTextSize( (int)(width/1.5f/5f) );
+                buttonAddTask.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
                 buttonAddTask.setLayoutParams(params);
 
                 //buttonDeleteTask
@@ -687,7 +698,7 @@ public class MainActivity extends AppCompatActivity {
                 params.rightToLeft = R.id.buttonAddTask;
                 params.topToBottom = R.id.сonstraintLayoutTaskParameters;
 
-                buttonDeleteTask.setTextSize( (int)(width/1.5f/5f) );
+                buttonDeleteTask.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight ); // (width/1.5f/5f)
                 buttonDeleteTask.setLayoutParams(params);
                 ////////////
 
@@ -773,6 +784,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fontHeight = 20f;
+
         winter = new Quarter(this,1);
         winter.setId(R.id.winter);
         //winter.setBackground(getDrawable(R.drawable.background_gradient_winter));
@@ -835,6 +848,10 @@ public class MainActivity extends AppCompatActivity {
         taskDescription.setEnabled(false);
         сonstraintLayoutTaskParameters.addView(taskDescription);
 
+        labelRepeatThrough = new TextView(this);
+        labelRepeatThrough.setId(R.id.labelRepeatThrough);
+        labelRepeatThrough.setText("Повторять через:");
+        сonstraintLayoutTaskParameters.addView(labelRepeatThrough);
 
         labelStartOfTask = new TextView(this);
         labelStartOfTask.setId(R.id.labelStartOfTask);
@@ -1592,8 +1609,12 @@ public class MainActivity extends AppCompatActivity {
                         task.finishTime = task.startTime;
                     }
 
+                    refreshCyclicTasks(task);
                     updateSchedule(day);
 
+                    if (task.queue){
+                        setReminder(context, task, day.date);
+                    }
 
                     return false;
                 }
@@ -1987,6 +2008,7 @@ public class MainActivity extends AppCompatActivity {
             notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
             notificationManager.cancel(notifyId);
             task.removeFromAM = false;
+            task.queue = false;
         }else {
             Log.d("myLogs", "setReminder: 2 ");
             Log.d("myLogs", "setReminder: 2.1 "
@@ -2007,6 +2029,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, alarmPeriodicTime, pIntent);
                 }
+                task.queue = true;
                 //alarmManager.set(AlarmManager.RTC_WAKEUP, myCalender.getTimeInMillis(), pIntent);
                 Log.d("myLogs", "setReminder: Date: "+new Date(myCalender.getTimeInMillis()));
                 Log.d("myLogs", "setReminder: notificationIntent.extra: "+notificationIntent.getStringExtra("extra"));
@@ -4276,6 +4299,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public void example_Button_setTextSize(Button btn)
+    {
+        //set the button text size 30dp
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+        btn.setText("Button Text Size 30 DP (Device-Independent-Pixels)");
+
+        //set the button text size 0.30in
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_IN, 0.30f);
+        btn.setText("Button Text Size 0.30in (Inches)");
+
+        //set the button text size mm
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_MM, 7);
+        btn.setText("Button Text Size 7mm (Millimeters)");
+
+        //set the button text size 30pt
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_PT, 30);
+        btn.setText("Button Text Size 30pt (Points)");
+
+        //set the button text size 55px
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, 55);
+        btn.setText("Button Text Size 55px (Pixels)");
+
+        //set the button text size 30sp
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        btn.setText("Button Text Size 30sp (Scale-Independent-Pixels)");
     }
 
     /**
@@ -7439,6 +7489,7 @@ public class MainActivity extends AppCompatActivity {
 
         public Date taskTransferDate;
         public boolean alreadyReturned;
+        public boolean queue;
 
         public Task(boolean isValid, boolean isCyclic, String content, long startTime, int durationHours, int durationMinutes){
 
@@ -7455,6 +7506,7 @@ public class MainActivity extends AppCompatActivity {
             this.remove = false;
             this.removeFromAM = false;
             this.shown = false;
+            this.queue = false;
 
             calendar.clear();
             calendar.setTimeInMillis(startTime);
@@ -7481,6 +7533,7 @@ public class MainActivity extends AppCompatActivity {
             obj.extra = new Random(System.nanoTime()).nextInt();
             obj.shown = false;
             obj.isDone = false;
+            obj.queue = false;
             obj.alreadyReturned = true;
             //Log.d("myLogs", "obj.extra:" + obj.extra);
 
