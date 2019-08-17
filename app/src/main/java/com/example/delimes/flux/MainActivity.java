@@ -1580,11 +1580,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     task.isCyclic = false;
 
-                    //установить контент
                     if (task.content != taskDescription.getText().toString()) {
                         changedeTasksOfYear = true;
                     }
-
+                    //установить контент
                     task.content = taskDescription.getText().toString();
 
                     if (task.monday ||
@@ -1609,12 +1608,58 @@ public class MainActivity extends AppCompatActivity {
                         task.finishTime = task.startTime;
                     }
 
-                    refreshCyclicTasks(task);
                     updateSchedule(day);
+                    if (task.isCyclic) {
+                        calendar.clear();
+                        calendar.setTimeInMillis(task.startTime);
+                        final Calendar myCalender = Calendar.getInstance();
+                        myCalender.clear();
+                        myCalender.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                        myCalender.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                        myCalender.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
 
+                        long dateTaskStartTime = myCalender.getTimeInMillis();
+
+                        if (dateTaskStartTime == day.date.getTime()) {
+                            //напоминание установится в refreshCyclicTasks(task);
+                            refreshCyclicTasks(task);
+                        }else{
+                            //set new remind
+                            calendar.clear();
+                            calendar.setTimeInMillis(task.startTime);
+
+                            myCalender.setTimeInMillis(day.date.getTime());
+                            myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                            myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                            if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                setReminder(context, task, day.date);
+                                Log.d("123", "onEditorAction: "+ task.extra);
+                            }
+                        }
+                    }else{
+                        //set new remind
+                        calendar.clear();
+                        calendar.setTimeInMillis(task.startTime);
+
+                        final Calendar myCalender = Calendar.getInstance();
+                        myCalender.setTimeInMillis(day.date.getTime());
+                        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                        if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                            setReminder(context, task, day.date);
+                        }
+                    }
+
+                    /*
                     if (task.queue){
                         setReminder(context, task, day.date);
                     }
+                    */
+                    /*
+
+                    */
 
                     return false;
                 }
@@ -2232,10 +2277,13 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(task.remove){
-                                    t.removeFromAM = true;
-                                    setReminder(context, t, d.date);
-                                }
+
+//                                if(task.remove){
+//                                    t.removeFromAM = true;
+//                                    setReminder(context, t, d.date);
+//                                }
+                                t.removeFromAM = true;
+                                setReminder(context, t, d.date);
                                 if(!t.isDone) {
                                     iter.remove();
                                     alreadyRemoved = true;
@@ -2312,6 +2360,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2338,6 +2398,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2361,6 +2433,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2407,6 +2491,18 @@ public class MainActivity extends AppCompatActivity {
                                     Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
+
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
+
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2458,10 +2554,12 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(task.remove){
-                                    t.removeFromAM = true;
-                                    setReminder(context, t, d.date);
-                                }
+//                                if(task.remove){
+//                                    t.removeFromAM = true;
+//                                    setReminder(context, t, d.date);
+//                                }
+                                t.removeFromAM = true;
+                                setReminder(context, t, d.date);
                                 if(!t.isDone) {
                                     iter.remove();
                                     alreadyRemoved = true;
@@ -2534,6 +2632,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2561,6 +2671,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2584,6 +2706,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2630,6 +2764,18 @@ public class MainActivity extends AppCompatActivity {
                                     Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
+
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
+
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2680,10 +2826,12 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(task.remove){
-                                    t.removeFromAM = true;
-                                    setReminder(context, t, d.date);
-                                }
+//                                if(task.remove){
+//                                    t.removeFromAM = true;
+//                                    setReminder(context, t, d.date);
+//                                }
+                                t.removeFromAM = true;
+                                setReminder(context, t, d.date);
                                 if(!t.isDone) {
                                     iter.remove();
                                     alreadyRemoved = true;
@@ -2754,6 +2902,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2782,6 +2942,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2805,6 +2977,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -2851,6 +3035,18 @@ public class MainActivity extends AppCompatActivity {
                                     Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
+
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
+
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2900,10 +3096,12 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-                                if(task.remove){
-                                    t.removeFromAM = true;
-                                    setReminder(context, t, d.date);
-                                }
+//                                if(task.remove){
+//                                    t.removeFromAM = true;
+//                                    setReminder(context, t, d.date);
+//                                }
+                                t.removeFromAM = true;
+                                setReminder(context, t, d.date);
                                 if(!t.isDone) {
                                     iter.remove();
                                     alreadyRemoved = true;
@@ -2974,6 +3172,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -3002,6 +3212,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -3025,6 +3247,18 @@ public class MainActivity extends AppCompatActivity {
                                 Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
+
+                                calendar.clear();
+                                calendar.setTimeInMillis(task.startTime);
+
+                                myCalender.setTimeInMillis(d.date.getTime());
+                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                    setReminder(context, taskCopy, d.date);
+                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                }
                             }
                         }
 
@@ -3066,10 +3300,22 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 if (addTask) {
-                                    // d.tasks.add(task);
                                     Task taskCopy = new Task(true, false,"", 0, 0, 0);
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
+                                    // d.tasks.add(task);
+
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
+
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    }
                                 }
                             }
                         }
@@ -3139,6 +3385,18 @@ public class MainActivity extends AppCompatActivity {
                             Task taskCopy = new Task(true, false,"", 0, 0, 0);
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
+
+                            calendar.clear();
+                            calendar.setTimeInMillis(task.startTime);
+                            myCalender.clear();
+                            myCalender.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                            myCalender.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                            myCalender.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+                            long dateTaskStartTime = myCalender.getTimeInMillis();
+
+                            if (dateTaskStartTime == day.date.getTime()) {
+                                refreshCyclicTasks(task);
+                            }
                         }else if (task.finishTime == dateDoomsday){
                             task.finishTime = task.startTime;
                         }
@@ -3227,7 +3485,16 @@ public class MainActivity extends AppCompatActivity {
 //                        }
 
                         //set new remind
-                        setReminder(context, task, day.date);
+                        calendar.clear();
+                        calendar.setTimeInMillis(task.startTime);
+
+                        myCalender.setTimeInMillis(day.date.getTime());
+                        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                        if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                            setReminder(context, task, day.date);
+                        }
 
                         /*taskTime.setText(((""+ calendar.get(Calendar.HOUR_OF_DAY)).length() == 1 ? "0" + calendar.get(Calendar.HOUR_OF_DAY) : "" + calendar.get(Calendar.HOUR_OF_DAY))+
                                 ":"+ ((""+ calendar.get(Calendar.MINUTE)).length() == 1 ? "0" + calendar.get(Calendar.MINUTE) : "" + calendar.get(Calendar.MINUTE)));
@@ -3489,8 +3756,18 @@ public class MainActivity extends AppCompatActivity {
                     dayOfYear.tasks.add(task);
                 }
 
-                task.shown = false;
-                setReminder(context, task, dayOfYear.date);
+                //set new remind
+                calendar.clear();
+                calendar.setTimeInMillis(task.startTime);
+
+                myCalender.setTimeInMillis(dayOfYear.date.getTime());
+                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                    task.shown = false;
+                    setReminder(context, task, dayOfYear.date);
+                }
 
                 // Доработать не подсвечиваются дни перенесенных незавершенныз задач
                 dayOfYear.dayClosed = true;
@@ -3585,8 +3862,17 @@ public class MainActivity extends AppCompatActivity {
                     dayOfYear.tasks.add(task);
                 }
 
-                setReminder(context, task, dayOfYear.date);
+                //set new remind
+                calendar.clear();
+                calendar.setTimeInMillis(task.startTime);
 
+                myCalender.setTimeInMillis(dayOfYear.date.getTime());
+                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                    setReminder(context, task, dayOfYear.date);
+                }
                 // Доработать не подсвечиваются дни перенесенных незавершенныз задач
                 dayOfYear.dayClosed = true;
                 for (Task task : dayOfYear.tasks) {

@@ -31,7 +31,6 @@ import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
 import static com.example.delimes.flux.MainActivity.numberYearPicker;
-import static com.example.delimes.flux.MainActivity.setReminder;
 import static com.example.delimes.flux.MainActivity.taskExtra;
 
 /**
@@ -1836,12 +1835,24 @@ class Quarter extends View {
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
                     MainActivity.task.shown = false;
-                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    //set new remind
+                    calendar.clear();
+                    calendar.setTimeInMillis(MainActivity.task.startTime);
+
+                    final Calendar myCalender = Calendar.getInstance();
+                    myCalender.setTimeInMillis(days.get(i).date.getTime());
+                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                        MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    }
                 }
                 for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
                         taskExtra = 0;
                         task.shown = true;
+                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.winter.selectedDay = mainActivity.winter.days.get(i);
                         mainActivity.day = mainActivity.winter.selectedDay;
@@ -1863,12 +1874,24 @@ class Quarter extends View {
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
                     MainActivity.task.shown = false;
-                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    //set new remind
+                    calendar.clear();
+                    calendar.setTimeInMillis(MainActivity.task.startTime);
+
+                    final Calendar myCalender = Calendar.getInstance();
+                    myCalender.setTimeInMillis(days.get(i).date.getTime());
+                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                        MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    }
                 }
                 for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
                         task.shown = true;
+                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.spring.selectedDay = mainActivity.spring.days.get(i);
                         mainActivity.day = mainActivity.spring.selectedDay;
@@ -1891,12 +1914,24 @@ class Quarter extends View {
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
                     MainActivity.task.shown = false;
-                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    //set new remind
+                    calendar.clear();
+                    calendar.setTimeInMillis(MainActivity.task.startTime);
+
+                    final Calendar myCalender = Calendar.getInstance();
+                    myCalender.setTimeInMillis(days.get(i).date.getTime());
+                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                        MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    }
                 }
                 for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
                         task.shown = true;
+                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.summer.selectedDay = mainActivity.summer.days.get(i);
                         mainActivity.day = mainActivity.summer.selectedDay;
@@ -1919,12 +1954,24 @@ class Quarter extends View {
                     days.get(i).tasks.add(MainActivity.task);
                     MainActivity.task.taskTransferDate = null;
                     MainActivity.task.shown = false;
-                    MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    //set new remind
+                    calendar.clear();
+                    calendar.setTimeInMillis(MainActivity.task.startTime);
+
+                    final Calendar myCalender = Calendar.getInstance();
+                    myCalender.setTimeInMillis(days.get(i).date.getTime());
+                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                        MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
+                    }
                 }
                 for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){
                         taskExtra = 0;
                         task.shown = true;
+                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.autumn.selectedDay = mainActivity.autumn.days.get(i);
                         mainActivity.day = mainActivity.autumn.selectedDay;
