@@ -1852,7 +1852,6 @@ class Quarter extends View {
                     if (task.extra == taskExtra) {
                         taskExtra = 0;
                         task.shown = true;
-                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.winter.selectedDay = mainActivity.winter.days.get(i);
                         mainActivity.day = mainActivity.winter.selectedDay;
@@ -1891,7 +1890,6 @@ class Quarter extends View {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
                         task.shown = true;
-                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.spring.selectedDay = mainActivity.spring.days.get(i);
                         mainActivity.day = mainActivity.spring.selectedDay;
@@ -1931,7 +1929,6 @@ class Quarter extends View {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
                         task.shown = true;
-                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.summer.selectedDay = mainActivity.summer.days.get(i);
                         mainActivity.day = mainActivity.summer.selectedDay;
@@ -1971,7 +1968,6 @@ class Quarter extends View {
                     if (task.extra == MainActivity.taskExtra){
                         taskExtra = 0;
                         task.shown = true;
-                        task.queue = false;
                         MainActivity.task = task;
                         mainActivity.autumn.selectedDay = mainActivity.autumn.days.get(i);
                         mainActivity.day = mainActivity.autumn.selectedDay;

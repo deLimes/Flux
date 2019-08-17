@@ -1578,6 +1578,9 @@ public class MainActivity extends AppCompatActivity {
                             cyclicTasks.remove(task);
                         }
                     }
+                    task.removeFromAM = true;
+                    setReminder(context, task, day.date);
+
                     task.isCyclic = false;
 
                     if (task.content != taskDescription.getText().toString()) {
@@ -1649,6 +1652,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                             setReminder(context, task, day.date);
+                            Log.d("123", "onEditorAction: "+ task.extra);
                         }
                     }
 
@@ -2053,7 +2057,6 @@ public class MainActivity extends AppCompatActivity {
             notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
             notificationManager.cancel(notifyId);
             task.removeFromAM = false;
-            task.queue = false;
         }else {
             Log.d("myLogs", "setReminder: 2 ");
             Log.d("myLogs", "setReminder: 2.1 "
@@ -2074,7 +2077,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, alarmPeriodicTime, pIntent);
                 }
-                task.queue = true;
                 //alarmManager.set(AlarmManager.RTC_WAKEUP, myCalender.getTimeInMillis(), pIntent);
                 Log.d("myLogs", "setReminder: Date: "+new Date(myCalender.getTimeInMillis()));
                 Log.d("myLogs", "setReminder: notificationIntent.extra: "+notificationIntent.getStringExtra("extra"));
@@ -3494,6 +3496,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                             setReminder(context, task, day.date);
+                            Log.d("123", "onTimeSet: "+ task.extra);
                         }
 
                         /*taskTime.setText(((""+ calendar.get(Calendar.HOUR_OF_DAY)).length() == 1 ? "0" + calendar.get(Calendar.HOUR_OF_DAY) : "" + calendar.get(Calendar.HOUR_OF_DAY))+
@@ -7775,7 +7778,6 @@ public class MainActivity extends AppCompatActivity {
 
         public Date taskTransferDate;
         public boolean alreadyReturned;
-        public boolean queue;
 
         public Task(boolean isValid, boolean isCyclic, String content, long startTime, int durationHours, int durationMinutes){
 
@@ -7792,7 +7794,6 @@ public class MainActivity extends AppCompatActivity {
             this.remove = false;
             this.removeFromAM = false;
             this.shown = false;
-            this.queue = false;
 
             calendar.clear();
             calendar.setTimeInMillis(startTime);
@@ -7819,7 +7820,6 @@ public class MainActivity extends AppCompatActivity {
             obj.extra = new Random(System.nanoTime()).nextInt();
             obj.shown = false;
             obj.isDone = false;
-            obj.queue = false;
             obj.alreadyReturned = true;
             //Log.d("myLogs", "obj.extra:" + obj.extra);
 

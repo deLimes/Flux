@@ -27,6 +27,4 @@ public class Receiver extends BroadcastReceiver {
 
     }
 
-
-
 }
