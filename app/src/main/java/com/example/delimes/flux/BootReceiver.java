@@ -3,6 +3,7 @@ package com.example.delimes.flux;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 /**
@@ -18,7 +19,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        mContext = context;
+        mContext = context.getApplicationContext();
         String action = intent.getAction();
         /*
         if (action.equalsIgnoreCase(BOOT_ACTION)) {
@@ -32,7 +33,13 @@ public class BootReceiver extends BroadcastReceiver {
         Log.d("myLogs", "onReceive: " + action);
         if (action.equalsIgnoreCase(BOOT_ACTION)) {
             Log.d("myLogs", "onReceive:  context.startService(new Intent(context, UpdateReminders.class");
-            context.startService(new Intent(context, UpdateReminders.class));
+            mContext.startService(new Intent(context, UpdateReminders.class));
+
+            /*
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_DATE_CHANGED);
+            mContext.registerReceiver(new DateChangedReceiver(), filter);
+            */
         }
     }
 }

@@ -16,6 +16,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -1140,54 +1141,13 @@ public class MainActivity extends AppCompatActivity {
                 if(task != null) {
                     task.monday = !task.monday;
 
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
-
                     if (task.monday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     } else {
                         view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                     }
 
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1198,16 +1158,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(task != null) {
                     task.tuesday = !task.tuesday;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
 
                     if (task.tuesday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1215,38 +1165,7 @@ public class MainActivity extends AppCompatActivity {
                         view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                     }
 
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1257,16 +1176,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(task != null) {
                     task.wednesday = !task.wednesday;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
 
                     if (task.wednesday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1274,38 +1183,7 @@ public class MainActivity extends AppCompatActivity {
                         view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                     }
 
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1316,16 +1194,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(task != null) {
                     task.thursday = !task.thursday;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
 
                     if (task.thursday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1333,37 +1201,7 @@ public class MainActivity extends AppCompatActivity {
                         view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                     }
 
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1374,16 +1212,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(task != null) {
                     task.friday = !task.friday;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
 
                     if (task.friday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1391,37 +1219,7 @@ public class MainActivity extends AppCompatActivity {
                         view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                     }
 
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1432,16 +1230,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(task != null) {
                     task.saturday = !task.saturday;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
 
                     if (task.saturday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1451,37 +1239,7 @@ public class MainActivity extends AppCompatActivity {
                         saturday.setTextColor(getResources().getColor(android.R.color.holo_red_light));
                     }
 
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1492,16 +1250,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (task != null) {
                     task.sunday = !task.sunday;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
 
                     if (task.sunday) {
                         view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -1511,37 +1259,7 @@ public class MainActivity extends AppCompatActivity {
                         sunday.setTextColor(getResources().getColor(android.R.color.holo_red_light));
                     }
 
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1768,48 +1486,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!processUpdateSchedule && task != null) {
 
                     task.everyYear = b;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
 
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
-
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1825,48 +1503,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!processUpdateSchedule && task != null) {
 
                     task.everyMonth = b;
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
 
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
-
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
-                    //
+                    refreshCyclicParameters();
                 }
             }
         });
@@ -1891,47 +1529,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         task.inDays = 0;
                     }
-                    while (cyclicTasks.remove(task));
-                    Iterator<Task> iter = cyclicTasks.iterator();
-                    while (iter.hasNext()) {
-                        Task t = iter.next();
-
-                        if (t.equals(task)) {
-                            cyclicTasks.remove(task);
-                        }
-                    }
-                    task.isCyclic = false;
-
-                    if (task.monday ||
-                            task.tuesday ||
-                            task.wednesday ||
-                            task.thursday ||
-                            task.friday ||
-                            task.saturday ||
-                            task.sunday ||
-                            task.everyYear ||
-                            task.everyMonth ||
-                            task.inDays > 0) {
-
-                        if (task.finishTime == task.startTime){
-                            task.finishTime = dateDoomsday;
-                        }
-                        task.isCyclic = true;
-                        Task taskCopy = new Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
-                    }else if (task.finishTime == dateDoomsday){
-                        task.finishTime = task.startTime;
-                    }
-
-                    changedeTasksOfYear = true;
-                    refreshCyclicTasks(task);
-                    updateSchedule(day);
-
-                    winter.invalidate();
-                    spring.invalidate();
-                    summer.invalidate();
-                    autumn.invalidate();
+                    refreshCyclicParameters();
                 }
 
 
@@ -1973,8 +1571,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         ///////////////////////////////////////////////////////////////////////////
-
-
 
 
 //        NumberPicker numberYearPicker = new NumberPicker(this);
@@ -2211,6 +1807,53 @@ public class MainActivity extends AppCompatActivity {
 
     ///////////////////////////////////////////////////////////////////////////////
 
+    public void refreshCyclicParameters(){
+
+        while (cyclicTasks.remove(task));
+        Iterator<Task> iter = cyclicTasks.iterator();
+        while (iter.hasNext()) {
+            Task t = iter.next();
+
+            if (t.equals(task)) {
+                cyclicTasks.remove(task);
+            }
+        }
+        task.isCyclic = false;
+
+        if (task.monday ||
+                task.tuesday ||
+                task.wednesday ||
+                task.thursday ||
+                task.friday ||
+                task.saturday ||
+                task.sunday ||
+                task.everyYear ||
+                task.everyMonth ||
+                task.inDays > 0) {
+
+            if (task.finishTime == task.startTime){
+                task.finishTime = dateDoomsday;
+            }
+            task.isCyclic = true;
+            Task taskCopy = new Task(true, false,"", 0, 0, 0);
+            task.duplicate(taskCopy);
+            cyclicTasks.add(taskCopy);
+        }else if (task.finishTime == dateDoomsday){
+            task.finishTime = task.startTime;
+        }
+
+        changedeTasksOfYear = true;
+        refreshCyclicTasks(task);
+        updateSchedule(day);
+
+        winter.invalidate();
+        spring.invalidate();
+        summer.invalidate();
+        autumn.invalidate();
+        //
+
+    }
+
     public void refreshCyclicTasks(Task task) {
 
         long millis;
@@ -2241,6 +1884,9 @@ public class MainActivity extends AppCompatActivity {
             dateTaskFinishTime = myCalender.getTimeInMillis();
 
         }
+        calendar.clear();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int numberCurrentDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
 
         //winter
 //        long winterStart = winter.days.get(0).date.getTime();
@@ -2258,6 +1904,7 @@ public class MainActivity extends AppCompatActivity {
                 while (j.hasNext()) {
                     Day d = j.next();
                     millis = d.date.getTime();
+                    int indexOfDay = winter.days.indexOf(d);
 
                     if(millis != dateTaskStartTime){
                         //d.tasks.remove(task);
@@ -2363,16 +2010,19 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2401,16 +2051,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2436,16 +2088,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2494,16 +2148,18 @@ public class MainActivity extends AppCompatActivity {
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
 
-                                    calendar.clear();
-                                    calendar.setTimeInMillis(task.startTime);
+                                    if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                        calendar.clear();
+                                        calendar.setTimeInMillis(task.startTime);
 
-                                    myCalender.setTimeInMillis(d.date.getTime());
-                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                        myCalender.setTimeInMillis(d.date.getTime());
+                                        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                        setReminder(context, taskCopy, d.date);
-                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                        if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                            setReminder(context, taskCopy, d.date);
+                                            Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                        }
                                     }
                                 }
                             }
@@ -2535,6 +2191,8 @@ public class MainActivity extends AppCompatActivity {
                 while (j.hasNext()) {
                     Day d = j.next();
                     millis = d.date.getTime();
+                    int indexOfDay = spring.days.indexOf(d)
+                            + winter.days.size();
 
                     if(millis != dateTaskStartTime){
                         //d.tasks.remove(task);
@@ -2635,16 +2293,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2674,16 +2334,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2709,16 +2371,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2767,16 +2431,18 @@ public class MainActivity extends AppCompatActivity {
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
 
-                                    calendar.clear();
-                                    calendar.setTimeInMillis(task.startTime);
+                                    if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                        calendar.clear();
+                                        calendar.setTimeInMillis(task.startTime);
 
-                                    myCalender.setTimeInMillis(d.date.getTime());
-                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                        myCalender.setTimeInMillis(d.date.getTime());
+                                        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                        setReminder(context, taskCopy, d.date);
-                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                        if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                            setReminder(context, taskCopy, d.date);
+                                            Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                        }
                                     }
                                 }
                             }
@@ -2806,6 +2472,9 @@ public class MainActivity extends AppCompatActivity {
                 while (j.hasNext()) {
                     Day d = j.next();
                     millis = d.date.getTime();
+                    int indexOfDay = summer.days.indexOf(d)
+                            + spring.days.size()
+                            + winter.days.size();
 
                     if(millis != dateTaskStartTime){
                         //d.tasks.remove(task);
@@ -2905,16 +2574,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2945,16 +2616,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -2980,16 +2653,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -3038,16 +2713,18 @@ public class MainActivity extends AppCompatActivity {
                                     task.duplicate(taskCopy);
                                     d.tasks.add(taskCopy);
 
-                                    calendar.clear();
-                                    calendar.setTimeInMillis(task.startTime);
+                                    if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                        calendar.clear();
+                                        calendar.setTimeInMillis(task.startTime);
 
-                                    myCalender.setTimeInMillis(d.date.getTime());
-                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                        myCalender.setTimeInMillis(d.date.getTime());
+                                        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                        setReminder(context, taskCopy, d.date);
-                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                        if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                            setReminder(context, taskCopy, d.date);
+                                            Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                        }
                                     }
                                 }
                             }
@@ -3076,6 +2753,10 @@ public class MainActivity extends AppCompatActivity {
                 while (j.hasNext()) {
                     Day d = j.next();
                     millis = d.date.getTime();
+                    int indexOfDay = autumn.days.indexOf(d)
+                            + summer.days.size()
+                            + spring.days.size()
+                            + winter.days.size();
 
                     if(millis != dateTaskStartTime){
                         //d.tasks.remove(task);
@@ -3175,16 +2856,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -3215,16 +2898,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -3250,16 +2935,18 @@ public class MainActivity extends AppCompatActivity {
                                 task.duplicate(taskCopy);
                                 d.tasks.add(taskCopy);
 
-                                calendar.clear();
-                                calendar.setTimeInMillis(task.startTime);
+                                if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                    calendar.clear();
+                                    calendar.setTimeInMillis(task.startTime);
 
-                                myCalender.setTimeInMillis(d.date.getTime());
-                                myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                    myCalender.setTimeInMillis(d.date.getTime());
+                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                    setReminder(context, taskCopy, d.date);
-                                    Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                        setReminder(context, taskCopy, d.date);
+                                        Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                    }
                                 }
                             }
                         }
@@ -3307,16 +2994,18 @@ public class MainActivity extends AppCompatActivity {
                                     d.tasks.add(taskCopy);
                                     // d.tasks.add(task);
 
-                                    calendar.clear();
-                                    calendar.setTimeInMillis(task.startTime);
+                                    if (indexOfDay == numberCurrentDayOfYear - 1) {
+                                        calendar.clear();
+                                        calendar.setTimeInMillis(task.startTime);
 
-                                    myCalender.setTimeInMillis(d.date.getTime());
-                                    myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-                                    myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+                                        myCalender.setTimeInMillis(d.date.getTime());
+                                        myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                                        myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-                                    if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
-                                        setReminder(context, taskCopy, d.date);
-                                        Log.d("123", "refreshCyclicTasks: "+ task.extra);
+                                        if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                            setReminder(context, taskCopy, d.date);
+                                            Log.d("123", "refreshCyclicTasks: " + task.extra);
+                                        }
                                     }
                                 }
                             }

@@ -22,19 +22,24 @@ public class DateChangedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        MainActivity.calendar.clear();
-        MainActivity.calendar.setTimeInMillis(System.currentTimeMillis());
-        int year = MainActivity.calendar.get(Calendar.YEAR);
-        int month = MainActivity.calendar.get(Calendar.MONTH);
-        int day = MainActivity.calendar.get(Calendar.DAY_OF_MONTH);
-        MainActivity.calendar.clear();
-        MainActivity.calendar.set(year, month, day);
-        MainActivity.currDate = new Date(MainActivity.calendar.getTimeInMillis());
+        if (intent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
+            Log.d("123", "onReceive: DateChangedReceiver");
 
-        if (MainActivity.numberYearPicker != null) {
-            MainActivity.numberYearPicker.setValue(year);
-        }else{
+            MainActivity.calendar.clear();
+            MainActivity.calendar.setTimeInMillis(System.currentTimeMillis());
+            int year = MainActivity.calendar.get(Calendar.YEAR);
+            int month = MainActivity.calendar.get(Calendar.MONTH);
+            int day = MainActivity.calendar.get(Calendar.DAY_OF_MONTH);
+            MainActivity.calendar.clear();
+            MainActivity.calendar.set(year, month, day);
+            MainActivity.currDate = new Date(MainActivity.calendar.getTimeInMillis());
+
+            if (MainActivity.numberYearPicker != null) {
+                MainActivity.numberYearPicker.setValue(year);
+            }
+
             context.startService(new Intent(context, UpdateReminders.class));
+            //Log.d("123", "onReceive: DateChangedReceiver");
         }
     }
 

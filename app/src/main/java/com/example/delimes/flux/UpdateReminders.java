@@ -108,6 +108,77 @@ public class UpdateReminders extends Service {
         MainActivity.alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         Log.v("123", "updateReminders context: "+ this);
+
+        Quarter winter = new Quarter(this, 1, true);
+        Quarter spring = new Quarter(this, 2, true);
+        Quarter summer = new Quarter(this, 3, true);
+        Quarter autumn = new Quarter(this, 4, true);
+
+        //reschedule tasks
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonArray array;
+
+        Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
+        int numberDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        if (winter.days.size() >= numberDayOfYear){
+
+            dayOfYear = winter.days.get(numberDayOfYear - 1);
+
+            array = parser.parse(yearStr.daysWinter).getAsJsonArray();
+
+            dayOfYear.tasks = (gson.fromJson(array.get(numberDayOfYear - 1), Day.class)).tasks;
+
+        }else if(winter.days.size()
+                + spring.days.size() >= numberDayOfYear){
+
+            dayOfYear = spring.days.get(numberDayOfYear - 1 - winter.days.size());
+
+            array = parser.parse(yearStr.daysSpring).getAsJsonArray();
+
+            dayOfYear.tasks = (gson.fromJson(array.get(numberDayOfYear - 1 - winter.days.size()), Day.class)).tasks;
+
+        }else if(winter.days.size()
+                + spring.days.size()
+                + summer.days.size() >= numberDayOfYear){
+
+            dayOfYear = summer.days.get(numberDayOfYear - 1
+                    - winter.days.size()
+                    - spring.days.size());
+
+            array = parser.parse(yearStr.daysSummer).getAsJsonArray();
+
+            dayOfYear.tasks = (gson.fromJson(array.get(numberDayOfYear - 1
+                    - winter.days.size()
+                    - spring.days.size()), Day.class)).tasks;
+
+
+        }else if(winter.days.size()
+                + spring.days.size()
+                + summer.days.size()
+                + autumn.days.size() >= numberDayOfYear){
+
+            dayOfYear = autumn.days.get(numberDayOfYear - 1
+                    - winter.days.size()
+                    - spring.days.size()
+                    - summer.days.size());
+
+            array = parser.parse(yearStr.daysSummer).getAsJsonArray();
+
+            dayOfYear.tasks = (gson.fromJson(array.get(numberDayOfYear - 1
+                    - winter.days.size()
+                    - spring.days.size()
+                    - summer.days.size()), Day.class)).tasks;
+
+        }
+
+        for (MainActivity.Task task : dayOfYear.tasks) {
+            MainActivity.setReminder(this, task, dayOfYear.date);
+        }
+
+        /*
+        //из-за медленной работы функции refreshCyclicTasks()
+        //установка напоминаний устанавливаеться только на каждый день а не на целый год сразу
         //Зима
         Quarter winter = new Quarter(this, 1, true);
         //winter.context = context;
@@ -169,6 +240,7 @@ public class UpdateReminders extends Service {
             }
         }
 
+        */
         Log.d("123", "updateReminders: OK!");
 
         //Toast.makeText(context, "OK!", Toast.LENGTH_SHORT).show();
