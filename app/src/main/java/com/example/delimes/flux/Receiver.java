@@ -19,7 +19,7 @@ public class Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.d(LOG_TAG, "onReceive");
+        Log.d(LOG_TAG, "onReceive: Receiver");
         Log.d(LOG_TAG, "action = " + intent.getAction());
         Log.d(LOG_TAG, "extra = " + intent.getStringExtra("extra"));
 

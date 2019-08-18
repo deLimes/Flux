@@ -39,7 +39,7 @@ public class UpdateReminders extends Service {
         updateReminders();
 
         //если остановить службу. пропадут выведеные сообщения
-        //stopService(new Intent(this, UpdateReminders.class));
+        stopService(new Intent(this, UpdateReminders.class));
 
         return super.onStartCommand(intent, flags, startId);
     }

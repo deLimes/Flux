@@ -264,7 +264,7 @@ public class NumberYearPicker extends LinearLayout {
                 //}
 
                 if(mainActivity.linLayout != null) {
-                    MainActivity.day = null;
+                    MainActivity.setDay(null);
                     //mainActivity.task = null;
                     mainActivity.linLayout.removeAllViews();
                 }

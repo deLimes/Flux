@@ -664,7 +664,7 @@ class Summer extends View {
                         + calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
             }
             if (!firstOccurrence && MainActivity.day == null) {
-                MainActivity.day = currentDate;
+                MainActivity.setDay(currentDate);
 
                 ((MainActivity) context).updateSchedule(MainActivity.day);
             }
@@ -677,7 +677,7 @@ class Summer extends View {
             p.setStyle(Paint.Style.FILL);
 
             if (!firstOccurrence && selectedDay != MainActivity.day) {
-                MainActivity.day = selectedDay;
+                MainActivity.setDay(selectedDay);
 
                 ((MainActivity) context).updateSchedule(MainActivity.day);
 

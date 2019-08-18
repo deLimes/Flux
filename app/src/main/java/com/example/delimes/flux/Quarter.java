@@ -1441,7 +1441,7 @@ class Quarter extends View {
 
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
-                    MainActivity.day = currentDate;
+                    MainActivity.setDay(currentDate);
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
                 }
@@ -1454,7 +1454,7 @@ class Quarter extends View {
                 p.setStyle(Paint.Style.FILL);
 
                 if ( !firstOccurrence && MainActivity.day != selectedDay ) {
-                    MainActivity.day = selectedDay;
+                    MainActivity.setDay(selectedDay);
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
 
@@ -1528,7 +1528,7 @@ class Quarter extends View {
 //                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
-                    MainActivity.day = currentDate;
+                    MainActivity.setDay(currentDate);
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
                 }
@@ -1541,7 +1541,7 @@ class Quarter extends View {
                 p.setStyle(Paint.Style.FILL);
 
                 if ( !firstOccurrence && MainActivity.day != selectedDay ) {
-                    MainActivity.day = selectedDay;
+                    MainActivity.setDay(selectedDay);
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
 
@@ -1583,7 +1583,7 @@ class Quarter extends View {
 //                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
-                    MainActivity.day = currentDate;
+                    MainActivity.setDay(currentDate);
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
                 }
@@ -1596,7 +1596,7 @@ class Quarter extends View {
                 p.setStyle(Paint.Style.FILL);
 
                 if ( !firstOccurrence && MainActivity.day != selectedDay ) {
-                    MainActivity.day = selectedDay;
+                    MainActivity.setDay(selectedDay);
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
 
@@ -1655,7 +1655,7 @@ class Quarter extends View {
 //                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
                 }
                 if (!firstOccurrence && MainActivity.day == null) {
-                    MainActivity.day = currentDate;
+                    MainActivity.setDay(currentDate);
 
                     ((MainActivity) context).updateSchedule(MainActivity.day);
                 }
@@ -1853,8 +1853,8 @@ class Quarter extends View {
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
-                        mainActivity.winter.selectedDay = mainActivity.winter.days.get(i);
-                        mainActivity.day = mainActivity.winter.selectedDay;
+                        MainActivity.winter.selectedDay = MainActivity.winter.days.get(i);
+                        MainActivity.setDay(MainActivity.winter.selectedDay);
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
@@ -1891,8 +1891,8 @@ class Quarter extends View {
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
-                        mainActivity.spring.selectedDay = mainActivity.spring.days.get(i);
-                        mainActivity.day = mainActivity.spring.selectedDay;
+                        MainActivity.spring.selectedDay = MainActivity.spring.days.get(i);
+                        MainActivity.setDay(MainActivity.spring.selectedDay);
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
@@ -1930,8 +1930,8 @@ class Quarter extends View {
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
-                        mainActivity.summer.selectedDay = mainActivity.summer.days.get(i);
-                        mainActivity.day = mainActivity.summer.selectedDay;
+                        MainActivity.summer.selectedDay = MainActivity.summer.days.get(i);
+                        MainActivity.setDay(MainActivity.summer.selectedDay);
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
@@ -1969,8 +1969,8 @@ class Quarter extends View {
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
-                        mainActivity.autumn.selectedDay = mainActivity.autumn.days.get(i);
-                        mainActivity.day = mainActivity.autumn.selectedDay;
+                        MainActivity.autumn.selectedDay = MainActivity.autumn.days.get(i);
+                        MainActivity.setDay(MainActivity.autumn.selectedDay);
                         MainActivity.changedeTasksOfYear = true;
                     }
                     //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);

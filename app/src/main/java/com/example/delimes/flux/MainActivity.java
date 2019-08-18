@@ -1615,7 +1615,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setReminder(Context context, Task task, Date date) {
 
-        Log.d("myLogs", "setReminder: 0");
 //        try {
 //            int jh = 1/0;
 //        }catch (Exception e){
@@ -1626,8 +1625,8 @@ public class MainActivity extends AppCompatActivity {
         calendar.clear();
         calendar.setTimeInMillis(date.getTime());
 
-        Log.d("myLogs", "setReminder1: .context " +context);
         Intent notificationIntent = new Intent(context, Receiver.class);
+        notificationIntent.putExtra("id", Integer.toString(task.id));
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
         notificationIntent.putExtra("content", task.content);
         notificationIntent.putExtra("year", Integer.toString(calendar.get(Calendar.YEAR)));
@@ -1647,24 +1646,21 @@ public class MainActivity extends AppCompatActivity {
 
         pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.removeFromAM) {
-            Log.d("myLogs", "setReminder: 1");
+            Log.d("myLogs", "setReminder: removeFromAM");
             alarmManager.cancel(pIntent);
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
+            notifyId = Integer.valueOf(notificationIntent.getStringExtra("id"));
             notificationManager.cancel(notifyId);
             task.removeFromAM = false;
         }else {
-            Log.d("myLogs", "setReminder: 2 ");
-            Log.d("myLogs", "setReminder: 2.1 "
+            Log.d("myLogs", "setReminder: "
                     + "isValid: " + task.isValid
-                    + "!shown: " + !task.shown
-                    + "!isDone: " + !task.isDone
+                    + "shown: " + task.shown
+                    + "isDone: " + task.isDone
+                    + " content: " + task.content
             );
-            Log.d("myLogs", "setReminder: 2.1 content: " + task.content);
 
             if(task.isValid && !task.shown && !task.isDone) {
-                Log.d("myLogs", "setReminder: 3");
-                //%%C del - am.cancel(pIntent);
                 long alarmPeriodicTime = myCalender.getTimeInMillis();
                 if (Build.VERSION.SDK_INT >= 23) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmPeriodicTime, pIntent);
@@ -1673,9 +1669,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, alarmPeriodicTime, pIntent);
                 }
-                //alarmManager.set(AlarmManager.RTC_WAKEUP, myCalender.getTimeInMillis(), pIntent);
-                Log.d("myLogs", "setReminder: Date: "+new Date(myCalender.getTimeInMillis()));
+                //Log.d("myLogs", "setReminder: Date: "+new Date(myCalender.getTimeInMillis()));
                 Log.d("myLogs", "setReminder: notificationIntent.extra: "+notificationIntent.getStringExtra("extra"));
+                try {
+                    int i = 1/0;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -1685,6 +1685,7 @@ public class MainActivity extends AppCompatActivity {
 
         //%%C - del
         Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.putExtra("id", intent.getStringExtra("id"));
         notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
         notificationIntent.putExtra("content", intent.getStringExtra("content"));
         notificationIntent.putExtra("year", intent.getStringExtra("year"));
@@ -1709,6 +1710,11 @@ public class MainActivity extends AppCompatActivity {
 //                PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
 
         Log.d("myLogs", "sendNotif: notificationIntent.extra: " + notificationIntent.getStringExtra("extra"));
+        try {
+            int i = 1/0;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         PendingIntent pIntent = PendingIntent.getActivity(context,
                 Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
@@ -1797,7 +1803,7 @@ public class MainActivity extends AppCompatActivity {
         }
         //////////////////////////////
 
-        notifyId = Integer.valueOf(notificationIntent.getStringExtra("extra"));
+        notifyId = Integer.valueOf(notificationIntent.getStringExtra("id"));
         //notification.defaults |= Notification.DEFAULT_VIBRATE;//doesn't work
         notificationManager.notify(notifyId, notification);
 
@@ -1927,13 +1933,13 @@ public class MainActivity extends AppCompatActivity {
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
 
-//                                if(task.remove){
-//                                    t.removeFromAM = true;
-//                                    setReminder(context, t, d.date);
-//                                }
-                                t.removeFromAM = true;
-                                setReminder(context, t, d.date);
-                                if(!t.isDone) {
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                }
+//                                t.removeFromAM = true;
+//                                setReminder(context, t, d.date);
+                                if(!t.isDone && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -1947,6 +1953,9 @@ public class MainActivity extends AppCompatActivity {
                                     if (t.equals(cyclicTask)) {
                                         remove = false;
                                     }
+                                }
+                                if (t == MainActivity.task){
+                                    remove = false;
                                 }
                                 if (remove){
                                     t.removeFromAM = true;
@@ -2021,6 +2030,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2061,6 +2071,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2098,6 +2109,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2158,6 +2170,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
+                                            changedeTasksOfYear = true;
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -2214,13 +2227,13 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-//                                if(task.remove){
-//                                    t.removeFromAM = true;
-//                                    setReminder(context, t, d.date);
-//                                }
-                                t.removeFromAM = true;
-                                setReminder(context, t, d.date);
-                                if(!t.isDone) {
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                }
+//                                t.removeFromAM = true;
+//                                setReminder(context, t, d.date);
+                                if(!t.isDone && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -2234,6 +2247,9 @@ public class MainActivity extends AppCompatActivity {
                                     if (t.equals(cyclicTask)) {
                                         remove = false;
                                     }
+                                }
+                                if (t == MainActivity.task){
+                                    remove = false;
                                 }
                                 if (remove){
                                     t.removeFromAM = true;
@@ -2303,6 +2319,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2344,6 +2361,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2381,6 +2399,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2441,6 +2460,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
+                                            changedeTasksOfYear = true;
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -2497,13 +2517,13 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-//                                if(task.remove){
-//                                    t.removeFromAM = true;
-//                                    setReminder(context, t, d.date);
-//                                }
-                                t.removeFromAM = true;
-                                setReminder(context, t, d.date);
-                                if(!t.isDone) {
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                }
+//                                t.removeFromAM = true;
+//                                setReminder(context, t, d.date);
+                                if(!t.isDone && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -2517,6 +2537,9 @@ public class MainActivity extends AppCompatActivity {
                                     if (t.equals(cyclicTask)) {
                                         remove = false;
                                     }
+                                }
+                                if (t == MainActivity.task){
+                                    remove = false;
                                 }
                                 if (remove){
                                     t.removeFromAM = true;
@@ -2584,6 +2607,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2626,6 +2650,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2663,6 +2688,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2723,6 +2749,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
+                                            changedeTasksOfYear = true;
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -2779,13 +2806,13 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
-//                                if(task.remove){
-//                                    t.removeFromAM = true;
-//                                    setReminder(context, t, d.date);
-//                                }
-                                t.removeFromAM = true;
-                                setReminder(context, t, d.date);
-                                if(!t.isDone) {
+                                if(task.remove){
+                                    t.removeFromAM = true;
+                                    setReminder(context, t, d.date);
+                                }
+//                                t.removeFromAM = true;
+//                                setReminder(context, t, d.date);
+                                if(!t.isDone && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -2799,6 +2826,9 @@ public class MainActivity extends AppCompatActivity {
                                     if (t.equals(cyclicTask)) {
                                         remove = false;
                                     }
+                                }
+                                if (t == MainActivity.task){
+                                    remove = false;
                                 }
                                 if (remove){
                                     t.removeFromAM = true;
@@ -2866,6 +2896,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2908,6 +2939,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2945,6 +2977,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
+                                        changedeTasksOfYear = true;
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -3004,6 +3037,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
+                                            changedeTasksOfYear = true;
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -3025,11 +3059,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+
+
         if (needToReturn){
             task.alreadyReturned = true;
+            changedeTasksOfYear = true;
             calendar.clear();
             calendar.setTimeInMillis(task.finishTime);
-            changedeTasksOfYear = true;
             numberYearPicker.setValue(calendar.get(Calendar.YEAR));
         }
 
@@ -3844,6 +3880,7 @@ public class MainActivity extends AppCompatActivity {
 
                         });
 
+
 //                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //                        imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
 
@@ -3862,6 +3899,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                         });
+
 
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(taskDescription.getWindowToken(), 0);
@@ -3886,7 +3924,6 @@ public class MainActivity extends AppCompatActivity {
                         //imm.showSoftInput(taskDescription, InputMethodManager.SHOW_IMPLICIT);
 
                     }
-
 
                     updateSchedule(day);
 
@@ -4079,6 +4116,7 @@ public class MainActivity extends AppCompatActivity {
                 bw.close();
 //                Toast.makeText(this, "File saved: " + sdFile.getAbsolutePath(),
 //                        Toast.LENGTH_SHORT).show();
+                changedeTasksOfYear = false;
             } catch (Exception e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -4277,6 +4315,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public static void setDay(Day day) {
+        MainActivity.day = day;
     }
 
     public void example_Button_setTextSize(Button btn)
@@ -7437,7 +7479,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static class Task
     {
-        public long id;
+        public int id;
         public int extra;
         public boolean isValid;
         public boolean isCyclic;//not used
@@ -7470,7 +7512,7 @@ public class MainActivity extends AppCompatActivity {
 
         public Task(boolean isValid, boolean isCyclic, String content, long startTime, int durationHours, int durationMinutes){
 
-            this.id = new Random(System.nanoTime()).nextLong();
+            this.id = new Random(System.nanoTime()).nextInt();
             this.extra = new Random(System.nanoTime()).nextInt();
             this.isValid = isValid;
             this.isCyclic = isCyclic;
@@ -7507,8 +7549,9 @@ public class MainActivity extends AppCompatActivity {
             }
             //obj.extra = new Random(System.currentTimeMillis()).nextInt();
             obj.extra = new Random(System.nanoTime()).nextInt();
-            obj.shown = false;
+            //obj.shown = false;
             obj.isDone = false;
+            obj.isValid = true;
             obj.alreadyReturned = true;
             //Log.d("myLogs", "obj.extra:" + obj.extra);
 
