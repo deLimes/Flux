@@ -3,6 +3,7 @@ package com.example.delimes.flux;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.Calendar;
@@ -11,6 +12,7 @@ import java.util.Date;
 public class DateChangedReceiver extends BroadcastReceiver {
 
     public MainActivity mainActivity;
+    public Context mContext;
 
     public DateChangedReceiver(Context context) {
         this.mainActivity = (MainActivity)context;
@@ -24,6 +26,7 @@ public class DateChangedReceiver extends BroadcastReceiver {
 
         if (intent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
             Log.d("123", "onReceive: DateChangedReceiver");
+            mContext = context.getApplicationContext();
 
             MainActivity.calendar.clear();
             MainActivity.calendar.setTimeInMillis(System.currentTimeMillis());
@@ -38,7 +41,12 @@ public class DateChangedReceiver extends BroadcastReceiver {
                 MainActivity.numberYearPicker.setValue(year);
             }
 
-            context.startService(new Intent(context, UpdateReminders.class));
+            mContext.stopService(new Intent(mContext, UpdateReminders.class));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mContext.startForegroundService(new Intent(mContext, UpdateReminders.class));
+            }else {
+                mContext.startService(new Intent(mContext, UpdateReminders.class));
+            }
             //Log.d("123", "onReceive: DateChangedReceiver");
         }
     }

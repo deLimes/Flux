@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,15 +40,20 @@ public class UpdateReminders extends Service {
         updateReminders();
 
         //если остановить службу. пропадут выведеные сообщения
-        stopService(new Intent(this, UpdateReminders.class));
+        //stopService(new Intent(this, UpdateReminders.class));
 
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     public void updateReminders(){

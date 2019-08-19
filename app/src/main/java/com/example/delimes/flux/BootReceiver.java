@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.util.Log;
 
 /**
@@ -11,7 +12,7 @@ import android.util.Log;
  */
 
 public class BootReceiver extends BroadcastReceiver {
-    Context mContext;
+    public Context mContext;
     private final String BOOT_ACTION = "android.intent.action.BOOT_COMPLETED";
 
     public BootReceiver() {
@@ -33,7 +34,12 @@ public class BootReceiver extends BroadcastReceiver {
         Log.d("myLogs", "onReceive: " + action);
         if (action.equalsIgnoreCase(BOOT_ACTION)) {
             Log.d("myLogs", "onReceive:  context.startService(new Intent(context, UpdateReminders.class");
-            mContext.startService(new Intent(context, UpdateReminders.class));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mContext.startForegroundService(new Intent(mContext, UpdateReminders.class));
+            }else {
+                mContext.startService(new Intent(mContext, UpdateReminders.class));
+            }
 
             /*
             IntentFilter filter = new IntentFilter();

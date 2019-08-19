@@ -1737,6 +1737,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAutoCancel(true)
                 .setTimeoutAfter(dateDoomsday)
                 .setOngoing(true)
+                .setColorized(true)
                 //.setDefaults(Notification.DEFAULT_SOUND)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 //.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
@@ -1788,6 +1789,7 @@ public class MainActivity extends AppCompatActivity {
             //builderCompat.setDefaults(Notification.DEFAULT_ALL);
             builderCompat.setAutoCancel(true);
             builderCompat.setTimeoutAfter(dateDoomsday);
+            builderCompat.setColorized(true);
             builderCompat.setContentIntent(pIntent);
             builderCompat.setTicker("Пора!");
             builderCompat.setWhen(System.currentTimeMillis());
