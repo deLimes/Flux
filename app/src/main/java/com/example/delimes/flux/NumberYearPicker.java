@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.util.Calendar;
+
 public class NumberYearPicker extends LinearLayout {
 
 
@@ -242,7 +244,7 @@ public class NumberYearPicker extends LinearLayout {
                             MainActivity.yearNumberChangedForFling = true;
                         }
                         MainActivity.yearNumberChangedForDraw = true;
-                        MainActivity.dateMonth.setText("__.__.____");
+                        ///%%K///MainActivity.dateMonth.setText("__.__.____");
                         if (MainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
                             mainActivity.yearReducedForFling = true;
                         }
@@ -292,7 +294,7 @@ public class NumberYearPicker extends LinearLayout {
                 MainActivity.winter.currentDate = null;
                 MainActivity.winter.firstOccurrence = true;
                 MainActivity.winter.days.clear();
-                MainActivity.winter.fillInDays(mainActivity.chosenYearNumber);
+                MainActivity.winter.fillInDays(MainActivity.chosenYearNumber);
                 MainActivity.winter.x = tucherWidth;
 //                if (!mainActivity.decrementYear) {
 //                    mainActivity.winter.x = tucherWidth;
@@ -315,7 +317,7 @@ public class NumberYearPicker extends LinearLayout {
                 MainActivity.spring.currentDate = null;
                 MainActivity.spring.firstOccurrence = true;
                 MainActivity.spring.days.clear();
-                MainActivity.spring.fillInDays(mainActivity.chosenYearNumber);
+                MainActivity.spring.fillInDays(MainActivity.chosenYearNumber);
                 MainActivity.spring.y = 0;
 //                if (!mainActivity.decrementYear) {
 //                    mainActivity.spring.y = 0;
@@ -411,6 +413,9 @@ public class NumberYearPicker extends LinearLayout {
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mainActivity.taskDescription.getWindowToken(), 0);
                 }
+
+
+
                 /////////////////////////////////////////////
 
                 MainActivity.winter.invalidate();

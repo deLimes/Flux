@@ -41,6 +41,7 @@ import android.support.constraint.Guideline;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -99,18 +100,20 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
-    static Context context;
+    public static Context context;
     int tucherWidth = 100;
     int[] colors = new int[2];
     int[] colors2 = new int[2];
     boolean veryFirstLaunch = true;
     boolean firstOccurrence = true;
-    public ConstraintLayout constraintLayout;
+    public static ConstraintLayout constraintLayout;
+    static ViewPager dayPager;
+    public static View viewConstraintLayoutForSchedule;
     static ConstraintLayout сonstraintLayoutForSchedule;
     static ConstraintLayout сonstraintLayoutTaskParameters;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
-    Guideline guideline;
+    public static Guideline guideline;
     static Quarter winter, spring, summer, autumn;
     static YearStr yearStr;
     static boolean yearRestored = false;
@@ -156,13 +159,13 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout linLayout;
     static Day day, previousDay;
     static Task task;
-    ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
-    ArrayList<Task> destroyedTasksOfYear = new ArrayList<Task>();
-    static boolean changedeTasksOfYear, yearNumberChangedForMove, yearNumberChangedForFling, yearNumberChangedForDraw, processUpdateSchedule;
+    public static ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
+    public static ArrayList<Task> destroyedTasksOfYear = new ArrayList<Task>();
+    public static boolean changedeTasksOfYear, yearNumberChangedForMove, yearNumberChangedForFling, yearNumberChangedForDraw, processUpdateSchedule;
     public static ArrayList<Task> cyclicTasks = new ArrayList<Task>();
     View layoutDayOfWeek;
     TextView  monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    static int curentYearNumber;
+    public static int curentYearNumber;
     static int chosenYearNumber = 0;
     static int previousChosenYearNumber = 0;
 
@@ -184,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean yearReducedForFling = false;
 
-    AnalogClock analogClock;
+    public static AnalogClock analogClock;
     public static TimeChangedReceiver timeChangedReceiver;
     public static Handler tickHandler;
     private Menu menu_main;
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     private AlphaAnimation alphaAnimationClick = new AlphaAnimation(1f, 0.2f);
     private static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
 
-    private float fontHeight;
+    public static float fontHeight;
 
     public MainActivity() {
         this.context = this;
@@ -267,13 +270,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         restoreCyclicTasks();
-        //numberYearPicker.setValue(curentYearNumber);
-
-
-
-
-
-
 
         //task = (Task) getIntent().getSerializableExtra("task");
 
@@ -497,12 +493,70 @@ public class MainActivity extends AppCompatActivity {
                 params.height = tucherHeight;
                 autumn.setLayoutParams(params);
 
+                //NumberYearPicker
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.topToBottom = R.id.winter;
+                params.rightToRight = R.id.autumn;
+                params.leftToLeft = R.id.spring;
+
+                numberYearPicker.setElementHeight((int)(width/1.5f));
+                numberYearPicker.setElementWidth((int)(width/1.5f));
+                numberYearPicker.setTextSize( fontHeight );
+                numberYearPicker.rebuild(getBaseContext());
+                numberYearPicker.setValue(curentYearNumber);
+
+                numberYearPicker.setLayoutParams(params);
+
+                //analogClock
+                SharedPreferences preference = context.getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+                boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
+
+                if (analogClockIsVisibile) {
+                    analogClock.setVisibility(View.VISIBLE);
+                    MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
+                    actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
+                }
+
+                analogClock.side = width/2;
+                analogClock.x = analogClock.side * 5;
+                analogClock.y = 0;
+
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.width = analogClock.side * 5;
+                params.height = params.width;
+                params.leftToLeft = R.id.constraintLayout;
+                params.topToTop = R.id.constraintLayout;
+
+                params.leftMargin = dayPager.getRight() - params.width;
+                params.topMargin = dayPager.getBottom() - params.height;
+
+                analogClock.setLayoutParams(params);
+
+
+
+                //dayPager
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.topToBottom = R.id.numberYearPicker;
+                params.leftToRight = R.id.spring;
+                params.bottomToTop = R.id.summer;
+                params.rightToLeft = R.id.autumn;
+
+                params.width = constraintLayout.getRight() - width * 2;
+                params.height = constraintLayout.getBottom() - width * 2;
+                //dayPager.setBackgroundColor(Color.RED);
+                dayPager.setLayoutParams(params);
+
+
+
+                /*
                 //сonstraintLayoutForSchedule
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
                 params.topToBottom = R.id.winter;
                 params.leftToRight = R.id.spring;
                 params.bottomToTop = R.id.summer;
                 params.rightToLeft = R.id.autumn;
+
 
                 params.width = constraintLayout.getRight() - width * 2;
                 params.height = constraintLayout.getBottom() - width * 2;
@@ -532,19 +586,6 @@ public class MainActivity extends AppCompatActivity {
                 numberYearPicker.setValue(curentYearNumber);
 
                 numberYearPicker.setLayoutParams(params);
-
-                /*//ivLargerImage
-                params = new ConstraintLayout.LayoutParams(numberYearPicker.getWidth(), numberYearPicker.getHeight());
-                params.topToTop = R.id.сonstraintLayoutForSchedule;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-//                params.topToTop = R.id.numberYearPicker;
-//                params.rightToRight = R.id.numberYearPicker;
-//                params.leftToLeft = R.id.numberYearPicker;
-//                params.bottomToBottom = R.id.numberYearPicker;
-
-                ivLargerImage.setVisibility(View.GONE);
-                ivLargerImage.setLayoutParams(params);*/
 
                 //dateMonth
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -745,8 +786,8 @@ public class MainActivity extends AppCompatActivity {
                         params.topToTop = R.id.constraintLayout;
                         //params.bottomToBottom = R.id.constraintLayout;
 
-                        params.leftMargin = сonstraintLayoutForSchedule.getRight() - analogClock.side * 5;
-                        params.topMargin = сonstraintLayoutForSchedule.getBottom() - analogClock.side * 5;
+                        params.leftMargin = сonstraintLayoutForSchedule.getRight() - params.width;
+                        params.topMargin = сonstraintLayoutForSchedule.getBottom() - params.height;
 
                         analogClock.setLayoutParams(params);
 
@@ -769,6 +810,8 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
+
+                */
 
             }
 
@@ -811,10 +854,28 @@ public class MainActivity extends AppCompatActivity {
         autumn.setBackgroundColor(getResources().getColor(R.color.colorAutumn));
         constraintLayout.addView(autumn);
 
-        сonstraintLayoutForSchedule  = new ConstraintLayout(this);
-        сonstraintLayoutForSchedule.setId(R.id.сonstraintLayoutForSchedule);
-        constraintLayout.addView(сonstraintLayoutForSchedule);
+        numberYearPicker = new NumberYearPicker(this, 0);
+        numberYearPicker.setId(R.id.numberYearPicker);
+        constraintLayout.addView(numberYearPicker);
 
+        dayPager = new ViewPager(this);
+        dayPager.setId(R.id.dayPager);
+        dayPager.setAdapter(new CyclicPagesAdapter(getSupportFragmentManager()));
+//        dayPager.setFocusableInTouchMode(true);
+//        dayPager.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+
+        constraintLayout.addView(dayPager);
+/*
+        ltInflater = getLayoutInflater();
+        viewConstraintLayoutForSchedule = ltInflater.inflate(R.layout.constraint_layout_for_schedule, constraintLayout, false);
+        сonstraintLayoutForSchedule = (ConstraintLayout)viewConstraintLayoutForSchedule;
+*/
+        //сonstraintLayoutForSchedule  = new ConstraintLayout(this);
+        //сonstraintLayoutForSchedule.setId(R.id.сonstraintLayoutForSchedule);
+        //constraintLayout.addView(сonstraintLayoutForSchedule);
+        //((ConstraintLayout)viewConstraintLayoutForSchedule).addView(сonstraintLayoutForSchedule);
+
+/*
         numberYearPicker = new NumberYearPicker(this, 0);
         numberYearPicker.setId(R.id.numberYearPicker);
         сonstraintLayoutForSchedule.addView(numberYearPicker);
@@ -932,16 +993,6 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-               /* calendar.clear();
-                calendar.setTimeInMillis(task.startTime);
-                taskTime.setText(((""+ calendar.get(Calendar.HOUR_OF_DAY)).length() == 1 ? "0" + calendar.get(Calendar.HOUR_OF_DAY) : "" + calendar.get(Calendar.HOUR_OF_DAY))+
-                        ":"+ ((""+ calendar.get(Calendar.MINUTE)).length() == 1 ? "0" + calendar.get(Calendar.MINUTE) : "" + calendar.get(Calendar.MINUTE)));
-
-                taskDuration.setText(
-                        ((""+ task.durationHours).length() == 1 ? "0" + task.durationHours : "" + task.durationHours)+
-                                ":"+ ((""+ task.durationMinutes).length() == 1 ? "0" + task.durationMinutes : "" + task.durationMinutes));
-
-                taskDescription.setText(task.content);*/
 
                 day.dayClosed = true;
                 for (Task task : day.tasks) {
@@ -1090,21 +1141,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-/*
-        scheduleScroll = new ScrollView(this);
-        scheduleScroll.setId(R.id.scheduleScroll);
-        сonstraintLayoutForSchedule.addView(scheduleScroll);
-
-        frameLayoutOfScroll = new FrameLayout(this);
-        frameLayoutOfScroll.setId(R.id.frameLayoutOfScroll);
-        scheduleScroll.addView(frameLayoutOfScroll);
-*/
-        ltInflater = getLayoutInflater();
+        //ltInflater = getLayoutInflater();
 
         linearLayout = ltInflater.inflate(R.layout.layout, сonstraintLayoutForSchedule, false);
         сonstraintLayoutForSchedule.addView(linearLayout);
-        linLayout = (LinearLayout) findViewById(R.id.linLayout);
+        linLayout = (LinearLayout) linearLayout.findViewById(R.id.linLayout);
 
         ivLargerImage = new ImageView(this);
         ivLargerImage.setId(R.id.ivLargerImage);
@@ -1374,15 +1415,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    /*
-                    if (task.queue){
-                        setReminder(context, task, day.date);
-                    }
-                    */
-                    /*
-
-                    */
-
                     return false;
                 }
                 return true;
@@ -1453,27 +1485,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //dictionary.clear();
-                //dictionary.addAll(new ArrayList<String>(Arrays.asList(array)));
-                //tasks
-
-        /*
-       GridView gridView = new GridView(this);
-        gridView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, tasks));
-        gridView.setNumColumns(2);
-        gridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
-        gridView.setTextFilterEnabled(true);
-*/
-
-
-                //myCalendar.invalidate();
-
-
-                //MySurfaceView mySurfaceView = new MySurfaceView(this);
-                //MySurfaceView mySurfaceView = (MySurfaceView) findViewById(R.id.mySurfaceView);;
-
-                //mySurfaceView.setLayoutParams(new LinearLayout.LayoutParams(2000, 2000));
-                //linearLayout.addView(mySurfaceView);
 
         everyYear = new CheckBox(this);
         everyYear.setId(R.id.everyYear);
@@ -1541,16 +1552,13 @@ public class MainActivity extends AppCompatActivity {
         });
         сonstraintLayoutTaskParameters.addView(inDays);
 
+*/
 
 
 
         analogClock = new AnalogClock(this);
         analogClock.setId(R.id.analogClock);
         constraintLayout.addView(analogClock, constraintLayout.getChildCount());
-        //сonstraintLayoutForSchedule.setAnalogClock((AnalogClock)сonstraintLayoutForSchedule.findViewById(R.id.analogClock));
-        //сonstraintLayoutForSchedule.setAnalogClock(analogClock);
-        //сonstraintLayoutForSchedule.draw(new Canvas());
-
 
 
         ///////////////////////////////////////////////////////////////////////////
@@ -1572,14 +1580,6 @@ public class MainActivity extends AppCompatActivity {
 
         ///////////////////////////////////////////////////////////////////////////
 
-
-//        NumberPicker numberYearPicker = new NumberPicker(this);
-//        numberYearPicker.setMaxValue(4999);
-//        numberYearPicker.setMinValue(0);
-//        numberYearPicker.setValue(calendar.get(Calendar.YEAR));
-//        numberYearPicker.getValue();
-//        numberYearPicker.setOrientation(LinearLayout.HORIZONTAL);
-//        constraintLayout.addView(numberYearPicker);
 
 
     }
@@ -1814,8 +1814,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     ///////////////////////////////////////////////////////////////////////////////
-
-    public void refreshCyclicParameters(){
+/*
+    public static void refreshCyclicParameters(){
 
         while (cyclicTasks.remove(task));
         Iterator<Task> iter = cyclicTasks.iterator();
@@ -1861,8 +1861,9 @@ public class MainActivity extends AppCompatActivity {
         //
 
     }
+*/
 
-    public void refreshCyclicTasks(Task task) {
+    public static void refreshCyclicTasks(Task task) {
 
         long millis;
         boolean needToReturn = false;
@@ -3662,7 +3663,7 @@ public class MainActivity extends AppCompatActivity {
                 +calendar.get(Calendar.DAY_OF_MONTH) + " "
                 +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
-        MainActivity.dateMonth.setText(strDateMonth);
+        dateMonth.setText(strDateMonth);
 
 
         if(task != null) {
@@ -4321,6 +4322,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setDay(Day day) {
         MainActivity.day = day;
+        if (day != null) {
+            Calendar myCalender = Calendar.getInstance();
+            myCalender.clear();
+            myCalender.setTimeInMillis(day.date.getTime());
+            dayPager.setCurrentItem(myCalender.get(Calendar.DAY_OF_YEAR)-1);
+        }
     }
 
     public void example_Button_setTextSize(Button btn)
@@ -7587,7 +7594,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public class TaskComparator implements Comparator<Task>
+    public static class TaskComparator implements Comparator<Task>
     {
         public int compare(Task left, Task right) {
             return left.clockStartTime.compareTo(right.clockStartTime);

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="сonstraintLayoutForSchedule" type="id"/>
+
+    <!--<item name="сonstraintLayoutForSchedule" type="id"/>-->
     <item name="сonstraintLayoutTaskParameters" type="id"/>
+
     <item name="guideline" type="id"/>
 
     <item name="winter" type="id"/>
     <item name="spring" type="id"/>
     <item name="summer" type="id"/>
     <item name="autumn" type="id"/>
+
+    <item name="dayPager" type="id"/>
 
     <item name="ivLargerImage" type="id"/>
     <item name="numberYearPicker" type="id"/>
@@ -31,6 +35,7 @@
     <item name="inDays" type="id"/>
     <item name="taskCopyTo" type="id"/>
     <item name="labelRepeatThrough" type="id"/>
+
 
     <item name="analogClock" type="id"/>
 
