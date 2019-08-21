@@ -1867,6 +1867,7 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
+                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
@@ -1905,6 +1906,7 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
+                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
@@ -1944,6 +1946,7 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
+                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
@@ -1983,6 +1986,7 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
+                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){

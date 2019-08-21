@@ -878,7 +878,7 @@ public class MainActivity extends AppCompatActivity {
         numberYearPicker.setId(R.id.numberYearPicker);
         constraintLayout.addView(numberYearPicker);
 
-        dayPager = new MyViewPager(this);
+        dayPager = new ViewPager(this);
         dayPager.setId(R.id.dayPager);
         dayPager.setAdapter(new CyclicPagesAdapter(getSupportFragmentManager()));
         dayPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -890,17 +890,19 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
 
                 Log.d("1234", "onPageSelected position: "+position);
-                Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
+
+
+                Day dayOfYear = day;
 
                 if (winter.days.size() >= position + 1){
 
                     dayOfYear = winter.days.get(position);
+
+
                     winter.selectedDay = dayOfYear;
                     spring.selectedDay = null;
                     summer.selectedDay = null;
                     autumn.selectedDay = null;
-
-
 
 
                 }else if(winter.days.size()
@@ -909,12 +911,11 @@ public class MainActivity extends AppCompatActivity {
                     dayOfYear = spring.days.get(position
                             - winter.days.size());
 
+
                     winter.selectedDay = null;
                     spring.selectedDay = dayOfYear;
                     summer.selectedDay = null;
                     autumn.selectedDay = null;
-
-
 
                 }else if(winter.days.size()
                         + spring.days.size()
@@ -924,12 +925,12 @@ public class MainActivity extends AppCompatActivity {
                             - winter.days.size()
                             - spring.days.size());
 
+
+
                     winter.selectedDay = null;
                     spring.selectedDay = null;
                     summer.selectedDay = dayOfYear;
                     autumn.selectedDay = null;
-
-
 
                 }else if(winter.days.size()
                         + spring.days.size()
@@ -941,20 +942,23 @@ public class MainActivity extends AppCompatActivity {
                             - spring.days.size()
                             - summer.days.size());
 
+
+
                     winter.selectedDay = null;
                     spring.selectedDay = null;
                     summer.selectedDay = null;
                     autumn.selectedDay = dayOfYear;
 
-
                 }
 
-                MainActivity.setDay(dayOfYear, false);
+
+                setDay(dayOfYear, false);
 
                 winter.invalidate();
                 spring.invalidate();
                 summer.invalidate();
                 autumn.invalidate();
+
 
 
             }

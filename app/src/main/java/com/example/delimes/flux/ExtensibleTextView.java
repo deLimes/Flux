@@ -36,6 +36,7 @@ public class ExtensibleTextView extends android.support.v7.widget.AppCompatTextV
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
+        /*глючит находясь в ViewPager
         try {
             if (this != null){
                 startAnimation(alphaAnimationFadeIn);
@@ -43,6 +44,7 @@ public class ExtensibleTextView extends android.support.v7.widget.AppCompatTextV
         }catch (Exception e){
             Log.e("myLogs2", "Exception: " + e.getMessage());
         }
+        */
 
     }
 }
