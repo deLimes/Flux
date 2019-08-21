@@ -21,7 +21,7 @@ public class CyclicPagesAdapter extends FragmentStatePagerAdapter {
 
         return PageFragment.newInstance(daysOfYear.get(position));
     }
-
+/*
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
@@ -30,7 +30,7 @@ public class CyclicPagesAdapter extends FragmentStatePagerAdapter {
 
         return super.instantiateItem(container, position);
     }
-
+*/
     @Override
     public int getCount() {
 

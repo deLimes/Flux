@@ -37,7 +37,9 @@ public class ExtensibleTextView extends android.support.v7.widget.AppCompatTextV
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
         try {
-            startAnimation(alphaAnimationFadeIn);
+            if (this != null){
+                startAnimation(alphaAnimationFadeIn);
+            }
         }catch (Exception e){
             Log.e("myLogs2", "Exception: " + e.getMessage());
         }

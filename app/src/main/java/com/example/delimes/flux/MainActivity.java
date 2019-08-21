@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     static YearStr yearStr;
     static boolean yearRestored = false;
 
-    static ImageView ivLargerImage;
+    public static ImageView ivLargerImage;
     static NumberYearPicker numberYearPicker;
     static ExtensibleTextView dateMonth;
     TextView taskTime;
@@ -507,44 +507,64 @@ public class MainActivity extends AppCompatActivity {
 
                 numberYearPicker.setLayoutParams(params);
 
-                //analogClock
-                SharedPreferences preference = context.getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-                boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
-
-                if (analogClockIsVisibile) {
-                    analogClock.setVisibility(View.VISIBLE);
-                    MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
-                    actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
-                }
-
-                analogClock.side = width/2;
-                analogClock.x = analogClock.side * 5;
-                analogClock.y = 0;
-
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.width = analogClock.side * 5;
-                params.height = params.width;
-                params.leftToLeft = R.id.constraintLayout;
-                params.topToTop = R.id.constraintLayout;
-
-                params.leftMargin = dayPager.getRight() - params.width;
-                params.topMargin = dayPager.getBottom() - params.height;
-
-                analogClock.setLayoutParams(params);
 
 
+                numberYearPicker.post(new Runnable() {
+                    @Override
+                    public void run() {
 
-                //dayPager
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.topToBottom = R.id.numberYearPicker;
-                params.leftToRight = R.id.spring;
-                params.bottomToTop = R.id.summer;
-                params.rightToLeft = R.id.autumn;
+                        //dayPager
+                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.topToBottom = R.id.numberYearPicker;
+                        params.leftToRight = R.id.spring;
+                        params.bottomToTop = R.id.summer;
+                        params.rightToLeft = R.id.autumn;
 
-                params.width = constraintLayout.getRight() - width * 2;
-                params.height = constraintLayout.getBottom() - width * 2;
-                //dayPager.setBackgroundColor(Color.RED);
-                dayPager.setLayoutParams(params);
+                        params.width = constraintLayout.getRight() - width * 2;
+                        params.height = constraintLayout.getBottom() - width - numberYearPicker.getBottom();
+
+                        //dayPager.setBackgroundColor(Color.RED);
+                        dayPager.setLayoutParams(params);
+
+
+                        dayPager.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                //analogClock
+                                SharedPreferences preference = context.getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+                                boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
+
+                                if (analogClockIsVisibile) {
+                                    analogClock.setVisibility(View.VISIBLE);
+                                    MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
+                                    actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
+                                }
+
+                                analogClock.side = width/2;
+                                analogClock.x = analogClock.side * 5;
+                                analogClock.y = 0;
+
+                                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                params.width = analogClock.side * 5;
+                                params.height = params.width;
+                                params.leftToLeft = R.id.constraintLayout;
+                                params.topToTop = R.id.constraintLayout;
+
+                                params.leftMargin = dayPager.getRight() - params.width;
+                                params.topMargin = dayPager.getBottom() - params.height;
+
+                                analogClock.setLayoutParams(params);
+
+                            }
+                        });
+
+                    }
+                });
+
+
+
+
 
 
 
@@ -858,9 +878,92 @@ public class MainActivity extends AppCompatActivity {
         numberYearPicker.setId(R.id.numberYearPicker);
         constraintLayout.addView(numberYearPicker);
 
-        dayPager = new ViewPager(this);
+        dayPager = new MyViewPager(this);
         dayPager.setId(R.id.dayPager);
         dayPager.setAdapter(new CyclicPagesAdapter(getSupportFragmentManager()));
+        dayPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                Log.d("1234", "onPageSelected position: "+position);
+                Day dayOfYear = new Day(new Date(), 0, 0, 0, 0);
+
+                if (winter.days.size() >= position + 1){
+
+                    dayOfYear = winter.days.get(position);
+                    winter.selectedDay = dayOfYear;
+                    spring.selectedDay = null;
+                    summer.selectedDay = null;
+                    autumn.selectedDay = null;
+
+
+
+
+                }else if(winter.days.size()
+                        + spring.days.size() >= position + 1){
+
+                    dayOfYear = spring.days.get(position
+                            - winter.days.size());
+
+                    winter.selectedDay = null;
+                    spring.selectedDay = dayOfYear;
+                    summer.selectedDay = null;
+                    autumn.selectedDay = null;
+
+
+
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size() >= position + 1){
+
+                    dayOfYear = summer.days.get(position
+                            - winter.days.size()
+                            - spring.days.size());
+
+                    winter.selectedDay = null;
+                    spring.selectedDay = null;
+                    summer.selectedDay = dayOfYear;
+                    autumn.selectedDay = null;
+
+
+
+                }else if(winter.days.size()
+                        + spring.days.size()
+                        + summer.days.size()
+                        + autumn.days.size() >= position + 1){
+
+                    dayOfYear = autumn.days.get(position
+                            - winter.days.size()
+                            - spring.days.size()
+                            - summer.days.size());
+
+                    winter.selectedDay = null;
+                    spring.selectedDay = null;
+                    summer.selectedDay = null;
+                    autumn.selectedDay = dayOfYear;
+
+
+                }
+
+                MainActivity.setDay(dayOfYear, false);
+
+                winter.invalidate();
+                spring.invalidate();
+                summer.invalidate();
+                autumn.invalidate();
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 //        dayPager.setFocusableInTouchMode(true);
 //        dayPager.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
@@ -4320,9 +4423,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static void setDay(Day day) {
+    public static void setDay(Day day, boolean setCurrentItem) {
         MainActivity.day = day;
-        if (day != null) {
+        if (day != null && setCurrentItem) {
             Calendar myCalender = Calendar.getInstance();
             myCalender.clear();
             myCalender.setTimeInMillis(day.date.getTime());

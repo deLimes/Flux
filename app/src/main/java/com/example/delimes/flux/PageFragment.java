@@ -78,10 +78,10 @@ public class PageFragment extends Fragment {
     boolean veryFirstLaunch = true;
     ////boolean firstOccurrence = true;
     //public ConstraintLayout constraintLayout;
-    static ViewPager dayPager;
+    //static ViewPager dayPager;
     public static View viewConstraintLayoutForSchedule;
-    static ConstraintLayout сonstraintLayoutForSchedule;
-    static ConstraintLayout сonstraintLayoutTaskParameters;
+    ConstraintLayout сonstraintLayoutForSchedule;
+    ConstraintLayout сonstraintLayoutTaskParameters;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
 
@@ -89,9 +89,9 @@ public class PageFragment extends Fragment {
     /////static MainActivity.YearStr yearStr;
     static boolean yearRestored = false;
 
-    static ImageView ivLargerImage;
+    ImageView ivLargerImage;
 
-    static ExtensibleTextView dateMonth;
+    ExtensibleTextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
 
@@ -106,7 +106,8 @@ public class PageFragment extends Fragment {
     ScrollView scheduleScroll;
     LayoutInflater ltInflater;
     LinearLayout linLayout;
-    static Day day, previousDay;
+    Day day;
+    Day previousDay;
     ////static MainActivity.Task task;
     /*
     ArrayList<MainActivity.Task> addedTasksOfYear = new ArrayList<MainActivity.Task>();
@@ -168,271 +169,29 @@ public class PageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("123", "onCreate: ");
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-
-        Log.d("123", "onCreateView: ");
-        View view = inflater.inflate(R.layout.constraint_layout_for_schedule, container, false);
-
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-
-                ConstraintLayout.LayoutParams params;
-                final int width = constraintLayout.getRight() + guideline.getLeft();
-                int tucherWidth;
-                int tucherHeight;
-
-                //dateMonth
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.topToTop = R.id.сonstraintLayoutForSchedule;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-
-                params.height = numberYearPicker.getHeight();
-                dateMonth.setGravity( Gravity.CENTER_VERTICAL);
-
-                dateMonth.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
-                dateMonth.setTextColor(Color.BLACK);
-                dateMonth.setLayoutParams(params);
-
-                //сonstraintLayoutTaskParameters
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.topToBottom = R.id.dateMonth;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                //params.bottomToTop = R.id.buttonAddTask;
-                //params.width = constraintLayout.getRight() - width * 2;
-                //сonstraintLayoutTaskParameters.setBackgroundColor(Color.RED);
-                сonstraintLayoutTaskParameters.setVisibility(View.GONE);
-                сonstraintLayoutTaskParameters.setLayoutParams(params);
-
-                //taskTime
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToTop = R.id.сonstraintLayoutTaskParameters;
-                //taskTime.setBackgroundColor(Color.GREEN);
-
-                //params.width = (int)(width * 0.75f);
-                params.height = width/2;
-                taskTime.setLayoutParams(params);
-
-                //taskDuration
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.taskTime;
-                //taskDuration.setBackgroundColor(Color.GREEN);
-
-                //params.width = (int)(width * 0.75f);;
-                params.height = width/2;
-                taskDuration.setLayoutParams(params);
-
-                //taskDescription
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.taskTime;
-                params.rightToRight = R.id.сonstraintLayoutTaskParameters;
-                params.topToTop = R.id.сonstraintLayoutTaskParameters;
-                params.bottomToBottom = R.id.taskTime;
-                params.leftMargin = 10;
-                //params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
-
-                //params.width = constraintLayout.getRight() - width * 2 - (int)(width * 0.75f);
-                params.width = constraintLayout.getRight() - width * 3;
-                params.height = width;
-                taskDescription.setLayoutParams(params);
-
-
-                //labelRepeatThrough
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.taskDuration;
-                labelRepeatThrough.setLayoutParams(params);
-
-                //everyYear
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.labelRepeatThrough;
-                everyYear.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
-                everyYear.setLayoutParams(params);
-
-                //everyMonth
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.everyYear;
-                params.topToBottom = R.id.labelRepeatThrough;
-                everyMonth.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
-                everyMonth.setLayoutParams(params);
-
-                //inDays
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.everyMonth;
-                inDays.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
-                inDays.setLayoutParams(params);
-
-                //layoutDayOfWeek
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.inDays;
-                layoutDayOfWeek.setLayoutParams(params);
-
-
-                //labelStartOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.layoutDayOfWeek;
-                params.topMargin = 10;
-                //params.rightToLeft = R.id.startOfTask;
-                labelStartOfTask.setLayoutParams(params);
-
-                //startOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.labelStartOfTask;
-                params.topToBottom = R.id.layoutDayOfWeek;
-                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                params.topMargin = 10;
-                params.leftMargin = 10;
-                startOfTask.setLayoutParams(params);
-                //////startOfTask.setBackgroundColor(Color.BLUE);
-
-                //labelEndOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.startOfTask;
-                //params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                labelEndOfTask.setLayoutParams(params);
-
-                //endOfTask
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToRight = R.id.labelEndOfTask;
-                params.topToBottom = R.id.startOfTask;
-                params.leftMargin = 10;
-                //params.rightToLeft = R.id.labelEndOfTask;
-                endOfTask.setLayoutParams(params);
-                //////endOfTask.setBackgroundColor(Color.RED);
-
-
-                //taskCopyTo
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
-                params.topToBottom = R.id.labelEndOfTask;
-                params.topMargin = 10;
-                taskCopyTo.setLayoutParams(params);
-
-
-                //buttonAddTask
-                params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                params.topToBottom= R.id.сonstraintLayoutTaskParameters;
-
-                buttonAddTask.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
-                buttonAddTask.setLayoutParams(params);
-
-                //buttonDeleteTask
-                params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
-                params.rightToLeft = R.id.buttonAddTask;
-                params.topToBottom = R.id.сonstraintLayoutTaskParameters;
-
-                buttonDeleteTask.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight ); // (width/1.5f/5f)
-                buttonDeleteTask.setLayoutParams(params);
-                ////////////
-
-
-
-                ////////////
-
-                //linearLayout
-                buttonAddTask.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                        params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                        params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                        params.topToBottom = R.id.buttonAddTask;
-                        params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
-
-                        //linearLayout.setBackgroundColor(Color.RED);
-                        params.width = сonstraintLayoutForSchedule.getWidth();
-                        params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
-                        linearLayout.setLayoutParams(params);
-
-                        /*///%%K///
-                        //analogClock
-                        SharedPreferences preference = context.getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-                        boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
-
-                        if (analogClockIsVisibile) {
-                            analogClock.setVisibility(View.VISIBLE);
-                            MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
-                            actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
-                        }
-
-                        analogClock.side = width/2;
-                        analogClock.x = analogClock.side * 5;
-                        analogClock.y = 0;
-
-                        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        params.width = analogClock.side * 5;
-                        params.height = params.width;
-                        params.leftToLeft = R.id.constraintLayout;
-                        //params.rightToRight = R.id.constraintLayout;
-                        params.topToTop = R.id.constraintLayout;
-                        //params.bottomToBottom = R.id.constraintLayout;
-
-                        params.leftMargin = сonstraintLayoutForSchedule.getRight() - params.width;
-                        params.topMargin = сonstraintLayoutForSchedule.getBottom() - params.height;
-
-                        analogClock.setLayoutParams(params);
-                        */
-
-                        //ivLargerImage
-                        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                        params.topToTop = R.id.сonstraintLayoutForSchedule;
-                        params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                        params.bottomToTop = R.id.сonstraintLayoutTaskParameters;
-                        //ivLargerImage.setBackgroundColor(R.color.ivLargerImageColor);	android.R.attr
-                        //ivLargerImage.setBackgroundColor(((ColorDrawable)constraintLayout.getBackground()).getColor());
-                        TypedValue typedValue = new TypedValue();
-                        Resources.Theme theme = context.getTheme();
-                        theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true);
-                        ivLargerImage.setBackgroundColor(typedValue.data);
-                        ivLargerImage.setVisibility(View.GONE);
-                        ivLargerImage.setLayoutParams(params);
-
-                    }
-
-                });
-            }
-        });
-        сonstraintLayoutForSchedule = view.findViewById(R.id.сonstraintLayoutForSchedule);
         //////////////////////////////////////
         dateMonth = new ExtensibleTextView(context);
         dateMonth.setId(R.id.dateMonth);
         dateMonth.getPaint().setUnderlineText(true);
 
-        сonstraintLayoutForSchedule.addView(dateMonth);
+        ///////сonstraintLayoutForSchedule.addView(dateMonth);
 
         сonstraintLayoutTaskParameters  = new ConstraintLayout(context);
         сonstraintLayoutTaskParameters.setId(R.id.сonstraintLayoutTaskParameters);
         //сonstraintLayoutTaskParameters.setBackgroundResource(R.drawable.layout_border);
-        сonstraintLayoutForSchedule.addView(сonstraintLayoutTaskParameters);
+        ///////сonstraintLayoutForSchedule.addView(сonstraintLayoutTaskParameters);
 
 
         taskTime = new TextView(context);
         taskTime.setId(R.id.taskTime);
         taskTime.getPaint().setUnderlineText(true);
-        сonstraintLayoutTaskParameters.addView(taskTime);
+        ///////сonstraintLayoutTaskParameters.addView(taskTime);
 
         taskDuration = new TextView(context);
         taskDuration.setId(R.id.taskDuration);
         taskDuration.getPaint().setUnderlineText(true);
-        сonstraintLayoutTaskParameters.addView(taskDuration);
+        ///////сonstraintLayoutTaskParameters.addView(taskDuration);
 
         taskDescription = new ExtensibleEditText(context);//Extensible
         taskDescription.setId(R.id.taskDescription);
@@ -441,45 +200,45 @@ public class PageFragment extends Fragment {
 //        taskDescription.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE);
 //        taskDescription.setMaxLines(5);
         taskDescription.setEnabled(false);
-        сonstraintLayoutTaskParameters.addView(taskDescription);
+        ///////сonstraintLayoutTaskParameters.addView(taskDescription);
 
         labelRepeatThrough = new TextView(context);
         labelRepeatThrough.setId(R.id.labelRepeatThrough);
         labelRepeatThrough.setText("Повторять через:");
-        сonstraintLayoutTaskParameters.addView(labelRepeatThrough);
+        ///////сonstraintLayoutTaskParameters.addView(labelRepeatThrough);
 
         labelStartOfTask = new TextView(context);
         labelStartOfTask.setId(R.id.labelStartOfTask);
         labelStartOfTask.setText("Дата начала:");
-        сonstraintLayoutTaskParameters.addView(labelStartOfTask);
+        ///////сonstraintLayoutTaskParameters.addView(labelStartOfTask);
 
         startOfTask = new TextView(context);
         startOfTask.setId(R.id.startOfTask);
         startOfTask.getPaint().setUnderlineText(true);
-        сonstraintLayoutTaskParameters.addView(startOfTask);
+        ///////сonstraintLayoutTaskParameters.addView(startOfTask);
 
         labelEndOfTask = new TextView(context);
         labelEndOfTask.setId(R.id.labelEndOfTask);
         labelEndOfTask.setText("Дата окончания:");
-        сonstraintLayoutTaskParameters.addView(labelEndOfTask);
+        ///////сonstraintLayoutTaskParameters.addView(labelEndOfTask);
 
         endOfTask = new TextView(context);
         endOfTask.setId(R.id.endOfTask);
         endOfTask.getPaint().setUnderlineText(true);
-        сonstraintLayoutTaskParameters.addView(endOfTask);
+        ///////сonstraintLayoutTaskParameters.addView(endOfTask);
 
 
         taskCopyTo = new TextView(context);
         taskCopyTo.setId(R.id.taskCopyTo);
         taskCopyTo.setText("Копировать в дату...");
         taskCopyTo.getPaint().setUnderlineText(true);
-        сonstraintLayoutTaskParameters.addView(taskCopyTo);
+        ///////сonstraintLayoutTaskParameters.addView(taskCopyTo);
 
         buttonAddTask = new Button(context);
         buttonAddTask.setId(R.id.buttonAddTask);
         buttonAddTask.setText( "+" );
         buttonAddTask.setTextColor(Color.BLACK);
-        сonstraintLayoutForSchedule.addView(buttonAddTask);
+        ///////сonstraintLayoutForSchedule.addView(buttonAddTask);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -575,7 +334,7 @@ public class PageFragment extends Fragment {
         buttonDeleteTask.setId(R.id.buttonDeleteTask);
         buttonDeleteTask.setText( "-" );
         buttonDeleteTask.setTextColor(Color.BLACK);
-        сonstraintLayoutForSchedule.addView(buttonDeleteTask);
+        ///////сonstraintLayoutForSchedule.addView(buttonDeleteTask);
         buttonDeleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -676,18 +435,18 @@ public class PageFragment extends Fragment {
 
         ltInflater = getLayoutInflater();
         linearLayout = ltInflater.inflate(R.layout.layout, сonstraintLayoutForSchedule, false);
-        сonstraintLayoutForSchedule.addView(linearLayout);
-        linLayout = (LinearLayout) linearLayout.findViewById(R.id.linLayout);
+        ///////сonstraintLayoutForSchedule.addView(linearLayout);
+        ///////linLayout = (LinearLayout) linearLayout.findViewById(R.id.linLayout);
 
         ivLargerImage = new ImageView(context);
         ivLargerImage.setId(R.id.ivLargerImage);
-        сonstraintLayoutForSchedule.addView(ivLargerImage, сonstraintLayoutForSchedule.getChildCount());
+        ///////сonstraintLayoutForSchedule.addView(ivLargerImage, сonstraintLayoutForSchedule.getChildCount());
 
 
 
         layoutDayOfWeek = ltInflater.inflate(R.layout.layout_day_of_week, сonstraintLayoutForSchedule, false);
         layoutDayOfWeek.setId(R.id.layoutDayOfWeek);
-        сonstraintLayoutTaskParameters.addView(layoutDayOfWeek);
+        ///////сonstraintLayoutTaskParameters.addView(layoutDayOfWeek);
 
         dateMonth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1034,7 +793,7 @@ public class PageFragment extends Fragment {
                 }
             }
         });
-        сonstraintLayoutTaskParameters.addView(everyYear);
+        ///////сonstraintLayoutTaskParameters.addView(everyYear);
 
         everyMonth = new CheckBox(context);
         everyMonth.setId(R.id.everyMonth);
@@ -1052,7 +811,7 @@ public class PageFragment extends Fragment {
             }
         });
 
-        сonstraintLayoutTaskParameters.addView(everyMonth);
+        ///////сonstraintLayoutTaskParameters.addView(everyMonth);
 
         inDays = new EditText(context);
         inDays.setId(R.id.inDays);
@@ -1082,14 +841,293 @@ public class PageFragment extends Fragment {
             }
 
         });
+        ///////сonstraintLayoutTaskParameters.addView(inDays);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+
+        Log.d("123", "onCreateView: ");
+
+        View view = inflater.inflate(R.layout.constraint_layout_for_schedule, container, false);
+        сonstraintLayoutForSchedule = view.findViewById(R.id.сonstraintLayoutForSchedule);
+
+        сonstraintLayoutForSchedule.removeAllViews();
+        сonstraintLayoutForSchedule.addView(dateMonth);
+        сonstraintLayoutForSchedule.addView(сonstraintLayoutTaskParameters);
+        сonstraintLayoutForSchedule.addView(buttonAddTask);
+        сonstraintLayoutForSchedule.addView(buttonDeleteTask);
+        сonstraintLayoutForSchedule.addView(linearLayout);
+        сonstraintLayoutForSchedule.addView(ivLargerImage, сonstraintLayoutForSchedule.getChildCount());
+
+        сonstraintLayoutTaskParameters.removeAllViews();
+        сonstraintLayoutTaskParameters.addView(taskTime);
+        сonstraintLayoutTaskParameters.addView(taskDuration);
+        сonstraintLayoutTaskParameters.addView(taskDescription);
+        сonstraintLayoutTaskParameters.addView(labelRepeatThrough);
+        сonstraintLayoutTaskParameters.addView(labelStartOfTask);
+        сonstraintLayoutTaskParameters.addView(startOfTask);
+        сonstraintLayoutTaskParameters.addView(labelEndOfTask);
+        сonstraintLayoutTaskParameters.addView(endOfTask);
+        сonstraintLayoutTaskParameters.addView(taskCopyTo);
+        сonstraintLayoutTaskParameters.addView(layoutDayOfWeek);
+        сonstraintLayoutTaskParameters.addView(everyYear);
+        сonstraintLayoutTaskParameters.addView(everyMonth);
         сonstraintLayoutTaskParameters.addView(inDays);
+
+        linLayout = (LinearLayout) linearLayout.findViewById(R.id.linLayout);
+        //linLayout.setBackgroundColor(Color.CYAN);
+
+
+        ConstraintLayout.LayoutParams params;
+        final int width = constraintLayout.getRight() + guideline.getLeft();
+        int tucherWidth;
+        int tucherHeight;
+
+        //dateMonth
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+        params.topToTop = R.id.сonstraintLayoutForSchedule;
+        params.rightToRight = R.id.сonstraintLayoutForSchedule;
+
+        params.height = numberYearPicker.getHeight();
+        dateMonth.setGravity( Gravity.CENTER_VERTICAL);
+
+        dateMonth.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
+        dateMonth.setTextColor(Color.BLACK);
+        dateMonth.setLayoutParams(params);
+
+        //сonstraintLayoutTaskParameters
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+        params.topToBottom = R.id.dateMonth;
+        params.rightToRight = R.id.сonstraintLayoutForSchedule;
+        //params.bottomToTop = R.id.buttonAddTask;
+        //params.width = constraintLayout.getRight() - width * 2;
+        //сonstraintLayoutTaskParameters.setBackgroundColor(Color.RED);
+        сonstraintLayoutTaskParameters.setVisibility(View.GONE);
+        сonstraintLayoutTaskParameters.setLayoutParams(params);
+
+        //taskTime
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToTop = R.id.сonstraintLayoutTaskParameters;
+        //taskTime.setBackgroundColor(Color.GREEN);
+
+        //params.width = (int)(width * 0.75f);
+        params.height = width/2;
+        taskTime.setLayoutParams(params);
+
+        //taskDuration
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.taskTime;
+        //taskDuration.setBackgroundColor(Color.GREEN);
+
+        //params.width = (int)(width * 0.75f);;
+        params.height = width/2;
+        taskDuration.setLayoutParams(params);
+
+        //taskDescription
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToRight = R.id.taskTime;
+        params.rightToRight = R.id.сonstraintLayoutTaskParameters;
+        params.topToTop = R.id.сonstraintLayoutTaskParameters;
+        params.bottomToBottom = R.id.taskTime;
+        params.leftMargin = 10;
+        //params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
+
+        //params.width = constraintLayout.getRight() - width * 2 - (int)(width * 0.75f);
+        params.width = constraintLayout.getRight() - width * 3;
+        params.height = width;
+        taskDescription.setLayoutParams(params);
+
+
+        //labelRepeatThrough
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.taskDuration;
+        labelRepeatThrough.setLayoutParams(params);
+
+        //everyYear
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.labelRepeatThrough;
+        everyYear.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
+        everyYear.setLayoutParams(params);
+
+        //everyMonth
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToRight = R.id.everyYear;
+        params.topToBottom = R.id.labelRepeatThrough;
+        everyMonth.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
+        everyMonth.setLayoutParams(params);
+
+        //inDays
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.everyMonth;
+        inDays.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
+        inDays.setLayoutParams(params);
+
+        //layoutDayOfWeek
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.inDays;
+        layoutDayOfWeek.setLayoutParams(params);
+
+
+        //labelStartOfTask
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.layoutDayOfWeek;
+        params.topMargin = 10;
+        //params.rightToLeft = R.id.startOfTask;
+        labelStartOfTask.setLayoutParams(params);
+
+        //startOfTask
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToRight = R.id.labelStartOfTask;
+        params.topToBottom = R.id.layoutDayOfWeek;
+        //params.rightToRight = R.id.сonstraintLayoutForSchedule;
+        params.topMargin = 10;
+        params.leftMargin = 10;
+        startOfTask.setLayoutParams(params);
+        //////startOfTask.setBackgroundColor(Color.BLUE);
+
+        //labelEndOfTask
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.startOfTask;
+        //params.rightToRight = R.id.сonstraintLayoutForSchedule;
+        labelEndOfTask.setLayoutParams(params);
+
+        //endOfTask
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToRight = R.id.labelEndOfTask;
+        params.topToBottom = R.id.startOfTask;
+        params.leftMargin = 10;
+        //params.rightToLeft = R.id.labelEndOfTask;
+        endOfTask.setLayoutParams(params);
+        //////endOfTask.setBackgroundColor(Color.RED);
+
+
+        //taskCopyTo
+        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftToLeft = R.id.сonstraintLayoutTaskParameters;
+        params.topToBottom = R.id.labelEndOfTask;
+        params.topMargin = 10;
+        taskCopyTo.setLayoutParams(params);
+
+
+        //buttonAddTask
+        params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
+        params.rightToRight = R.id.сonstraintLayoutForSchedule;
+        params.topToBottom= R.id.сonstraintLayoutTaskParameters;
+
+        buttonAddTask.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight );
+        buttonAddTask.setLayoutParams(params);
+
+        //buttonDeleteTask
+        params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
+        params.rightToLeft = R.id.buttonAddTask;
+        params.topToBottom = R.id.сonstraintLayoutTaskParameters;
+
+        buttonDeleteTask.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight ); // (width/1.5f/5f)
+        buttonDeleteTask.setLayoutParams(params);
+        ////////////
+
+
+        сonstraintLayoutForSchedule.post(new Runnable() {
+            @Override
+            public void run() {
+
+                //linearLayout
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                params.topToBottom = R.id.buttonAddTask;
+                params.bottomToBottom = R.id.сonstraintLayoutForSchedule;
+
+                params.width = сonstraintLayoutForSchedule.getWidth();
+                params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
+                //linearLayout.setBackgroundColor(Color.RED);
+                linearLayout.setLayoutParams(params);
+
+                //ivLargerImage
+                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
+                params.topToTop = R.id.сonstraintLayoutForSchedule;
+                params.rightToRight = R.id.сonstraintLayoutForSchedule;
+                params.bottomToTop = R.id.сonstraintLayoutTaskParameters;
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = context.getTheme();
+                theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true);
+                ivLargerImage.setBackgroundColor(typedValue.data);
+                ivLargerImage.setVisibility(View.GONE);
+                ivLargerImage.setLayoutParams(params);
+
+            }
+        });
+
+                        /*///%%K///
+                        //analogClock
+                        SharedPreferences preference = context.getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
+                        boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
+
+                        if (analogClockIsVisibile) {
+                            analogClock.setVisibility(View.VISIBLE);
+                            MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
+                            actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
+                        }
+
+                        analogClock.side = width/2;
+                        analogClock.x = analogClock.side * 5;
+                        analogClock.y = 0;
+
+                        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.width = analogClock.side * 5;
+                        params.height = params.width;
+                        params.leftToLeft = R.id.constraintLayout;
+                        //params.rightToRight = R.id.constraintLayout;
+                        params.topToTop = R.id.constraintLayout;
+                        //params.bottomToBottom = R.id.constraintLayout;
+
+                        params.leftMargin = сonstraintLayoutForSchedule.getRight() - params.width;
+                        params.topMargin = сonstraintLayoutForSchedule.getBottom() - params.height;
+
+                        analogClock.setLayoutParams(params);
+                        */
+
+
+
+        ////////////
+
+        //linearLayout
+        buttonAddTask.post(new Runnable() {
+            @Override
+            public void run() {
+
+
+
+            }
+
+        });
+
+
+        //////////////////////////////////////
+
+
 
 
         /////////////////////////////////////////
 
 
         if (day != null) {
-           // view = сonstraintLayoutForSchedule;
+           updateSchedule(day);
         }
         //tvPage.setBackgroundColor(Color.BLUE);
 
@@ -1684,7 +1722,7 @@ public class PageFragment extends Fragment {
                 +calendar.get(Calendar.DAY_OF_MONTH) + " "
                 +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
-        MainActivity.dateMonth.setText(strDateMonth);
+        dateMonth.setText(strDateMonth);
 
 
         if(task != null) {
@@ -1769,6 +1807,7 @@ public class PageFragment extends Fragment {
             //Log.d("myLogs", "i = " + i);
             final MainActivity.Task task = selectedDay.tasks.get(i);
             final View item = ltInflater.inflate(R.layout.item, linLayout, false);
+            item.setBackgroundColor(Color.BLUE);
 
             CheckBox checkBox = (CheckBox) item.findViewById(R.id.checkBox);
             checkBox.setChecked(task.isValid);
