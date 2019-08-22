@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
     int[] colors2 = new int[2];
     boolean veryFirstLaunch = true;
     boolean firstOccurrence = true;
+    static boolean programmaticallySetsCurrentItem = false;
+    static boolean serviseSetsCurrentItem = false;
     public static ConstraintLayout constraintLayout;
     static ViewPager dayPager;
     public static View viewConstraintLayoutForSchedule;
@@ -197,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
     private static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
 
     public static float fontHeight;
+    static PagesAdapter pagesAdapter;
 
     public MainActivity() {
         this.context = this;
@@ -880,8 +883,9 @@ public class MainActivity extends AppCompatActivity {
 
         dayPager = new ViewPager(this);
         dayPager.setId(R.id.dayPager);
-        dayPager.setAdapter(new CyclicPagesAdapter(getSupportFragmentManager()));
-        dayPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pagesAdapter = new PagesAdapter(getSupportFragmentManager());
+        dayPager.setAdapter(pagesAdapter);
+        dayPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -891,6 +895,20 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("1234", "onPageSelected position: "+position);
 
+                if(serviseSetsCurrentItem){
+                    return;
+                }
+
+                if ( (winter.selectedDay != null
+                        || spring.selectedDay != null
+                        || summer.selectedDay != null
+                        || autumn.selectedDay != null)
+                        && programmaticallySetsCurrentItem ){
+
+                    programmaticallySetsCurrentItem = false;
+
+                    return;
+                }
 
                 Day dayOfYear = day;
 
@@ -952,7 +970,23 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                setDay(dayOfYear, false);
+
+                if (!programmaticallySetsCurrentItem) {
+
+                    setDay(dayOfYear, false);
+
+                    winter.firstOccurrence = true;
+                    spring.firstOccurrence = true;
+                    summer.firstOccurrence = true;
+                    autumn.firstOccurrence = true;
+
+                }else if (dayOfYear == day){
+
+                    winter.selectedDay = null;
+                    spring.selectedDay = null;
+                    summer.selectedDay = null;
+                    autumn.selectedDay = null;
+                }
 
                 winter.invalidate();
                 spring.invalidate();
@@ -960,7 +994,7 @@ public class MainActivity extends AppCompatActivity {
                 autumn.invalidate();
 
 
-
+                programmaticallySetsCurrentItem = false;
             }
 
             @Override
@@ -3170,6 +3204,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+        //dayPager.removeAllViews();
+        pagesAdapter.notifyDataSetChanged();
+        //dayPager.setAdapter(pagesAdapter);//не работает notifyDataSetChanged()
 
         if (needToReturn){
             task.alreadyReturned = true;
@@ -4430,10 +4467,15 @@ public class MainActivity extends AppCompatActivity {
     public static void setDay(Day day, boolean setCurrentItem) {
         MainActivity.day = day;
         if (day != null && setCurrentItem) {
+            programmaticallySetsCurrentItem = true;
             Calendar myCalender = Calendar.getInstance();
             myCalender.clear();
             myCalender.setTimeInMillis(day.date.getTime());
-            dayPager.setCurrentItem(myCalender.get(Calendar.DAY_OF_YEAR)-1);
+            int position = myCalender.get(Calendar.DAY_OF_YEAR)-1;
+
+            dayPager.setAdapter(pagesAdapter);//чтоб сбросить position CurrentItem
+            pagesAdapter.notifyDataSetChanged();
+            dayPager.setCurrentItem(position, true);
         }
     }
 

@@ -80,7 +80,7 @@ public class PageFragment extends Fragment {
     //public ConstraintLayout constraintLayout;
     //static ViewPager dayPager;
     public static View viewConstraintLayoutForSchedule;
-    ConstraintLayout сonstraintLayoutForSchedule;
+    public ConstraintLayout сonstraintLayoutForSchedule;
     ConstraintLayout сonstraintLayoutTaskParameters;
     View linearLayout;
     FrameLayout frameLayoutOfScroll;
@@ -169,6 +169,12 @@ public class PageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        colors[0] = Color.parseColor("#559966CC");
+        colors[1] = Color.parseColor("#55336699");
+
+        colors2[0] = Color.parseColor("#C1FFC1");
+        colors2[1] = Color.parseColor("#B4EEB4");
 
         //////////////////////////////////////
         dateMonth = new ExtensibleTextView(context);
@@ -1807,7 +1813,7 @@ public class PageFragment extends Fragment {
             //Log.d("myLogs", "i = " + i);
             final MainActivity.Task task = selectedDay.tasks.get(i);
             final View item = ltInflater.inflate(R.layout.item, linLayout, false);
-            item.setBackgroundColor(Color.BLUE);
+            //item.setBackgroundColor(Color.BLUE);
 
             CheckBox checkBox = (CheckBox) item.findViewById(R.id.checkBox);
             checkBox.setChecked(task.isValid);

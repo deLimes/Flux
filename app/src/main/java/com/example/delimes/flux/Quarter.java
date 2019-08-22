@@ -505,7 +505,9 @@ class Quarter extends View {
                     daysOfYear.addAll(summer.days);
                     daysOfYear.addAll(autumn.days);//autumn
                     if (dayPager != null) {
-                        dayPager.getAdapter().notifyDataSetChanged();
+                        //dayPager.removeAllViews();
+                        MainActivity.pagesAdapter.notifyDataSetChanged();
+                        //dayPager.setAdapter(MainActivity.pagesAdapter);//не работает notifyDataSetChanged()
                     }
                 }
 
@@ -1620,8 +1622,10 @@ class Quarter extends View {
 
                     ///%%K///((MainActivity) context).updateSchedule(MainActivity.day);
 
+
                     calendar.clear();
                     calendar.setTimeInMillis(selectedDay.date.getTime());
+
 //                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
 //                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
 //                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
@@ -1867,7 +1871,6 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
-                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
@@ -1906,7 +1909,6 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
-                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
@@ -1946,7 +1948,6 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
-                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
@@ -1986,7 +1987,6 @@ class Quarter extends View {
                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
-                    dayPager.getAdapter().notifyDataSetChanged();
                 }
                 for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){
@@ -2007,6 +2007,9 @@ class Quarter extends View {
             }
         }
         invalidate();
+        //dayPager.removeAllViews();
+        MainActivity.pagesAdapter.notifyDataSetChanged();
+        //dayPager.setAdapter(MainActivity.pagesAdapter);//не работает notifyDataSetChanged()
     }
 
     public void addCyclicTasks (){

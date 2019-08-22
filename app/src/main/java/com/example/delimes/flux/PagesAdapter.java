@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import static com.example.delimes.flux.Quarter.daysOfYear;
 
 
-public class CyclicPagesAdapter extends FragmentStatePagerAdapter {
+public class PagesAdapter extends FragmentStatePagerAdapter {
 
-    public CyclicPagesAdapter(FragmentManager fm) {
+    public PagesAdapter(FragmentManager fm) {
         super(fm);
     }
 
