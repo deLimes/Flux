@@ -48,6 +48,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -97,6 +98,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
+import static com.example.delimes.flux.Quarter.daysOfYear;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     static Task task;
     public static ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
     public static ArrayList<Task> destroyedTasksOfYear = new ArrayList<Task>();
-    public static boolean changedeTasksOfYear, yearNumberChangedForMove, yearNumberChangedForFling, yearNumberChangedForDraw, processUpdateSchedule;
+    public static boolean changedeTasksOfYear, yearNumberChangedForMove, yearNumberChangedForFling, yearNumberChangedForDraw, yearNumberChangedForOnPageChangeListener, processUpdateSchedule;
     public static ArrayList<Task> cyclicTasks = new ArrayList<Task>();
     View layoutDayOfWeek;
     TextView  monday, tuesday, wednesday, thursday, friday, saturday, sunday;
@@ -200,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static float fontHeight;
     static PagesAdapter pagesAdapter;
+    public static GestureDetector gestureDetector;
 
     public MainActivity() {
         this.context = this;
@@ -385,6 +389,15 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
 
 
+        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                Log.d("1234", "onTouch: ");
+                return gestureDetector.onTouchEvent(motionEvent);
+            }
+
+        });
 
 //        MyCalendar myCalendar = (MyCalendar) findViewById(R.id.myCalendar);
 //
@@ -412,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout.addView(guideline);
         /////////////////////////////////////////////////////////////////
 
+        gestureDetector = new GestureDetector(context, new CustomGestureListener());
 
 
         //winter.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -895,10 +909,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("1234", "onPageSelected position: "+position);
 
-                if(serviseSetsCurrentItem){
-                    return;
-                }
-
                 if ( (winter.selectedDay != null
                         || spring.selectedDay != null
                         || summer.selectedDay != null
@@ -982,6 +992,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }else if (dayOfYear == day){
 
+                    yearNumberChangedForOnPageChangeListener = false;
+
                     winter.selectedDay = null;
                     spring.selectedDay = null;
                     summer.selectedDay = null;
@@ -1002,6 +1014,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 //        dayPager.setFocusableInTouchMode(true);
 //        dayPager.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
@@ -2003,6 +2016,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 */
+
+    public static void returnToCurrentDate(){
+
+        winter.selectedDay = null;
+        spring.selectedDay = null;
+        summer.selectedDay = null;
+        autumn.selectedDay = null;
+
+        numberYearPicker.setValue(MainActivity.curentYearNumber);
+        analogClock.clockColor = Color.WHITE;
+
+    }
 
     public static void refreshCyclicTasks(Task task) {
 
@@ -3205,8 +3230,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         //dayPager.removeAllViews();
-        pagesAdapter.notifyDataSetChanged();
         //dayPager.setAdapter(pagesAdapter);//не работает notifyDataSetChanged()
+        //dayPager.removeAllViews();
+        //pagesAdapter.notifyDataSetChanged();
+
 
         if (needToReturn){
             task.alreadyReturned = true;
@@ -4473,9 +4500,43 @@ public class MainActivity extends AppCompatActivity {
             myCalender.setTimeInMillis(day.date.getTime());
             int position = myCalender.get(Calendar.DAY_OF_YEAR)-1;
 
+            /*
             dayPager.setAdapter(pagesAdapter);//чтоб сбросить position CurrentItem
             pagesAdapter.notifyDataSetChanged();
-            dayPager.setCurrentItem(position, true);
+            */
+            if (winter.selectedDay != null
+                    || spring.selectedDay != null
+                    || summer.selectedDay != null
+                    || autumn.selectedDay != null
+                    || winter.currentDate != null
+                    || spring.currentDate != null
+                    || summer.currentDate != null
+                    || autumn.currentDate != null
+            ){
+                dayPager.setVisibility(View.VISIBLE);
+            }
+            //pagesAdapter.clearFragments();
+
+            //dayPager.buildLayer();
+            //dayPager.forceLayout();
+
+
+
+            //dayPager.destroyDrawingCache();
+
+
+            /*
+            if (pagesAdapter.fragmentList.size() > 0) {
+                PageFragment pageFragment = (PageFragment) pagesAdapter.getItem(position);
+                pageFragment.updateSchedule(pageFragment.day);
+            }
+            */
+
+
+            dayPager.removeAllViews();
+            pagesAdapter.notifyDataSetChanged();
+
+            dayPager.setCurrentItem(position, false);
         }
     }
 
@@ -7589,6 +7650,23 @@ public class MainActivity extends AppCompatActivity {
             this.daysAutumn = new Gson().toJson(daysAutumn);
 
             this.cyclicTasks = new Gson().toJson(cyclicTasks);
+        }
+    }
+
+    private class CustomGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+
+            returnToCurrentDate();
+
+            return super.onDoubleTap(e);
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            super.onLongPress(e);
+
+            returnToCurrentDate();
         }
     }
 

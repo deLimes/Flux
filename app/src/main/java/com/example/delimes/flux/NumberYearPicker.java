@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 
 import java.util.Calendar;
 
+import static com.example.delimes.flux.MainActivity.chosenYearNumber;
+import static com.example.delimes.flux.MainActivity.curentYearNumber;
 import static com.example.delimes.flux.MainActivity.dayPager;
 
 public class NumberYearPicker extends LinearLayout {
@@ -246,8 +248,9 @@ public class NumberYearPicker extends LinearLayout {
                             MainActivity.yearNumberChangedForFling = true;
                         }
                         MainActivity.yearNumberChangedForDraw = true;
+                        MainActivity.yearNumberChangedForOnPageChangeListener = true;
                         ///%%K///MainActivity.dateMonth.setText("__.__.____");
-                        dayPager.removeAllViews();
+                        dayPager.setVisibility(GONE);
                         if (MainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
                             mainActivity.yearReducedForFling = true;
                         }
@@ -255,6 +258,7 @@ public class NumberYearPicker extends LinearLayout {
                         MainActivity.yearNumberChangedForMove = false;
                         MainActivity.yearNumberChangedForFling = false;
                         MainActivity.yearNumberChangedForDraw = false;
+                        MainActivity.yearNumberChangedForOnPageChangeListener = false;
                     }
 
                 }

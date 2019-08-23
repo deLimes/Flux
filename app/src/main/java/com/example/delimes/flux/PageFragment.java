@@ -7,14 +7,12 @@ import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.util.Log;
 import android.util.TypedValue;
@@ -22,7 +20,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -42,7 +40,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -50,6 +47,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Locale;
 
+import static com.example.delimes.flux.MainActivity.gestureDetector;
 import static com.example.delimes.flux.MainActivity.task;
 import static com.example.delimes.flux.MainActivity.analogClock;
 import static com.example.delimes.flux.MainActivity.winter;
@@ -106,7 +104,7 @@ public class PageFragment extends Fragment {
     ScrollView scheduleScroll;
     LayoutInflater ltInflater;
     LinearLayout linLayout;
-    Day day;
+    public Day day;
     Day previousDay;
     ////static MainActivity.Task task;
     /*
@@ -175,6 +173,8 @@ public class PageFragment extends Fragment {
 
         colors2[0] = Color.parseColor("#C1FFC1");
         colors2[1] = Color.parseColor("#B4EEB4");
+
+        //gestureDetector = new GestureDetector(context, new CustomGestureListener());
 
         //////////////////////////////////////
         dateMonth = new ExtensibleTextView(context);
@@ -885,7 +885,19 @@ public class PageFragment extends Fragment {
         сonstraintLayoutTaskParameters.addView(inDays);
 
         linLayout = (LinearLayout) linearLayout.findViewById(R.id.linLayout);
-        //linLayout.setBackgroundColor(Color.CYAN);
+
+        ScrollView scrollView = linearLayout.findViewById(R.id.scroll);
+        //scrollView.setBackgroundColor(Color.GRAY);
+
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                Log.d("1234", "onTouch: ");
+                return gestureDetector.onTouchEvent(motionEvent);
+            }
+
+        });
 
 
         ConstraintLayout.LayoutParams params;
@@ -2062,6 +2074,7 @@ public class PageFragment extends Fragment {
         //
 
     }
+
 
 
 }

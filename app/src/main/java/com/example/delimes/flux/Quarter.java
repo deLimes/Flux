@@ -34,6 +34,7 @@ import static com.example.delimes.flux.MainActivity.autumn;
 import static com.example.delimes.flux.MainActivity.cyclicTasks;
 import static com.example.delimes.flux.MainActivity.dayPager;
 import static com.example.delimes.flux.MainActivity.numberYearPicker;
+import static com.example.delimes.flux.MainActivity.returnToCurrentDate;
 import static com.example.delimes.flux.MainActivity.spring;
 import static com.example.delimes.flux.MainActivity.summer;
 import static com.example.delimes.flux.MainActivity.taskExtra;
@@ -506,8 +507,9 @@ class Quarter extends View {
                     daysOfYear.addAll(autumn.days);//autumn
                     if (dayPager != null) {
                         //dayPager.removeAllViews();
-                        MainActivity.pagesAdapter.notifyDataSetChanged();
                         //dayPager.setAdapter(MainActivity.pagesAdapter);//не работает notifyDataSetChanged()
+                        //dayPager.removeAllViews();
+                        //MainActivity.pagesAdapter.notifyDataSetChanged();
                     }
                 }
 
@@ -2008,8 +2010,10 @@ class Quarter extends View {
         }
         invalidate();
         //dayPager.removeAllViews();
-        MainActivity.pagesAdapter.notifyDataSetChanged();
         //dayPager.setAdapter(MainActivity.pagesAdapter);//не работает notifyDataSetChanged()
+        //dayPager.removeAllViews();
+        //MainActivity.pagesAdapter.notifyDataSetChanged();
+
     }
 
     public void addCyclicTasks (){
@@ -2363,6 +2367,25 @@ class Quarter extends View {
             doubleTapY = e.getY();
 
             if (selectedDay != null){
+                if (
+                        ( (quarter == 1 || quarter == 3)
+                                && (selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) )
+                        || ( (quarter == 2 || quarter == 4)
+                                &&(selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) )
+                ) {
+                    /*
+                    selectedDay = null;
+                    numberYearPicker.setValue(MainActivity.curentYearNumber);
+                    MainActivity.analogClock.clockColor = Color.WHITE;
+                    */
+                    returnToCurrentDate();
+
+                    return super.onDoubleTap(e);
+                }
+
+            }
+            /*
+            if (selectedDay != null){
                 if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
                     selectedDay = null;
                     numberYearPicker.setValue(MainActivity.curentYearNumber);
@@ -2390,6 +2413,7 @@ class Quarter extends View {
                 }
 
             }
+            */
 
             Iterator<Day> j = days.iterator();
             while (j.hasNext()){
@@ -2490,6 +2514,26 @@ class Quarter extends View {
             doubleTapY = e.getY();
 
             if (selectedDay != null){
+                if (
+                        ( (quarter == 1 || quarter == 3)
+                                && (selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) )
+                                || ( (quarter == 2 || quarter == 4)
+                                &&(selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) )
+                ) {
+                    /*
+                    selectedDay = null;
+                    numberYearPicker.setValue(MainActivity.curentYearNumber);
+                    MainActivity.analogClock.clockColor = Color.WHITE;
+                    */
+                    returnToCurrentDate();
+
+                    super.onLongPress(e);
+                    return;
+                }
+
+            }
+            /*
+            if (selectedDay != null){
                 if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
                     selectedDay = null;
                     numberYearPicker.setValue(mainActivity.curentYearNumber);
@@ -2521,6 +2565,7 @@ class Quarter extends View {
                 }
 
             }
+            */
 
             Iterator<Day> j = days.iterator();
             while (j.hasNext()){
