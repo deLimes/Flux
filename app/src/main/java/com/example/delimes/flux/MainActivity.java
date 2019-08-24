@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     static Task task;
     public static ArrayList<Task> addedTasksOfYear = new ArrayList<Task>();
     public static ArrayList<Task> destroyedTasksOfYear = new ArrayList<Task>();
-    public static boolean changedeTasksOfYear, yearNumberChangedForMove, yearNumberChangedForFling, yearNumberChangedForDraw, yearNumberChangedForOnPageChangeListener, processUpdateSchedule;
+    public static boolean changedeTasksOfYear, yearNumberChangedForMove, yearNumberChangedForFling, yearNumberChangedForDraw, processUpdateSchedule;
     public static ArrayList<Task> cyclicTasks = new ArrayList<Task>();
     View layoutDayOfWeek;
     TextView  monday, tuesday, wednesday, thursday, friday, saturday, sunday;
@@ -428,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
         gestureDetector = new GestureDetector(context, new CustomGestureListener());
 
 
+
         //winter.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         //Log.d("WH", "getWidth:" +winter.getMeasuredWidth()+"getHeight:"+winter.getMeasuredHeight());
 
@@ -573,8 +574,24 @@ public class MainActivity extends AppCompatActivity {
 
                                 analogClock.setLayoutParams(params);
 
+                                //ivLargerImage
+                                params = new ConstraintLayout.LayoutParams(dayPager.getWidth(), numberYearPicker.getHeight()*2);
+                                params.leftToRight = R.id.spring;
+                                params.topToBottom = R.id.winter;
+                                params.rightToLeft = R.id.autumn;
+                                //params.bottomToTop = R.id.сonstraintLayoutTaskParameters;
+                                TypedValue typedValue = new TypedValue();
+                                Resources.Theme theme = context.getTheme();
+                                theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true);
+                                ivLargerImage.setBackgroundColor(typedValue.data);
+                                ivLargerImage.setVisibility(View.GONE);
+                                ivLargerImage.setLayoutParams(params);
+
+
                             }
                         });
+
+
 
                     }
                 });
@@ -985,14 +1002,14 @@ public class MainActivity extends AppCompatActivity {
 
                     setDay(dayOfYear, false);
 
-                    winter.firstOccurrence = true;
-                    spring.firstOccurrence = true;
-                    summer.firstOccurrence = true;
-                    autumn.firstOccurrence = true;
+                    winter.alignCurrentDay = true;
+                    spring.alignCurrentDay = true;
+                    summer.alignCurrentDay = true;
+                    autumn.alignCurrentDay = true;
 
                 }else if (dayOfYear == day){
 
-                    yearNumberChangedForOnPageChangeListener = false;
+                    //yearNumberChangedForOnPageChangeListener = false;
 
                     winter.selectedDay = null;
                     spring.selectedDay = null;
@@ -1019,6 +1036,8 @@ public class MainActivity extends AppCompatActivity {
 //        dayPager.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
         constraintLayout.addView(dayPager);
+
+
 /*
         ltInflater = getLayoutInflater();
         viewConstraintLayoutForSchedule = ltInflater.inflate(R.layout.constraint_layout_for_schedule, constraintLayout, false);
@@ -1707,6 +1726,10 @@ public class MainActivity extends AppCompatActivity {
         сonstraintLayoutTaskParameters.addView(inDays);
 
 */
+
+        ivLargerImage = new ImageView(this);
+        ivLargerImage.setId(R.id.ivLargerImage);
+        constraintLayout.addView(ivLargerImage, constraintLayout.getChildCount());
 
 
 
@@ -3228,12 +3251,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-
-        //dayPager.removeAllViews();
-        //dayPager.setAdapter(pagesAdapter);//не работает notifyDataSetChanged()
-        //dayPager.removeAllViews();
-        //pagesAdapter.notifyDataSetChanged();
-
+                pagesAdapter.notifyDataSetChanged();
 
         if (needToReturn){
             task.alreadyReturned = true;
@@ -4515,26 +4533,6 @@ public class MainActivity extends AppCompatActivity {
             ){
                 dayPager.setVisibility(View.VISIBLE);
             }
-            //pagesAdapter.clearFragments();
-
-            //dayPager.buildLayer();
-            //dayPager.forceLayout();
-
-
-
-            //dayPager.destroyDrawingCache();
-
-
-            /*
-            if (pagesAdapter.fragmentList.size() > 0) {
-                PageFragment pageFragment = (PageFragment) pagesAdapter.getItem(position);
-                pageFragment.updateSchedule(pageFragment.day);
-            }
-            */
-
-
-            dayPager.removeAllViews();
-            pagesAdapter.notifyDataSetChanged();
 
             dayPager.setCurrentItem(position, false);
         }

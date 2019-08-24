@@ -102,6 +102,7 @@ class Quarter extends View {
     public MainActivity mainActivity;
 
     boolean firstOccurrence = true;
+    boolean alignCurrentDay = true;
     int scrollTime = 0;
     CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
         @Override
@@ -506,10 +507,7 @@ class Quarter extends View {
                     daysOfYear.addAll(summer.days);
                     daysOfYear.addAll(autumn.days);//autumn
                     if (dayPager != null) {
-                        //dayPager.removeAllViews();
-                        //dayPager.setAdapter(MainActivity.pagesAdapter);//не работает notifyDataSetChanged()
-                        //dayPager.removeAllViews();
-                        //MainActivity.pagesAdapter.notifyDataSetChanged();
+                        MainActivity.pagesAdapter.notifyDataSetChanged();
                     }
                 }
 
@@ -1711,7 +1709,7 @@ class Quarter extends View {
 
 
         ////////////////////////////////////////////////////
-        if (firstOccurrence) {
+        if (firstOccurrence || alignCurrentDay) {
             if (quarter == 1) {
                 if (currentDate != null || selectedDay != null) {
                     Day date = selectedDay;
@@ -1830,6 +1828,10 @@ class Quarter extends View {
         ////////////////////////////////////////////////////
 
 
+
+        if (alignCurrentDay) {
+            alignCurrentDay = false;
+        }
         if (firstOccurrence) {
             firstOccurrence = false;
         }
@@ -2009,10 +2011,7 @@ class Quarter extends View {
             }
         }
         invalidate();
-        //dayPager.removeAllViews();
-        //dayPager.setAdapter(MainActivity.pagesAdapter);//не работает notifyDataSetChanged()
-        //dayPager.removeAllViews();
-        //MainActivity.pagesAdapter.notifyDataSetChanged();
+        MainActivity.pagesAdapter.notifyDataSetChanged();
 
     }
 

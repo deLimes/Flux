@@ -248,9 +248,8 @@ public class NumberYearPicker extends LinearLayout {
                             MainActivity.yearNumberChangedForFling = true;
                         }
                         MainActivity.yearNumberChangedForDraw = true;
-                        MainActivity.yearNumberChangedForOnPageChangeListener = true;
                         ///%%K///MainActivity.dateMonth.setText("__.__.____");
-                        dayPager.setVisibility(GONE);
+                        dayPager.setVisibility(INVISIBLE);
                         if (MainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber){
                             mainActivity.yearReducedForFling = true;
                         }
@@ -258,7 +257,7 @@ public class NumberYearPicker extends LinearLayout {
                         MainActivity.yearNumberChangedForMove = false;
                         MainActivity.yearNumberChangedForFling = false;
                         MainActivity.yearNumberChangedForDraw = false;
-                        MainActivity.yearNumberChangedForOnPageChangeListener = false;
+                        //MainActivity.yearNumberChangedForOnPageChangeListener = false;
                     }
 
                 }

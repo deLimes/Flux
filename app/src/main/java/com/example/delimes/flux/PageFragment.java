@@ -87,7 +87,7 @@ public class PageFragment extends Fragment {
     /////static MainActivity.YearStr yearStr;
     static boolean yearRestored = false;
 
-    ImageView ivLargerImage;
+    //ImageView ivLargerImage;
 
     ExtensibleTextView dateMonth;
     TextView taskTime;
@@ -444,8 +444,8 @@ public class PageFragment extends Fragment {
         ///////сonstraintLayoutForSchedule.addView(linearLayout);
         ///////linLayout = (LinearLayout) linearLayout.findViewById(R.id.linLayout);
 
-        ivLargerImage = new ImageView(context);
-        ivLargerImage.setId(R.id.ivLargerImage);
+        //ivLargerImage = new ImageView(context);
+        //ivLargerImage.setId(R.id.ivLargerImage);
         ///////сonstraintLayoutForSchedule.addView(ivLargerImage, сonstraintLayoutForSchedule.getChildCount());
 
 
@@ -867,7 +867,7 @@ public class PageFragment extends Fragment {
         сonstraintLayoutForSchedule.addView(buttonAddTask);
         сonstraintLayoutForSchedule.addView(buttonDeleteTask);
         сonstraintLayoutForSchedule.addView(linearLayout);
-        сonstraintLayoutForSchedule.addView(ivLargerImage, сonstraintLayoutForSchedule.getChildCount());
+        //сonstraintLayoutForSchedule.addView(ivLargerImage, сonstraintLayoutForSchedule.getChildCount());
 
         сonstraintLayoutTaskParameters.removeAllViews();
         сonstraintLayoutTaskParameters.addView(taskTime);
@@ -1075,6 +1075,7 @@ public class PageFragment extends Fragment {
                 //linearLayout.setBackgroundColor(Color.RED);
                 linearLayout.setLayoutParams(params);
 
+                /*
                 //ivLargerImage
                 params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftToLeft = R.id.сonstraintLayoutForSchedule;
@@ -1087,6 +1088,7 @@ public class PageFragment extends Fragment {
                 ivLargerImage.setBackgroundColor(typedValue.data);
                 ivLargerImage.setVisibility(View.GONE);
                 ivLargerImage.setLayoutParams(params);
+                */
 
             }
         });
