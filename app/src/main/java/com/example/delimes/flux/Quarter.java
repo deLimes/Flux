@@ -1859,9 +1859,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.transferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
-                    MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.transferDate = null;
+                    MainActivity.task.pageFragmentDate = days.get(i).date;
                     MainActivity.task.shown = false;
                     //set new remind
                     calendar.clear();
@@ -1897,9 +1898,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.transferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
-                    MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.transferDate = null;
+                    MainActivity.task.pageFragmentDate = days.get(i).date;
                     MainActivity.task.shown = false;
                     //set new remind
                     calendar.clear();
@@ -1936,9 +1938,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.transferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
-                    MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.transferDate = null;
+                    MainActivity.task.pageFragmentDate = days.get(i).date;
                     MainActivity.task.shown = false;
                     //set new remind
                     calendar.clear();
@@ -1975,9 +1978,10 @@ class Quarter extends View {
             for (int i = 0; i < array.size(); i++) {
                 days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.taskTransferDate) ){
+                if ( MainActivity.task != null && days.get(i).date.equals(MainActivity.task.transferDate) ){
                     days.get(i).tasks.add(MainActivity.task);
-                    MainActivity.task.taskTransferDate = null;
+                    MainActivity.task.transferDate = null;
+                    MainActivity.task.pageFragmentDate = days.get(i).date;
                     MainActivity.task.shown = false;
                     //set new remind
                     calendar.clear();
@@ -2011,7 +2015,7 @@ class Quarter extends View {
             }
         }
         invalidate();
-        MainActivity.pagesAdapter.notifyDataSetChanged();
+        //MainActivity.pagesAdapter.notifyDataSetChanged();
 
     }
 

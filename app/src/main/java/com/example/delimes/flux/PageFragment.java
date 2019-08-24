@@ -11,6 +11,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -168,6 +170,10 @@ public class PageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        //setRetainInstance(false);
+        //setRetainInstance(false);
+
         colors[0] = Color.parseColor("#559966CC");
         colors[1] = Color.parseColor("#55336699");
 
@@ -277,6 +283,7 @@ public class PageFragment extends Fragment {
                 addedTasksOfYear.add(newTask);
 
                 MainActivity.task = newTask;
+                MainActivity.task.pageFragmentDate = day.date;
 
                 сonstraintLayoutTaskParameters.setVisibility(View.VISIBLE);
                 view.post(new Runnable() {
@@ -639,7 +646,7 @@ public class PageFragment extends Fragment {
 
                     task.isCyclic = false;
 
-                    if (task.content != taskDescription.getText().toString()) {
+                    if (!task.content.equals(taskDescription.getText().toString())) {
                         changedeTasksOfYear = true;
                     }
                     //установить контент
@@ -791,7 +798,7 @@ public class PageFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                if (!processUpdateSchedule && task != null) {
+                if (!processUpdateSchedule && task != null && day != null && day.date.equals(task.pageFragmentDate)) {
 
                     task.everyYear = b;
 
@@ -808,7 +815,7 @@ public class PageFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                if (!processUpdateSchedule && task != null) {
+                if (!processUpdateSchedule && task != null && day != null && day.date.equals(task.pageFragmentDate)) {
 
                     task.everyMonth = b;
 
@@ -1451,7 +1458,7 @@ public class PageFragment extends Fragment {
                 }else {
                     calendar.clear();
                     calendar.set(year, month, dayOfMonth);
-                    task.taskTransferDate = new Date(calendar.getTimeInMillis());
+                    task.transferDate = new Date(calendar.getTimeInMillis());
                 }
                 //чтоб задача переместилась после рестора
                 numberYearPicker.setValue(year);
@@ -1633,7 +1640,7 @@ public class PageFragment extends Fragment {
 
                 calendar.clear();
                 calendar.set(year, month, dayOfMonth);
-                task.taskTransferDate = new Date(calendar.getTimeInMillis());
+                task.transferDate = new Date(calendar.getTimeInMillis());
                 //чтоб задача переместилась после рестора
                 numberYearPicker.setValue(year);
 
@@ -1989,6 +1996,7 @@ public class PageFragment extends Fragment {
 
                     }else {
                         MainActivity.task = task;
+                        MainActivity.task.pageFragmentDate = day.date;
                         //params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                         сonstraintLayoutTaskParameters.setVisibility(View.VISIBLE);
                         view.post(new Runnable() {
@@ -2077,6 +2085,19 @@ public class PageFragment extends Fragment {
 
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        //updateSchedule(day);
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        //outState.clear();
+        super.onSaveInstanceState(outState);
+
+    }
 
 
 }

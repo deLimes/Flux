@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import static com.example.delimes.flux.MainActivity.dayPager;
 import static com.example.delimes.flux.Quarter.daysOfYear;
 
 

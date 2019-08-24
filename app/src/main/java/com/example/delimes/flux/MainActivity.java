@@ -339,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         Log.v("123", "onStop: ");
 
-        finish();
+        //finish();
     }
 
     @Override
@@ -3251,7 +3251,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                pagesAdapter.notifyDataSetChanged();
+                //pagesAdapter.notifyDataSetChanged();
 
         if (needToReturn){
             task.alreadyReturned = true;
@@ -3635,7 +3635,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     calendar.clear();
                     calendar.set(year, month, dayOfMonth);
-                    task.taskTransferDate = new Date(calendar.getTimeInMillis());
+                    task.transferDate = new Date(calendar.getTimeInMillis());
                 }
                 //чтоб задача переместилась после рестора
                 numberYearPicker.setValue(year);
@@ -3742,7 +3742,7 @@ public class MainActivity extends AppCompatActivity {
 
                 calendar.clear();
                 calendar.set(year, month, dayOfMonth);
-                task.taskTransferDate = new Date(calendar.getTimeInMillis());
+                task.transferDate = new Date(calendar.getTimeInMillis());
                 //чтоб задача переместилась после рестора
                 numberYearPicker.setValue(year);
 
@@ -3754,12 +3754,14 @@ public class MainActivity extends AppCompatActivity {
 
                     dayOfYear = winter.days.get(numberDayOfYear - 1);
                     dayOfYear.tasks.add(task);
+                    task.pageFragmentDate = dayOfYear.date;
 
                 }else if(winter.days.size()
                         + spring.days.size() >= numberDayOfYear){
 
                     dayOfYear = spring.days.get(numberDayOfYear - 1 - winter.days.size());
                     dayOfYear.tasks.add(task);
+                    task.pageFragmentDate = dayOfYear.date;
 
                 }else if(winter.days.size()
                         + spring.days.size()
@@ -3769,6 +3771,7 @@ public class MainActivity extends AppCompatActivity {
                             - winter.days.size()
                             - spring.days.size());
                     dayOfYear.tasks.add(task);
+                    task.pageFragmentDate = dayOfYear.date;
 
                 }else if(winter.days.size()
                         + spring.days.size()
@@ -3780,6 +3783,7 @@ public class MainActivity extends AppCompatActivity {
                             - spring.days.size()
                             - summer.days.size());
                     dayOfYear.tasks.add(task);
+                    task.pageFragmentDate = dayOfYear.date;
                 }
 
                 //set new remind
@@ -4534,6 +4538,7 @@ public class MainActivity extends AppCompatActivity {
                 dayPager.setVisibility(View.VISIBLE);
             }
 
+            pagesAdapter.notifyDataSetChanged();
             dayPager.setCurrentItem(position, false);
         }
     }
@@ -7741,7 +7746,9 @@ public class MainActivity extends AppCompatActivity {
         public boolean removeFromAM;
         public boolean shown;
 
-        public Date taskTransferDate;
+        public Date transferDate;
+        public Date pageFragmentDate;
+
         public boolean alreadyReturned;
 
         public Task(boolean isValid, boolean isCyclic, String content, long startTime, int durationHours, int durationMinutes){
@@ -7767,7 +7774,8 @@ public class MainActivity extends AppCompatActivity {
             myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
             myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
             this.clockStartTime = myCalender.getTimeInMillis();
-            this.taskTransferDate = null;
+            this.transferDate = null;
+            this.pageFragmentDate = null;
             this.alreadyReturned = true;
         }
 
@@ -7787,6 +7795,7 @@ public class MainActivity extends AppCompatActivity {
             obj.isDone = false;
             obj.isValid = true;
             obj.alreadyReturned = true;
+            //obj.pageFragmentDate = null;
             //Log.d("myLogs", "obj.extra:" + obj.extra);
 
         }
