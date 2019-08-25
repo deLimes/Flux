@@ -296,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
             numberYearPicker.setValue(year);
         }
 
+
     }
 
     @Override
@@ -919,6 +920,7 @@ public class MainActivity extends AppCompatActivity {
         dayPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
@@ -1017,18 +1019,19 @@ public class MainActivity extends AppCompatActivity {
                     autumn.selectedDay = null;
                 }
 
+                programmaticallySetsCurrentItem = false;
+
                 winter.invalidate();
                 spring.invalidate();
                 summer.invalidate();
                 autumn.invalidate();
 
-
-                programmaticallySetsCurrentItem = false;
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
+                programmaticallySetsCurrentItem = false;
             }
         });
 
