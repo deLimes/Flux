@@ -2225,7 +2225,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2266,7 +2266,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2304,7 +2304,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2365,7 +2365,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
-                                            changedeTasksOfYear = true;
+                                            ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -2514,7 +2514,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2556,7 +2556,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2594,7 +2594,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2655,7 +2655,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
-                                            changedeTasksOfYear = true;
+                                            ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -2802,7 +2802,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2845,7 +2845,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2883,7 +2883,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -2944,7 +2944,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
-                                            changedeTasksOfYear = true;
+                                            ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -3091,7 +3091,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -3134,7 +3134,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -3172,7 +3172,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                         setReminder(context, taskCopy, d.date);
-                                        changedeTasksOfYear = true;
+                                        ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                         Log.d("123", "refreshCyclicTasks: " + task.extra);
                                     }
                                 }
@@ -3232,7 +3232,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
                                             setReminder(context, taskCopy, d.date);
-                                            changedeTasksOfYear = true;
+                                            ///%%K///setChangedeTasksOfYear(true);//иначе сохраняется год без вноса изменений
                                             Log.d("123", "refreshCyclicTasks: " + task.extra);
                                         }
                                     }
@@ -3258,7 +3258,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (needToReturn){
             task.alreadyReturned = true;
-            changedeTasksOfYear = true;
+            setChangedeTasksOfYear(true);
             calendar.clear();
             calendar.setTimeInMillis(task.finishTime);
             numberYearPicker.setValue(calendar.get(Calendar.YEAR));
@@ -3284,7 +3284,7 @@ public class MainActivity extends AppCompatActivity {
                     if (duration){
                         if(task.durationHours != hourOfDay ||
                                 task.durationMinutes != minute){
-                            changedeTasksOfYear = true;
+                            setChangedeTasksOfYear(true);
                         }
                         task.durationHours = hourOfDay;
                         task.durationMinutes = minute;
@@ -3346,7 +3346,7 @@ public class MainActivity extends AppCompatActivity {
                         calendar.set(Calendar.MINUTE, minute);
 
                         if(task.startTime != calendar.getTimeInMillis()){
-                            changedeTasksOfYear = true;
+                            setChangedeTasksOfYear(true);
                         }
                         if(task.startTime == task.finishTime){
                             task.finishTime = calendar.getTimeInMillis();
@@ -3458,7 +3458,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 */
                 if(task.finishTime != calendar.getTimeInMillis()){
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                 }
                 if(calendar.getTimeInMillis() < task.startTime){
                     task.finishTime = task.startTime;
@@ -3588,7 +3588,7 @@ public class MainActivity extends AppCompatActivity {
                 myCalender.setTimeInMillis(calendar.getTimeInMillis());
 
                 if(task.startTime != myCalender.getTimeInMillis()){
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                     day.tasks.remove(task);
                     if (previousDay != null){
                         task.removeFromAM = true;
@@ -3701,7 +3701,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 previousDay = dayOfYear;
 
-                changedeTasksOfYear = true;
+                setChangedeTasksOfYear(true);
                 //saveYearToFile();
 
 
@@ -3809,7 +3809,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 previousDay = dayOfYear;
 
-                changedeTasksOfYear = true;
+                setChangedeTasksOfYear(true);
                 //saveYearToFile();
 
 
@@ -3951,7 +3951,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                     task.isValid = b;
                     if(b){
                         setReminder(context, task, day.date);
@@ -3976,7 +3976,7 @@ public class MainActivity extends AppCompatActivity {
             checkBoxDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                     task.isDone = b;
 
                     if(b){
@@ -4315,7 +4315,7 @@ public class MainActivity extends AppCompatActivity {
                 bw.close();
 //                Toast.makeText(this, "File saved: " + sdFile.getAbsolutePath(),
 //                        Toast.LENGTH_SHORT).show();
-                changedeTasksOfYear = false;
+                setChangedeTasksOfYear(false);
             } catch (Exception e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -4514,6 +4514,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public static void setChangedeTasksOfYear(boolean changedeTasksOfYear) {
+        MainActivity.changedeTasksOfYear = changedeTasksOfYear;
     }
 
     public static void setDay(Day day, boolean setCurrentItem) {

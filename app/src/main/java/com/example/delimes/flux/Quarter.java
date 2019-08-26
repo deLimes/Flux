@@ -1884,7 +1884,7 @@ class Quarter extends View {
                         MainActivity.task = task;
                         MainActivity.winter.selectedDay = MainActivity.winter.days.get(i);
                         MainActivity.setDay(MainActivity.winter.selectedDay, true);
-                        MainActivity.changedeTasksOfYear = true;
+                        MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
                     //%%C del - MainActivity.setReminder(task);
@@ -1923,7 +1923,7 @@ class Quarter extends View {
                         MainActivity.task = task;
                         MainActivity.spring.selectedDay = MainActivity.spring.days.get(i);
                         MainActivity.setDay(MainActivity.spring.selectedDay, true);
-                        MainActivity.changedeTasksOfYear = true;
+                        MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
                     //%%C del - MainActivity.setReminder(task);
@@ -1963,7 +1963,7 @@ class Quarter extends View {
                         MainActivity.task = task;
                         MainActivity.summer.selectedDay = MainActivity.summer.days.get(i);
                         MainActivity.setDay(MainActivity.summer.selectedDay, true);
-                        MainActivity.changedeTasksOfYear = true;
+                        MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
                     //%%C del - MainActivity.setReminder(task);
@@ -2003,7 +2003,7 @@ class Quarter extends View {
                         MainActivity.task = task;
                         MainActivity.autumn.selectedDay = MainActivity.autumn.days.get(i);
                         MainActivity.setDay(MainActivity.autumn.selectedDay, true);
-                        MainActivity.changedeTasksOfYear = true;
+                        MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
                     //%%C del - MainActivity.setReminder(task);

@@ -286,7 +286,7 @@ public class NumberYearPicker extends LinearLayout {
 
                 mainActivity.addedTasksOfYear.clear();
                 mainActivity.destroyedTasksOfYear.clear();
-                MainActivity.changedeTasksOfYear = false;
+                MainActivity.setChangedeTasksOfYear(false);
 
                 mainActivity.restoreYearFromFile();
 

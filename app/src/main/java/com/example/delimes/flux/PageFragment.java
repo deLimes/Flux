@@ -50,6 +50,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static com.example.delimes.flux.MainActivity.gestureDetector;
+import static com.example.delimes.flux.MainActivity.setChangedeTasksOfYear;
 import static com.example.delimes.flux.MainActivity.task;
 import static com.example.delimes.flux.MainActivity.analogClock;
 import static com.example.delimes.flux.MainActivity.winter;
@@ -647,7 +648,7 @@ public class PageFragment extends Fragment {
                     task.isCyclic = false;
 
                     if (!task.content.equals(taskDescription.getText().toString())) {
-                        changedeTasksOfYear = true;
+                        setChangedeTasksOfYear(true);
                     }
                     //установить контент
                     task.content = taskDescription.getText().toString();
@@ -1179,7 +1180,7 @@ public class PageFragment extends Fragment {
                     if (duration){
                         if(task.durationHours != hourOfDay ||
                                 task.durationMinutes != minute){
-                            changedeTasksOfYear = true;
+                            setChangedeTasksOfYear(true);
                         }
                         task.durationHours = hourOfDay;
                         task.durationMinutes = minute;
@@ -1241,7 +1242,7 @@ public class PageFragment extends Fragment {
                         calendar.set(Calendar.MINUTE, minute);
 
                         if(task.startTime != calendar.getTimeInMillis()){
-                            changedeTasksOfYear = true;
+                            setChangedeTasksOfYear(true);
                         }
                         if(task.startTime == task.finishTime){
                             task.finishTime = calendar.getTimeInMillis();
@@ -1408,7 +1409,7 @@ public class PageFragment extends Fragment {
                 myCalender.setTimeInMillis(calendar.getTimeInMillis());
 
                 if(task.startTime != myCalender.getTimeInMillis()){
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                     day.tasks.remove(task);
                     if (previousDay != null){
                         task.removeFromAM = true;
@@ -1521,7 +1522,7 @@ public class PageFragment extends Fragment {
                 }
                 previousDay = dayOfYear;
 
-                changedeTasksOfYear = true;
+                setChangedeTasksOfYear(true);
                 //saveYearToFile();
 
 
@@ -1564,7 +1565,7 @@ public class PageFragment extends Fragment {
                 }
                 */
                 if(task.finishTime != calendar.getTimeInMillis()){
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                 }
                 if(calendar.getTimeInMillis() < task.startTime){
                     task.finishTime = task.startTime;
@@ -1700,7 +1701,7 @@ public class PageFragment extends Fragment {
                 }
                 previousDay = dayOfYear;
 
-                changedeTasksOfYear = true;
+                setChangedeTasksOfYear(true);
                 //saveYearToFile();
 
 
@@ -1842,7 +1843,7 @@ public class PageFragment extends Fragment {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                     task.isValid = b;
                     if(b){
                         setReminder(context, task, day.date);
@@ -1867,7 +1868,7 @@ public class PageFragment extends Fragment {
             checkBoxDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    changedeTasksOfYear = true;
+                    setChangedeTasksOfYear(true);
                     task.isDone = b;
 
                     if(b){
@@ -2073,7 +2074,7 @@ public class PageFragment extends Fragment {
             task.finishTime = task.startTime;
         }
 
-        changedeTasksOfYear = true;
+        setChangedeTasksOfYear(true);
         refreshCyclicTasks(task);
         updateSchedule(day);
 
