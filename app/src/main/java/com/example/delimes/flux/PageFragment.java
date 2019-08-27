@@ -108,7 +108,7 @@ public class PageFragment extends Fragment {
     LayoutInflater ltInflater;
     LinearLayout linLayout;
     public Day day;
-    Day previousDay;
+    //Day previousDay;
     ////static MainActivity.Task task;
     /*
     ArrayList<MainActivity.Task> addedTasksOfYear = new ArrayList<MainActivity.Task>();
@@ -250,6 +250,7 @@ public class PageFragment extends Fragment {
         buttonAddTask = new Button(context);
         buttonAddTask.setId(R.id.buttonAddTask);
         buttonAddTask.setText( "+" );
+        buttonAddTask.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         buttonAddTask.setTextColor(Color.BLACK);
         ///////сonstraintLayoutForSchedule.addView(buttonAddTask);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
@@ -347,6 +348,7 @@ public class PageFragment extends Fragment {
         buttonDeleteTask = new Button(context);
         buttonDeleteTask.setId(R.id.buttonDeleteTask);
         buttonDeleteTask.setText( "-" );
+        buttonDeleteTask.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         buttonDeleteTask.setTextColor(Color.BLACK);
         ///////сonstraintLayoutForSchedule.addView(buttonDeleteTask);
         buttonDeleteTask.setOnClickListener(new View.OnClickListener() {
@@ -356,9 +358,11 @@ public class PageFragment extends Fragment {
                 if(task != null) {
 
                     day.tasks.remove(task);
+                    /*
                     if (previousDay != null){
                         previousDay.tasks.remove(task);
                     }
+                    */
                     if (!addedTasksOfYear.remove(task)) {
                         destroyedTasksOfYear.add(task);
                     }
@@ -857,6 +861,10 @@ public class PageFragment extends Fragment {
         });
         ///////сonstraintLayoutTaskParameters.addView(inDays);
 
+
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+
     }
 
     @Override
@@ -865,6 +873,7 @@ public class PageFragment extends Fragment {
 
 
         Log.d("123", "onCreateView: ");
+
 
         View view = inflater.inflate(R.layout.constraint_layout_for_schedule, container, false);
         сonstraintLayoutForSchedule = view.findViewById(R.id.сonstraintLayoutForSchedule);
@@ -1083,75 +1092,9 @@ public class PageFragment extends Fragment {
                 //linearLayout.setBackgroundColor(Color.RED);
                 linearLayout.setLayoutParams(params);
 
-                /*
-                //ivLargerImage
-                params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftToLeft = R.id.сonstraintLayoutForSchedule;
-                params.topToTop = R.id.сonstraintLayoutForSchedule;
-                params.rightToRight = R.id.сonstraintLayoutForSchedule;
-                params.bottomToTop = R.id.сonstraintLayoutTaskParameters;
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = context.getTheme();
-                theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true);
-                ivLargerImage.setBackgroundColor(typedValue.data);
-                ivLargerImage.setVisibility(View.GONE);
-                ivLargerImage.setLayoutParams(params);
-                */
 
             }
         });
-
-                        /*///%%K///
-                        //analogClock
-                        SharedPreferences preference = context.getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
-                        boolean analogClockIsVisibile = preference.getBoolean("analogClockIsVisibile", false);
-
-                        if (analogClockIsVisibile) {
-                            analogClock.setVisibility(View.VISIBLE);
-                            MenuItem actionClockMenuItem = menu_main.findItem(R.id.action_clock);
-                            actionClockMenuItem.setTitle(getResources().getString(R.string.action_clock_off));
-                        }
-
-                        analogClock.side = width/2;
-                        analogClock.x = analogClock.side * 5;
-                        analogClock.y = 0;
-
-                        params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        params.width = analogClock.side * 5;
-                        params.height = params.width;
-                        params.leftToLeft = R.id.constraintLayout;
-                        //params.rightToRight = R.id.constraintLayout;
-                        params.topToTop = R.id.constraintLayout;
-                        //params.bottomToBottom = R.id.constraintLayout;
-
-                        params.leftMargin = сonstraintLayoutForSchedule.getRight() - params.width;
-                        params.topMargin = сonstraintLayoutForSchedule.getBottom() - params.height;
-
-                        analogClock.setLayoutParams(params);
-                        */
-
-
-
-        ////////////
-
-        //linearLayout
-        buttonAddTask.post(new Runnable() {
-            @Override
-            public void run() {
-
-
-
-            }
-
-        });
-
-
-        //////////////////////////////////////
-
-
-
-
-        /////////////////////////////////////////
 
 
         if (day != null) {
@@ -1411,6 +1354,7 @@ public class PageFragment extends Fragment {
                 if(task.startTime != myCalender.getTimeInMillis()){
                     setChangedeTasksOfYear(true);
                     day.tasks.remove(task);
+                    /*
                     if (previousDay != null){
                         task.removeFromAM = true;
                         setReminder(context, task, previousDay.date);
@@ -1422,6 +1366,7 @@ public class PageFragment extends Fragment {
                             }
                         }
                     }
+                    */
                     if(task.startTime == task.finishTime){
                         task.finishTime = myCalender.getTimeInMillis();
                     }
@@ -1520,7 +1465,7 @@ public class PageFragment extends Fragment {
                         dayOfYear.dayClosed = false;
                     }
                 }
-                previousDay = dayOfYear;
+                //previousDay = dayOfYear;
 
                 setChangedeTasksOfYear(true);
                 //saveYearToFile();
@@ -1699,7 +1644,7 @@ public class PageFragment extends Fragment {
                         dayOfYear.dayClosed = false;
                     }
                 }
-                previousDay = dayOfYear;
+                //previousDay = dayOfYear;
 
                 setChangedeTasksOfYear(true);
                 //saveYearToFile();

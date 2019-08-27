@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
@@ -47,7 +48,7 @@ public class NumberYearPicker extends LinearLayout {
 
     Button decrement;
     Button increment;
-    public EditText valueText;
+    public TextView valueText;
 
     private Handler repeatUpdateHandler = new Handler();
 
@@ -76,6 +77,8 @@ public class NumberYearPicker extends LinearLayout {
         this.context = context;
         this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
         LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+        //LayoutParams valueTextParams = new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT );
+
         initDecrementButton( context );
         initValueEditText( context );
         initIncrementButton( context );
@@ -89,9 +92,11 @@ public class NumberYearPicker extends LinearLayout {
             addView( increment, elementParams );
         }
 
+        /*
         LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
         valueTextParams.width = (int)(4 * textSize * 2.3f);
         valueText.setLayoutParams(valueTextParams);
+        */
     }
 
     public NumberYearPicker(Context context, Integer value) {
@@ -134,6 +139,8 @@ public class NumberYearPicker extends LinearLayout {
 
         this.setLayoutParams( new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT ) );
         LayoutParams elementParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
+        //LayoutParams valueTextParams = new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT );
+
         initDecrementButton( context );
         initValueEditText( context );
         initIncrementButton( context );
@@ -147,10 +154,12 @@ public class NumberYearPicker extends LinearLayout {
             addView( increment, elementParams );
         }
 
-        LayoutParams valueTextParams = new LinearLayout.LayoutParams( elementHeight, elementWidth );
-        //valueTextParams.height = textSize;
+
+        LayoutParams valueTextParams = new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT );
+        //valueTextParams.height = (int) textSize;
         valueTextParams.width = (int)(4 * textSize * 2.1f);
         valueText.setLayoutParams(valueTextParams);
+
 
 
 
@@ -160,6 +169,7 @@ public class NumberYearPicker extends LinearLayout {
         increment = new Button( context );
         increment.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         increment.setText( "+" );
+        increment.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         increment.setTextColor(textColor);
 
         // Increment once for a click
@@ -193,7 +203,7 @@ public class NumberYearPicker extends LinearLayout {
 
         value = new Integer( 0 );
 
-        valueText = new EditText( context );
+        valueText = new TextView( context );
         valueText.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         valueText.setTextColor(textColor);
         valueText.setEnabled(false);
@@ -458,6 +468,7 @@ public class NumberYearPicker extends LinearLayout {
         decrement = new Button( context );
         decrement.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         decrement.setText( "-" );
+        decrement.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         decrement.setTextColor(textColor);
 
 
