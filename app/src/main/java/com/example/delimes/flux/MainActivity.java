@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     static boolean programmaticallySetsCurrentItem = false;
     static boolean serviseSetsCurrentItem = false;
     public static ConstraintLayout constraintLayout;
-    static ViewPager dayPager;
+    static CustomViewPager dayPager;
     public static View viewConstraintLayoutForSchedule;
     static ConstraintLayout сonstraintLayoutForSchedule;
     static ConstraintLayout сonstraintLayoutTaskParameters;
@@ -351,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         setContentView(R.layout.activity_main);
         //setContentView(new MyCalendar(this));
 
@@ -913,7 +913,7 @@ public class MainActivity extends AppCompatActivity {
         numberYearPicker.setId(R.id.numberYearPicker);
         constraintLayout.addView(numberYearPicker);
 
-        dayPager = new ViewPager(this);
+        dayPager = new CustomViewPager(this);
         dayPager.setId(R.id.dayPager);
         pagesAdapter = new PagesAdapter(getSupportFragmentManager());
         dayPager.setAdapter(pagesAdapter);

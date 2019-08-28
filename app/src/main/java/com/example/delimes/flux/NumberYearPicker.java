@@ -170,6 +170,7 @@ public class NumberYearPicker extends LinearLayout {
         increment.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         increment.setText( "+" );
         increment.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        increment.setGravity(Gravity.CENTER);
         increment.setTextColor(textColor);
 
         // Increment once for a click
@@ -205,6 +206,8 @@ public class NumberYearPicker extends LinearLayout {
 
         valueText = new TextView( context );
         valueText.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
+        valueText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        valueText.setGravity(Gravity.CENTER);
         valueText.setTextColor(textColor);
         valueText.setEnabled(false);
 
@@ -469,6 +472,7 @@ public class NumberYearPicker extends LinearLayout {
         decrement.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         decrement.setText( "-" );
         decrement.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        decrement.setGravity(Gravity.CENTER);
         decrement.setTextColor(textColor);
 
 

@@ -1,6 +1,7 @@
 package com.example.delimes.flux;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -39,7 +40,10 @@ public class CustomViewPager extends ViewPager {
         return super.onTouchEvent(ev);
     }
 
-
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(null);
+    }
 
     private class CustomGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override

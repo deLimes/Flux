@@ -169,9 +169,9 @@ public class PageFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
 
-
+        //setRetainInstance(false);
         //setRetainInstance(false);
         //setRetainInstance(false);
 
@@ -251,6 +251,7 @@ public class PageFragment extends Fragment {
         buttonAddTask.setId(R.id.buttonAddTask);
         buttonAddTask.setText( "+" );
         buttonAddTask.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        buttonAddTask.setGravity(Gravity.CENTER);
         buttonAddTask.setTextColor(Color.BLACK);
         ///////сonstraintLayoutForSchedule.addView(buttonAddTask);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
@@ -349,6 +350,7 @@ public class PageFragment extends Fragment {
         buttonDeleteTask.setId(R.id.buttonDeleteTask);
         buttonDeleteTask.setText( "-" );
         buttonDeleteTask.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        buttonDeleteTask.setGravity(Gravity.CENTER);
         buttonDeleteTask.setTextColor(Color.BLACK);
         ///////сonstraintLayoutForSchedule.addView(buttonDeleteTask);
         buttonDeleteTask.setOnClickListener(new View.OnClickListener() {
@@ -875,6 +877,7 @@ public class PageFragment extends Fragment {
         Log.d("123", "onCreateView: ");
 
 
+        //
         View view = inflater.inflate(R.layout.constraint_layout_for_schedule, container, false);
         сonstraintLayoutForSchedule = view.findViewById(R.id.сonstraintLayoutForSchedule);
 
@@ -1779,7 +1782,11 @@ public class PageFragment extends Fragment {
         for (int i = 0; i < selectedDay.tasks.size(); i++) {
             //Log.d("myLogs", "i = " + i);
             final MainActivity.Task task = selectedDay.tasks.get(i);
+            task.pageFragmentDate = day.date;
+
             final View item = ltInflater.inflate(R.layout.item, linLayout, false);
+            item.setSaveEnabled(false);
+            item.setSaveFromParentEnabled(false);
             //item.setBackgroundColor(Color.BLUE);
 
             CheckBox checkBox = (CheckBox) item.findViewById(R.id.checkBox);
@@ -1813,21 +1820,23 @@ public class PageFragment extends Fragment {
             checkBoxDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    setChangedeTasksOfYear(true);
-                    task.isDone = b;
 
-                    if(b){
-                        task.removeFromAM = true;
-                        setReminder(context, task, day.date);
-                        //%%C del - setReminder(task);
-                    }
+                        setChangedeTasksOfYear(true);
+                        task.isDone = b;
 
-                    day.dayClosed = true;
-                    for (MainActivity.Task task : day.tasks) {
-                        if(!task.isDone && task.isValid){
-                            day.dayClosed = false;
+                        if (b) {
+                            task.removeFromAM = true;
+                            setReminder(context, task, day.date);
+                            //%%C del - setReminder(task);
                         }
-                    }
+
+                        day.dayClosed = true;
+                        for (MainActivity.Task task : day.tasks) {
+                            if (!task.isDone && task.isValid) {
+                                day.dayClosed = false;
+                            }
+                        }
+
 
                 }
             });
@@ -2028,20 +2037,6 @@ public class PageFragment extends Fragment {
         summer.invalidate();
         autumn.invalidate();
         //
-
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        //updateSchedule(day);
-    }
-
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        //outState.clear();
-        super.onSaveInstanceState(outState);
 
     }
 
