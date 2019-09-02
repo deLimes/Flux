@@ -46,8 +46,8 @@ public class NumberYearPicker extends LinearLayout {
 
     public Integer value;
 
-    Button decrement;
-    Button increment;
+    public CustomButton decrement;
+    public CustomButton increment;
     public TextView valueText;
 
     private Handler repeatUpdateHandler = new Handler();
@@ -166,11 +166,11 @@ public class NumberYearPicker extends LinearLayout {
     }
 
     private void initIncrementButton(Context context){
-        increment = new Button( context );
+        increment = new CustomButton( context );
         increment.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
         increment.setText( "+" );
         increment.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        increment.setGravity(Gravity.CENTER);
+        increment.setGravity(Gravity.CENTER_VERTICAL);
         increment.setTextColor(textColor);
 
         // Increment once for a click
@@ -272,7 +272,6 @@ public class NumberYearPicker extends LinearLayout {
                         MainActivity.yearNumberChangedForDraw = false;
                         //MainActivity.yearNumberChangedForOnPageChangeListener = false;
                     }
-
                 }
 
                 //////////////////////////////////////////////////////////////////////////
@@ -297,20 +296,20 @@ public class NumberYearPicker extends LinearLayout {
 
 
 
-                mainActivity.addedTasksOfYear.clear();
-                mainActivity.destroyedTasksOfYear.clear();
+                MainActivity.addedTasksOfYear.clear();
+                MainActivity.destroyedTasksOfYear.clear();
                 MainActivity.setChangedeTasksOfYear(false);
 
                 mainActivity.restoreYearFromFile();
 
-                int width = mainActivity.constraintLayout.getRight() + mainActivity.guideline.getLeft();
+                int width = MainActivity.constraintLayout.getRight() + MainActivity.guideline.getLeft();
                 Log.d("123", "width: "+width);
                 int tucherWidth;
                 int tucherHeight;
 
                 //Winter
 
-                tucherWidth = mainActivity.constraintLayout.getRight();
+                tucherWidth = MainActivity.constraintLayout.getRight();
                 tucherHeight = width;
 
                 ////////mainActivity.winter.side = width/2;
@@ -320,6 +319,13 @@ public class NumberYearPicker extends LinearLayout {
 
                 MainActivity.winter.currentDate = null;
                 MainActivity.winter.firstOccurrence = true;
+                /*
+                if (MainActivity.yearNumberChangedForDraw) {
+                    MainActivity.winter.firstOccurrence = true;
+                }else{
+                    MainActivity.winter.alignCurrentDay = true;
+                }
+                */
                 MainActivity.winter.days.clear();
                 MainActivity.winter.fillInDays(MainActivity.chosenYearNumber);
                 MainActivity.winter.x = tucherWidth;
@@ -334,7 +340,7 @@ public class NumberYearPicker extends LinearLayout {
 
                 //Spring
                 tucherWidth = width;
-                tucherHeight = mainActivity.constraintLayout.getBottom()-width*2;
+                tucherHeight = MainActivity.constraintLayout.getBottom()-width*2;
 
                 ////////////////
                 //mainActivity.spring.x = tucherWidth - tucherWidth / 2;
@@ -343,6 +349,13 @@ public class NumberYearPicker extends LinearLayout {
 
                 MainActivity.spring.currentDate = null;
                 MainActivity.spring.firstOccurrence = true;
+                /*
+                if (MainActivity.yearNumberChangedForDraw) {
+                    MainActivity.spring.firstOccurrence = true;
+                }else{
+                    MainActivity.spring.alignCurrentDay = true;
+                }
+                */
                 MainActivity.spring.days.clear();
                 MainActivity.spring.fillInDays(MainActivity.chosenYearNumber);
                 MainActivity.spring.y = 0;
@@ -356,7 +369,7 @@ public class NumberYearPicker extends LinearLayout {
 
 
                 //Summer
-                tucherWidth = mainActivity.constraintLayout.getRight();;
+                tucherWidth = MainActivity.constraintLayout.getRight();;
                 tucherHeight = width;
 
                 ////////////////
@@ -366,6 +379,13 @@ public class NumberYearPicker extends LinearLayout {
 
                 MainActivity.summer.currentDate = null;
                 MainActivity.summer.firstOccurrence = true;
+                /*
+                if (MainActivity.yearNumberChangedForDraw) {
+                    MainActivity.summer.firstOccurrence = true;
+                }else{
+                    MainActivity.summer.alignCurrentDay = true;
+                }
+                */
                 MainActivity.summer.days.clear();
                 MainActivity.summer.fillInDays(MainActivity.chosenYearNumber);
                 MainActivity.summer.x = 0;
@@ -380,7 +400,7 @@ public class NumberYearPicker extends LinearLayout {
 
                 //Autumn
                 tucherWidth = width;
-                tucherHeight = mainActivity.constraintLayout.getBottom() - width * 2;
+                tucherHeight = MainActivity.constraintLayout.getBottom() - width * 2;
 
                 ////////////////
                 //mainActivity.autumn.side = width/2;
@@ -390,6 +410,13 @@ public class NumberYearPicker extends LinearLayout {
 
                 MainActivity.autumn.currentDate = null;
                 MainActivity.autumn.firstOccurrence = true;
+                /*
+                if (MainActivity.yearNumberChangedForDraw) {
+                    MainActivity.autumn.firstOccurrence = true;
+                }else{
+                    MainActivity.autumn.alignCurrentDay = true;
+                }
+                */
                 MainActivity.autumn.days.clear();
                 MainActivity.autumn.fillInDays(MainActivity.chosenYearNumber);
                 MainActivity.autumn.y = tucherHeight;
@@ -423,15 +450,15 @@ public class NumberYearPicker extends LinearLayout {
 //                }
                 /////////////////////////////////////////////
                 /////////////////
-                if (mainActivity.сonstraintLayoutTaskParameters !=  null) {
+                if (MainActivity.сonstraintLayoutTaskParameters !=  null) {
 
-                    mainActivity.сonstraintLayoutTaskParameters.setVisibility(View.GONE);
+                    MainActivity.сonstraintLayoutTaskParameters.setVisibility(View.GONE);
                     post(new Runnable() {
                         @Override
                         public void run() {
 
                             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mainActivity.linearLayout.getLayoutParams();
-                            params.height = mainActivity.сonstraintLayoutForSchedule.getHeight() - mainActivity.buttonAddTask.getBottom();
+                            params.height = MainActivity.сonstraintLayoutForSchedule.getHeight() - mainActivity.buttonAddTask.getBottom();
                             mainActivity.linearLayout.setLayoutParams(params);
 
                         }
@@ -468,11 +495,11 @@ public class NumberYearPicker extends LinearLayout {
     }
 
     private void initDecrementButton( Context context){
-        decrement = new Button( context );
+        decrement = new CustomButton( context );
         decrement.setTextSize( TypedValue.COMPLEX_UNIT_SP, textSize );
-        decrement.setText( "-" );
+        decrement.setText( "_" );
         decrement.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        decrement.setGravity(Gravity.CENTER);
+        decrement.setGravity(Gravity.CENTER_VERTICAL);
         decrement.setTextColor(textColor);
 
 
@@ -542,7 +569,7 @@ public class NumberYearPicker extends LinearLayout {
 
     }
 
-    public int getValue(){
+    public Integer getValue(){
         return value;
     }
 

@@ -4295,7 +4295,7 @@ public class MainActivity extends AppCompatActivity {
             // создаем каталог
             sdPath.mkdirs();
             // формируем объект File, который содержит путь к файлу
-            File sdFile = new File(sdPath, "savedTasks"+numberYearPicker.valueText.getText().toString());
+            File sdFile = new File(sdPath, "savedTasks" + strYear);
             if (!sdFile.exists()) {
                 try {
                     sdFile.createNewFile();
@@ -4354,7 +4354,7 @@ public class MainActivity extends AppCompatActivity {
         // добавляем свой каталог к пути
         sdPath = new File(sdPath.getAbsolutePath());// + "/mytextfile.txt");
         // формируем объект File, который содержит путь к файлу
-        File sdFile = new File(sdPath, "savedTasks"+numberYearPicker.valueText.getText().toString());
+        File sdFile = new File(sdPath, "savedTasks"+numberYearPicker.getValue().toString());
         if (!sdFile.exists()){
             return;
 //            try {

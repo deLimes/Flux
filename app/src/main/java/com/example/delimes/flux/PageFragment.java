@@ -15,7 +15,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.text.PrecomputedTextCompat;
 import android.text.InputType;
+import android.text.PrecomputedText;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -102,7 +104,7 @@ public class PageFragment extends Fragment {
     TextView taskCopyTo;
     EditText inDays;
     ExtensibleEditText taskDescription;
-    Button buttonAddTask, buttonDeleteTask;
+    CustomButton buttonAddTask, buttonDeleteTask;
     CheckBox everyYear, everyMonth;
     ScrollView scheduleScroll;
     LayoutInflater ltInflater;
@@ -247,7 +249,7 @@ public class PageFragment extends Fragment {
         taskCopyTo.getPaint().setUnderlineText(true);
         ///////сonstraintLayoutTaskParameters.addView(taskCopyTo);
 
-        buttonAddTask = new Button(context);
+        buttonAddTask = new CustomButton(context);
         buttonAddTask.setId(R.id.buttonAddTask);
         buttonAddTask.setText( "+" );
         buttonAddTask.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -346,9 +348,9 @@ public class PageFragment extends Fragment {
             }
         });
 
-        buttonDeleteTask = new Button(context);
+        buttonDeleteTask = new CustomButton(context);
         buttonDeleteTask.setId(R.id.buttonDeleteTask);
-        buttonDeleteTask.setText( "-" );
+        buttonDeleteTask.setText( "_" );
         buttonDeleteTask.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         buttonDeleteTask.setGravity(Gravity.CENTER);
         buttonDeleteTask.setTextColor(Color.BLACK);
@@ -1070,12 +1072,23 @@ public class PageFragment extends Fragment {
         buttonAddTask.setLayoutParams(params);
 
         //buttonDeleteTask
+        /*
+        float dip = (width/1.5f);
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dip,
+                r.getDisplayMetrics()
+        );
+        params = new ConstraintLayout.LayoutParams((int)px,(int)px);
+        */
         params = new ConstraintLayout.LayoutParams((int)(width/1.5f),(int)(width/1.5f));
         params.rightToLeft = R.id.buttonAddTask;
         params.topToBottom = R.id.сonstraintLayoutTaskParameters;
 
         buttonDeleteTask.setTextSize( TypedValue.COMPLEX_UNIT_SP, fontHeight ); // (width/1.5f/5f)
         buttonDeleteTask.setLayoutParams(params);
+        buttonDeleteTask.setGravity(Gravity.CENTER_VERTICAL);
         ////////////
 
 
@@ -1094,7 +1107,6 @@ public class PageFragment extends Fragment {
                 params.height = сonstraintLayoutForSchedule.getHeight() - buttonAddTask.getBottom();
                 //linearLayout.setBackgroundColor(Color.RED);
                 linearLayout.setLayoutParams(params);
-
 
             }
         });

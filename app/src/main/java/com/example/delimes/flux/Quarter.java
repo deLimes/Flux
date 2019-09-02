@@ -1835,8 +1835,8 @@ class Quarter extends View {
         if (firstOccurrence) {
             firstOccurrence = false;
         }
-        if (mainActivity.yearNumberChangedForDraw && quarter == 4) {
-            mainActivity.yearNumberChangedForDraw = false;
+        if (MainActivity.yearNumberChangedForDraw && quarter == 4) {
+            MainActivity.yearNumberChangedForDraw = false;
         }
         if (restore) {
             restore = false;
@@ -1877,7 +1877,7 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
-                for (MainActivity.Task task : mainActivity.winter.days.get(i).tasks) {
+                for (MainActivity.Task task : MainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
                         taskExtra = 0;
                         task.shown = true;
@@ -1916,7 +1916,7 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
-                for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
+                for (MainActivity.Task task : MainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
                         task.shown = true;
@@ -1956,7 +1956,7 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
-                for (MainActivity.Task task : mainActivity.summer.days.get(i).tasks) {
+                for (MainActivity.Task task : MainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
                         taskExtra = 0;
                         task.shown = true;
@@ -1996,7 +1996,7 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
-                for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
+                for (MainActivity.Task task : MainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){
                         taskExtra = 0;
                         task.shown = true;
