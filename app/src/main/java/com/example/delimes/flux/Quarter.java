@@ -1852,6 +1852,7 @@ class Quarter extends View {
 
     public void restore (){
 
+        int numberOfQuarterWhereTaskExtraFound  = 0;
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         if (quarter == 1) {
@@ -1879,11 +1880,12 @@ class Quarter extends View {
                 }
                 for (MainActivity.Task task : MainActivity.winter.days.get(i).tasks) {
                     if (task.extra == taskExtra) {
+                        numberOfQuarterWhereTaskExtraFound = 1;
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
                         MainActivity.winter.selectedDay = MainActivity.winter.days.get(i);
-                        MainActivity.setDay(MainActivity.winter.selectedDay, true);
+                        //MainActivity.setDay(MainActivity.winter.selectedDay, true);
                         MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
@@ -1918,11 +1920,12 @@ class Quarter extends View {
                 }
                 for (MainActivity.Task task : MainActivity.spring.days.get(i).tasks) {
                     if (task.extra == taskExtra){
+                        numberOfQuarterWhereTaskExtraFound = 2;
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
                         MainActivity.spring.selectedDay = MainActivity.spring.days.get(i);
-                        MainActivity.setDay(MainActivity.spring.selectedDay, true);
+                        //MainActivity.setDay(MainActivity.spring.selectedDay, true);
                         MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
@@ -1956,13 +1959,15 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
+                Log.d("123", "restore i: "+i);
                 for (MainActivity.Task task : MainActivity.summer.days.get(i).tasks) {
                     if (task.extra == taskExtra){
+                        numberOfQuarterWhereTaskExtraFound = 3;
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
                         MainActivity.summer.selectedDay = MainActivity.summer.days.get(i);
-                        MainActivity.setDay(MainActivity.summer.selectedDay, true);
+                        //MainActivity.setDay(MainActivity.summer.selectedDay, true);
                         MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
@@ -1998,11 +2003,12 @@ class Quarter extends View {
                 }
                 for (MainActivity.Task task : MainActivity.autumn.days.get(i).tasks) {
                     if (task.extra == MainActivity.taskExtra){
+                        numberOfQuarterWhereTaskExtraFound = 4;
                         taskExtra = 0;
                         task.shown = true;
                         MainActivity.task = task;
                         MainActivity.autumn.selectedDay = MainActivity.autumn.days.get(i);
-                        MainActivity.setDay(MainActivity.autumn.selectedDay, true);
+                        //MainActivity.setDay(MainActivity.autumn.selectedDay, true);
                         MainActivity.setChangedeTasksOfYear(true);
                     }
                     //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
@@ -2014,6 +2020,46 @@ class Quarter extends View {
                 //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
             }
         }
+
+        switch (numberOfQuarterWhereTaskExtraFound){
+            case 1:
+                spring.selectedDay = null;
+                summer.selectedDay = null;
+                autumn.selectedDay = null;
+                MainActivity.setDay(winter.selectedDay, true);
+                break;
+            case 2:
+                winter.selectedDay = null;
+                summer.selectedDay = null;
+                autumn.selectedDay = null;
+                MainActivity.setDay(spring.selectedDay, true);
+                break;
+            case 3:
+                winter.selectedDay = null;
+                spring.selectedDay = null;
+                autumn.selectedDay = null;
+                MainActivity.setDay(summer.selectedDay, true);
+                break;
+            case 4:
+                winter.selectedDay = null;
+                spring.selectedDay = null;
+                summer.selectedDay = null;
+                MainActivity.setDay(autumn.selectedDay, true);
+                break;
+
+            default:
+                /*
+                winter.selectedDay = null;
+                spring.selectedDay = null;
+                summer.selectedDay = null;
+                autumn.selectedDay = null;
+                MainActivity.setDay(null, false);
+                */
+                break;
+        }
+
+
+
         invalidate();
         //MainActivity.pagesAdapter.notifyDataSetChanged();
 

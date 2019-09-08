@@ -2113,18 +2113,6 @@ public class MainActivity extends AppCompatActivity {
                         while (iter.hasNext()) {
                             Task t = iter.next();
 
-                            //%%C Del -
-//                       [
-//                            if (task.equals(t) && !t.done) {
-//                                iter.remove();
-//                            }
-//                       ]
-
-                            //%%C Проверка в ходе эксплуатации{
-//                            if (task.equals(t) && !t.isDone) {
-//                                iter.remove();
-//                            }
-
                             boolean alreadyRemoved = false;
                             if (task.equals(t)) {
 
@@ -4545,8 +4533,11 @@ public class MainActivity extends AppCompatActivity {
                 dayPager.setVisibility(View.VISIBLE);
             }
 
+
             pagesAdapter.notifyDataSetChanged();
+
             dayPager.setCurrentItem(position, false);
+
         }
     }
 

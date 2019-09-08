@@ -46,7 +46,7 @@ public class CustomButton extends android.support.v7.widget.AppCompatButton {
         canvas.drawColor(getDrawingCacheBackgroundColor());
         canvas.drawText(text,
                 getWidth() * 0.50f - textWidth * 0.50f,
-                getHeight() * 0.50f + textWidth * 0.50f,
+                getHeight() * 0.50f + textHeight* 0.75f,
                 //getHeight() * 0.50f,
                 p);
     }
