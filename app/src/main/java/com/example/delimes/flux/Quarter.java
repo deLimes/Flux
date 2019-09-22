@@ -140,6 +140,8 @@ class Quarter extends View {
 
     //boolean timerIsON = false;
 
+    public AlphaAnimation alphaAnimationFadeIn = new AlphaAnimation(0f, 1f);
+
     float length = 0;
 
     public Quarter(Context context, int quarter, boolean isUpdateReminders) {
@@ -209,6 +211,7 @@ class Quarter extends View {
 //            this.y = height - width * 2;
 //        }
 
+        alphaAnimationFadeIn.setDuration(1000);
         p = new Paint();
         gestureDetector = new GestureDetector(context, new MyGestureListener());
 
@@ -1710,6 +1713,7 @@ class Quarter extends View {
 
         ////////////////////////////////////////////////////
         if (firstOccurrence || alignCurrentDay) {
+
             if (quarter == 1) {
                 if (currentDate != null || selectedDay != null) {
                     Day date = selectedDay;
@@ -1724,6 +1728,7 @@ class Quarter extends View {
 //                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
 
+                    startAnimation(alphaAnimationFadeIn);
                     if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
                         x = x - date.right + getWidth() / 2 + getWidth() / 4;
                     } else if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
@@ -1751,6 +1756,7 @@ class Quarter extends View {
 //                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
 //                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
+                    startAnimation(alphaAnimationFadeIn);
                     if(calendar.get(Calendar.MONTH) == Calendar.APRIL) {
                         y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
                     }else if(calendar.get(Calendar.MONTH) == Calendar.MAY) {
@@ -1779,6 +1785,7 @@ class Quarter extends View {
 //                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
 //                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
+                    startAnimation(alphaAnimationFadeIn);
                     if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
                         x = x - date.right + getWidth() / 2 - getWidth() / 4;
                     }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
@@ -1807,6 +1814,7 @@ class Quarter extends View {
 //                            +calendar.get(Calendar.DAY_OF_MONTH) + " "
 //                            +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
 
+                    startAnimation(alphaAnimationFadeIn);
                     if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER) {
                         y = y - date.top + getHeight() / 2 + getHeight() / 4;
                     }else if(calendar.get(Calendar.MONTH) == Calendar.NOVEMBER) {

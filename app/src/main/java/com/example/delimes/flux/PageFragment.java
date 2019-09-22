@@ -51,6 +51,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Locale;
 
+import static com.example.delimes.flux.MainActivity.dayPager;
 import static com.example.delimes.flux.MainActivity.gestureDetector;
 import static com.example.delimes.flux.MainActivity.setChangedeTasksOfYear;
 import static com.example.delimes.flux.MainActivity.task;
@@ -94,7 +95,7 @@ public class PageFragment extends Fragment {
 
     //ImageView ivLargerImage;
 
-    ExtensibleTextView dateMonth;
+    public ExtensibleTextView dateMonth;
     TextView taskTime;
     TextView taskDuration;
 
@@ -189,6 +190,7 @@ public class PageFragment extends Fragment {
         dateMonth = new ExtensibleTextView(context);
         dateMonth.setId(R.id.dateMonth);
         dateMonth.getPaint().setUnderlineText(true);
+        MainActivity.dateMonth = dateMonth;
 
         ///////сonstraintLayoutForSchedule.addView(dateMonth);
 
@@ -654,6 +656,7 @@ public class PageFragment extends Fragment {
                     setReminder(context, task, day.date);
 
                     task.isCyclic = false;
+                    MainActivity.Task taskCopy = new MainActivity.Task(true, false,"", 0, 0, 0);
 
                     if (!task.content.equals(taskDescription.getText().toString())) {
                         setChangedeTasksOfYear(true);
@@ -676,7 +679,7 @@ public class PageFragment extends Fragment {
                             task.finishTime = dateDoomsday;
                         }
                         task.isCyclic = true;
-                        MainActivity.Task taskCopy = new MainActivity.Task(true, false,"", 0, 0, 0);
+                        //MainActivity.Task taskCopy = new MainActivity.Task(true, false,"", 0, 0, 0);
                         task.duplicate(taskCopy);
                         cyclicTasks.add(taskCopy);
                     }else if (task.finishTime == dateDoomsday){
@@ -685,6 +688,7 @@ public class PageFragment extends Fragment {
 
                     updateSchedule(day);
                     if (task.isCyclic) {
+                        /*
                         calendar.clear();
                         calendar.setTimeInMillis(task.startTime);
                         final Calendar myCalender = Calendar.getInstance();
@@ -697,7 +701,7 @@ public class PageFragment extends Fragment {
 
                         if (dateTaskStartTime == day.date.getTime()) {
                             //напоминание установится в refreshCyclicTasks(task);
-                            refreshCyclicTasks(task);
+                            refreshCyclicTasks(taskCopy);
                         }else{
                             //set new remind
                             calendar.clear();
@@ -712,6 +716,9 @@ public class PageFragment extends Fragment {
                                 Log.d("123", "onEditorAction: "+ task.extra);
                             }
                         }
+                        */
+                        //напоминание установится в refreshCyclicTasks(task);
+                        refreshCyclicTasks(taskCopy);
                     }else{
                         //set new remind
                         calendar.clear();
@@ -1117,11 +1124,22 @@ public class PageFragment extends Fragment {
         }
         //tvPage.setBackgroundColor(Color.BLUE);
 
+        /*
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                dateMonth.startAnimation(dateMonth.alphaAnimationFadeIn);
+            }
+        });
+        */
 
         return view;
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
     public void showTimePicker(String title, final boolean duration) {
         final Calendar myCalender = Calendar.getInstance();
@@ -1728,6 +1746,7 @@ public class PageFragment extends Fragment {
             taskDescription.setText("");
             taskDescription.showIvLargerImage = false;
             taskDescription.append(task.content);
+            //taskDescription.showIvLargerImage = false;
 
 
             startOfTask.setText(new SimpleDateFormat("dd.MM.yyyy").format(task.startTime));

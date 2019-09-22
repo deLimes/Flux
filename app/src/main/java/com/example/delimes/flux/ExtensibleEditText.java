@@ -3,6 +3,8 @@ package com.example.delimes.flux;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -11,7 +13,9 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
 
     Context context;
     CountDownTimer countDownTimer;
-    public boolean showIvLargerImage = true;
+    public boolean showIvLargerImage;
+    private boolean nowShownIvLargerImage;
+
 
     public ExtensibleEditText(Context context) {
         super(context);
@@ -33,53 +37,74 @@ public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditT
         setDrawingCacheEnabled(true);
     }
 
+
+
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
+
+
+        if (nowShownIvLargerImage) {
+            showIvLargerImage();
+        }
+
         showIvLargerImage = false;
     }
 
+
+
+
     private void showIvLargerImage() {
 
-        if (!showIvLargerImage){
+        if (!showIvLargerImage ){
             showIvLargerImage = true;
             return;
         }
-        invalidate();
-        Bitmap bitmap = getDrawingCache();
-
-        if (bitmap == null){
-            return;
-        }
-
-        MainActivity.ivLargerImage.setImageBitmap(bitmap);
-        MainActivity.ivLargerImage.setVisibility(VISIBLE);
-
-        if (countDownTimer != null){
-            countDownTimer.cancel();
-        }
-        countDownTimer = new CountDownTimer(5000, 5000) {
+        post(new Runnable() {
             @Override
-            public void onTick(long l) {
-            }
+            public void run() {
 
-            @Override
-            public void onFinish() {
-                MainActivity.ivLargerImage.setVisibility(GONE);
-                MainActivity.ivLargerImage.clearFocus();
+                invalidate();
+                Bitmap bitmap = getDrawingCache();
+
+                if (bitmap == null){
+                    return;
+                }
+
+                MainActivity.ivLargerImage.setImageBitmap(bitmap);
+                MainActivity.ivLargerImage.setVisibility(VISIBLE);
+                nowShownIvLargerImage = true;
+
+                if (countDownTimer != null){
+                    countDownTimer.cancel();
+                }
+                countDownTimer = new CountDownTimer(5000, 5000) {
+                    @Override
+                    public void onTick(long l) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        MainActivity.ivLargerImage.setVisibility(GONE);
+                        MainActivity.ivLargerImage.clearFocus();
+                        nowShownIvLargerImage = false;
+                    }
+                };
+                countDownTimer.start();
+
+
             }
-        };
-        countDownTimer.start();
+        });
 
 
     }
+
 
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
-        Log.d("myLogs2", "onSelectionChanged: " + "selStart "+ selStart+ " selEnd "+ selEnd);
+        Log.d("123", "onSelectionChanged: " + "selStart "+ selStart+ " selEnd "+ selEnd);
         showIvLargerImage();
     }
-
 
 
 

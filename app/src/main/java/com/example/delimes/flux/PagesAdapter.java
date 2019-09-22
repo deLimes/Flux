@@ -1,8 +1,12 @@
 package com.example.delimes.flux;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 
 import static com.example.delimes.flux.MainActivity.dayPager;
 import static com.example.delimes.flux.Quarter.daysOfYear;
@@ -27,9 +31,10 @@ import static com.example.delimes.flux.Quarter.daysOfYear;
          return POSITION_NONE;
      }
 
+
      @Override
      public void notifyDataSetChanged() {
-         //dayPager.removeAllViews();//для того, чтобы работал notifyDataSetChanged()
+         dayPager.removeAllViews();//для того, чтобы работал notifyDataSetChanged()
          super.notifyDataSetChanged();
      }
 

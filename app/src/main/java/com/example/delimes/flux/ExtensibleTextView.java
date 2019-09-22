@@ -8,7 +8,7 @@ import android.view.animation.AlphaAnimation;
 
 public class ExtensibleTextView extends android.support.v7.widget.AppCompatTextView {
 
-    private AlphaAnimation alphaAnimationFadeIn = new AlphaAnimation(0f, 1f);
+    public AlphaAnimation alphaAnimationFadeIn = new AlphaAnimation(0f, 1f);
 
     public ExtensibleTextView(Context context) {
         super(context);

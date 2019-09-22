@@ -928,6 +928,12 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("1234", "onPageSelected position: "+position);
 
+
+                //pagesAdapter.notifyDataSetChanged();
+                /*
+                dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
+                */
+
                 if ( (winter.selectedDay != null
                         || spring.selectedDay != null
                         || summer.selectedDay != null
@@ -1009,6 +1015,14 @@ public class MainActivity extends AppCompatActivity {
                     summer.alignCurrentDay = true;
                     autumn.alignCurrentDay = true;
 
+
+
+                    pagesAdapter.notifyDataSetChanged();
+                    dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
+
+                    //dateMonth.startAnimation(dateMonth.alphaAnimationFadeIn);
+                    //dayPager.getChildAt().findViewById()
+
                 }else if (dayOfYear == day){
 
                     //yearNumberChangedForOnPageChangeListener = false;
@@ -1025,6 +1039,7 @@ public class MainActivity extends AppCompatActivity {
                 spring.invalidate();
                 summer.invalidate();
                 autumn.invalidate();
+
 
             }
 
@@ -2045,6 +2060,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static void returnToCurrentDate(){
 
+        //MainActivity.task = null;
+
         winter.selectedDay = null;
         spring.selectedDay = null;
         summer.selectedDay = null;
@@ -2122,7 +2139,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);
-                                if(!t.isDone && t != MainActivity.task) {
+                                if(!t.isDone && t.isValid && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -2366,7 +2383,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone && task.isValid){
+                        if(!task2.isDone && task2.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -2416,7 +2433,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);
-                                if(!t.isDone && t != MainActivity.task) {
+                                if(!t.isDone && t.isValid && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -2658,7 +2675,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone && task.isValid){
+                        if(!task2.isDone && task2.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -2706,7 +2723,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);
-                                if(!t.isDone && t != MainActivity.task) {
+                                if(!t.isDone && t.isValid && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -2946,7 +2963,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone && task.isValid){
+                        if(!task2.isDone && task2.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -2995,7 +3012,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);
-                                if(!t.isDone && t != MainActivity.task) {
+                                if(!t.isDone && t.isValid && t != MainActivity.task) {
                                     iter.remove();
                                     alreadyRemoved = true;
                                 }
@@ -3235,7 +3252,7 @@ public class MainActivity extends AppCompatActivity {
 
                     d.dayClosed = true;
                     for (Task task2 : d.tasks) {
-                        if(!task2.isDone && task.isValid){
+                        if(!task2.isDone && task2.isValid){
                             d.dayClosed = false;
                         }
                     }
@@ -4533,9 +4550,8 @@ public class MainActivity extends AppCompatActivity {
                 dayPager.setVisibility(View.VISIBLE);
             }
 
-
             pagesAdapter.notifyDataSetChanged();
-
+            dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
             dayPager.setCurrentItem(position, false);
 
         }
