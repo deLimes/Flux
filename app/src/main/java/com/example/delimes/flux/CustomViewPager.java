@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.animation.AlphaAnimation;
 
 import static com.example.delimes.flux.MainActivity.returnToCurrentDate;
 
@@ -14,6 +15,7 @@ public class CustomViewPager extends ViewPager {
 
     private Context context;
     private GestureDetector gestureDetector;
+    public AlphaAnimation alphaAnimationFadeIn = new AlphaAnimation(0f, 1f);
 
     public CustomViewPager(Context context) {
         super(context);
@@ -30,6 +32,7 @@ public class CustomViewPager extends ViewPager {
     private void init(Context context){
         this.context = context;
         this.gestureDetector = new GestureDetector(context, new CustomGestureListener());
+        alphaAnimationFadeIn.setDuration(1000);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -51,6 +52,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Locale;
 
+import static com.example.delimes.flux.MainActivity.currDate;
 import static com.example.delimes.flux.MainActivity.dayPager;
 import static com.example.delimes.flux.MainActivity.gestureDetector;
 import static com.example.delimes.flux.MainActivity.setChangedeTasksOfYear;
@@ -125,7 +127,7 @@ public class PageFragment extends Fragment {
     static int chosenYearNumber = 0;
     static int previousChosenYearNumber = 0;
 
-    static Date currDate;
+    //static Date currDate;
     public static long currHours;
     public static long currMinutes;
     public static long currSeconds;
@@ -643,20 +645,23 @@ public class PageFragment extends Fragment {
             public boolean onEditorAction(TextView textView, int keyCode, KeyEvent event) {
 
                 if(task != null) {
-                    while (cyclicTasks.remove(task));
+                    MainActivity.Task cyclicTaskCopyContent = new MainActivity.Task(true, false, "", 0, 0, 0);
+                    //while (cyclicTasks.remove(task));
                     Iterator<MainActivity.Task> iter = cyclicTasks.iterator();
                     while (iter.hasNext()) {
                         MainActivity.Task t = iter.next();
 
                         if (t.equals(task)) {
-                            cyclicTasks.remove(task);
+                            //cyclicTasks.remove(task);
+                            cyclicTaskCopyContent = new MainActivity.Task(true, false, t.content, 0, 0, 0);
+                            iter.remove();
                         }
                     }
+                    while (cyclicTasks.remove(task));
                     task.removeFromAM = true;
                     setReminder(context, task, day.date);
 
                     task.isCyclic = false;
-                    MainActivity.Task taskCopy = new MainActivity.Task(true, false,"", 0, 0, 0);
 
                     if (!task.content.equals(taskDescription.getText().toString())) {
                         setChangedeTasksOfYear(true);
@@ -680,15 +685,18 @@ public class PageFragment extends Fragment {
                         }
                         task.isCyclic = true;
                         //MainActivity.Task taskCopy = new MainActivity.Task(true, false,"", 0, 0, 0);
-                        task.duplicate(taskCopy);
-                        cyclicTasks.add(taskCopy);
+                        //task.duplicate(taskCopy);
+                        //cyclicTasks.add(taskCopy);
                     }else if (task.finishTime == dateDoomsday){
                         task.finishTime = task.startTime;
                     }
 
                     updateSchedule(day);
                     if (task.isCyclic) {
-                        /*
+                        MainActivity.Task taskCopy = new MainActivity.Task(true, false,"", 0, 0, 0);
+                        task.duplicate(taskCopy);
+
+
                         calendar.clear();
                         calendar.setTimeInMillis(task.startTime);
                         final Calendar myCalender = Calendar.getInstance();
@@ -699,10 +707,14 @@ public class PageFragment extends Fragment {
 
                         long dateTaskStartTime = myCalender.getTimeInMillis();
 
+
                         if (dateTaskStartTime == day.date.getTime()) {
+                            cyclicTasks.add(taskCopy);
                             //напоминание установится в refreshCyclicTasks(task);
                             refreshCyclicTasks(taskCopy);
                         }else{
+                            taskCopy.content = cyclicTaskCopyContent.content;
+                            cyclicTasks.add(taskCopy);
                             //set new remind
                             calendar.clear();
                             calendar.setTimeInMillis(task.startTime);
@@ -716,9 +728,7 @@ public class PageFragment extends Fragment {
                                 Log.d("123", "onEditorAction: "+ task.extra);
                             }
                         }
-                        */
-                        //напоминание установится в refreshCyclicTasks(task);
-                        refreshCyclicTasks(taskCopy);
+
                     }else{
                         //set new remind
                         calendar.clear();
@@ -1729,6 +1739,11 @@ public class PageFragment extends Fragment {
                 +calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
         dateMonth.setText(strDateMonth);
+        if (day.date.equals(currDate)) {
+            dateMonth.setTypeface(null, Typeface.BOLD);
+        } else {
+            dateMonth.setTypeface(null, Typeface.NORMAL);
+        }
 
 
         if(task != null) {
@@ -2032,19 +2047,20 @@ public class PageFragment extends Fragment {
             MainActivity.Task t = iter.next();
 
             if (t.equals(task)) {
-                cyclicTasks.remove(task);
+                //cyclicTasks.remove(task);
+                iter.remove();
             }
         }
         task.isCyclic = false;
 
-        if (task.monday ||
-                task.tuesday ||
-                task.wednesday ||
-                task.thursday ||
-                task.friday ||
-                task.saturday ||
-                task.sunday ||
-                task.everyYear ||
+        if (task.monday         ||
+                task.tuesday    ||
+                task.wednesday  ||
+                task.thursday   ||
+                task.friday     ||
+                task.saturday   ||
+                task.sunday     ||
+                task.everyYear  ||
                 task.everyMonth ||
                 task.inDays > 0) {
 

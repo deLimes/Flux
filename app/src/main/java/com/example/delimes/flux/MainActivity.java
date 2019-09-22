@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.media.AudioAttributes;
@@ -929,6 +930,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("1234", "onPageSelected position: "+position);
 
 
+
                 //pagesAdapter.notifyDataSetChanged();
                 /*
                 dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
@@ -1018,7 +1020,14 @@ public class MainActivity extends AppCompatActivity {
 
 
                     pagesAdapter.notifyDataSetChanged();
-                    dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
+                    /*
+                    if (day.date.equals(currDate)) {
+                        dateMonth.setTypeface(null, Typeface.BOLD);
+                    }else{
+                        dateMonth.setTypeface(null, Typeface.NORMAL);
+                    }
+                    */
+                    //dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
 
                     //dateMonth.startAnimation(dateMonth.alphaAnimationFadeIn);
                     //dayPager.getChildAt().findViewById()
@@ -1032,6 +1041,7 @@ public class MainActivity extends AppCompatActivity {
                     summer.selectedDay = null;
                     autumn.selectedDay = null;
                 }
+
 
                 programmaticallySetsCurrentItem = false;
 
@@ -4551,7 +4561,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
             pagesAdapter.notifyDataSetChanged();
-            dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
+            /*
+            if (day.date.equals(currDate)) {
+                dateMonth.setTypeface(null, Typeface.BOLD);
+            }else{
+                dateMonth.setTypeface(null, Typeface.NORMAL);
+            }
+            */
+            //dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
             dayPager.setCurrentItem(position, false);
 
         }
