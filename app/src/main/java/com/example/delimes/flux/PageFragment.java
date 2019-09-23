@@ -152,7 +152,7 @@ public class PageFragment extends Fragment {
 
     private final int MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED = 101;
     private AlphaAnimation alphaAnimationClick = new AlphaAnimation(1f, 0.2f);
-    private static long dateDoomsday = 95617497600000L;//(4999, 11, 31);
+    private static long dateDoomsday = 95617497600000L;//(4999, 12, 31);
 
 
 
@@ -229,6 +229,7 @@ public class PageFragment extends Fragment {
         labelStartOfTask = new TextView(context);
         labelStartOfTask.setId(R.id.labelStartOfTask);
         labelStartOfTask.setText("Дата начала:");
+        labelStartOfTask.getPaint().setUnderlineText(true);
         ///////сonstraintLayoutTaskParameters.addView(labelStartOfTask);
 
         startOfTask = new TextView(context);
@@ -239,6 +240,7 @@ public class PageFragment extends Fragment {
         labelEndOfTask = new TextView(context);
         labelEndOfTask.setId(R.id.labelEndOfTask);
         labelEndOfTask.setText("Дата окончания:");
+        labelEndOfTask.getPaint().setUnderlineText(true);
         ///////сonstraintLayoutTaskParameters.addView(labelEndOfTask);
 
         endOfTask = new TextView(context);
@@ -775,6 +777,22 @@ public class PageFragment extends Fragment {
             }
         });
 
+        labelStartOfTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(task != null) {
+                    view.startAnimation(alphaAnimationClick);
+                    view.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            goToTimeInMillis(task.startTime);
+                        }
+                    }, alphaAnimationClick.getDuration());
+
+                }
+            }
+        });
+
         startOfTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -785,12 +803,17 @@ public class PageFragment extends Fragment {
             }
         });
 
-        endOfTask.setOnClickListener(new View.OnClickListener() {
+        labelEndOfTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(task != null) {
                     view.startAnimation(alphaAnimationClick);
-                    showDatePickerForFinishTime();
+                    view.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            goToTimeInMillis(task.finishTime);
+                        }
+                    }, alphaAnimationClick.getDuration());
                 }
             }
         });
@@ -1745,7 +1768,6 @@ public class PageFragment extends Fragment {
             dateMonth.setTypeface(null, Typeface.NORMAL);
         }
 
-
         if(task != null) {
             calendar.clear();
             calendar.setTimeInMillis(task.startTime);
@@ -1904,6 +1926,11 @@ public class PageFragment extends Fragment {
             //item.getLayoutParams().width = LayoutParams.MATCH_PARENT;
             TextView tvTaskName = (TextView) item.findViewById(R.id.tvTaskName);
             tvTaskName.setText(task.content);
+            if (task.isCyclic) {
+                tvTaskName.setTypeface(null, Typeface.ITALIC);
+            } else {
+                tvTaskName.setTypeface(null, Typeface.NORMAL);
+            }
 
 //            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //            params.leftToRight = R.id.tvTaskTime;
@@ -2085,6 +2112,51 @@ public class PageFragment extends Fragment {
         autumn.invalidate();
         //
 
+    }
+
+    public void goToTimeInMillis(long TimeInMillis){
+        final Calendar myCalender = Calendar.getInstance();
+        myCalender.setTimeInMillis(TimeInMillis);
+
+        int year = myCalender.get(Calendar.YEAR);
+        int month = myCalender.get(Calendar.MONTH);
+        int dayOfMonth = myCalender.get(Calendar.DAY_OF_MONTH);
+
+        myCalender.clear();
+        myCalender.set(year, month, dayOfMonth);
+
+        winter.selectedDay = null;
+        spring.selectedDay = null;
+        summer.selectedDay = null;
+        autumn.selectedDay = null;
+
+        Date date = new Date(myCalender.getTimeInMillis());
+        if (month >= 0 && month <= 2) {
+            winter.selectedDay = new Day(date, 0, 0, 0, 0);
+            analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+            if (month == 2){
+                analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+            }
+        }else if(month >= 3 && month <= 5){
+            spring.selectedDay = new Day(date, 0, 0, 0, 0);
+            analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+            if (month == 5){
+                analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+            }
+        }else if(month >= 6 && month <= 8){
+            summer.selectedDay = new Day(date, 0, 0, 0, 0);
+            analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+            if (month == 8){
+                analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+            }
+        }else if(month >= 9 && month <= 11){
+            autumn.selectedDay = new Day(date, 0, 0, 0, 0);
+            analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+            if (month == 11){
+                analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+            }
+        }
+        numberYearPicker.setValue(year);
     }
 
 

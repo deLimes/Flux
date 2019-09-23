@@ -188,6 +188,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static int notifyId = 101;
     static int taskExtra = 0;
+    static int taskId = 0;
+    static Date taskDate;
+
     static int yearFromIntent = 0;
     ///////////////////////////////////////////////////////////////////////////
 
@@ -929,12 +932,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("1234", "onPageSelected position: "+position);
 
-
-
-                //pagesAdapter.notifyDataSetChanged();
-                /*
-                dayPager.startAnimation(dateMonth.alphaAnimationFadeIn);
-                */
+                if (pagesAdapter.isCurrentDate(position)){
+                    numberYearPicker.valueText.setTypeface(null, Typeface.BOLD);
+                }else{
+                    numberYearPicker.valueText.setTypeface(null, Typeface.NORMAL);
+                }
 
                 if ( (winter.selectedDay != null
                         || spring.selectedDay != null
@@ -1041,6 +1043,7 @@ public class MainActivity extends AppCompatActivity {
                     summer.selectedDay = null;
                     autumn.selectedDay = null;
                 }
+
 
 
                 programmaticallySetsCurrentItem = false;
@@ -1773,6 +1776,16 @@ public class MainActivity extends AppCompatActivity {
             taskExtra = Integer.valueOf(strTaskExtra);
         }
 
+        String strTaskId = getIntent().getStringExtra("id");
+        if (strTaskId != null) {
+            taskId = Integer.valueOf(strTaskId);
+        }
+
+        String strDateTime = getIntent().getStringExtra("dateTime");
+        if (strDateTime != null) {
+            taskDate = new Date(Long.valueOf(strDateTime));
+        }
+
         String strYear = getIntent().getStringExtra("year");
         if (strYear != null) {
             yearFromIntent = Integer.valueOf(strYear);
@@ -1798,9 +1811,19 @@ public class MainActivity extends AppCompatActivity {
             taskExtra = Integer.valueOf(strTaskExtra);
         }
 
+        String strTaskId = intent.getStringExtra("id");
+        if (strTaskId != null) {
+            taskId = Integer.valueOf(strTaskId);
+        }
+
         String strYear = intent.getStringExtra("year");
         if (strYear != null) {
             yearFromIntent = Integer.valueOf(strYear);
+        }
+
+        String strDateTime = intent.getStringExtra("dateTime");
+        if (strDateTime != null) {
+            taskDate = new Date(Long.valueOf(strDateTime));
         }
 
         //Сохраним текущий изменения
@@ -1835,6 +1858,7 @@ public class MainActivity extends AppCompatActivity {
         notificationIntent.putExtra("extra", Integer.toString(task.extra));
         notificationIntent.putExtra("content", task.content);
         notificationIntent.putExtra("year", Integer.toString(calendar.get(Calendar.YEAR)));
+        notificationIntent.putExtra("dateTime", Long.toString(date.getTime()));
         //notificationIntent.putExtra("task", task);
 
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
@@ -1894,6 +1918,8 @@ public class MainActivity extends AppCompatActivity {
         notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
         notificationIntent.putExtra("content", intent.getStringExtra("content"));
         notificationIntent.putExtra("year", intent.getStringExtra("year"));
+        notificationIntent.putExtra("dateTime", intent.getStringExtra("dateTime"));
+
 
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
@@ -7752,7 +7778,7 @@ public class MainActivity extends AppCompatActivity {
         public int id;
         public int extra;
         public boolean isValid;
-        public boolean isCyclic;//not used
+        public boolean isCyclic;
         public boolean isDone;
         public String content;
         public Long startTime;

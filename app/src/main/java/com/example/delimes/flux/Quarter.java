@@ -37,14 +37,16 @@ import static com.example.delimes.flux.MainActivity.numberYearPicker;
 import static com.example.delimes.flux.MainActivity.returnToCurrentDate;
 import static com.example.delimes.flux.MainActivity.spring;
 import static com.example.delimes.flux.MainActivity.summer;
+import static com.example.delimes.flux.MainActivity.taskDate;
 import static com.example.delimes.flux.MainActivity.taskExtra;
+import static com.example.delimes.flux.MainActivity.taskId;
 import static com.example.delimes.flux.MainActivity.winter;
 
 /**
  * Created by User on 20.06.2019.
  */
 
-class Quarter extends View {
+class Quarter extends View implements View.OnClickListener {
     Context context;
     final int quarter;
     Paint p;
@@ -54,8 +56,8 @@ class Quarter extends View {
     int side = 0;
     int width = 0;
     int height = 0;
-    float doubleTapX = 0;
-    float doubleTapY = 0;
+    float tapX = 0;
+    float tapY = 0;
     float januaryLength = 0;
     float februaryLength = 0;
     float marchLength = 0;
@@ -116,6 +118,7 @@ class Quarter extends View {
 
     // переменные для перетаскивания
     boolean drag = false;
+    boolean move = false;
     float dragX = 0;
     float dragY = 0;
 
@@ -143,6 +146,8 @@ class Quarter extends View {
     public AlphaAnimation alphaAnimationFadeIn = new AlphaAnimation(0f, 1f);
 
     float length = 0;
+
+    MotionEvent motionEvent;
 
     public Quarter(Context context, int quarter, boolean isUpdateReminders) {
         super(context);
@@ -229,6 +234,20 @@ class Quarter extends View {
         }else{
             fillInDays(year);
         }
+        /*
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    motionEvent = event;
+                }
+                //toggleSelectedDay(motionEvent);
+                return false;
+            }
+        });
+        */
+
+        setOnClickListener(this);
     }
 
 
@@ -1861,6 +1880,7 @@ class Quarter extends View {
     public void restore (){
 
         int numberOfQuarterWhereTaskExtraFound  = 0;
+        int numberOfQuarterWhereTaskIdFound  = 0;
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
         if (quarter == 1) {
@@ -1886,20 +1906,26 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
-                for (MainActivity.Task task : MainActivity.winter.days.get(i).tasks) {
-                    if (task.extra == taskExtra) {
-                        numberOfQuarterWhereTaskExtraFound = 1;
-                        taskExtra = 0;
-                        task.shown = true;
-                        MainActivity.task = task;
-                        MainActivity.winter.selectedDay = MainActivity.winter.days.get(i);
-                        //MainActivity.setDay(MainActivity.winter.selectedDay, true);
-                        MainActivity.setChangedeTasksOfYear(true);
-                    }
-                    //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
-                    //%%C del - MainActivity.setReminder(task);
-                    if (!task.isDone && task.isValid) {
-                        days.get(i).dayClosed = false;
+                if (days.get(i).date.equals(taskDate)) {
+                    for (MainActivity.Task task : MainActivity.winter.days.get(i).tasks) {
+                        //if (task.extra == taskExtra) {
+                        if (task.id == taskId) {
+                            numberOfQuarterWhereTaskExtraFound = 1;
+                            numberOfQuarterWhereTaskIdFound = 1;
+                            taskExtra = 0;
+                            taskId = 0;
+                            taskDate = null;
+                            task.shown = true;
+                            MainActivity.task = task;
+                            MainActivity.winter.selectedDay = MainActivity.winter.days.get(i);
+                            //MainActivity.setDay(MainActivity.winter.selectedDay, true);
+                            MainActivity.setChangedeTasksOfYear(true);
+                        }
+                        //%%C del - MainActivity.setReminder(task, MainActivity.winter.days.get(i).date);
+                        //%%C del - MainActivity.setReminder(task);
+                        if (!task.isDone && task.isValid) {
+                            days.get(i).dayClosed = false;
+                        }
                     }
                 }
             }
@@ -1926,20 +1952,26 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
-                for (MainActivity.Task task : MainActivity.spring.days.get(i).tasks) {
-                    if (task.extra == taskExtra){
-                        numberOfQuarterWhereTaskExtraFound = 2;
-                        taskExtra = 0;
-                        task.shown = true;
-                        MainActivity.task = task;
-                        MainActivity.spring.selectedDay = MainActivity.spring.days.get(i);
-                        //MainActivity.setDay(MainActivity.spring.selectedDay, true);
-                        MainActivity.setChangedeTasksOfYear(true);
-                    }
-                    //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
-                    //%%C del - MainActivity.setReminder(task);
-                    if (!task.isDone && task.isValid){
-                        days.get(i).dayClosed = false;
+                if (days.get(i).date.equals(taskDate)) {
+                    for (MainActivity.Task task : MainActivity.spring.days.get(i).tasks) {
+                        //if (task.extra == taskExtra) {
+                        if (task.id == taskId) {
+                            numberOfQuarterWhereTaskExtraFound = 2;
+                            numberOfQuarterWhereTaskIdFound = 2;
+                            taskExtra = 0;
+                            taskId = 0;
+                            taskDate = null;
+                            task.shown = true;
+                            MainActivity.task = task;
+                            MainActivity.spring.selectedDay = MainActivity.spring.days.get(i);
+                            //MainActivity.setDay(MainActivity.spring.selectedDay, true);
+                            MainActivity.setChangedeTasksOfYear(true);
+                        }
+                        //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
+                        //%%C del - MainActivity.setReminder(task);
+                        if (!task.isDone && task.isValid) {
+                            days.get(i).dayClosed = false;
+                        }
                     }
                 }
                 //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
@@ -1968,20 +2000,26 @@ class Quarter extends View {
                     }
                 }
                 Log.d("123", "restore i: "+i);
-                for (MainActivity.Task task : MainActivity.summer.days.get(i).tasks) {
-                    if (task.extra == taskExtra){
-                        numberOfQuarterWhereTaskExtraFound = 3;
-                        taskExtra = 0;
-                        task.shown = true;
-                        MainActivity.task = task;
-                        MainActivity.summer.selectedDay = MainActivity.summer.days.get(i);
-                        //MainActivity.setDay(MainActivity.summer.selectedDay, true);
-                        MainActivity.setChangedeTasksOfYear(true);
-                    }
-                    //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
-                    //%%C del - MainActivity.setReminder(task);
-                    if (!task.isDone && task.isValid){
-                        days.get(i).dayClosed = false;
+                if (days.get(i).date.equals(taskDate)) {
+                    for (MainActivity.Task task : MainActivity.summer.days.get(i).tasks) {
+                        //if (task.extra == taskExtra) {
+                        if (task.id == taskId) {
+                            numberOfQuarterWhereTaskExtraFound = 3;
+                            numberOfQuarterWhereTaskIdFound = 3;
+                            taskExtra = 0;
+                            taskId = 0;
+                            taskDate = null;
+                            task.shown = true;
+                            MainActivity.task = task;
+                            MainActivity.summer.selectedDay = MainActivity.summer.days.get(i);
+                            //MainActivity.setDay(MainActivity.summer.selectedDay, true);
+                            MainActivity.setChangedeTasksOfYear(true);
+                        }
+                        //%%C del - MainActivity.setReminder(task, MainActivity.summer.days.get(i).date);
+                        //%%C del - MainActivity.setReminder(task);
+                        if (!task.isDone && task.isValid) {
+                            days.get(i).dayClosed = false;
+                        }
                     }
                 }
                 //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
@@ -2009,27 +2047,34 @@ class Quarter extends View {
                         MainActivity.setReminder(MainActivity.context, MainActivity.task, days.get(i).date);
                     }
                 }
-                for (MainActivity.Task task : MainActivity.autumn.days.get(i).tasks) {
-                    if (task.extra == MainActivity.taskExtra){
-                        numberOfQuarterWhereTaskExtraFound = 4;
-                        taskExtra = 0;
-                        task.shown = true;
-                        MainActivity.task = task;
-                        MainActivity.autumn.selectedDay = MainActivity.autumn.days.get(i);
-                        //MainActivity.setDay(MainActivity.autumn.selectedDay, true);
-                        MainActivity.setChangedeTasksOfYear(true);
-                    }
-                    //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
-                    //%%C del - MainActivity.setReminder(task);
-                    if (!task.isDone && task.isValid){
-                        days.get(i).dayClosed = false;
+                if (days.get(i).date.equals(taskDate)) {
+                    for (MainActivity.Task task : MainActivity.autumn.days.get(i).tasks) {
+                        //if (task.extra == taskExtra) {
+                        if (task.id == taskId) {
+                            numberOfQuarterWhereTaskExtraFound = 4;
+                            numberOfQuarterWhereTaskIdFound = 4;
+                            taskExtra = 0;
+                            taskId = 0;
+                            taskDate = null;
+                            task.shown = true;
+                            MainActivity.task = task;
+                            MainActivity.autumn.selectedDay = MainActivity.autumn.days.get(i);
+                            //MainActivity.setDay(MainActivity.autumn.selectedDay, true);
+                            MainActivity.setChangedeTasksOfYear(true);
+                        }
+                        //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
+                        //%%C del - MainActivity.setReminder(task);
+                        if (!task.isDone && task.isValid) {
+                            days.get(i).dayClosed = false;
+                        }
                     }
                 }
                 //autumn.days.set(i, gson.fromJson(array.get(i), Day.class));
             }
         }
 
-        switch (numberOfQuarterWhereTaskExtraFound){
+        //switch (numberOfQuarterWhereTaskExtraFound){
+        switch (numberOfQuarterWhereTaskIdFound){
             case 1:
                 spring.selectedDay = null;
                 summer.selectedDay = null;
@@ -2094,6 +2139,7 @@ class Quarter extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         // координаты Touch-события
         float evX = event.getX();
         float evY = event.getY();
@@ -2114,6 +2160,7 @@ class Quarter extends View {
             // касание началось
             case MotionEvent.ACTION_DOWN:
 
+                motionEvent = event;
                 countDownTimer.cancel();
                 // включаем режим перетаскивания
                 drag = true;
@@ -2131,6 +2178,7 @@ class Quarter extends View {
             // тащим
             case MotionEvent.ACTION_MOVE:
 
+                move = true;
 //                if (quarter == 1) {
 //
 //                    ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
@@ -2403,6 +2451,12 @@ class Quarter extends View {
                 break;
             // касание завершено
             case MotionEvent.ACTION_UP:
+
+                if (!move){
+                    toggleSelectedDay(event);
+                }
+                //performClick();
+                move = false;
             case MotionEvent.ACTION_CANCEL:
                 // выключаем режим перетаскивания
                 drag = false;
@@ -2415,298 +2469,26 @@ class Quarter extends View {
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        //toggleSelectedDay(motionEvent);
+    }
+
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            doubleTapX = e.getX();
-            doubleTapY = e.getY();
 
-            if (selectedDay != null){
-                if (
-                        ( (quarter == 1 || quarter == 3)
-                                && (selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) )
-                        || ( (quarter == 2 || quarter == 4)
-                                &&(selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) )
-                ) {
-                    /*
-                    selectedDay = null;
-                    numberYearPicker.setValue(MainActivity.curentYearNumber);
-                    MainActivity.analogClock.clockColor = Color.WHITE;
-                    */
-                    returnToCurrentDate();
-
-                    return super.onDoubleTap(e);
-                }
-
-            }
-            /*
-            if (selectedDay != null){
-                if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(MainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    return super.onDoubleTap(e);
-                }else if (quarter == 2 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(MainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    return super.onDoubleTap(e);
-                }else if (quarter == 3 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(MainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    return super.onDoubleTap(e);
-                }else if (quarter == 4 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(MainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    return super.onDoubleTap(e);
-                }
-
-            }
-            */
-
-            Iterator<Day> j = days.iterator();
-            while (j.hasNext()){
-                Day b = j.next();
-                if (quarter == 1) {
-                    if (b.left <= doubleTapX && b.right >= doubleTapX) {
-                        //selectedDay = b;
-                        selectedDay = mainActivity.winter.days.get(days.indexOf(b));
-                        invalidate();
-                        MainActivity.spring.selectedDay = null;
-                        MainActivity.spring.invalidate();
-                        MainActivity.summer.selectedDay = null;
-                        MainActivity.summer.invalidate();
-                        MainActivity.autumn.selectedDay = null;
-                        MainActivity.autumn.invalidate();
-
-                        if (b.right <= ( x - (januaryLengthF + februaryLengthF) )) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
-                        }
-                    }
-                }else if (quarter == 2) {
-                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        //selectedDay = b;
-                        selectedDay = mainActivity.spring.days.get(days.indexOf(b));
-                        invalidate();
-                        MainActivity.winter.selectedDay = null;
-                        MainActivity.winter.invalidate();
-                        MainActivity.summer.selectedDay = null;
-                        MainActivity.summer.invalidate();
-                        MainActivity.autumn.selectedDay = null;
-                        MainActivity.autumn.invalidate();
-
-                        if (b.top >= ( y + (aprilLengthF + mayLengthF) ) ) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
-                        }
-                    }
-                }else if (quarter == 3) {
-                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
-                        //selectedDay = b;
-                        selectedDay = mainActivity.summer.days.get(days.indexOf(b));
-                        invalidate();
-                        MainActivity.winter.selectedDay = null;
-                        MainActivity.winter.invalidate();
-                        MainActivity.spring.selectedDay = null;
-                        MainActivity.spring.invalidate();
-                        MainActivity.autumn.selectedDay = null;
-                        MainActivity.autumn.invalidate();
-
-                        if (b.left >= ( x + (julyLengthF + augustLengthF) ) ) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
-                        }
-                    }
-                }else if (quarter == 4) {
-                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        //selectedDay = b;
-                        selectedDay = MainActivity.autumn.days.get(days.indexOf(b));
-                        invalidate();
-                        MainActivity.winter.selectedDay = null;
-                        MainActivity.winter.invalidate();
-                        MainActivity.spring.selectedDay = null;
-                        MainActivity.spring.invalidate();
-                        MainActivity.summer.selectedDay = null;
-                        MainActivity.summer.invalidate();
-
-                        if (b.bottom <= ( y - (octoberLengthF + novemberLengthF) ) ) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
-                        }
-                    }
-                }
-
-                if (selectedDay != null) {
-                    calendar.clear();
-                    calendar.setTimeInMillis(selectedDay.date.getTime());
-//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
-                    //MainActivity.day = selectedDay;
-                }
-            }
-
-
+            toggleSelectedDay(e);
 
             return super.onDoubleTap(e);
         }
 
         @Override
         public void onLongPress(MotionEvent e) {
-            // Внимание! код дублируется в событии onDoubleTap()
-            doubleTapX = e.getX();
-            doubleTapY = e.getY();
 
-            if (selectedDay != null){
-                if (
-                        ( (quarter == 1 || quarter == 3)
-                                && (selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) )
-                                || ( (quarter == 2 || quarter == 4)
-                                &&(selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) )
-                ) {
-                    /*
-                    selectedDay = null;
-                    numberYearPicker.setValue(MainActivity.curentYearNumber);
-                    MainActivity.analogClock.clockColor = Color.WHITE;
-                    */
-                    returnToCurrentDate();
-
-                    super.onLongPress(e);
-                    return;
-                }
-
-            }
-            /*
-            if (selectedDay != null){
-                if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(mainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    super.onLongPress(e);
-                    return;
-                }else if (quarter == 2 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(mainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    super.onLongPress(e);
-                    return;
-                }else if (quarter == 3 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(mainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    super.onLongPress(e);
-                    return;
-                }else if (quarter == 4 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
-                    selectedDay = null;
-                    numberYearPicker.setValue(mainActivity.curentYearNumber);
-                    mainActivity.analogClock.clockColor = Color.WHITE;
-
-                    super.onLongPress(e);
-                    return;
-                }
-
-            }
-            */
-
-            Iterator<Day> j = days.iterator();
-            while (j.hasNext()){
-                Day b = j.next();
-                if (quarter == 1) {
-                    if (b.left <= doubleTapX && b.right >= doubleTapX) {
-                        selectedDay = b;
-                        invalidate();
-                        mainActivity.spring.selectedDay = null;
-                        mainActivity.spring.invalidate();
-                        mainActivity.summer.selectedDay = null;
-                        mainActivity.summer.invalidate();
-                        mainActivity.autumn.selectedDay = null;
-                        mainActivity.autumn.invalidate();
-
-                        if (b.right <= ( x - (januaryLengthF + februaryLengthF) )) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
-                        }
-                    }
-                }else if (quarter == 2) {
-                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        selectedDay = b;
-                        invalidate();
-                        mainActivity.winter.selectedDay = null;
-                        mainActivity.winter.invalidate();
-                        mainActivity.summer.selectedDay = null;
-                        mainActivity.summer.invalidate();
-                        mainActivity.autumn.selectedDay = null;
-                        mainActivity.autumn.invalidate();
-
-                        if (b.top >= ( y + (aprilLengthF + mayLengthF) ) ) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
-                        }
-                    }
-                }else if (quarter == 3) {
-                    if(b.left <= doubleTapX && b.right >= doubleTapX) {
-                        selectedDay = b;
-                        invalidate();
-                        mainActivity.winter.selectedDay = null;
-                        mainActivity.winter.invalidate();
-                        mainActivity.spring.selectedDay = null;
-                        mainActivity.spring.invalidate();
-                        mainActivity.autumn.selectedDay = null;
-                        mainActivity.autumn.invalidate();
-
-                        if (b.left >= ( x + (julyLengthF + augustLengthF) ) ) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
-                        }
-                    }
-                }else if (quarter == 4) {
-                    if(b.top <= doubleTapY && b.bottom >= doubleTapY) {
-                        selectedDay = b;
-                        invalidate();
-                        mainActivity.winter.selectedDay = null;
-                        mainActivity.winter.invalidate();
-                        mainActivity.spring.selectedDay = null;
-                        mainActivity.spring.invalidate();
-                        mainActivity.summer.selectedDay = null;
-                        mainActivity.summer.invalidate();
-
-                        if (b.bottom <= ( y - (octoberLengthF + novemberLengthF) ) ) {
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
-                        }else{
-                            mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
-                        }
-                    }
-                }
-
-                if (selectedDay != null) {
-                    calendar.clear();
-                    calendar.setTimeInMillis(selectedDay.date.getTime());
-//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
-//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
-//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
-                    //MainActivity.day = selectedDay;
-                }
-            }
-
+            toggleSelectedDay(e);
 
             super.onLongPress(e);
         }
@@ -3002,6 +2784,154 @@ class Quarter extends View {
 
     }
 
+
+    public void toggleSelectedDay(MotionEvent e){
+
+        // Внимание! код дублируется в событии onLongPress()
+        tapX = e.getX();
+        tapY = e.getY();
+
+        if (selectedDay != null){
+            if (
+                    ( (quarter == 1 || quarter == 3)
+                            && (selectedDay.left <= tapX && selectedDay.right >= tapX) )
+                            || ( (quarter == 2 || quarter == 4)
+                            &&(selectedDay.top <= tapY && selectedDay.bottom >= tapY) )
+            ) {
+                    /*
+                    selectedDay = null;
+                    numberYearPicker.setValue(MainActivity.curentYearNumber);
+                    MainActivity.analogClock.clockColor = Color.WHITE;
+                    */
+                returnToCurrentDate();
+
+                //return super.onDoubleTap(e);
+                return;
+            }
+
+        }
+            /*
+            if (selectedDay != null){
+                if (quarter == 1 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(MainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    return super.onDoubleTap(e);
+                }else if (quarter == 2 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(MainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    return super.onDoubleTap(e);
+                }else if (quarter == 3 && selectedDay.left <= doubleTapX && selectedDay.right >= doubleTapX) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(MainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    return super.onDoubleTap(e);
+                }else if (quarter == 4 && selectedDay.top <= doubleTapY && selectedDay.bottom >= doubleTapY) {
+                    selectedDay = null;
+                    numberYearPicker.setValue(MainActivity.curentYearNumber);
+                    mainActivity.analogClock.clockColor = Color.WHITE;
+
+                    return super.onDoubleTap(e);
+                }
+
+            }
+            */
+
+        Iterator<Day> j = days.iterator();
+        while (j.hasNext()){
+            Day b = j.next();
+            if (quarter == 1) {
+                if (b.left <= tapX && b.right >= tapX) {
+                    //selectedDay = b;
+                    selectedDay = mainActivity.winter.days.get(days.indexOf(b));
+                    invalidate();
+                    MainActivity.spring.selectedDay = null;
+                    MainActivity.spring.invalidate();
+                    MainActivity.summer.selectedDay = null;
+                    MainActivity.summer.invalidate();
+                    MainActivity.autumn.selectedDay = null;
+                    MainActivity.autumn.invalidate();
+
+                    if (b.right <= ( x - (januaryLengthF + februaryLengthF) )) {
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+                    }else{
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+                    }
+                }
+            }else if (quarter == 2) {
+                if(b.top <= tapY && b.bottom >= tapY) {
+                    //selectedDay = b;
+                    selectedDay = mainActivity.spring.days.get(days.indexOf(b));
+                    invalidate();
+                    MainActivity.winter.selectedDay = null;
+                    MainActivity.winter.invalidate();
+                    MainActivity.summer.selectedDay = null;
+                    MainActivity.summer.invalidate();
+                    MainActivity.autumn.selectedDay = null;
+                    MainActivity.autumn.invalidate();
+
+                    if (b.top >= ( y + (aprilLengthF + mayLengthF) ) ) {
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+                    }else{
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSpring);
+                    }
+                }
+            }else if (quarter == 3) {
+                if(b.left <= tapX && b.right >= tapX) {
+                    //selectedDay = b;
+                    selectedDay = mainActivity.summer.days.get(days.indexOf(b));
+                    invalidate();
+                    MainActivity.winter.selectedDay = null;
+                    MainActivity.winter.invalidate();
+                    MainActivity.spring.selectedDay = null;
+                    MainActivity.spring.invalidate();
+                    MainActivity.autumn.selectedDay = null;
+                    MainActivity.autumn.invalidate();
+
+                    if (b.left >= ( x + (julyLengthF + augustLengthF) ) ) {
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+                    }else{
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorSummer);
+                    }
+                }
+            }else if (quarter == 4) {
+                if(b.top <= tapY && b.bottom >= tapY) {
+                    //selectedDay = b;
+                    selectedDay = MainActivity.autumn.days.get(days.indexOf(b));
+                    invalidate();
+                    MainActivity.winter.selectedDay = null;
+                    MainActivity.winter.invalidate();
+                    MainActivity.spring.selectedDay = null;
+                    MainActivity.spring.invalidate();
+                    MainActivity.summer.selectedDay = null;
+                    MainActivity.summer.invalidate();
+
+                    if (b.bottom <= ( y - (octoberLengthF + novemberLengthF) ) ) {
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorWinter);
+                    }else{
+                        mainActivity.analogClock.clockColor = getResources().getColor(R.color.colorAutumn);
+                    }
+                }
+            }
+
+            if (selectedDay != null) {
+                calendar.clear();
+                calendar.setTimeInMillis(selectedDay.date.getTime());
+//                    MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) + " "
+//                            + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                            + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+                //MainActivity.day = selectedDay;
+            }
+        }
+
+
+
+
+    }
 
 
 

@@ -22,6 +22,11 @@ import static com.example.delimes.flux.Quarter.daysOfYear;
         super(fm);
     }
 
+     public boolean isCurrentDate(int position) {
+
+         return  daysOfYear.get(position).date.equals(currDate);
+     }
+
     @Override
     public Fragment getItem(int position) {
 
