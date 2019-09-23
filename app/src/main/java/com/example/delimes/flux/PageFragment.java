@@ -1221,9 +1221,12 @@ public class PageFragment extends Fragment {
                             myCalender.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
                             long dateTaskStartTime = myCalender.getTimeInMillis();
 
+                            refreshCyclicTasks(taskCopy);
+                            /*
                             if (dateTaskStartTime == day.date.getTime()) {
                                 refreshCyclicTasks(task);
                             }
+                            */
                         }else if (task.finishTime == dateDoomsday){
                             task.finishTime = task.startTime;
                         }
@@ -1298,10 +1301,12 @@ public class PageFragment extends Fragment {
                             task.duplicate(taskCopy);
                             cyclicTasks.add(taskCopy);
 
-                            //refreshCyclicTasks(task);
+                            refreshCyclicTasks(taskCopy);
+                            /*
                             if (dateTaskStartTime == day.date.getTime()) {
                                 refreshCyclicTasks(task);
                             }
+                            */
                         } else if (task.finishTime == dateDoomsday) {
                             task.finishTime = task.startTime;
                         }

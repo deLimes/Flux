@@ -46,7 +46,7 @@ import static com.example.delimes.flux.MainActivity.winter;
  * Created by User on 20.06.2019.
  */
 
-class Quarter extends View implements View.OnClickListener {
+class Quarter extends View {
     Context context;
     final int quarter;
     Paint p;
@@ -106,15 +106,7 @@ class Quarter extends View implements View.OnClickListener {
     boolean firstOccurrence = true;
     boolean alignCurrentDay = true;
     int scrollTime = 0;
-    CountDownTimer countDownTimer = new CountDownTimer(0, 0) {
-        @Override
-        public void onTick(long l) {
-        }
-
-        @Override
-        public void onFinish() {
-        }
-    };
+    CustomCountDownTimer countDownTimer = new CustomCountDownTimer(0, 0);
 
     // переменные для перетаскивания
     boolean drag = false;
@@ -247,7 +239,8 @@ class Quarter extends View implements View.OnClickListener {
         });
         */
 
-        setOnClickListener(this);
+        //setClickable(true);
+        //setOnClickListener(this);
     }
 
 
@@ -2139,6 +2132,7 @@ class Quarter extends View implements View.OnClickListener {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
 
         // координаты Touch-события
         float evX = event.getX();
@@ -2161,13 +2155,21 @@ class Quarter extends View implements View.OnClickListener {
             case MotionEvent.ACTION_DOWN:
 
                 motionEvent = event;
+                if (!countDownTimer.isRun){
+                    move = false;
+                }
                 countDownTimer.cancel();
+                countDownTimer.isRun = false;
                 // включаем режим перетаскивания
                 drag = true;
+
 
                 // разница между левым верхним углом квадрата и точкой касания
                 dragX = evX - x;
                 dragY = evY - y;
+
+                tapX = evX;
+                tapY = evY;
 
                 if (quarter == 4) {
                     posY = evY;
@@ -2178,46 +2180,13 @@ class Quarter extends View implements View.OnClickListener {
             // тащим
             case MotionEvent.ACTION_MOVE:
 
-                move = true;
-//                if (quarter == 1) {
-//
-//                    ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
-//                        @Override
-//                        public Shader resize(int width, int height) {
-//                            return new LinearGradient(width , 0, 0, 0,
-//                                    new int[] {getResources().getColor(R.color.colorWinter), getResources().getColor(R.color.colorSpring)},
-//                                    new float[]{0f, new Float(x / length)},  // start, center and end position
-//                                    Shader.TileMode.CLAMP);
-//                        }
-//                    };
-//                    paintDrawable.setShaderFactory(shaderFactory);
-//                    setBackground(paintDrawable);
-//
-//
-//                    //           GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT,
-////                    new int[] { Color.RED, Color.RED, Color.BLUE });
-//                    //GradientDrawable gradientDrawable = (GradientDrawable) context.getDrawable(R.drawable.background_gradient_winter);
-//
-////            gradientDrawable = new LinearGradient(;
-////            gradientDrawable.setColors( new int[] {
-////                    getResources().getColor(R.color.colorWinter),
-////                    getResources().getColor(R.color.colorWinter),
-////                    getResources().getColor(R.color.colorSpring)
-////            } );
-////            //gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-////            //gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
-////            gradientDrawable.setGradientCenter(0, 0);
-//                    //gradientDrawable.setCornerRadius(40);
-////            gradientDrawable.setStroke(10, Color.BLACK, 20, 5);
-////            imageView.setImageDrawable(drawable);
-//
-//                }else if (quarter == 2){
-//                    //canvas.drawColor(Color.rgb(0, 255, 127));
-//                }else if (quarter == 3){
-//                    //canvas.drawColor(Color.YELLOW);
-//                }else if (quarter == 4){
-//                    //canvas.drawColor(Color.rgb(255, 215, 0));
-//                }
+                if (evX - tapX > side/2 || evX - tapX < -side/2 ||
+                        evY - tapY > side/2 || evY - tapY < -side/2
+                ) {
+                    Log.d("123456", "onTouchEvent: ");
+                    move = true;
+                }
+
                 // если режим перетаскивания включен
                 if (drag) {
 
@@ -2230,22 +2199,6 @@ class Quarter extends View implements View.OnClickListener {
                         if (x >= length) {
                             x = length;
                         }
-
-//                        ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
-//                            @Override
-//                            public Shader resize(int width, int height) {
-//                                float gradientCoefficient = new Float((x) / (februaryLength+januaryLength) );
-//                                return new LinearGradient(0, 0, width*gradientCoefficient, 0,
-//                                        new int[]{getResources().getColor(R.color.colorSpring), getResources().getColor(R.color.colorWinter)},
-////                                        new float[]{gradientCoefficient, gradientCoefficient},  // start, center and end position
-//                                        null,
-//                                        Shader.TileMode.CLAMP);
-//                            }
-//                        };
-//                        PaintDrawable paintDrawable = new PaintDrawable();
-//                        paintDrawable.setShape(new RectShape());
-//                        paintDrawable.setShaderFactory(shaderFactory);
-//                        setBackground(paintDrawable);
 
                     }else if (quarter == 2){
                         y = evY - dragY;
@@ -2456,10 +2409,11 @@ class Quarter extends View implements View.OnClickListener {
                     toggleSelectedDay(event);
                 }
                 //performClick();
-                move = false;
+
             case MotionEvent.ACTION_CANCEL:
                 // выключаем режим перетаскивания
                 drag = false;
+                //
                 break;
 
         }
@@ -2467,11 +2421,6 @@ class Quarter extends View implements View.OnClickListener {
         if (gestureDetector.onTouchEvent(event)) return true;
 
         return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        //toggleSelectedDay(motionEvent);
     }
 
 
@@ -2506,284 +2455,306 @@ class Quarter extends View implements View.OnClickListener {
                 scrollTime *= -1;
             }
 
-            countDownTimer = new CountDownTimer(scrollTime, 50) {
-
-                public void onTick(long millisUntilFinished) {
-
-                    if (quarter == 1) {
-                        if (velocityX > 0) {
-                            x += millisUntilFinished / 30;
-                            //positionOfTouchX += millisUntilFinished / 30;;
-                        } else {
-                            x -= millisUntilFinished / 30;
-                            //positionOfTouchX -= millisUntilFinished / 30;;
-                        }
-                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-                        //проверить край
-                        if (x <= getWidth()) {
-                            x = getWidth();
-                        }
-                        if (x >= length) {
-                            x = length;
-                        }
-                    }else if (quarter == 2){
-                        if (velocityY > 0){
-                            y += millisUntilFinished / 30;
-                        }else{
-                            y -= millisUntilFinished / 30;
-                        }
-                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-
-                        //проверить край
-                        if(y >= 0) {
-                            y = 0;
-                        }
-                        if( y <= -(length - getHeight()) ){
-                            y = -(length - getHeight());
-                        }
-                    }else if (quarter == 3){
-                        if (velocityX > 0){
-                            x += millisUntilFinished / 30;
-                        }else{
-                            x -= millisUntilFinished / 30;
-                        }
-                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-                        //проверить край
-                        if(x >= 0) {
-                            x = 0;
-                        }
-                        if( x <= -(length - getWidth()) ){
-                            x = -(length - getWidth());
-                        }
-                    }else if (quarter == 4){
-                        if (velocityY > 0){
-                            y += millisUntilFinished / 30;
-
-                            /////////////////////////////////////////////////////////////////////
-                            //summer//
-                            mainActivity.summer.x -= millisUntilFinished / 30;
-                            //spring//
-                            mainActivity.spring.y -= millisUntilFinished / 30;
-                            //winter//
-                            mainActivity.winter.x += millisUntilFinished / 30;
-                            /////////////////////////////////////////////////////////////////////////////
-                        }else{
-                            y -= millisUntilFinished / 30;
-
-                            /////////////////////////////////////////////////////////////////////
-                            //summer//
-                            mainActivity.summer.x += millisUntilFinished / 30;
-                            //spring//
-                            mainActivity.spring.y += millisUntilFinished / 30;
-                            //winter//
-                            mainActivity.winter.x -= millisUntilFinished / 30;
-                            /////////////////////////////////////////////////////////////////////////////
-                        }
-                        // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
-
-
-                        //проверить край
-
-                        if(y <= getHeight() && !mainActivity.yearReducedForFling) {
-                            y = getHeight();
-                            decrementYearAutumn = true;
-                        }
-                        if(y >= length){
-                            y = length;
-                            incrementYearAutumn = true;
-                        }
-
-                        if (mainActivity.yearNumberChangedForFling){
-                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                y = length;
-                            }
-                        }
-
-                        //invalidate();
-
-                        //winter//
-
-                        if(mainActivity.winter.x <= mainActivity.winter.getWidth() && !mainActivity.yearReducedForFling) {
-                            mainActivity.winter.x = mainActivity.winter.getWidth();
-                            decrementYearWinter = true;
-                        }
-                        if(mainActivity.winter.x >= mainActivity.winter.length){
-                            mainActivity.winter.x = mainActivity.winter.length;
-                            incrementYearWinter = true;
-                        }
-                        if (mainActivity.yearNumberChangedForFling){
-                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-                                //mainActivity.winter.x = mainActivity.winter.length;
-
-                                if (mainActivity.winter.currentDate != null || mainActivity.winter.selectedDay != null) {
-                                    Day date = mainActivity.winter.selectedDay;
-                                    if (mainActivity.winter.selectedDay == null) {
-                                        date = mainActivity.winter.currentDate;
-                                    }
-                                    calendar.clear();
-                                    calendar.setTimeInMillis(date.date.getTime());
-
-                                    if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
-                                        mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2 + mainActivity.winter.getWidth() / 4;
-                                    } else if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                                        mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2;
-                                    } else if (calendar.get(Calendar.MONTH) == Calendar.MARCH) {
-                                        mainActivity.winter.x = mainActivity.winter.x - date.left + mainActivity.winter.getWidth() / 2 - mainActivity.winter.getWidth() / 4;
-                                    }
-                                    //проверить край
-                                    if (mainActivity.winter.x <= mainActivity.winter.getWidth()) {
-                                        mainActivity.winter.x = mainActivity.winter.getWidth();
-                                    }
-                                    if (mainActivity.winter.x >= mainActivity.winter.length) {
-                                        mainActivity.winter.x = mainActivity.winter.length;
-                                    }
-                                }else {
-                                    mainActivity.winter.x = mainActivity.winter.length;
-                                }
-                            }
-                        }
-
-                        //mainActivity.winter.invalidate();
-                        //spring//
-
-                        if(mainActivity.spring.y >= 0 && !mainActivity.yearReducedForFling) {
-                            mainActivity.spring.y = 0;
-                            decrementYearSpring = true;
-                        }
-                        if(mainActivity.spring.y <= -(mainActivity.spring.length - getHeight())){
-                            mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
-                            incrementYearSpring = true;
-                        }
-                        if (mainActivity.yearNumberChangedForFling) {
-                            if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
-                                //mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
-
-                                if (mainActivity.spring.currentDate != null || mainActivity.spring.selectedDay != null) {
-                                    Day date = mainActivity.spring.selectedDay;
-                                    if (mainActivity.spring.selectedDay == null) {
-                                        date = mainActivity.spring.currentDate;
-                                    }
-                                    calendar.clear();
-                                    calendar.setTimeInMillis(date.date.getTime());
-
-                                    if (calendar.get(Calendar.MONTH) == Calendar.APRIL) {
-                                        mainActivity.spring.y = mainActivity.spring.y - date.bottom + mainActivity.spring.getHeight() / 2 - mainActivity.spring.getHeight() / 4;
-                                    } else if (calendar.get(Calendar.MONTH) == Calendar.MAY) {
-                                        mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2;
-                                    } else if (calendar.get(Calendar.MONTH) == Calendar.JUNE) {
-                                        mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2 + mainActivity.spring.getHeight() / 4;
-                                    }
-                                    if (mainActivity.spring.y >= 0) {
-                                        mainActivity.spring.y = 0;
-                                    }
-                                    if (mainActivity.spring.y <= -(mainActivity.spring.length - mainActivity.spring.getHeight())) {
-                                        mainActivity.spring.y = -(mainActivity.spring.length - mainActivity.spring.getHeight());
-                                    }
-                                }else {
-                                    mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
-                                }
-                            }
-                        }
-
-                        //mainActivity.spring.invalidate();
-                        //summer//
-
-                        if(mainActivity.summer.x >= 0 && !mainActivity.yearReducedForFling) {
-                            mainActivity.summer.x = 0;
-                            decrementYearSummer = true;
-                        }
-                        if(mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth())){
-                            mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
-                            incrementYearSummer = true;
-                        }
-                        if (mainActivity.yearNumberChangedForFling){
-                            if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
-
-                                if (mainActivity.summer.currentDate != null || mainActivity.summer.selectedDay != null) {
-                                    Day date = mainActivity.summer.selectedDay;
-                                    if (mainActivity.summer.selectedDay == null){
-                                        date = mainActivity.summer.currentDate;
-                                    }
-                                    calendar.clear();
-                                    calendar.setTimeInMillis(date.date.getTime());
-
-                                    if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
-                                        mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2 - mainActivity.summer.getWidth() / 4;
-                                    }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
-                                        mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2;
-                                    }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
-                                        mainActivity.summer.x = mainActivity.summer.x - date.left + mainActivity.summer.getWidth() / 2 + mainActivity.summer.getWidth() / 4;
-                                    }
-                                    //проверить край
-                                    if(mainActivity.summer.x >= 0) {
-                                        mainActivity.summer.x = 0;
-                                    }
-                                    if( mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth()) ){
-                                        mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
-                                    }
-                                }else{
-                                    mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
-                                }
-
-                            }
-                        }
-
-                        //mainActivity.summer.invalidate();
-
-                        if (mainActivity.yearReducedForFling){
-                            mainActivity.yearReducedForFling = false;
-                        }
-                        if (mainActivity.yearNumberChangedForFling){
-                            mainActivity.yearNumberChangedForFling = false;
-                            mainActivity.yearNumberChangedForMove = false;
-                        }
-
-                        if (incrementYearWinter && incrementYearSpring && incrementYearSummer && incrementYearAutumn) {
-                            //mainActivity.yearNumberChangedForFling = false;
-                            incrementYearWinter = false;
-                            incrementYearSpring = false;
-                            incrementYearSummer = false;
-                            incrementYearAutumn = false;
-                            mainActivity.numberYearPicker.extendYear = true;
-                            mainActivity.numberYearPicker.increment();
-                            mainActivity.numberYearPicker.extendYear = false;
-                        }else if (decrementYearWinter && decrementYearSpring && decrementYearSummer && decrementYearAutumn) {
-                            //mainActivity.yearNumberChangedForFling = false;
-                            decrementYearWinter = false;
-                            decrementYearSpring = false;
-                            decrementYearSummer = false;
-                            decrementYearAutumn = false;
-                            //mainActivity.decrementYear = true;
-                            mainActivity.numberYearPicker.extendYear = true;
-                            mainActivity.numberYearPicker.decrement();
-                            mainActivity.numberYearPicker.extendYear = false;
-                        }else {
-                            mainActivity.winter.invalidate();
-                            mainActivity.spring.invalidate();
-                            mainActivity.summer.invalidate();
-                        }
-//                        mainActivity.winter.invalidate();
-//                        mainActivity.spring.invalidate();
-//                        mainActivity.summer.invalidate();
-                    }
-
-                    //обновить
-                    invalidate();
-                }
-
-                public void onFinish() {
-                    Log.d("onFling", "done!");
-                }
-            }.start();
+            countDownTimer = new CustomCountDownTimer(scrollTime, 50);
+            countDownTimer.velocityX = velocityX;
+            countDownTimer.velocityY = velocityY;
+            countDownTimer.start();
 
             return true;
         }
 
     }
 
+    public class  CustomCountDownTimer  extends CountDownTimer{
+        public boolean isRun;
+        float velocityX;
+        float velocityY;
+
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public CustomCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+            isRun = true;
+
+            if (quarter == 1) {
+                if (velocityX > 0) {
+                    x += millisUntilFinished / 30;
+                    //positionOfTouchX += millisUntilFinished / 30;;
+                } else {
+                    x -= millisUntilFinished / 30;
+                    //positionOfTouchX -= millisUntilFinished / 30;;
+                }
+                // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+
+                //проверить край
+                if (x <= getWidth()) {
+                    x = getWidth();
+                }
+                if (x >= length) {
+                    x = length;
+                }
+            }else if (quarter == 2){
+                if (velocityY > 0){
+                    y += millisUntilFinished / 30;
+                }else{
+                    y -= millisUntilFinished / 30;
+                }
+                // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+
+
+                //проверить край
+                if(y >= 0) {
+                    y = 0;
+                }
+                if( y <= -(length - getHeight()) ){
+                    y = -(length - getHeight());
+                }
+            }else if (quarter == 3){
+                if (velocityX > 0){
+                    x += millisUntilFinished / 30;
+                }else{
+                    x -= millisUntilFinished / 30;
+                }
+                // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+
+                //проверить край
+                if(x >= 0) {
+                    x = 0;
+                }
+                if( x <= -(length - getWidth()) ){
+                    x = -(length - getWidth());
+                }
+            }else if (quarter == 4){
+                if (velocityY > 0){
+                    y += millisUntilFinished / 30;
+
+                    /////////////////////////////////////////////////////////////////////
+                    //summer//
+                    mainActivity.summer.x -= millisUntilFinished / 30;
+                    //spring//
+                    mainActivity.spring.y -= millisUntilFinished / 30;
+                    //winter//
+                    mainActivity.winter.x += millisUntilFinished / 30;
+                    /////////////////////////////////////////////////////////////////////////////
+                }else{
+                    y -= millisUntilFinished / 30;
+
+                    /////////////////////////////////////////////////////////////////////
+                    //summer//
+                    mainActivity.summer.x += millisUntilFinished / 30;
+                    //spring//
+                    mainActivity.spring.y += millisUntilFinished / 30;
+                    //winter//
+                    mainActivity.winter.x -= millisUntilFinished / 30;
+                    /////////////////////////////////////////////////////////////////////////////
+                }
+                // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
+
+
+                //проверить край
+
+                if(y <= getHeight() && !mainActivity.yearReducedForFling) {
+                    y = getHeight();
+                    decrementYearAutumn = true;
+                }
+                if(y >= length){
+                    y = length;
+                    incrementYearAutumn = true;
+                }
+
+                if (mainActivity.yearNumberChangedForFling){
+                    if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                        y = length;
+                    }
+                }
+
+                //invalidate();
+
+                //winter//
+
+                if(mainActivity.winter.x <= mainActivity.winter.getWidth() && !mainActivity.yearReducedForFling) {
+                    mainActivity.winter.x = mainActivity.winter.getWidth();
+                    decrementYearWinter = true;
+                }
+                if(mainActivity.winter.x >= mainActivity.winter.length){
+                    mainActivity.winter.x = mainActivity.winter.length;
+                    incrementYearWinter = true;
+                }
+                if (mainActivity.yearNumberChangedForFling){
+                    if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+                        //mainActivity.winter.x = mainActivity.winter.length;
+
+                        if (mainActivity.winter.currentDate != null || mainActivity.winter.selectedDay != null) {
+                            Day date = mainActivity.winter.selectedDay;
+                            if (mainActivity.winter.selectedDay == null) {
+                                date = mainActivity.winter.currentDate;
+                            }
+                            calendar.clear();
+                            calendar.setTimeInMillis(date.date.getTime());
+
+                            if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
+                                mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2 + mainActivity.winter.getWidth() / 4;
+                            } else if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                                mainActivity.winter.x = mainActivity.winter.x - date.right + mainActivity.winter.getWidth() / 2;
+                            } else if (calendar.get(Calendar.MONTH) == Calendar.MARCH) {
+                                mainActivity.winter.x = mainActivity.winter.x - date.left + mainActivity.winter.getWidth() / 2 - mainActivity.winter.getWidth() / 4;
+                            }
+                            //проверить край
+                            if (mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+                                mainActivity.winter.x = mainActivity.winter.getWidth();
+                            }
+                            if (mainActivity.winter.x >= mainActivity.winter.length) {
+                                mainActivity.winter.x = mainActivity.winter.length;
+                            }
+                        }else {
+                            mainActivity.winter.x = mainActivity.winter.length;
+                        }
+                    }
+                }
+
+                //mainActivity.winter.invalidate();
+                //spring//
+
+                if(mainActivity.spring.y >= 0 && !mainActivity.yearReducedForFling) {
+                    mainActivity.spring.y = 0;
+                    decrementYearSpring = true;
+                }
+                if(mainActivity.spring.y <= -(mainActivity.spring.length - getHeight())){
+                    mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                    incrementYearSpring = true;
+                }
+                if (mainActivity.yearNumberChangedForFling) {
+                    if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
+                        //mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+
+                        if (mainActivity.spring.currentDate != null || mainActivity.spring.selectedDay != null) {
+                            Day date = mainActivity.spring.selectedDay;
+                            if (mainActivity.spring.selectedDay == null) {
+                                date = mainActivity.spring.currentDate;
+                            }
+                            calendar.clear();
+                            calendar.setTimeInMillis(date.date.getTime());
+
+                            if (calendar.get(Calendar.MONTH) == Calendar.APRIL) {
+                                mainActivity.spring.y = mainActivity.spring.y - date.bottom + mainActivity.spring.getHeight() / 2 - mainActivity.spring.getHeight() / 4;
+                            } else if (calendar.get(Calendar.MONTH) == Calendar.MAY) {
+                                mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2;
+                            } else if (calendar.get(Calendar.MONTH) == Calendar.JUNE) {
+                                mainActivity.spring.y = mainActivity.spring.y - date.top + mainActivity.spring.getHeight() / 2 + mainActivity.spring.getHeight() / 4;
+                            }
+                            if (mainActivity.spring.y >= 0) {
+                                mainActivity.spring.y = 0;
+                            }
+                            if (mainActivity.spring.y <= -(mainActivity.spring.length - mainActivity.spring.getHeight())) {
+                                mainActivity.spring.y = -(mainActivity.spring.length - mainActivity.spring.getHeight());
+                            }
+                        }else {
+                            mainActivity.spring.y = -(mainActivity.spring.length - getHeight());
+                        }
+                    }
+                }
+
+                //mainActivity.spring.invalidate();
+                //summer//
+
+                if(mainActivity.summer.x >= 0 && !mainActivity.yearReducedForFling) {
+                    mainActivity.summer.x = 0;
+                    decrementYearSummer = true;
+                }
+                if(mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth())){
+                    mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                    incrementYearSummer = true;
+                }
+                if (mainActivity.yearNumberChangedForFling){
+                    if( mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber ) {
+
+                        if (mainActivity.summer.currentDate != null || mainActivity.summer.selectedDay != null) {
+                            Day date = mainActivity.summer.selectedDay;
+                            if (mainActivity.summer.selectedDay == null){
+                                date = mainActivity.summer.currentDate;
+                            }
+                            calendar.clear();
+                            calendar.setTimeInMillis(date.date.getTime());
+
+                            if(calendar.get(Calendar.MONTH) == Calendar.JULY) {
+                                mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2 - mainActivity.summer.getWidth() / 4;
+                            }else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST) {
+                                mainActivity.summer.x = mainActivity.summer.x - date.right + mainActivity.summer.getWidth() / 2;
+                            }else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER) {
+                                mainActivity.summer.x = mainActivity.summer.x - date.left + mainActivity.summer.getWidth() / 2 + mainActivity.summer.getWidth() / 4;
+                            }
+                            //проверить край
+                            if(mainActivity.summer.x >= 0) {
+                                mainActivity.summer.x = 0;
+                            }
+                            if( mainActivity.summer.x <= -(mainActivity.summer.length - mainActivity.summer.getWidth()) ){
+                                mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                            }
+                        }else{
+                            mainActivity.summer.x = -(mainActivity.summer.length - mainActivity.summer.getWidth());
+                        }
+
+                    }
+                }
+
+                //mainActivity.summer.invalidate();
+
+                if (mainActivity.yearReducedForFling){
+                    mainActivity.yearReducedForFling = false;
+                }
+                if (mainActivity.yearNumberChangedForFling){
+                    mainActivity.yearNumberChangedForFling = false;
+                    mainActivity.yearNumberChangedForMove = false;
+                }
+
+                if (incrementYearWinter && incrementYearSpring && incrementYearSummer && incrementYearAutumn) {
+                    //mainActivity.yearNumberChangedForFling = false;
+                    incrementYearWinter = false;
+                    incrementYearSpring = false;
+                    incrementYearSummer = false;
+                    incrementYearAutumn = false;
+                    mainActivity.numberYearPicker.extendYear = true;
+                    mainActivity.numberYearPicker.increment();
+                    mainActivity.numberYearPicker.extendYear = false;
+                }else if (decrementYearWinter && decrementYearSpring && decrementYearSummer && decrementYearAutumn) {
+                    //mainActivity.yearNumberChangedForFling = false;
+                    decrementYearWinter = false;
+                    decrementYearSpring = false;
+                    decrementYearSummer = false;
+                    decrementYearAutumn = false;
+                    //mainActivity.decrementYear = true;
+                    mainActivity.numberYearPicker.extendYear = true;
+                    mainActivity.numberYearPicker.decrement();
+                    mainActivity.numberYearPicker.extendYear = false;
+                }else {
+                    mainActivity.winter.invalidate();
+                    mainActivity.spring.invalidate();
+                    mainActivity.summer.invalidate();
+                }
+//                        mainActivity.winter.invalidate();
+//                        mainActivity.spring.invalidate();
+//                        mainActivity.summer.invalidate();
+            }
+
+            //обновить
+            invalidate();
+        }
+
+        @Override
+        public void onFinish() {
+            isRun = false;
+        }
+    };
 
     public void toggleSelectedDay(MotionEvent e){
 
