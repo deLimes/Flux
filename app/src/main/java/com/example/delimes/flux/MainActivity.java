@@ -1855,7 +1855,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent notificationIntent = new Intent(context, Receiver.class);
         notificationIntent.putExtra("id", Integer.toString(task.id));
-        notificationIntent.putExtra("extra", Integer.toString(task.extra));
+        //notificationIntent.putExtra("extra", Integer.toString(task.extra));
         notificationIntent.putExtra("content", task.content);
         notificationIntent.putExtra("year", Integer.toString(calendar.get(Calendar.YEAR)));
         notificationIntent.putExtra("dateTime", Long.toString(date.getTime()));
@@ -1873,12 +1873,12 @@ public class MainActivity extends AppCompatActivity {
         myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
         myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-        pIntent = PendingIntent.getBroadcast(context, task.extra, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pIntent = PendingIntent.getBroadcast(context, task.id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.removeFromAM) {
             Log.d("myLogs", "setReminder: removeFromAM");
             alarmManager.cancel(pIntent);
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notifyId = Integer.valueOf(notificationIntent.getStringExtra("id"));
+            notifyId = task.id;//Integer.valueOf(notificationIntent.getStringExtra("id"));
             notificationManager.cancel(notifyId);
             task.removeFromAM = false;
         }else {
@@ -1915,7 +1915,7 @@ public class MainActivity extends AppCompatActivity {
         //%%C - del
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.putExtra("id", intent.getStringExtra("id"));
-        notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
+        //notificationIntent.putExtra("extra", intent.getStringExtra("extra"));
         notificationIntent.putExtra("content", intent.getStringExtra("content"));
         notificationIntent.putExtra("year", intent.getStringExtra("year"));
         notificationIntent.putExtra("dateTime", intent.getStringExtra("dateTime"));
@@ -1947,8 +1947,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         PendingIntent pIntent = PendingIntent.getActivity(context,
-                Integer.valueOf(notificationIntent.getStringExtra("extra")), notificationIntent,
+                Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);//PendingIntent.FLAG_CANCEL_CURRENT);
+
+        //pIntent = PendingIntent.getBroadcast(context, Integer.valueOf(notificationIntent.getStringExtra("id")), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Resources res = context.getResources();
         //Notification.Builder builder = new Notification.Builder(context);
@@ -2137,6 +2139,8 @@ public class MainActivity extends AppCompatActivity {
 
             dateTaskFinishTime = myCalender.getTimeInMillis();
 
+        }else {
+            //task.removeFromAM = true;
         }
         calendar.clear();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -2172,6 +2176,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                    //setReminder(context, task, d.date);
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);
@@ -2466,6 +2471,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                    //setReminder(context, task, d.date);
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);
@@ -2756,6 +2762,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                    //setReminder(context, task, d.date);
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);
@@ -3045,6 +3052,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(task.remove){
                                     t.removeFromAM = true;
                                     setReminder(context, t, d.date);
+                                    //setReminder(context, task, d.date);
                                 }
 //                                t.removeFromAM = true;
 //                                setReminder(context, t, d.date);

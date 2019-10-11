@@ -1901,6 +1901,21 @@ public class PageFragment extends Fragment {
                             task.removeFromAM = true;
                             setReminder(context, task, day.date);
                             //%%C del - setReminder(task);
+                        }else{
+                            //set new remind
+                            calendar.clear();
+                            calendar.setTimeInMillis(task.startTime);
+
+                            final Calendar myCalender = Calendar.getInstance();
+
+                            myCalender.setTimeInMillis(day.date.getTime());
+                            myCalender.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                            myCalender.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                            if (myCalender.getTimeInMillis() > System.currentTimeMillis()) {
+                                task.shown = false;
+                                setReminder(context, task, day.date);
+                            }
                         }
 
                         day.dayClosed = true;
