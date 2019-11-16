@@ -2429,14 +2429,15 @@ class Quarter extends View {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
 
-            toggleSelectedDay(e);
-
+            move = true;
+            //toggleSelectedDay(e);
             return super.onDoubleTap(e);
         }
 
         @Override
         public void onLongPress(MotionEvent e) {
 
+            move = true;
             toggleSelectedDay(e);
 
             super.onLongPress(e);
