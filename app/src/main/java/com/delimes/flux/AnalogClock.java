@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
@@ -25,6 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -4194,9 +4195,9 @@ public class AnalogClock extends View {
                 drawHourdHandFourthPositionFourthQuart(canvas);
             } else if ( (MainActivity.currHours == 0 || MainActivity.currHours == 12) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandFifthPositionFourthQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFourthQuart(canvas);
-            }
+            }//} else {
+//                //drawHourdHandAllPositionFourthQuart(canvas);
+//            }
 
         } else if (indexOfThird == 1) {
 
@@ -4211,9 +4212,10 @@ public class AnalogClock extends View {
                 drawHourdHandFourthPositionFourthQuart(canvas);
             } else if ( (MainActivity.currHours == 1 || MainActivity.currHours == 13) && MainActivity.currMinutes >= 30 && MainActivity.currMinutes < 45) {
                 drawHourdHandRightPositionFourthQuart(canvas);
-            } else {
-                //drawHourdHandAllPositionFourthQuart(canvas);
             }
+//            } else {
+//                //drawHourdHandAllPositionFourthQuart(canvas);
+//            }
         }
 
         upperLeftCornerX = upperLeftCornerX - side;

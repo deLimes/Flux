@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,8 +9,10 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
+import androidx.appcompat.widget.AppCompatButton;
 
-public class CustomButton extends android.support.v7.widget.AppCompatButton {
+
+public class CustomButton extends AppCompatButton {
 
     private String text = "";
     private float textSize = 0;

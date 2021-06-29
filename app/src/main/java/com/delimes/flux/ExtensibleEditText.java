@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,8 +8,10 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import androidx.appcompat.widget.AppCompatEditText;
 
-public class ExtensibleEditText extends android.support.v7.widget.AppCompatEditText {
+
+public class ExtensibleEditText extends AppCompatEditText {
 
     Context context;
     CountDownTimer countDownTimer;

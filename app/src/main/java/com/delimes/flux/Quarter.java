@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.app.AlarmManager;
 import android.content.Context;
@@ -30,17 +30,17 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
-import static com.example.delimes.flux.MainActivity.autumn;
-import static com.example.delimes.flux.MainActivity.cyclicTasks;
-import static com.example.delimes.flux.MainActivity.dayPager;
-import static com.example.delimes.flux.MainActivity.numberYearPicker;
-import static com.example.delimes.flux.MainActivity.returnToCurrentDate;
-import static com.example.delimes.flux.MainActivity.spring;
-import static com.example.delimes.flux.MainActivity.summer;
-import static com.example.delimes.flux.MainActivity.taskDate;
-import static com.example.delimes.flux.MainActivity.taskExtra;
-import static com.example.delimes.flux.MainActivity.taskId;
-import static com.example.delimes.flux.MainActivity.winter;
+import static com.delimes.flux.MainActivity.autumn;
+import static com.delimes.flux.MainActivity.cyclicTasks;
+import static com.delimes.flux.MainActivity.dayPager;
+import static com.delimes.flux.MainActivity.numberYearPicker;
+import static com.delimes.flux.MainActivity.returnToCurrentDate;
+import static com.delimes.flux.MainActivity.spring;
+import static com.delimes.flux.MainActivity.summer;
+import static com.delimes.flux.MainActivity.taskDate;
+import static com.delimes.flux.MainActivity.taskExtra;
+import static com.delimes.flux.MainActivity.taskId;
+import static com.delimes.flux.MainActivity.winter;
 
 /**
  * Created by User on 20.06.2019.
@@ -561,6 +561,7 @@ class Quarter extends View {
         p.reset();
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
+        p.setTextAlign(Paint.Align.LEFT);
 
         calendar.clear();
         calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
@@ -623,6 +624,7 @@ class Quarter extends View {
             p.reset();
             p.setColor(Color.BLACK);
             p.setTextSize(fontHeight);
+            p.setTextAlign(Paint.Align.LEFT);
             p.setStyle(Paint.Style.FILL);
             p.getTextBounds(text, 0, text.length(), textBounds);
 
@@ -733,7 +735,7 @@ class Quarter extends View {
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
             }
-            p.setTextSize(fontHeight*0.75f);
+            p.setTextSize(fontHeight*0.50f);
             p.setStyle(Paint.Style.FILL);
             p.getTextBounds(text, 0, text.length(), textBounds);
 
@@ -913,6 +915,7 @@ class Quarter extends View {
         p.reset();
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
+        p.setTextAlign(Paint.Align.LEFT);
         //p.setStrokeWidth(10);
 
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -954,6 +957,7 @@ class Quarter extends View {
             p.reset();
             p.setColor(Color.BLACK);
             p.setTextSize(fontHeight);
+            p.setTextAlign(Paint.Align.LEFT);
             p.setStyle(Paint.Style.FILL);
             p.getTextBounds(text, 0, text.length(), textBounds);
 
@@ -1066,7 +1070,7 @@ class Quarter extends View {
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
             }
-            p.setTextSize(fontHeight*0.75f);
+            p.setTextSize(fontHeight*0.50f);
             p.setStyle(Paint.Style.FILL);
             p.getTextBounds(text, 0, text.length(), textBounds);
 
@@ -1235,6 +1239,7 @@ class Quarter extends View {
         p.reset();
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
+        p.setTextAlign(Paint.Align.LEFT);
 
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
@@ -1274,6 +1279,7 @@ class Quarter extends View {
             p.reset();
             p.setColor(Color.BLACK);
             p.setTextSize(fontHeight);
+            p.setTextAlign(Paint.Align.LEFT);
             p.setStyle(Paint.Style.FILL);
             p.getTextBounds(text, 0, text.length(), textBounds);
 
@@ -1389,7 +1395,7 @@ class Quarter extends View {
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
             }
-            p.setTextSize(fontHeight*0.75f);
+            p.setTextSize(fontHeight*0.50f);
             p.setStyle(Paint.Style.FILL);
             p.getTextBounds(text, 0, text.length(), textBounds);
 

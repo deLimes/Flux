@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Flux.iml" filepath="$PROJECT_DIR$/Flux.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Flux.iml" filepath="$PROJECT_DIR$/.idea/modules/Flux.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Flux.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Flux.app.iml" />
     </modules>
   </component>
 </project>

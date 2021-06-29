@@ -1,6 +1,8 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -35,15 +37,6 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.PersistableBundle;
-import android.service.notification.StatusBarNotification;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.Guideline;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -76,6 +69,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Guideline;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
@@ -100,7 +103,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import static com.example.delimes.flux.Quarter.daysOfYear;
+import static com.delimes.flux.Quarter.daysOfYear;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -134,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_RECEIVE_BOOT_COMPLETED: {
                 // If request is cancelled, the result arrays are empty.
@@ -919,7 +923,7 @@ public class MainActivity extends AppCompatActivity {
 
         dayPager = new CustomViewPager(this);
         dayPager.setId(R.id.dayPager);
-        pagesAdapter = new PagesAdapter(getSupportFragmentManager());
+        pagesAdapter = new PagesAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         dayPager.setAdapter(pagesAdapter);
         dayPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -1636,7 +1640,7 @@ public class MainActivity extends AppCompatActivity {
                             showTimePicker("Choose start time:", false);
                         }
 
-                    }
+                    }setContentView(R.layout.activity_main);
                 });
 
         taskDuration.setOnClickListener(new View.OnClickListener() {
@@ -1797,7 +1801,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ///////////////////////////////////////////////////////////////////////////
-
+        //setContentView(R.layout.activity_main);
 
 
     }

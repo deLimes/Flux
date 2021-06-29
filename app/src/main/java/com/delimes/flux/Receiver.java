@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

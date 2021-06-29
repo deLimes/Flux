@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 
 import android.app.ActivityManager;
@@ -12,11 +12,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.text.PrecomputedTextCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import android.text.InputType;
 import android.text.PrecomputedText;
 import android.util.Log;
@@ -52,27 +49,27 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Locale;
 
-import static com.example.delimes.flux.MainActivity.currDate;
-import static com.example.delimes.flux.MainActivity.dayPager;
-import static com.example.delimes.flux.MainActivity.gestureDetector;
-import static com.example.delimes.flux.MainActivity.setChangedeTasksOfYear;
-import static com.example.delimes.flux.MainActivity.task;
-import static com.example.delimes.flux.MainActivity.analogClock;
-import static com.example.delimes.flux.MainActivity.winter;
-import static com.example.delimes.flux.MainActivity.spring;
-import static com.example.delimes.flux.MainActivity.summer;
-import static com.example.delimes.flux.MainActivity.autumn;
-import static com.example.delimes.flux.MainActivity.guideline;
-import static com.example.delimes.flux.MainActivity.addedTasksOfYear;
-import static com.example.delimes.flux.MainActivity.constraintLayout;
-import static com.example.delimes.flux.MainActivity.context;
-import static com.example.delimes.flux.MainActivity.changedeTasksOfYear;
-import static com.example.delimes.flux.MainActivity.cyclicTasks;
-import static com.example.delimes.flux.MainActivity.destroyedTasksOfYear;
-import static com.example.delimes.flux.MainActivity.fontHeight;
-import static com.example.delimes.flux.MainActivity.numberYearPicker;
-import static com.example.delimes.flux.MainActivity.refreshCyclicTasks;
-import static com.example.delimes.flux.MainActivity.setReminder;
+import static com.delimes.flux.MainActivity.currDate;
+import static com.delimes.flux.MainActivity.dayPager;
+import static com.delimes.flux.MainActivity.gestureDetector;
+import static com.delimes.flux.MainActivity.setChangedeTasksOfYear;
+import static com.delimes.flux.MainActivity.task;
+import static com.delimes.flux.MainActivity.analogClock;
+import static com.delimes.flux.MainActivity.winter;
+import static com.delimes.flux.MainActivity.spring;
+import static com.delimes.flux.MainActivity.summer;
+import static com.delimes.flux.MainActivity.autumn;
+import static com.delimes.flux.MainActivity.guideline;
+import static com.delimes.flux.MainActivity.addedTasksOfYear;
+import static com.delimes.flux.MainActivity.constraintLayout;
+import static com.delimes.flux.MainActivity.context;
+import static com.delimes.flux.MainActivity.changedeTasksOfYear;
+import static com.delimes.flux.MainActivity.cyclicTasks;
+import static com.delimes.flux.MainActivity.destroyedTasksOfYear;
+import static com.delimes.flux.MainActivity.fontHeight;
+import static com.delimes.flux.MainActivity.numberYearPicker;
+import static com.delimes.flux.MainActivity.refreshCyclicTasks;
+import static com.delimes.flux.MainActivity.setReminder;
 
 
 public class PageFragment extends Fragment {

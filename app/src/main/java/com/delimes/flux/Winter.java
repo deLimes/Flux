@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.app.AlarmManager;
 import android.content.Context;
@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
-import static com.example.delimes.flux.MainActivity.taskExtra;
+import static com.delimes.flux.MainActivity.taskExtra;
 
 /**
  * Created by User on 04.05.2018.

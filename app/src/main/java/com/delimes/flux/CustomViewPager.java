@@ -1,14 +1,16 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.content.Context;
 import android.os.Parcelable;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.animation.AlphaAnimation;
 
-import static com.example.delimes.flux.MainActivity.returnToCurrentDate;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
+import static com.delimes.flux.MainActivity.returnToCurrentDate;
 
 
 public class CustomViewPager extends ViewPager {

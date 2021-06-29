@@ -1,11 +1,9 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,16 +13,17 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import java.util.Calendar;
 
-import static com.example.delimes.flux.MainActivity.chosenYearNumber;
-import static com.example.delimes.flux.MainActivity.curentYearNumber;
-import static com.example.delimes.flux.MainActivity.dayPager;
+import static com.delimes.flux.MainActivity.chosenYearNumber;
+import static com.delimes.flux.MainActivity.curentYearNumber;
+import static com.delimes.flux.MainActivity.dayPager;
 
 public class NumberYearPicker extends LinearLayout {
 

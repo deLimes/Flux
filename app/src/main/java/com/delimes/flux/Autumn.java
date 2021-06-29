@@ -1,4 +1,4 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.app.AlarmManager;
 import android.content.Context;
@@ -26,29 +26,28 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import static android.content.Context.ALARM_SERVICE;
-import static com.example.delimes.flux.MainActivity.taskExtra;
 
-class Spring extends View {
+class Autumn extends View {
     Context context;
     Paint p;
     // координаты для рисования квадрата
     float x = 0;
     float y = 0;
     int side = 0;
-
     //int width;//del
     //int height;//del
     float doubleTapX = 0;
     float doubleTapY = 0;
-    float aprilLength = 0;
-    float mayLength = 0;
-    float juneLength = 0;
+    float octoberLength = 0;
+    float novemberLength = 0;
+    float decemberLength = 0;
     Day selectedDay = null;
     Day currentDate = null;
     ArrayList<Day> days = new ArrayList<Day>();
     String monthName, reverseMonthName;
     SimpleDateFormat dateFormat = new SimpleDateFormat("LLLL");
     boolean restore;
+    boolean addCyclicTasks;
 
     Calendar calendar = GregorianCalendar.getInstance();
     public MainActivity mainActivity;
@@ -69,6 +68,13 @@ class Spring extends View {
     float dragX = 0;
     float dragY = 0;
 
+    ////////////////////////////
+    float posY = 0;
+    float previousDragDirection = 0;
+//    boolean incrementYear = false;
+//    boolean decrementYear = false;
+    ////////////////////////////
+
     Bitmap backingBitmap;
     Canvas drawCanvas;
 
@@ -82,7 +88,7 @@ class Spring extends View {
 
     float length = 0;
 
-    public Spring(Context context) {
+    public Autumn(Context context) {
         super(context);
 
         this.mainActivity = (MainActivity)context;
@@ -91,7 +97,7 @@ class Spring extends View {
 
     }
 
-    public Spring(Context context, AttributeSet attrs) {
+    public Autumn(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         this.mainActivity = (MainActivity)context;
@@ -99,7 +105,7 @@ class Spring extends View {
         init(context);
     }
 
-    public Spring(Context context, AttributeSet attrs, int defStyle) {
+    public Autumn(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         this.mainActivity = (MainActivity)context;
@@ -121,6 +127,7 @@ class Spring extends View {
         calendar.clear();
         calendar.set(year, month, day);
         MainActivity.currDate = new Date(calendar.getTimeInMillis());
+
     }
 
 
@@ -128,8 +135,8 @@ class Spring extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        canvas.drawColor(Color.rgb(0, 255, 127));
-        drawSpring(canvas);
+        canvas.drawColor(Color.rgb(255, 215, 0));
+        drawAutumn(canvas);
 
     }
 
@@ -137,10 +144,10 @@ class Spring extends View {
 
         int l = 0;
 
-        //II-ой квартал
+        //IV-ый квартал
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, Calendar.APRIL);
+        calendar.set(Calendar.MONTH, Calendar.OCTOBER);
 
         //1-ый месяц
         int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -148,7 +155,7 @@ class Spring extends View {
             l = i - 1;
 
             calendar.clear();
-            calendar.set(year, 3, i);
+            calendar.set(year, 9, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -157,14 +164,14 @@ class Spring extends View {
         //2-ой месяц
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, Calendar.MAY);
+        calendar.set(Calendar.MONTH, Calendar.NOVEMBER);
 
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l += 1;
 
             calendar.clear();
-            calendar.set(year, 4, i);
+            calendar.set(year, 10, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -174,14 +181,14 @@ class Spring extends View {
         //3-ий месяц
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER);
 
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l += 1;
 
             calendar.clear();
-            calendar.set(year, 5, i);
+            calendar.set(year, 11, i);
 
             Date date = new Date(calendar.getTimeInMillis());
             days.add(new Day(date, 0, 0, 0, 0));
@@ -189,7 +196,7 @@ class Spring extends View {
 
     }
 
-    public void drawSpring(Canvas canvas){
+    public void drawAutumn(Canvas canvas){
 
         int Width = canvas.getWidth();//del
         int Height = canvas.getHeight();//del
@@ -197,16 +204,18 @@ class Spring extends View {
         int strokeWidth = side / 5;
         int l = 0;
 
-        //II-ой квартал
+        //IV-ый квартал
         calendar.clear();
         calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
-        calendar.set(Calendar.MONTH, Calendar.APRIL);
+        calendar.set(Calendar.MONTH, Calendar.OCTOBER);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
         monthName = monthName.toUpperCase();
         reverseMonthName = new StringBuffer(monthName).reverse().toString();
 
+
         p.reset();
+        p.setTextAlign(Paint.Align.CENTER);
         p.setColor(Color.BLACK);
         p.setTextSize(fontHeight);
 
@@ -216,38 +225,39 @@ class Spring extends View {
         int g = 0;
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l = i - 1;
-            bottomLeftCornerY = y + k;
+            upperRightCornerY = y - k;
             String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-            float left = x;
-            float top =  bottomLeftCornerY;
-            float right =  x+side;
-            float bottom = bottomLeftCornerY + side;
+            float left = x-side;
+            float top =  upperRightCornerY -side;
+            float right =  x;
+            float bottom = upperRightCornerY;
 
             p.reset();
+            p.setTextAlign(Paint.Align.CENTER);
             p.setColor(Color.BLACK);
             p.setTextSize(fontHeight);
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(mainActivity.numberYearPicker.getValue(), 3, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 9, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
             }
-            canvas.drawText(text, left+side/4, bottom-side/4, p);
+            canvas.drawText(text, left+side/2, bottom-side/4, p);
 
             p.setColor(Color.BLACK);
             p.setStyle(Paint.Style.STROKE);
             canvas.drawRect(left, top, right, bottom, p);
-
             if (firstOccurrence) {
                 Date date = new Date(calendar.getTimeInMillis());
                 days.add(new Day(date, left, top, right, bottom));
 
-                if (date.getTime() == MainActivity.currDate.getTime()) {
+                //if (date.getTime() == currDate.getTime()) {
+                if (date.compareTo(MainActivity.currDate) == 0) {
                     currentDate = days.get(days.size()-1);
                     mainActivity.winter.currentDate = null;
-                    mainActivity.autumn.currentDate = null;
+                    mainActivity.spring.currentDate = null;
                     mainActivity.summer.currentDate = null;
                 }
 
@@ -266,10 +276,11 @@ class Spring extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(mainActivity.numberYearPicker.getValue(), 3, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 9, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
-                    if (date.getTime() == MainActivity.currDate.getTime()) {
+                    //if (date.getTime() == currDate.getTime()) {
+                    if (date.compareTo(MainActivity.currDate) == 0) {
                         currentDate = days.get(g);
 
                         currentDate.left = left;
@@ -278,18 +289,6 @@ class Spring extends View {
                         currentDate.bottom = bottom;
                     }
                 }
-
-                //
-                for (MainActivity.Task task : days.get(l).tasks) {
-                    if(new Date(task.finishTime) == days.get(l).date){
-                        p.setColor(Color.rgb(139, 0, 139));//75, 0, 130
-                        p.setStyle(Paint.Style.STROKE);
-                        canvas.drawRect(left, top, right, bottom, p);
-                        p.setStyle(Paint.Style.FILL);
-
-                    }
-                }
-                //
 
                 if(!days.get(l).dayClosed){
                     p.setColor(Color.CYAN);
@@ -308,7 +307,8 @@ class Spring extends View {
                         p.setStyle(Paint.Style.FILL);
                     }
 
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    if( (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date)))
+                            && !days.get(l).dayClosed ){
                         p.setColor(Color.rgb(139, 0, 139));
                         p.setStyle(Paint.Style.STROKE);
                         canvas.drawRect(left, top, right, bottom, p);
@@ -317,49 +317,44 @@ class Spring extends View {
                 }
 
             }
-
             k += side;
             g += 1;
         }
         if (firstOccurrence) {
-            aprilLength = -bottomLeftCornerY + getHeight()/2;
+            octoberLength = -upperRightCornerY + getHeight() * 1.5f;
         }
 
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.FILL);
         p.setTextAlign(Paint.Align.CENTER);
-        if (y >= aprilLength ) {
-
-            //canvas.drawText("April", x - side, getHeight() / 2, p);
+        if (y <= octoberLength - reverseMonthName.length()*fontHeight/2 + side) {
             canvas.save();
             canvas.rotate(360f);
-            int s = getHeight() / 2 + side;
-            for (char c : reverseMonthName.toCharArray()) {
-                canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+            int s = getHeight() / 2 +reverseMonthName.length()*fontHeight/2;
+            for (char c : (reverseMonthName).toCharArray()) {
+                canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
                 s -= fontHeight;
             }
             canvas.restore();
         } else {
-            //p.setTextAlign(Paint.Align.CENTER);
-            //canvas.drawText("January", upperLeftCornerX - side/2, y - side * 1.5f, p);
             canvas.save();
             canvas.rotate(360f);
-            int s = (int) bottomLeftCornerY + side;
-            for (char c : reverseMonthName.toCharArray()) {
-                canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                s -= fontHeight;
+            int s = (int) upperRightCornerY - side/2;
+            for (char c : monthName.toCharArray()) {
+                canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+                s += fontHeight;
             }
             canvas.restore();
         }
 
 //            p.setColor(Color.RED);
 //            p.setStrokeWidth(side);
-//            canvas.drawPoint(x, bottomLeftCornerY, p);
+//            canvas.drawPoint((float) x, upperRightCornerY, p);
 
         //2-ой месяц
         calendar.clear();
         calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
-        calendar.set(Calendar.MONTH, Calendar.MAY);
+        calendar.set(Calendar.MONTH, Calendar.NOVEMBER);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
         monthName = monthName.toUpperCase();
@@ -373,13 +368,12 @@ class Spring extends View {
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
             l += 1;
-
-            bottomLeftCornerY = y + k;
+            upperRightCornerY = y - k;
             String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-            float left = x;
-            float top =  bottomLeftCornerY;
-            float right =  x+side;
-            float bottom = bottomLeftCornerY + side;
+            float left = x-side;
+            float top =  upperRightCornerY -side;
+            float right =  x;
+            float bottom = upperRightCornerY;
 
             p.reset();
             p.setColor(Color.BLACK);
@@ -387,7 +381,7 @@ class Spring extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(mainActivity.numberYearPicker.getValue(), 4, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 10, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -398,15 +392,13 @@ class Spring extends View {
             p.setStyle(Paint.Style.STROKE);
             canvas.drawRect(left, top, right, bottom, p);
             if (firstOccurrence) {
-                calendar.clear();
-                calendar.set(mainActivity.numberYearPicker.getValue(), 4, i);
                 Date date = new Date(calendar.getTimeInMillis());
                 days.add(new Day(date, left, top, right, bottom));
 
                 if (date.getTime() == MainActivity.currDate.getTime()) {
                     currentDate = days.get(days.size()-1);
                     mainActivity.winter.currentDate = null;
-                    mainActivity.autumn.currentDate = null;
+                    mainActivity.spring.currentDate = null;
                     mainActivity.summer.currentDate = null;
                 }
 
@@ -425,7 +417,7 @@ class Spring extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(mainActivity.numberYearPicker.getValue(), 4, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 10, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -455,63 +447,65 @@ class Spring extends View {
                         p.setStyle(Paint.Style.FILL);
                     }
 
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    //if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    if( (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date)))
+                                && !days.get(l).dayClosed ){
                         p.setColor(Color.rgb(139, 0, 139));
                         p.setStyle(Paint.Style.STROKE);
                         canvas.drawRect(left, top, right, bottom, p);
                         p.setStyle(Paint.Style.FILL);
                     }
                 }
-            }
 
+            }
             k += side;
             g += 1;
         }
         if (firstOccurrence) {
-            mayLength = -bottomLeftCornerY + getHeight()/2;
+            novemberLength = -upperRightCornerY + getHeight() * 1.5f;
         }
 
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.FILL);
         p.setTextAlign(Paint.Align.CENTER);
 
-        if (y >= mayLength && y <= aprilLength - side * 1.5f) {
+        if (y <= novemberLength - monthName.length()*fontHeight/2 + side/2 && y >= octoberLength + monthName.length()*fontHeight/2 + side/2) {
             canvas.save();
             canvas.rotate(360f);
-            int s = getHeight() / 2 + side;
-            for (char c : reverseMonthName.toCharArray()) {
-                canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                s -= fontHeight;
-            }
-            canvas.restore();
-        }else if(y >= mayLength + side*2){
-            canvas.save();
-            canvas.rotate(360f);
-            int s = (int) (bottomLeftCornerY + (mayLength - aprilLength)+ side * 1.5f);
+            int s = getHeight() / 2 - monthName.length()*fontHeight/2 ;
             for (char c : monthName.toCharArray()) {
-                canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
                 s += fontHeight;
             }
             canvas.restore();
-        } else if(y <= mayLength){
+        }else if(y <= novemberLength - monthName.length()*fontHeight/2 + side/2){
             canvas.save();
             canvas.rotate(360f);
-            int s = (int) bottomLeftCornerY + side;
+            int s = (int) (upperRightCornerY + (novemberLength - octoberLength) - side);
             for (char c : reverseMonthName.toCharArray()) {
-                canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
                 s -= fontHeight;
+            }
+            canvas.restore();
+        } else if(y >= novemberLength - monthName.length()*fontHeight/2 + side/2){
+            canvas.save();
+            canvas.rotate(360f);
+            int s = (int) upperRightCornerY - side/2;
+            for (char c : monthName.toCharArray()) {
+                canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+                s += fontHeight;
             }
             canvas.restore();
         }
 
 //            p.setColor(Color.RED);
 //            p.setStrokeWidth(side);
-//            canvas.drawPoint(x, bottomLeftCornerY, p);
+//            canvas.drawPoint((float) x, upperRightCornerY, p);
 
         //3-ий месяц
         calendar.clear();
         calendar.set(Calendar.YEAR, mainActivity.numberYearPicker.getValue());
-        calendar.set(Calendar.MONTH, Calendar.JUNE);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER);
 
         monthName = dateFormat.format(calendar.getTimeInMillis());
         monthName = monthName.toUpperCase();
@@ -524,14 +518,16 @@ class Spring extends View {
 
         maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDaysOfMonth; i++) {
+//                k += side;
+//                upperRightCornerY = y - k;
+//                canvas.drawText(("" + i).length() == 1 ? "0" + i : "" + i, x, upperRightCornerY, p);
             l += 1;
-            bottomLeftCornerY = y + k;
-
+            upperRightCornerY = y - k;
             String text = ("" + i).length() == 1 ? "0" + i : "" + i;
-            float left = x;
-            float top =  bottomLeftCornerY;
-            float right =  x+side;
-            float bottom = bottomLeftCornerY + side;
+            float left = x-side;
+            float top =  upperRightCornerY -side;
+            float right =  x;
+            float bottom = upperRightCornerY;
 
             p.reset();
             p.setColor(Color.BLACK);
@@ -539,7 +535,7 @@ class Spring extends View {
 
             p.setStyle(Paint.Style.FILL);
             calendar.clear();
-            calendar.set(mainActivity.numberYearPicker.getValue(), 5, i);
+            calendar.set(mainActivity.numberYearPicker.getValue(), 11, i);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY){
                 p.setColor(Color.RED);
@@ -552,11 +548,11 @@ class Spring extends View {
             if (firstOccurrence) {
                 Date date = new Date(calendar.getTimeInMillis());
                 days.add(new Day(date, left, top, right, bottom));
-
                 if (date.getTime() == MainActivity.currDate.getTime()) {
+                    //currentDate = new Day(date, left, top, right, bottom);
                     currentDate = days.get(days.size()-1);
                     mainActivity.winter.currentDate = null;
-                    mainActivity.autumn.currentDate = null;
+                    mainActivity.spring.currentDate = null;
                     mainActivity.summer.currentDate = null;
                 }
 
@@ -564,7 +560,6 @@ class Spring extends View {
                     if (selectedDay.date.getMonth() == date.getMonth() &&
                             selectedDay.date.getDate() == date.getDate() ) {
                         selectedDay = days.get(days.size()-1);
-
                     }
                 }
             }else{
@@ -575,7 +570,7 @@ class Spring extends View {
 
                 if (currentDate != null) {
                     calendar.clear();
-                    calendar.set(mainActivity.numberYearPicker.getValue(), 5, i);
+                    calendar.set(mainActivity.numberYearPicker.getValue(), 11, i);
                     Date date = new Date(calendar.getTimeInMillis());
 
                     if (date.getTime() == MainActivity.currDate.getTime()) {
@@ -605,7 +600,9 @@ class Spring extends View {
                         p.setStyle(Paint.Style.FILL);
                     }
 
-                    if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    //if(sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date))){
+                    if( (sdf.format(new Date(task.finishTime)).equals(sdf.format(days.get(l).date)))
+                            && !days.get(l).dayClosed ){
                         p.setColor(Color.rgb(139, 0, 139));
                         p.setStyle(Paint.Style.STROKE);
                         canvas.drawRect(left, top, right, bottom, p);
@@ -614,16 +611,15 @@ class Spring extends View {
                 }
 
             }
-
             k += side;
             g += 1;
         }
 
         if (firstOccurrence) {
 
-            juneLength = -bottomLeftCornerY + getHeight()/2;
-            length = -bottomLeftCornerY + getHeight() - side;
-            //Log.d("XY", "bottomLeftCornerY:" + length);
+            decemberLength = -upperRightCornerY + getHeight() * 1.5f;
+            length = -upperRightCornerY + getHeight() + side;
+            //Log.d("XY", "upperRightCornerY:" + length);
 
             if (mainActivity.previousChosenYearNumber > mainActivity.chosenYearNumber) {
                 y = length;
@@ -640,18 +636,18 @@ class Spring extends View {
                         +calendar.get(Calendar.DAY_OF_MONTH) + " "
                         +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
 
-                if(calendar.get(Calendar.MONTH) == Calendar.APRIL) {
-                    y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
-                }else if(calendar.get(Calendar.MONTH) == Calendar.MAY) {
-                    y = y - date.top + getHeight() / 2;
-                }else if(calendar.get(Calendar.MONTH) == Calendar.JUNE) {
+                if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER) {
                     y = y - date.top + getHeight() / 2 + getHeight() / 4;
+                }else if(calendar.get(Calendar.MONTH) == Calendar.NOVEMBER) {
+                    y = y - date.bottom + getHeight() / 2;
+                }else if(calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                    y = y - date.bottom + getHeight() / 2 - getHeight() / 4;
                 }
 
-                if (y >= 0) {
-                    y = 0;
+                if (y <= getHeight()) {
+                    y = getHeight();
                 }
-                if (y <= length) {
+                if (y >= length) {
                     y = length;
                 }
             }
@@ -662,46 +658,33 @@ class Spring extends View {
         p.setStyle(Paint.Style.FILL);
         p.setTextAlign(Paint.Align.CENTER);
 
-        if (y >= juneLength && y <= mayLength - side * 2) {
+        //if (y <= decemberLength  && y >= novemberLength + monthName.length()*fontHeight/2) {
+        if (y >= novemberLength + side*2.5) {
             canvas.save();
             canvas.rotate(360f);
-            int s = getHeight() / 2 + side;
-            for (char c : reverseMonthName.toCharArray()) {
-                canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
-                s -= fontHeight;
-            }
-            canvas.restore();
-
-        } else if (y >= juneLength) {
-            canvas.save();
-            canvas.rotate(360f);
-            int s =(int) (bottomLeftCornerY + (juneLength - mayLength) + side * 1.5f);
+            int s = getHeight() / 2 - monthName.length()*fontHeight/2;
             for (char c : monthName.toCharArray()) {
-                canvas.drawText(String.valueOf(c), x - side / 1.5f, s, p);
+                canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
                 s += fontHeight;
             }
             canvas.restore();
+
+            //} else if (y <= decemberLength) {
+        } else {
+            canvas.save();
+            canvas.rotate(360f);
+            int s =(int) (upperRightCornerY + (decemberLength - novemberLength) - side);
+            for (char c : reverseMonthName.toCharArray()) {
+                canvas.drawText(String.valueOf(c), x + side / 1.5f, s, p);
+                s -= fontHeight;
+            }
+            canvas.restore();
         }
-
-
-
-//            p.setColor(Color.RED);
-//            p.setStrokeWidth(side);
-//            canvas.drawPoint(x, bottomLeftCornerY, p);
-//
-//
-//            p.setColor(Color.BLUE);
-//            p.setStrokeWidth(10);
-//            canvas.drawPoint(x, y, p);
-
-
 
         p.setColor(Color.WHITE);
         p.setStrokeWidth(strokeWidth);
         canvas.drawPoint(doubleTapX, doubleTapY, p);
 
-
-        //canvas.drawText("12", doubleTapX - side/2, y + side/4, p);
         if (currentDate != null) {
             p.setColor(Color.WHITE);
             p.setStyle(Paint.Style.STROKE);
@@ -723,7 +706,7 @@ class Spring extends View {
         }
 
         if (selectedDay != null) {
-            p.setColor(Color.YELLOW);
+            p.setColor(Color.GREEN);
             p.setStyle(Paint.Style.STROKE);
             canvas.drawRect(selectedDay.left, selectedDay.top, selectedDay.right, selectedDay.bottom, p);
             p.setStyle(Paint.Style.FILL);
@@ -741,12 +724,34 @@ class Spring extends View {
             }
         }
 
+
+
+
+
+//            p.setColor(Color.RED);
+//            p.setStrokeWidth(side);
+//            canvas.drawPoint((float) x, upperRightCornerY, p);
+//
+//
+//            p.setColor(Color.BLUE);
+//            p.setStrokeWidth(10);
+//            canvas.drawPoint(x, y, p);
+
         if (firstOccurrence) {
             firstOccurrence = false;
         }
         if (restore) {
             restore = false;
             restore();
+        }
+        if (addCyclicTasks) {
+            addCyclicTasks = false;
+            addCyclicTasks();
+
+            mainActivity.winter.invalidate();
+            mainActivity.spring.invalidate();
+            mainActivity.summer.invalidate();
+            invalidate();
         }
 
     }
@@ -755,16 +760,16 @@ class Spring extends View {
 
         JsonParser parser = new JsonParser();
         Gson gson = new Gson();
-        JsonArray array = parser.parse(MainActivity.yearStr.daysSpring).getAsJsonArray();
+        JsonArray array = parser.parse(MainActivity.yearStr.daysAutumn).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {
             days.get(i).tasks = (gson.fromJson(array.get(i), Day.class)).tasks;
 
-            for (MainActivity.Task task : mainActivity.spring.days.get(i).tasks) {
-                if (task.extra == taskExtra){
+            for (MainActivity.Task task : mainActivity.autumn.days.get(i).tasks) {
+                if (task.extra == MainActivity.taskExtra){
                     task.shown = true;
                     MainActivity.changedeTasksOfYear = true;
                 }
-                //%%C del - MainActivity.setReminder(task, MainActivity.spring.days.get(i).date);
+                //%%C del - mainActivityObject.setReminder(task, MainActivity.autumn.days.get(i).date);
                 //%%C del - MainActivity.setReminder(task);
                 if (!task.isDone && task.isValid){
                     days.get(i).dayClosed = false;
@@ -775,6 +780,16 @@ class Spring extends View {
         invalidate();
     }
 
+    public void addCyclicTasks (){
+
+        Iterator<MainActivity.Task> j = MainActivity.cyclicTasks.iterator();
+        while (j.hasNext()) {
+            MainActivity.Task t = j.next();
+            mainActivity.refreshCyclicTasks(t);
+        }
+
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -782,10 +797,25 @@ class Spring extends View {
         float evX = event.getX();
         float evY = event.getY();
 
+        //////////////////////////////////////////////////////////////
+        float lengthDraggingY = 0;
+        float dragDirection = 0;
+        boolean incrementYearWinter = false;
+        boolean incrementYearSpring = false;
+        boolean incrementYearSummer = false;
+        boolean incrementYearAutumn = false;
+        boolean decrementYearWinter = false;
+        boolean decrementYearSpring = false;
+        boolean decrementYearSummer = false;
+        boolean decrementYearAutumn = false;
+        //////////////////////////////////////////////////////////////
+
+
         switch (event.getAction()) {
             // касание началось
             case MotionEvent.ACTION_DOWN:
-                // если касание было начато в пределах квадрата
+
+                countDownTimer.cancel();
 
                 // включаем режим перетаскивания
                 drag = true;
@@ -794,9 +824,12 @@ class Spring extends View {
                 dragX = evX - x;
                 dragY = evY - y;
 
-                countDownTimer.cancel();
-
                 //Log.d("WH", "W:" + Width + "H:" + Height);
+                ////////////////////////////////////
+                posY = evY;
+                previousDragDirection = 0;
+                ////////////////////////////////////
+
 
 
                 break;
@@ -805,18 +838,82 @@ class Spring extends View {
                 // если режим перетаскивания включен
                 if (drag) {
                     // определеяем новые координаты
-                    //x = evX - dragX;/////////////////////////////////////////////////////////
+                    //x = evX - dragX;////////////////////////////////////////////
                     y = evY - dragY;
-                    if(y >= 0) {
-                        y = 0;
+                    if(y <= getHeight()) {
+                        y = getHeight();
+                        decrementYearAutumn = true;
                     }
-                    if(y <= length){
-                        //y = length - getHeight();
+                    if(y >= length){
                         y = length;
+                        incrementYearAutumn = true;
                     }
                     invalidate();
-                    // Log.d("XY", "X:" + x + "Y:" + y +"length "+ length);
+                    //Log.d("XY", "X:" + x + "Y:" + y + "length "+length);
+                    /////////////////////////////////////////////////////////////////////
+                    dragDirection = evY - posY;
+                    lengthDraggingY = previousDragDirection - dragDirection;
+                    previousDragDirection = dragDirection;
 
+                    //summer//
+                    mainActivity.summer.x += lengthDraggingY;
+                    if(mainActivity.summer.x >= 0) {
+                        mainActivity.summer.x = 0;
+                        decrementYearSummer = true;
+                    }
+                    if(mainActivity.summer.x <= mainActivity.summer.length){
+                        mainActivity.summer.x = mainActivity.summer.length;
+                        incrementYearSummer = true;
+                    }
+                    mainActivity.summer.invalidate();
+                    //spring//
+                    mainActivity.spring.y += lengthDraggingY;
+                    if(mainActivity.spring.y >= 0) {
+                        mainActivity.spring.y = 0;
+                        decrementYearSpring = true;
+                    }
+                    if(mainActivity.spring.y <= mainActivity.spring.length){
+                        mainActivity.spring.y = mainActivity.spring.length;
+                        incrementYearSpring = true;
+                    }
+                    mainActivity.spring.invalidate();
+                    //winter//
+                    mainActivity.winter.x -= lengthDraggingY;
+                    if(mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+                        mainActivity.winter.x = mainActivity.winter.getWidth();
+                        decrementYearWinter = true;
+                    }
+                    if(mainActivity.winter.x >= mainActivity.winter.length){
+                        mainActivity.winter.x = mainActivity.winter.length;
+                        incrementYearWinter = true;
+                    }
+                    Log.d("cvhn", "length: " + mainActivity.winter.length+ " getWidth()"+ mainActivity.winter.getWidth()+" side "+ mainActivity.winter.side);
+                    mainActivity.winter.invalidate();
+
+                    Log.d("vsm", "previousChosenYearNumber: "+ mainActivity.previousChosenYearNumber + " chosenYearNumber: "+ mainActivity.chosenYearNumber);
+//                    if (mainActivity.previousChosenYearNumber == 0) {
+//                        mainActivity.previousChosenYearNumber = mainActivity.chosenYearNumber;
+//                    }
+
+
+                    //Log.d("incrementYear", "Wn:" + incrementYearWinter + "Sp:" + incrementYearSpring + "Sm:" + incrementYearSummer + "At:" + incrementYearAutumn);
+                    //Log.d("decrementYear", "Wn:" + decrementYearWinter + "Sp:" + decrementYearSpring + "Sm:" + decrementYearSummer + "At:" + decrementYearAutumn);
+                    if (incrementYearWinter && incrementYearSpring && incrementYearSummer && incrementYearAutumn) {
+                        mainActivity.numberYearPicker.increment();
+                    }
+                    if (decrementYearWinter && decrementYearSpring && decrementYearSummer && decrementYearAutumn) {
+                        mainActivity.numberYearPicker.decrement();
+//                        mainActivity.autumn.y = length;
+//                        mainActivity.autumn.invalidate();
+//                        mainActivity.summer.x = mainActivity.summer.length;
+//                        mainActivity.summer.invalidate();
+//                        mainActivity.spring.y = mainActivity.spring.length;
+//                        mainActivity.spring.invalidate();
+//                        mainActivity.winter.x = mainActivity.winter.length;
+//                        mainActivity.winter.invalidate();
+                    }
+
+                    /////////////////////////////////////////////////////////////////////////////
                 }
 
                 break;
@@ -856,10 +953,10 @@ class Spring extends View {
                     selectedDay = b;
                     mainActivity.winter.selectedDay = null;
                     mainActivity.winter.invalidate();
+                    mainActivity.spring.selectedDay = null;
+                    mainActivity.spring.invalidate();
                     mainActivity.summer.selectedDay = null;
                     mainActivity.summer.invalidate();
-                    mainActivity.autumn.selectedDay = null;
-                    mainActivity.autumn.invalidate();
                     invalidate();
 
                     calendar.clear();
@@ -867,6 +964,12 @@ class Spring extends View {
                     MainActivity.dateMonth.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "
                             +calendar.get(Calendar.DAY_OF_MONTH) + " "
                             +calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
+
+//                        taskTime.setText("__:__");
+//                        taskDuration.setText("__:__");
+//                        taskDescription.setText("");
+//                        updateSchedule(selectedDay);
+
                 }
             }
 
@@ -885,25 +988,68 @@ class Spring extends View {
                 public void onTick(long millisUntilFinished) {
                     if (velocityY > 0){
                         y += millisUntilFinished / 30;
+
+                        /////////////////////////////////////////////////////////////////////
+                        //summer//
+                        mainActivity.summer.x -= millisUntilFinished / 30;
+                        //spring//
+                        mainActivity.spring.y -= millisUntilFinished / 30;
+                        //winter//
+                        mainActivity.winter.x += millisUntilFinished / 30;
+                        /////////////////////////////////////////////////////////////////////////////
                     }else{
                         y -= millisUntilFinished / 30;
+
+                        /////////////////////////////////////////////////////////////////////
+                        //summer//
+                        mainActivity.summer.x += millisUntilFinished / 30;
+                        //spring//
+                        mainActivity.spring.y += millisUntilFinished / 30;
+                        //winter//
+                        mainActivity.winter.x -= millisUntilFinished / 30;
+                        /////////////////////////////////////////////////////////////////////////////
                     }
                     // Log.d("onFling", "millisUntilFinished "+millisUntilFinished / 30);
 
                     //проверить край
-                    if(y >= 0) {
-                        y = 0;
+                    if(y <= getHeight()) {
+                        y = getHeight();
                     }
-                    if(y <= length){
+                    if(y >= length){
                         y = length;
                     }
 
                     //обновить
                     invalidate();
+
+                    //summer//
+                    if(mainActivity.summer.x >= 0) {
+                        mainActivity.summer.x = 0;
+                    }
+                    if(mainActivity.summer.x <= mainActivity.summer.length){
+                        mainActivity.summer.x = mainActivity.summer.length;
+                    }
+                    mainActivity.summer.invalidate();
+                    //spring//
+                    if(mainActivity.spring.y >= 0) {
+                        mainActivity.spring.y = 0;
+                    }
+                    if(mainActivity.spring.y <= mainActivity.spring.length){
+                        mainActivity.spring.y = mainActivity.spring.length;
+                    }
+                    mainActivity.spring.invalidate();
+                    //winter//
+                    if(mainActivity.winter.x <= mainActivity.winter.getWidth()) {
+                        mainActivity.winter.x = mainActivity.winter.getWidth();
+                    }
+                    if(mainActivity.winter.x >= mainActivity.winter.length){
+                        mainActivity.winter.x = mainActivity.winter.length;
+                    }
+                    mainActivity.winter.invalidate();
                 }
 
                 public void onFinish() {
-                    Log.d("onFling", "done!");
+                    //Log.d("onFling", "done!");
                 }
             }.start();
 
@@ -912,6 +1058,60 @@ class Spring extends View {
         }
 
     }
+
+//        public class Date
+//        {
+//            /**Картинка*/
+//            private Bitmap bmp;
+//
+//            /**Позиция*/
+//            public int x;
+//            public int y;
+//
+//            /**Скорость по Х=15*/
+//            private int mSpeed=25;
+//
+//            public double angle;
+//
+//            /**Ширина*/
+//            public int width;
+//
+//            /**Ввыоста*/
+//            public  int height;
+//
+//            public GameView gameView;
+//
+//            /**Конструктор*/
+//            public Date(GameView gameView, Bitmap bmp) {
+//                this.gameView=gameView;
+//                this.bmp=bmp;
+//
+//                this.x = 0;            //позиция по Х
+//                this.y = 120;          //позиция по У
+//                this.width = 27;       //ширина снаряда
+//                this.height = 40;      //высота снаряда
+//
+//                //угол полета пули в зависипости от координаты косания к экрану
+//                angle = Math.atan((double)(y - gameView.shotY) / (x - gameView.shotX));
+//            }
+//
+//            /**Перемещение объекта, его направление*/
+//            private void update() {
+//                x += mSpeed * Math.cos(angle);         //движение по Х со скоростью mSpeed и углу заданном координатой angle
+//                y += mSpeed * Math.sin(angle);         // движение по У -//-
+//            }
+//
+//            /**Рисуем наши спрайты*/
+//            public void onDraw(Canvas canvas) {
+//                update();                              //говорим что эту функцию нам нужно вызывать для работы класса
+//                canvas.drawBitmap(bmp, x, y, null);
+//            }
+//        }
+
+
+
+
+
 
 
 }

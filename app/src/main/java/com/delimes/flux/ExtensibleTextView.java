@@ -1,12 +1,13 @@
-package com.example.delimes.flux;
+package com.delimes.flux;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.animation.AlphaAnimation;
 
-public class ExtensibleTextView extends android.support.v7.widget.AppCompatTextView {
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+
+public class ExtensibleTextView extends AppCompatTextView {
 
     public AlphaAnimation alphaAnimationFadeIn = new AlphaAnimation(0f, 1f);
 
