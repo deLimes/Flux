@@ -41,7 +41,7 @@ public class DateChangedReceiver extends BroadcastReceiver {
                 MainActivity.numberYearPicker.setValue(year);
             }
 
-            mContext.stopService(new Intent(mContext, UpdateReminders.class));
+            //mContext.stopService(new Intent(mContext, UpdateReminders.class));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 mContext.startForegroundService(new Intent(mContext, UpdateReminders.class));
             }else {

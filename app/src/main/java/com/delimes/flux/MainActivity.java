@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
         colors2[0] = Color.parseColor("#C1FFC1");
         colors2[1] = Color.parseColor("#B4EEB4");
 
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+       // ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
 
 
@@ -1928,7 +1928,7 @@ public class MainActivity extends AppCompatActivity {
         Uri data = Uri.parse(notificationIntent.toUri(Intent.URI_INTENT_SCHEME));
         notificationIntent.setData(data);
         //
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        /////////notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         //Log.d("myLogs", "extra = " + notificationIntent.getStringExtra("extra"));
@@ -1971,15 +1971,15 @@ public class MainActivity extends AppCompatActivity {
                 //.setTicker(res.getString(R.string.warning)) // текст в строке состояния
                 .setTicker("Пора!")
                 .setWhen(System.currentTimeMillis())
-                .setAutoCancel(true)
+                //.setAutoCancel(true)
                 .setTimeoutAfter(dateDoomsday)
-                .setOngoing(true)
+                .setOngoing(false)
                 .setColorized(true)
                 //.setDefaults(Notification.DEFAULT_SOUND)
-                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setVibrate(new long[] { 1000, 500, 1000, 500, 1000 })
                 //.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point))
                 .setSound(soundUri)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                /////////.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
                 .setContentTitle("Напоминание")
                 //.setContentText(res.getString(R.string.notifytext))
@@ -2030,7 +2030,7 @@ public class MainActivity extends AppCompatActivity {
             builderCompat.setContentIntent(pIntent);
             builderCompat.setTicker("Пора!");
             builderCompat.setWhen(System.currentTimeMillis());
-            builderCompat.setOngoing(true);
+            builderCompat.setOngoing(false);
             builderCompat.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
             //builderCompat.setSound(Uri.parse("android.resource://com.example.delimes.flux/" + R.raw.next_point));//doesn't work
             builderCompat.setPriority(NotificationCompat.PRIORITY_HIGH);
@@ -7725,7 +7725,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class CustomGestureListener extends GestureDetector.SimpleOnGestureListener {
+    static private class CustomGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
 

@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Flux.iml" filepath="$PROJECT_DIR$/.idea/modules/Flux.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Flux.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Flux.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Flux.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Flux.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Flux.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Flux.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Flux.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Flux.app.unitTest.iml" />
     </modules>
   </component>
 </project>

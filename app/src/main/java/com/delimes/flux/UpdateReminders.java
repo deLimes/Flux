@@ -37,7 +37,7 @@ public class UpdateReminders extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        updateReminders();
+        updateReminders(intent);
 
         //если остановить службу. пропадут выведеные сообщения
         //stopService(new Intent(this, UpdateReminders.class));
@@ -56,7 +56,7 @@ public class UpdateReminders extends Service {
         super.onDestroy();
     }
 
-    public void updateReminders(){
+    public void updateReminders(Intent intent){
 
 //        SharedPreferences preference = getSharedPreferences("MAIN_STORAGE", Context.MODE_PRIVATE);
         Calendar calendar = GregorianCalendar.getInstance();
@@ -182,6 +182,7 @@ public class UpdateReminders extends Service {
             MainActivity.setReminder(this, task, dayOfYear.date);
         }
 
+        stopService(intent);
         /*
         //из-за медленной работы функции refreshCyclicTasks()
         //установка напоминаний устанавливаеться только на каждый день а не на целый год сразу
