@@ -141,6 +141,8 @@ class Quarter extends View {
 
     MotionEvent motionEvent;
 
+    int numberOfTasksPerDay = 0;
+
     public Quarter(Context context, int quarter, boolean isUpdateReminders) {
         super(context);
         Log.v("123", "ConstruktorQuarter context: "+ context);
@@ -708,7 +710,8 @@ class Quarter extends View {
                 canvas.drawRect(left, top, right, bottom, p);
             }
 
-            int numberOfTasksPerDay = 0;
+            numberOfTasksPerDay = 0;
+            //%1
             for (MainActivity.Task task : days.get(l).tasks) {
 
                 numberOfTasksPerDay++;
@@ -1043,7 +1046,8 @@ class Quarter extends View {
                 canvas.drawRect(left, top, right, bottom, p);
             }
 
-            int numberOfTasksPerDay = 0;
+            numberOfTasksPerDay = 0;
+            //%2
             for (MainActivity.Task task : days.get(l).tasks) {
 
                 numberOfTasksPerDay++;
@@ -1368,7 +1372,8 @@ class Quarter extends View {
                 canvas.drawRect(left, top, right, bottom, p);
             }
 
-            int numberOfTasksPerDay = 0;
+            numberOfTasksPerDay = 0;
+            //%3
             for (MainActivity.Task task : days.get(l).tasks) {
 
                 numberOfTasksPerDay++;
